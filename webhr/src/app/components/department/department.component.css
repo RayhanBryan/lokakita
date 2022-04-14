@@ -1,0 +1,18 @@
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+    padding: 5px;
+    padding-left: 17px;
+}
+
+:host ::ng-deep input[type=text] {
+    width: 100%;
+}
+
+:host ::ng-deep .p-dropdown.p-dropdown-clearable .p-dropdown-label {
+    width: 250px;
+}
+
+:host ::ng-deep .p-dropdown .p-dropdown-label {
+    background: transparent;
+    border: 0 none;
+    width: 1000px;
+}
