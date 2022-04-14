@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import {ButtonModule} from 'primeng/button';
+import { ButtonModule } from 'primeng/button';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MenuComponent } from './components/menu/menu.component';
-import {MenubarModule} from 'primeng/menubar';
+import { MenubarModule } from 'primeng/menubar';
 import { EmployeeComponent } from './components/employee/employee.component';
 import { DepartmentComponent } from './components/department/department.component';
 import { JobComponent } from './components/job/job.component';
@@ -13,19 +13,20 @@ import { RegionComponent } from './components/region/region.component';
 import { CountryComponent } from './components/country/country.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
-import {TabMenuModule} from 'primeng/tabmenu';
+import { TabMenuModule } from 'primeng/tabmenu';
 import { DepartmentInputComponent } from './components/department-input/department-input.component';
 import { TableModule } from 'primeng/table';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import {InputTextModule} from 'primeng/inputtext';
+import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
-import {DialogModule} from 'primeng/dialog';
+import { DialogModule } from 'primeng/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {DropdownModule} from 'primeng/dropdown';
-import {ConfirmDialogModule} from 'primeng/confirmdialog';
-import {ConfirmationService} from 'primeng/api';
-import {ToastModule} from 'primeng/toast';
-import {CardModule} from 'primeng/card';
+import { DropdownModule } from 'primeng/dropdown';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { CardModule } from 'primeng/card';
+import { PasswordModule } from 'primeng/password';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,7 @@ import {CardModule} from 'primeng/card';
     CountryComponent,
     HomeComponent,
     LoginComponent,
-    DepartmentInputComponent
+    DepartmentInputComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,9 +57,10 @@ import {CardModule} from 'primeng/card';
     DropdownModule,
     ConfirmDialogModule,
     ToastModule,
-    CardModule
+    CardModule,
+    PasswordModule,
   ],
   providers: [ConfirmationService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

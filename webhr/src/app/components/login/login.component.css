@@ -1,0 +1,25 @@
+:host ::ng-deep img {
+  /* height: 80px; */
+}
+
+:host :ng-deep .container {
+  background-color: darkslateblue !important;
+  height: 550px;
+}
+
+:host ::ng-deep input[type="text"] {
+  width: 300px;
+}
+
+:host ::ng-deep input[type="password"] {
+  width: 300px;
+}
+
+@media screen and (max-width: 960px) {
+  :host ::ng-deep input[type="text"] {
+    width: 100px;
+  }
+  :host ::ng-deep input[type="password"] {
+    width: 100px;
+  }
+}
