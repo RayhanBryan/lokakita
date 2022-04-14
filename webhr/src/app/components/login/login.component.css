@@ -4,7 +4,7 @@
 
 :host :ng-deep .container {
   background-color: darkslateblue !important;
-  height: 550px;
+  height: 1000px;
 }
 
 :host ::ng-deep input[type="text"] {

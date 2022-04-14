@@ -63,4 +63,4 @@ import { PasswordModule } from 'primeng/password';
   providers: [ConfirmationService],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

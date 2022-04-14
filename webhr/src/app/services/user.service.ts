@@ -14,10 +14,10 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class UserService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  getUser(id: string): Observable<any> {
-    return this.http.get<any>(url + `dummy-user/getById?id=${id}`, {
+  getUser(): Observable<any> {
+    return this.http.get<any>(url + `/dummy-user/findAll`, {
       responseType: 'json',
     });
   }
