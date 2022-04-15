@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
     );
   }
 
-  login(): void {
+  login() {
     console.log(this.userData, 'login')
     for (let i in this.userData) {
       if (this.userData[i].username == this.username && this.userData[i].password == this.password) {
@@ -49,10 +49,10 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('token', 'x')
         localStorage.setItem('name', 'Administrator')
         window.location.reload()
-      } else {
-        this.wrongUser();
+        return
       }
     }
+    this.wrongUser();
   }
 
   checkUsername() {
