@@ -1,0 +1,60 @@
+<div class="container">
+
+    <div class="grid justify-content-center">
+      <div class="col-6 login">
+        <!-- <p-card header="Login" subheader="" [style]="{width: '100%'}" styleClass="p-card-shadow">
+          <ng-template pTemplate="header">
+            <img alt="Card"
+              src="https://images.unsplash.com/photo-1621711641849-2d22396fd71a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1547&q=80">
+          </ng-template> -->
+        <div class="grid login">
+          <div class="col-12 image-header"><img
+              src="../../../assets/img/login.jpg">
+          </div>
+          <div class="col-12 lg:col-6">
+            <label for="username" class="block">Username</label>
+            <input type="text" pInputText [(ngModel)]="username" (input)="checkUsername()">
+            <small id="username-help" class="p-error block" *ngIf="checkUser">Username min contains 5 characters</small>
+          </div>
+          <div class="col-12 lg:col-6">
+            <label for="password" class="block">Password</label>
+            <p-password type="password" [(ngModel)]="password" [toggleMask]="true" [feedback]="false" id="password">
+            </p-password>
+          </div>
+          <div class="col-12 lg:col-6">
+            <label for="name" class="block">Nama</label>
+            <input type="text" pInputText [(ngModel)]="nama">
+          </div>
+          <div class="col-12 lg:col-6">
+            <label for="email" class="block">Email</label>
+            <input type="email" pInputText [(ngModel)]="email">
+          </div>
+          <div class="col-12 lg:col-6">
+            <label for="alamat" class="block">Alamat</label>
+            <textarea pInputTextarea autoResize="autoResize" [(ngModel)]="alamat"></textarea>
+          </div>
+          <div class="col-12 lg:col-6">
+            <label for="nohp" class="block">No. HP</label>
+            <input type="text" pInputText [(ngModel)]="nohp">
+          </div>
+        </div>
+        <!-- <ng-template pTemplate="footer"> -->
+        <div class="grid button">
+          <div class="col-12 lg:col-2">
+            <p-button label="Signup" icon="pi pi-user-plus" styleClass="p-button-success">
+            </p-button>
+          </div>
+          <div class="col-12 lg:col-2">
+            <a routerLink="/login">
+            <p-button label="Login" icon="pi pi-sign-in"></p-button>
+          </a>
+          </div>
+        </div>
+        <!-- </ng-template> -->
+        <!-- </p-card> -->
+      </div>
+    </div>
+  </div>
+  
+  <p-toast position="top-center" key="tc"></p-toast>
+  

@@ -1,25 +1,57 @@
-:host ::ng-deep img {
-  /* height: 80px; */
+:host ::ng-deep .container {
+  padding-top: 20px;
 }
 
-:host :ng-deep .container {
-  background-color: darkslateblue !important;
-  height: 1000px;
+:host ::ng-deep img {
+  width: 100%;
+  height: auto;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+
+:host ::ng-deep .image-header {
+  padding: 0;
 }
 
 :host ::ng-deep input[type="text"] {
-  width: 300px;
+  width: 320px;
 }
 
 :host ::ng-deep input[type="password"] {
-  width: 300px;
+  width: 320px;
 }
 
-@media screen and (max-width: 960px) {
+:host ::ng-deep .grid > .col, .grid > [class*=col] {
+  color: white;
+  background-color: darkslateblue;
+  border-radius: 20px;
+}
+
+:host ::ng-deep .button {
+  margin-top: 5px;
+}
+
+:host ::ng-deep .p-button {
+  width: 100px;
+}
+
+:host ::ng-deep a {
+  text-decoration: none;
+}
+
+
+
+@media screen and (max-width: 480px) {
   :host ::ng-deep input[type="text"] {
-    width: 100px;
+    width: 200px;
   }
+  
   :host ::ng-deep input[type="password"] {
-    width: 100px;
+    width: 200px;
+  }
+
+  :host ::ng-deep .p-button {
+    width: 200px;
   }
 }

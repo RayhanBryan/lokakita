@@ -27,6 +27,8 @@ import { ConfirmationService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { CardModule } from 'primeng/card';
 import { PasswordModule } from 'primeng/password';
+import { SignupComponent } from './components/signup/signup.component';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 @NgModule({
   declarations: [
@@ -41,6 +43,7 @@ import { PasswordModule } from 'primeng/password';
     HomeComponent,
     LoginComponent,
     DepartmentInputComponent,
+    SignupComponent,
   ],
   imports: [
     BrowserModule,
@@ -59,6 +62,7 @@ import { PasswordModule } from 'primeng/password';
     ToastModule,
     CardModule,
     PasswordModule,
+    InputTextModule
   ],
   providers: [ConfirmationService],
   bootstrap: [AppComponent],
