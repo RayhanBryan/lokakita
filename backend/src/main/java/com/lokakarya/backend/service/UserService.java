@@ -40,7 +40,7 @@ public class UserService {
     public UserWrapper getByUsername(String username){
         if (username == null)
 	        throw new BusinessException("Username cannot be null.");
-        Optional<User> user = userRepository.findByUsernameContainingIgnoreCase(username);
+        Optional<User> user = userRepository.findByUsername(username);
         if (!user.isPresent())
             throw new BusinessException("User not found: " + username + '.');
         return toWrapper(user.get());
