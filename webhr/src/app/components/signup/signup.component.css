@@ -19,19 +19,19 @@
   }
   
   :host ::ng-deep input[type="text"] {
-    width: 320px;
+    width: 100%;
   }
   
   :host ::ng-deep input[type="password"] {
-    width: 320px;
+    width: 100%;
   }
 
   :host ::ng-deep input[type="email"] {
-    width: 320px;
+    width: 100%;
   }
 
   :host ::ng-deep textarea {
-    width: 320px;
+    width: 100%;
   }
   
   :host ::ng-deep .grid > .col, .grid > [class*=col] {
@@ -45,30 +45,21 @@
   }
   
   :host ::ng-deep .p-button {
-    width: 100px;
+    width: 100%;
+    max-width: 120px;
   }
   
   :host ::ng-deep a {
     text-decoration: none;
+    color: aqua;
   }
   
-  
+  :host ::ng-deep p {
+    margin: 0 auto;
+  }
+
   
   @media screen and (max-width: 480px) {
-    :host ::ng-deep input[type="text"] {
-      width: 200px;
-    }
-    
-    :host ::ng-deep input[type="password"] {
-      width: 200px;
-    }
 
-    :host ::ng-deep input[type="email"] {
-        width: 200px;
-      }
-  
-    :host ::ng-deep .p-button {
-      width: 200px;
-    }
   }
   

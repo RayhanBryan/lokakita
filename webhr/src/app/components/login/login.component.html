@@ -13,20 +13,17 @@
         </div>
         <div class="col-12 lg:col-6">
           <label for="password" class="block">Password</label>
-          <p-password type="password" [(ngModel)]="password" [toggleMask]="true" [feedback]="false" id="password">
+          <p-password type="password" [(ngModel)]="password" [toggleMask]="true" [feedback]="false" id="password" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}">
           </p-password>
         </div>
       </div>
       <!-- <ng-template pTemplate="footer"> -->
       <div class="grid button">
-        <div class="col-12 lg:col-2">
+        <div class="col-12 lg:col-12">
           <p-button label="Login" icon="pi pi-sign-in" (click)="login()"></p-button>
         </div>
-        <div class="col-12 lg:col-2">
-          <a routerLink="/signup">
-          <p-button label="Signup" icon="pi pi-user-plus" styleClass="p-button-success">
-          </p-button>
-        </a>
+        <div class="col-12 lg:col-12">
+          <p>Don't have an account?<a routerLink="/signup"> Sign Up</a></p>
         </div>
       </div>
     </div>
