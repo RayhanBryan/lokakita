@@ -30,6 +30,7 @@ import { PasswordModule } from 'primeng/password';
 import { SignupComponent } from './components/signup/signup.component';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 
+
 @NgModule({
   declarations: [
     AppComponent,

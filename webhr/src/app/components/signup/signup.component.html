@@ -23,15 +23,16 @@
           </div>
           <div class="col-12 lg:col-6">
             <label for="name" class="block">Nama</label>
-            <input type="text" pInputText [(ngModel)]="nama">
+            <input type="text" pInputText [(ngModel)]="name">
           </div>
           <div class="col-12 lg:col-6">
             <label for="email" class="block">Email</label>
-            <input type="email" pInputText [(ngModel)]="email">
+            <input type="email" pInputText [(ngModel)]="email" (input)="checkEmailFunc()">
+            <small id="username-help" class="p-error block" *ngIf="checkEmail">Email must be valid</small>
           </div>
           <div class="col-12 lg:col-6">
             <label for="alamat" class="block">Alamat</label>
-            <textarea pInputTextarea autoResize="autoResize" [(ngModel)]="alamat"></textarea>
+            <textarea pInputTextarea autoResize="autoResize" [(ngModel)]="address"></textarea>
           </div>
           <div class="col-12 lg:col-6">
             <label for="nohp" class="block">No. HP</label>
@@ -41,7 +42,7 @@
         <!-- <ng-template pTemplate="footer"> -->
         <div class="grid button">
           <div class="col-12 lg:col-12">
-            <p-button label="Signup" icon="pi pi-user-plus" styleClass="p-button-success">
+            <p-button label="Signup" icon="pi pi-user-plus" styleClass="p-button-success" (click)="signUp()">
             </p-button>
           </div>
           <div class="col-12 lg:col-12">
