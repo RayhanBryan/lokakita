@@ -38,8 +38,9 @@ export class SignupComponent implements OnInit {
     name: '',
     createdBy: '',
   }
+  newUserValid: boolean = false;
 
-  constructor(private router: Router, private userService: UserService, private messageService: MessageService) { }
+  constructor(private confirmationService: ConfirmationService, private router: Router, private userService: UserService, private messageService: MessageService) { }
 
   ngOnInit(): void {
     this.getUser();
@@ -76,6 +77,16 @@ export class SignupComponent implements OnInit {
         this.newUser.address = this.address;
         this.newUser.name = this.name;
         this.newUser.createdBy = this.username;
+        if (
+          this.newUser.username != '' &&
+          this.newUser.password != '' &&
+          this.newUser.email != '' &&
+          this.newUser.phone != '' &&
+          this.newUser.address != '' &&
+          this.newUser.name != ''
+        ) {
+          this.newUserValid = true;
+        }
       }
     };
     console.log(this.newUser)
@@ -85,12 +96,10 @@ export class SignupComponent implements OnInit {
           console.log(data)
           if (data.status) {
             this.successSignUp();
-            setTimeout(this.doNothing, 3000);
           }
         },
         error: (err) => {
-          console.log('tesss', this.newUser, 'dalem error')
-          console.log('Error broh')
+          this.invalidSignUp();
         }
       }
     );
@@ -109,8 +118,21 @@ export class SignupComponent implements OnInit {
   //   }
   //   this.wrongUser();
   // }
-  doNothing() {
-    this.router.navigate(['/login']);
+  toLogin() {
+    console.log(this.newUserValid)
+    if (this.newUserValid) {
+      this.confirmationService.confirm({
+        message: 'Do you want to login now?',
+        header: 'Login now?',
+        icon: 'pi pi-sign-in',
+        accept: () => {
+          this.router.navigate(['/login']);
+        },
+        reject: () => {
+          window.location.reload();
+        }
+      });
+    }
   }
 
   checkUsername() {
@@ -139,6 +161,10 @@ export class SignupComponent implements OnInit {
 
   successSignUp() {
     this.messageService.add({ key: 'tc', severity: 'success', summary: 'Congratulations', detail: 'You can login now' });
+  }
+
+  invalidSignUp() {
+    this.messageService.add({ key: 'tc', severity: 'error', summary: 'Sorry', detail: 'There are some invalid data' });
   }
 
 }
