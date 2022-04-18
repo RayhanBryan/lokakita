@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lokakarya.backend.entity.JobHistory;
 import com.lokakarya.backend.service.JobHistoryService;
-import com.lokakarya.backend.util.DataResponse;
 import com.lokakarya.backend.util.DataResponseList;
 import com.lokakarya.backend.util.DataResponsePagination;
 import com.lokakarya.backend.wrapper.JobHistoryWrapper;
