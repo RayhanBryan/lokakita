@@ -33,18 +33,14 @@ export class RegionComponent implements OnInit {
   }
 
   isLastPage(): boolean {
-    return false;
+    return this.regions ? this.first === (this.regions.length - this.rows): true;
   }
 
   isFirstPage(): boolean {
-    return false;
+    return this.regions ? this.first === 0 : true;
   }
 
-  onChanged(){
-
-  }
-
-  showMaximizableDialog(){
-
+  showSearchCall(){
+    this.showSearch = !this.showSearch;
   }
 }
