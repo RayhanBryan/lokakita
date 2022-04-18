@@ -25,15 +25,15 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     Page<Employee> findByFirstNameContaining(String firstName, Pageable paging);
 
-    @Query("SELECT e FROM Employees e "
+    @Query("SELECT e FROM Employee e "
             + "WHERE LOWER(e.firstName) LIKE LOWER(CONCAT('%', ?1, '%'))")
     List<Employee> findByFirstNameWithJpqlIndexedQueryParam(String firstName);
 
-    @Query("SELECT e FROM Employees e "
+    @Query("SELECT e FROM Employee e "
             + "WHERE LOWER(e.firstName) LIKE LOWER(CONCAT('%', ?1, '%'))")
     Page<Employee> findByFirstNameWithJpqlIndexedQueryParam(String firstName, Pageable paging);
 
-    @Query("SELECT e FROM Employees e "
+    @Query("SELECT e FROM Employee e "
             + "WHERE LOWER(e.firstName) LIKE LOWER(CONCAT('%', :pFirstName, '%'))")
     Page<Employee> findByFirstNameWithJpqlNamedParam(@Param("pFirstName") String firstName, Pageable paging);
 
