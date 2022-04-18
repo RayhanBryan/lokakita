@@ -17,31 +17,31 @@ export class HakAksesService {
   constructor(private http: HttpClient) { }
 
   getAccess(): Observable<any> {
-    return this.http.get<any>(url + `/access/findAll`, {
+    return this.http.get<any>(url + `access/findAll`, {
       responseType: 'json',
     });
   }
 
   getAccessById(id: number): Observable<any> {
-    return this.http.get<any>(url + `/access/findByUserId?=${id}`, {
+    return this.http.get<any>(url + `access/findByUser?user=${id}`, {
       responseType: 'json',
     });
   }
 
   postAccess(req: any): Observable<any> {
-    return this.http.post<any>(url + `/access/post`, req, {
+    return this.http.post<any>(url + `access/post`, req, {
       responseType: 'json',
     })
   }
 
   putAccess(req: any): Observable<any> {
-    return this.http.put<any>(url + `/access/put`, req, {
+    return this.http.put<any>(url + `access/put`, req, {
       responseType: 'json',
     })
   }
 
   deleteAccess(id: number): Observable<any> {
-    return this.http.get<any>(url + `/access/delete?id=${id}`, {
+    return this.http.get<any>(url + `access/delete?id=${id}`, {
       responseType: 'json',
     });
   }

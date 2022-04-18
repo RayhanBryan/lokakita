@@ -18,25 +18,31 @@ export class GroupMenuService {
   constructor(private http: HttpClient) { }
 
   getGroupMenu(): Observable<any> {
-    return this.http.get<any>(url + `/groupmenu/findAll`, {
+    return this.http.get<any>(url + `groupmenu/findAll`, {
+      responseType: 'json',
+    });
+  }
+
+  getByGroupId(id: number): Observable<any> {
+    return this.http.get<any>(url + `groupmenu/findByGroup?group=${id}`, {
       responseType: 'json',
     });
   }
 
   postGroupMenu(req: any): Observable<any> {
-    return this.http.post<any>(url + `/groupmenu/post`, req, {
+    return this.http.post<any>(url + `groupmenu/post`, req, {
       responseType: 'json',
     })
   }
 
   putGroupMenu(req: any): Observable<any> {
-    return this.http.put<any>(url + `/groupmenu/put`, req, {
+    return this.http.put<any>(url + `groupmenu/put`, req, {
       responseType: 'json',
     })
   }
 
   deleteGroupMenu(id: number): Observable<any> {
-    return this.http.get<any>(url + `/groupmenu/delete?id=${id}`, {
+    return this.http.get<any>(url + `groupmenu/delete?id=${id}`, {
       responseType: 'json',
     });
   }
