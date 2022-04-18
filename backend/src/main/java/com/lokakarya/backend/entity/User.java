@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "USERS")
@@ -94,6 +96,7 @@ public class User {
     }
 
     @Column(name="CREATED_DATE")
+    @Temporal(TemporalType.DATE)
     public Date getCreatedDate() {
         return createdDate;
     }
@@ -110,6 +113,7 @@ public class User {
     }
 
     @Column(name = "UPDATED_DATE")
+    @Temporal(TemporalType.DATE)
     public Date getUpdatedDate() {
         return updatedDate;
     }
