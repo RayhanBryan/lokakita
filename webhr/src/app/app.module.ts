@@ -30,7 +30,7 @@ import { SignupComponent } from './components/signup/signup.component';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { CalendarModule } from 'primeng/calendar';
 import { DatamasterComponent } from './components/datamaster/datamaster.component';
-import {CheckboxModule} from 'primeng/checkbox';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @NgModule({
   declarations: [
@@ -45,6 +45,7 @@ import {CheckboxModule} from 'primeng/checkbox';
     LoginComponent,
     SignupComponent,
     DatamasterComponent,
+    EmployeeComponent
   ],
   imports: [
     BrowserModule,
