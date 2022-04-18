@@ -2,7 +2,10 @@ package com.lokakarya.backend.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -12,18 +15,19 @@ public class Region {
     private String regionNameString;
 
     @Id
-    @Column(name = "REGION_ID")
-    public Long getRegionIdLong() {
+    @GeneratedValue(generator = "REGION_GEN", strategy = GenerationType.SEQUENCE)
+	@SequenceGenerator(name = "REGION_GEN", sequenceName = "REGIONS_SEQ_01", initialValue = 1, allocationSize = 1)
+    public Long getRegionId() {
         return regionIdLong;
     }
-    public void setRegionIdLong(Long regionLong) {
+    public void setRegionId(Long regionLong) {
         this.regionIdLong = regionLong;
     }
     @Column(name = "REGION_NAME")
-    public String getRegionNameString() {
+    public String getRegionName() {
         return regionNameString;
     }
-    public void setRegionNameString(String regionNameString) {
+    public void setRegionName(String regionNameString) {
         this.regionNameString = regionNameString;
     }
 }
