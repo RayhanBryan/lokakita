@@ -1,6 +1,6 @@
 package com.lokakarya.backend.repository;
 
-import com.lokakarya.backend.entity.Department;
+
 import com.lokakarya.backend.entity.Location;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
