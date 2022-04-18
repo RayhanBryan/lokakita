@@ -27,10 +27,10 @@ public class CountryController {
 	@Autowired
 	CountryService countryService;
 	
-	@GetMapping(path = "/getById")
-	public DataResponse<CountryWrapper> getByCountryId(@RequestParam("id") String countryId){
-		return new DataResponse<CountryWrapper>(countryService.getByCountryId(countryId));
-	}
+	// @GetMapping(path = "/getById")
+	// public DataResponse<CountryWrapper> getByCountryId(@RequestParam("id") String countryId){
+	// 	return new DataResponse<CountryWrapper>(countryService.getByCountryId(countryId));
+	// }
 	
 	@GetMapping(path = "/findAll")
 	public DataResponseList<CountryWrapper> findAll(){

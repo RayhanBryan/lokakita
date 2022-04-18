@@ -12,39 +12,30 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table (name="HAK_AKSES")
-public class HakAkses {
-    private Long hakAksesId;
-    private User user;
+@Table(name="GROUP_MENU")
+public class GroupMenu {
+    private Long groupMenuId;
     private Group group;
+    private Menu menu;
+    private Character isActive;
     private String programName;
     private Date createdDate;
     private String createdBy;
     private Date updatedDate;
     private String updatedBy;
+    
+    public GroupMenu() {
 
-    public HakAkses(){
-        
     }
     @Id
-    @GeneratedValue(generator = "HAK_AKSES_GEN", strategy = GenerationType.SEQUENCE)
-	@SequenceGenerator(name = "HAK_AKSES_GEN", sequenceName = "HAK_AKSES_SEQ", initialValue = 1, allocationSize = 1)
-    public Long getHakAksesId() {
-        return hakAksesId;
+    @GeneratedValue(generator = "GROUP_MENU_GEN", strategy = GenerationType.SEQUENCE)
+	@SequenceGenerator(name = "GROUP_MENU_GEN", sequenceName = "GROUP_MENU_SEQ_", initialValue = 1, allocationSize = 1)
+    public Long getGroupMenuId() {
+        return groupMenuId;
     }
 
-    public void setHakAksesId(Long hakAksesId) {
-        this.hakAksesId = hakAksesId;
-    }
-
-    @ManyToOne
-    @JoinColumn (name = "USER_ID")
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+    public void setGroupMenuId(Long groupMenuId) {
+        this.groupMenuId = groupMenuId;
     }
 
     @ManyToOne
@@ -57,6 +48,22 @@ public class HakAkses {
         this.group = group;
     }
 
+    @ManyToOne
+    @JoinColumn (name = "MENU_ID")
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public void setMenu(Menu menu) {
+        this.menu = menu;
+    }
+
+    public Character getIsActive() {
+        return isActive;
+    }
+    public void setIsActive(Character isActive) {
+        this.isActive = isActive;
+    }
     public String getProgramName() {
         return programName;
     }
@@ -97,4 +104,5 @@ public class HakAkses {
         this.updatedBy = updatedBy;
     }
 
+    
 }

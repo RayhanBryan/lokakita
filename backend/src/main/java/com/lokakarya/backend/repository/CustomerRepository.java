@@ -9,5 +9,5 @@ public interface CustomerRepository extends JpaRepository <Customer, Long> {
 
     Page<Customer> findAll(Pageable page);
 
-    Page<Customer> findByDepartmentNameContainingIgnoreCase(String departmentName, Pageable paging);
+    Page<Customer> findByCustomerNameContainingIgnoreCase(String customerName, Pageable paging);
 }

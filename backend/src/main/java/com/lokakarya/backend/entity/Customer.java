@@ -1,25 +1,23 @@
 package com.lokakarya.backend.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "Customer")
 public class Customer {
-private String customerId;
+private Long customerId;
 private String email;
 private String customerName;
 private String phoneNumber;
 
     @Id
-    @Column(name = "ID")
-    public String getCustomerId() {
+    @GeneratedValue(generator = "CUSTOMER_GEN", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "CUSTOMER_GEN", sequenceName = "CUS_SEQ", initialValue = 1, allocationSize = 1)
+    public Long getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(String customerId) {
+    public void setCustomerId(Long customerId) {
         this.customerId = customerId;
     }
 @Column(name = "EMAIL")

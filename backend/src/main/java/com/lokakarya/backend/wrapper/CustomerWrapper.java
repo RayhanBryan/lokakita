@@ -1,16 +1,16 @@
 package com.lokakarya.backend.wrapper;
 
 public class CustomerWrapper {
-    private String customerId;
+    private Long customerId;
     private String email;
     private String customerName;
     private String phoneNumber;
 
-    public String getCustomerId() {
+    public Long getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(String customerId) {
+    public void setCustomerId(Long customerId) {
         this.customerId = customerId;
     }
 

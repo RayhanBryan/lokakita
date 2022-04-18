@@ -8,4 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface GroupRepository extends JpaRepository<Group,Long>{
     Optional<Group> findByGroupName(String groupName);
+
+    Group getByGroupName(String groupName);
 }
