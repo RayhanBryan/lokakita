@@ -51,6 +51,7 @@ public class GroupController {
     // delete
     @DeleteMapping(path = "/delete")
     DataResponse<GroupWrapper> delete(@RequestParam("id") Long id){
-        return new 
+        groupService.delete(id);
+        return new DataResponse<GroupWrapper>(true, "Delete Sukses");
     }    
 }
