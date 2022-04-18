@@ -2,7 +2,7 @@ package com.lokakarya.backend.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 import javax.transaction.Transactional;
 
@@ -12,8 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.lokakarya.backend.entity.Department;
-import com.lokakarya.backend.entity.Job;
 import com.lokakarya.backend.entity.JobHistory;
 import com.lokakarya.backend.repository.DepartmentRepository;
 import com.lokakarya.backend.repository.JobHistoryRepository;
@@ -73,3 +71,4 @@ public class JobHistoryService {
 		List<JobHistoryWrapper> jobWrapperList = toWrapperList(jobHistoryList);
 		return new PaginationList<JobHistoryWrapper, JobHistory>(jobWrapperList, jobHistoryPage);
 	}
+}
