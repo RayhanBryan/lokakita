@@ -43,7 +43,7 @@ public class GroupController {
         return new DataResponse<GroupWrapper>(groupService.save(wrapper));
     }
 
-    @PutMapping(path = "/update")
+    @PutMapping(path = "/put")
     DataResponse<GroupWrapper> update(@RequestBody GroupWrapper wrapper){
         return new DataResponse<GroupWrapper>(groupService.save(wrapper));
     }

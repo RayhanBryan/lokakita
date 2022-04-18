@@ -11,23 +11,25 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "REGIONS")
 public class Region {
-    private Long regionIdLong;
-    private String regionNameString;
+    private Long regionId;
+    private String regionName;
 
     @Id
     @GeneratedValue(generator = "REGION_GEN", strategy = GenerationType.SEQUENCE)
-	@SequenceGenerator(name = "REGION_GEN", sequenceName = "REGIONS_SEQ_01", initialValue = 1, allocationSize = 1)
+    @SequenceGenerator(name = "REGION_GEN", sequenceName = "REGIONS_SEQ_01", initialValue = 1, allocationSize = 1)
     public Long getRegionId() {
-        return regionIdLong;
+        return regionId;
     }
-    public void setRegionId(Long regionLong) {
-        this.regionIdLong = regionLong;
+    public void setRegionId(Long regionId) {
+        this.regionId = regionId;
     }
+
     @Column(name = "REGION_NAME")
     public String getRegionName() {
-        return regionNameString;
+        return regionName;
     }
-    public void setRegionName(String regionNameString) {
-        this.regionNameString = regionNameString;
+    public void setRegionName(String regionName) {
+        this.regionName = regionName;
     }
+
 }
