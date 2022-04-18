@@ -3,9 +3,11 @@ package com.lokakarya.backend.wrapper;
 import java.util.Date;
 
 public class GroupMenuWrapper {
-    private Long GroupMenuId;
+    private Long groupMenuId;
     private Long groupId;
+    private String groupName;
     private Long menuId;
+    private String menuName;
     private Character isActive;
     private String programName;
     private Date createdDate;
@@ -18,11 +20,11 @@ public class GroupMenuWrapper {
     }
 
     public Long getGroupMenuId() {
-        return GroupMenuId;
+        return groupMenuId;
     }
 
     public void setGroupMenuId(Long groupMenuId) {
-        GroupMenuId = groupMenuId;
+        this.groupMenuId = groupMenuId;
     }
 
     public Long getGroupId() {
@@ -33,12 +35,29 @@ public class GroupMenuWrapper {
         this.groupId = groupId;
     }
 
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
     public Long getMenuId() {
         return menuId;
     }
 
     public void setMenuId(Long menuId) {
         this.menuId = menuId;
+    }
+
+    public String getMenuName() {
+        return menuName;
+    }
+
+    public void setMenuName(String menuName) {
+        this.menuName = menuName;
     }
 
     public Character getIsActive() {

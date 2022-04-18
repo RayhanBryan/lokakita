@@ -48,7 +48,9 @@ private GroupMenuWrapper toWrapper(GroupMenu groupMenu) {
         GroupMenuWrapper wrapper = new GroupMenuWrapper();
         wrapper.setGroupMenuId(groupMenu.getGroupMenuId());
         wrapper.setGroupId(groupMenu.getGroup() != null ? groupMenu.getGroup().getGroupId() : null);
+        wrapper.setGroupName(groupMenu.getGroup() != null ? groupMenu.getGroup().getGroupName() : null);
         wrapper.setMenuId(groupMenu.getMenu() != null ? groupMenu.getMenu().getMenuId() : null);
+        wrapper.setMenuName(groupMenu.getMenu() != null ? groupMenu.getMenu().getMenuName() : null);
         wrapper.setProgramName(groupMenu.getProgramName());
         wrapper.setCreatedDate(groupMenu.getCreatedDate());
         wrapper.setCreatedBy(groupMenu.getCreatedBy());
