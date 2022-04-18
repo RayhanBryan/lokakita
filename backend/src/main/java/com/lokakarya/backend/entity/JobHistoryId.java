@@ -1,4 +1,4 @@
-package com.backend.lokakarya.entity;
+package com.lokakarya.backend.entity;
 
 import java.io.Serializable;
 import java.util.Date;
