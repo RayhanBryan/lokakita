@@ -6,7 +6,7 @@
         <button pButton pRipple type="button" icon="pi pi-search" label="Search" class="mt-2 ml-3" [style]="{'float': 'right'}" (click)="showSearchCall()"></button>
         <span *ngIf="showSearch" class="p-input-icon-left mt-2 ml-3" [style]="{'float': 'right'}">
             <i class="pi pi-search"></i>
-            <input type="text" pInputText placeholder="Search" [(ngModel)]="nama"/>
+            <input type="text" pInputText placeholder="Search" [(ngModel)]="nama" (ngModelChange)="searchJobTitle()"/>
         </span>
         <p-button icon="pi pi-plus-circle" label="Add" styleClass="p-button-success mt-2 ml-3" [style]="{'float': 'right'}" (onClick)="showForm()"></p-button>
     </div>
@@ -35,24 +35,36 @@
 [style]="{width: '50vw', height: '50vw'}" [draggable]="false" [resizable]="true">
 <div class="grid p-fluid">
   <div class="col-12 md:col-6">
-    <h5>Job ID</h5>
-    <span class="p-float-label">
-    </span>
+    <h5><label for="jobId" class="block">Job ID</label></h5>
+    <input type="text" pInputText [(ngModel)]="row.jobId" (ngModelChange)="row.jobId = $event.toUpperCase()" required autofocus> 
+    <span class="p-float-label">{{jobId}}</span>
+    <h5 class="p invalid" style="color: red;" *ngIf="submitted && !row.jobId">Job ID is required.</h5>
   </div>
   <div class="col-12 md:col-6">
-    <h5>Job Title</h5>
+    <h5><label for="jobName" class="block">Job Title</label></h5>
+    <input type="text" pInputText [(ngModel)]="row.jobTitle" required autofocus> 
+    <span class="p-float-label">{{jobName}}</span>
+    <h5 class="p invalid" style="color: red;" *ngIf="submitted && !row.jobTitle">Job Name is required.</h5>
+
   </div>
   <div class="col-12 md:col-6">
-    <h5>Minimum Salary</h5>
+    <h5><label for="minSalary" class="block">Minimum Salary</label></h5>
+      <input type="number" pInputText [(ngModel)]="row.minSalary" required autofocus> 
+      <span class="ml-2">{{minSalary}}</span>
+      <h5 class="p invalid" style="color: red;" *ngIf="submitted && row.minSalary<0">Minimum Salary 0.</h5>
+
   </div>
   <div class="col-12 md:col-6">
-    <h5>Maximum Salary</h5>
+    <h5><label for="maxSalary" class="block">Maximum Salary</label></h5>
+      <input type="number" pInputText [(ngModel)]="row.maxSalary" required autofocus> 
+      <span class="ml-2">{{maxSalary}}</span>
+
   </div>
 </div>
 
 <ng-template pTemplate="footer">
-    <p-button icon="pi pi-save"  label="save" styleClass="p-button-text"></p-button>
-    <p-button icon="pi pi-times"  label="reset" styleClass="p-button-text"></p-button>
+    <p-button icon="pi pi-save"  label="save" styleClass="p-button-text" (click)="handleSaveJob($event)"></p-button>
+    <p-button icon="pi pi-times"  label="reset" styleClass="p-button-text" (click)="handleResetJob($event)"></p-button>
   </ng-template>
 </p-dialog>
 
