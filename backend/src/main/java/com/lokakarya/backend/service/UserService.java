@@ -59,15 +59,17 @@ public class UserService {
         if(entity.getUserId() != null){
             entity.setUpdatedDate(new Date());
             entity.setUpdatedBy(wrapper.getUpdatedBy());
+            return toWrapper(userRepository.save(entity));
         }else{
             entity.setCreatedDate(new Date());
             entity.setCreatedBy(wrapper.getCreatedBy());
+            entity = userRepository.save(entity);
             HakAkses hakAkses = new HakAkses();
             hakAkses.setUser(entity);
             hakAkses.setGroup(groupRepository.getByGroupName("User"));
             hakAksesRepository.save(hakAkses);
+            return toWrapper(entity);
         }
-        return toWrapper(userRepository.save(entity));
     }
 
     // delete
