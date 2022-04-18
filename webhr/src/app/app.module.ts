@@ -39,6 +39,7 @@ import { CheckboxModule } from 'primeng/checkbox';
     DepartmentComponent,
     JobComponent,
     LocationComponent,
+    EmployeeComponent,
     RegionComponent,
     CountryComponent,
     HomeComponent,

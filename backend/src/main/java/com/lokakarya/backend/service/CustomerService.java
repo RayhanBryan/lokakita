@@ -73,16 +73,20 @@ public class CustomerService {
         return new PaginationList<CustomerWrapper, Customer>(customerWrapperList, customerPage);
     }
 
-    public PaginationList<CustomerWrapper, Customer> findByCustomerNameContainingIgnoreCase(
+    public PaginationList<CustomerWrapper, Customer> findByCustomerNameContainingIgnoreCasePagination(
             String customerName, int page, int size) {
         Pageable paging = PageRequest.of(page, size);
-        Page<Customer> customerPage = customerRepository.findByCustomerNameContainingIgnoreCase(customerName,
-                paging);
+        Page<Customer> customerPage = customerRepository.findByCustomerNameContainingIgnoreCase(customerName,paging);
         List<Customer> customerList = customerPage.getContent();
         List<CustomerWrapper> customerWrapperList = toWrapperList(customerList);
         return new PaginationList<CustomerWrapper, Customer>(customerWrapperList, customerPage);
     }
 
+    public  List<CustomerWrapper> findByCustomerNameContainingIgnoreCase(String departmentName){
+        List<Customer> customerList = customerRepository.findByCustomerNameContainingIgnoreCase(departmentName);
+        List <CustomerWrapper> customerWrappers = toWrapperList(customerList);
+        return customerWrappers;
+    }
     /* Create and Update */
 
     public CustomerWrapper save(CustomerWrapper wrapper) {
