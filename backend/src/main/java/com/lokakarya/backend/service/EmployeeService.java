@@ -178,10 +178,10 @@ public class EmployeeService {
     public List<Employee> findByFirstName(String firstName) {
         return employeeRepository.findByFirstName(firstName);
     }
-
-    public List<Employee> findByFirstNameContaining(String firstName) {
-        return employeeRepository.findByFirstNameContaining(firstName);
-    }
+//
+//    public List<Employee> findByFirstNameContaining(String firstName) {
+//        return employeeRepository.findByFirstNameContaining(firstName);
+//    }
 
     public List<Employee> findByFirstNameOrLastName(String firstName, String lastName) {
         return employeeRepository.findByFirstNameOrLastName(firstName, lastName);
