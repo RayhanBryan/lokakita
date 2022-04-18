@@ -57,7 +57,7 @@ public class UserService {
     public List<UserWrapper> findByUsername(String username){
         if (username == null)
 	        return findAll();
-        List<User> user = userRepository.findByUsernameContaining(username);
+        List<User> user = userRepository.findByUsernameContainingIgnoreCase(username);
         return toWrapperList(user);
     }
     // post & put
