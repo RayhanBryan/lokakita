@@ -29,7 +29,7 @@ public class GroupMenu {
     }
     @Id
     @GeneratedValue(generator = "GROUP_MENU_GEN", strategy = GenerationType.SEQUENCE)
-	@SequenceGenerator(name = "GROUP_MENU_GEN", sequenceName = "GROUP_MENU_SEQ_", initialValue = 1, allocationSize = 1)
+	@SequenceGenerator(name = "GROUP_MENU_GEN", sequenceName = "GROUP_MENU_SEQ", initialValue = 1, allocationSize = 1)
     public Long getGroupMenuId() {
         return groupMenuId;
     }

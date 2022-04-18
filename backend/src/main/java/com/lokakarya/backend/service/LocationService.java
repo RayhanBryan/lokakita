@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 
 import com.lokakarya.backend.entity.Country;
 import com.lokakarya.backend.entity.Location;
+import com.lokakarya.backend.exception.BusinessException;
 import com.lokakarya.backend.repository.CountryRepository;
 import com.lokakarya.backend.repository.LocationRepository;
 import com.lokakarya.backend.util.PaginationList;
@@ -69,6 +70,7 @@ public class LocationService {
 		return wrapperList;
 	}
 	
+	//FIND ALL WITH PAGINATION
 	public PaginationList<LocationWrapper, Location> findaAllWithPagination(int page, int size){
 		Pageable paging = PageRequest.of(page, size);
 		Page<Location> locationPage = locationRepository.findAll(paging);
@@ -76,7 +78,8 @@ public class LocationService {
 		List<LocationWrapper> locationWrapperList = toWrapperList(locationList);
 		return new PaginationList<LocationWrapper, Location>(locationWrapperList, locationPage);
 	}
-		
+	
+	// FIND BY STREET ADDRESS WITH PAGINATION
 	public PaginationList<LocationWrapper, Location> findByStreetAddressContaining(String streetAddress, int page, int size){
 		Pageable paging = PageRequest.of(page, size);
 		Page<Location> locationPage = locationRepository.findBystreetAddressContainingIgnoreCase(streetAddress, paging);
@@ -85,26 +88,53 @@ public class LocationService {
 		return new PaginationList<LocationWrapper, Location>(locationWrapperList, locationPage);
 	}
 
-    public LocationWrapper getByLocationId(Long locationId) {
-		Location location = locationRepository.getById(locationId);
-		return toWrapper(location);
+	// FIND BY STREET ADDRESS
+	public LocationWrapper getByStreetAddress(String streetAddress) {
+		if (streetAddress == null)
+			throw new BusinessException("Street Address cannot be null.");
+		Optional<Location> location = locationRepository.findByStreetAddressContainingIgnoreCase(streetAddress);
+		if (!location.isPresent())
+			throw new BusinessException("Location with Street Address " + streetAddress + " is not found");
+		return toWrapper(location.get());
 	}
 
-	// retrieve
+	// FIND BY LOCATION ID
+	public LocationWrapper getByLocationId(Long locationId) {
+		if (locationId == null)
+			throw new BusinessException("ID cannot be null.");
+		Optional<Location> location = locationRepository.findById(locationId);
+		if (!location.isPresent())
+			throw new BusinessException("Location with id " + locationId + " is not found.");
+		return toWrapper(location.get());
+	}
+    // public LocationWrapper getByLocationId(Long locationId) {
+	// 	Location location = locationRepository.getById(locationId);
+	// 	return toWrapper(location);
+	// }
+
+	// FIND ALL
 	public List<LocationWrapper> findAll() {
 		List<Location> locationList = locationRepository.findAll();
 		return toWrapperList(locationList);
 	}
 
-	// create and update
+	// CREATE AND UPDATE
 	public LocationWrapper save(LocationWrapper wrapper) {
 		Location location = locationRepository.save(toEntity(wrapper));
 		return toWrapper(location);
 	}
 
-	// delete
-	public void delete(Long id) {
-		locationRepository.deleteById(id);
+	// DELETE
+	public void delete(Long locationId) {
+		if (locationId == null)
+			throw new BusinessException("ID cannot be null.");
+		Optional<Location> entity = locationRepository.findById(locationId);
+		if (!entity.isPresent())
+			throw new BusinessException("Location with ID " + locationId + " is not found");
+		locationRepository.deleteById(locationId);
 	}
+	// public void delete(Long id) {
+	// 	locationRepository.deleteById(id);
+	// }
     
 }

@@ -53,6 +53,12 @@ public class UserService {
             throw new BusinessException("User not found: " + username + '.');
         return toWrapper(user.get());
     }
+    public List<UserWrapper> findByUsername(String username){
+        if (username == null)
+	        return findAll();
+        List<User> user = userRepository.findByUsernameContainingIgnoreCase(username);
+        return toWrapperList(user);
+    }
     // post & put
     public UserWrapper save(UserWrapper wrapper){
         User entity = toEntity(wrapper);

@@ -36,6 +36,11 @@ public class UserController {
     DataResponse<UserWrapper> getByUsername(@RequestParam("username") String username){
         return new DataResponse<UserWrapper>(userService.getByUsername(username));
     }
+    @GetMapping(path = "/findByUsername")
+    DataResponseList<UserWrapper> findByUsername(@RequestParam("username") String username){
+        return new DataResponseList<UserWrapper>(userService.findByUsername(username));
+    }
+    // Post & Put
     @PostMapping(path= "/post")
     DataResponse<UserWrapper> post(@RequestBody UserWrapper wrapper){
         return new DataResponse<UserWrapper>(userService.save(wrapper));

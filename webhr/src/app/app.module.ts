@@ -28,6 +28,7 @@ import { CardModule } from 'primeng/card';
 import { PasswordModule } from 'primeng/password';
 import { SignupComponent } from './components/signup/signup.component';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { DatamasterComponent } from './components/datamaster/datamaster.component';
 
 
 @NgModule({
@@ -43,6 +44,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     HomeComponent,
     LoginComponent,
     SignupComponent,
+    DatamasterComponent,
   ],
   imports: [
     BrowserModule,

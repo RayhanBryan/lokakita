@@ -41,17 +41,17 @@ public class EmployeeService {
             entity = employeeRepository.getById(wrapper.getEmployeeId());
         }
         Optional<Department> optionalDept = departmentRepository.findById(wrapper.getDepartmentId());
-        Department department = optionalDept.isPresent() ? optionalDept.get() : null;
+        Department department = optionalDept.orElse(null);
         entity.setDepartment(department);
         entity.setEmail(wrapper.getEmail());
         entity.setFirstName(wrapper.getFirstName());
         entity.setHireDate(wrapper.getHireDate());
         Optional<Job> optionalJob = jobRepository.findById(wrapper.getJobId());
-        Job job = optionalJob.isPresent() ? optionalJob.get() : null;
+        Job job = optionalJob.orElse(null);
         entity.setJob(job);
         entity.setLastName(wrapper.getLastName());
         Optional<Employee> optionalEmp = employeeRepository.findById(wrapper.getManagerId());
-        Employee manager = optionalEmp.isPresent() ? optionalEmp.get() : null;
+        Employee manager = optionalEmp.orElse(null);
         entity.setManager(manager);
         entity.setPhoneNumber(wrapper.getPhoneNumber());
         entity.setSalary(wrapper.getSalary());
@@ -85,7 +85,7 @@ public class EmployeeService {
     }
 
     private List<EmployeeWrapper> toWrapperList(List<Employee> entityList) {
-        List<EmployeeWrapper> wrapperList = new ArrayList<EmployeeWrapper>();
+        List<EmployeeWrapper> wrapperList = new ArrayList<>();
         for (Employee entity : entityList) {
             EmployeeWrapper wrapper = toWrapper(entity);
             wrapperList.add(wrapper);
@@ -98,44 +98,45 @@ public class EmployeeService {
         Employee employee = employeeRepository.findById(employeeId).get();
         return toWrapper(employee);
     }
-
     /* Retrieve All Data */
     public List<EmployeeWrapper> findAll() {
         List<Employee> employeeList = employeeRepository.findAll();
         return toWrapperList(employeeList);
     }
-
     /* Create and Update */
-
     public EmployeeWrapper save(EmployeeWrapper wrapper) {
-        Employee employee=new Employee();
+        Employee employee = new Employee();
         if(wrapper.getEmployeeId()==null) {
+            if (wrapper.getLastName()==null){
+                throw new BusinessException("Last name can't be empty");
+            } else if (wrapper.getEmail()==null){
+                throw new BusinessException("Email can't be empty");
+            } else if (wrapper.getHireDate()==null){
+                throw new BusinessException("Hire date can't be empty");
+            } else if (wrapper.getJobId()==null){
+                throw new BusinessException("Job Id can't be empty");
+            } else if (wrapper.getSalary()==0){
+                throw new BusinessException("Salary must be bigger than zero");
+            }
             employee = employeeRepository.save(toEntity(wrapper));
-        }
-        else {
-            Optional<Employee> employeeLama=employeeRepository.findById(wrapper.getEmployeeId());
-            if(!employeeLama.isPresent()) {
+        } else {
+            Optional<Employee> employeeExist=employeeRepository.findById(wrapper.getEmployeeId());
+            if(!employeeExist.isPresent()) {
                 throw new BusinessException("Tidak ada employee dengan ID tersebut");
             }
-
-            if(employeeLama.get().getJob().getJobId()!=wrapper.getJobId()||employeeLama.get().getDepartment().getDepartmentId()!=wrapper.getDepartmentId()) {
+            if(employeeExist.get().getJob().getJobId() != wrapper.getJobId()||employeeExist.get().getDepartment().getDepartmentId() != wrapper.getDepartmentId()) {
                 JobHistory jobHistory=new JobHistory();
-                jobHistory.setEmployeeId(employeeLama.get().getEmployeeId());
-                jobHistory.setStartDate(employeeLama.get().getHireDate());
+                jobHistory.setEmployeeId(employeeExist.get().getEmployeeId());
+                jobHistory.setStartDate(employeeExist.get().getHireDate());
                 jobHistory.setEndDate(wrapper.getHireDate());
-                jobHistory.setJob(employeeLama.get().getJob());
-                jobHistory.setDepartment(employeeLama.get().getDepartment());
+                jobHistory.setJob(employeeExist.get().getJob());
+                jobHistory.setDepartment(employeeExist.get().getDepartment());
                 jobHistoryRepository.save(jobHistory);
             }
             employee=employeeRepository.save(toEntity(wrapper));
         }
         return toWrapper(employee);
-
-
-
-
     }
-
     /* Find All With Pagination */
     public PaginationList<EmployeeWrapper, Employee> findAllWithPagination(int page, int size) {
         Pageable paging = PageRequest.of(page, size);

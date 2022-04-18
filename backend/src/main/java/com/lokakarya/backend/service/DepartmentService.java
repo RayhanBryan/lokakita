@@ -87,16 +87,20 @@ public class DepartmentService {
         return new PaginationList<DepartmentWrapper, Department>(countryWrapperList, departmentPage);
     }
 
-    public PaginationList<DepartmentWrapper, Department> findByDepartmentNameContainingIgnoreCase(
-            String departmentName, int page, int size) {
-        Pageable paging = PageRequest.of(page, size);
-        Page<Department> departmentPage = departmentRepository.findByDepartmentNameContainingIgnoreCase(departmentName,
-                paging);
-        List<Department> departmentList = departmentPage.getContent();
-        List<DepartmentWrapper> departmentWrapperList = toWrapperList(departmentList);
-        return new PaginationList<DepartmentWrapper, Department>(departmentWrapperList, departmentPage);
+//    public PaginationList<DepartmentWrapper, Department> findByDepartmentNamePaginationContainingIgnoreCase(
+//            String departmentName, int page, int size) {
+//        Pageable paging = PageRequest.of(page, size);
+//        Page<Department> departmentPage = departmentRepository.findByDepartmentNamePaginationContainingIgnoreCase(departmentName,
+//                paging);
+//        List<Department> departmentList = departmentPage.getContent();
+//        List<DepartmentWrapper> departmentWrapperList = toWrapperList(departmentList);
+//        return new PaginationList<DepartmentWrapper, Department>(departmentWrapperList, departmentPage);
+//    }
+    public  List<DepartmentWrapper> findByDepartmentNameContainingIgnoreCase(String departmentName){
+       List<Department> departmentList = departmentRepository.findByDepartmentNameContainingIgnoreCase(departmentName);
+        List <DepartmentWrapper> departmentWrappers = toWrapperList(departmentList);
+       return departmentWrappers;
     }
-
     /* Create and Update */
 
     public DepartmentWrapper save(DepartmentWrapper wrapper) {
