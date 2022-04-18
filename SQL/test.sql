@@ -2,4 +2,6 @@ select * from USER_SEQUENCES
 
 desc GROUPS;
 
-select * from users;
+select * from menus;
+
+DESC MENUS;
