@@ -29,7 +29,7 @@ import { PasswordModule } from 'primeng/password';
 import { SignupComponent } from './components/signup/signup.component';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DatamasterComponent } from './components/datamaster/datamaster.component';
-
+import {CheckboxModule} from 'primeng/checkbox';
 
 @NgModule({
   declarations: [
@@ -63,7 +63,8 @@ import { DatamasterComponent } from './components/datamaster/datamaster.componen
     ToastModule,
     CardModule,
     PasswordModule,
-    InputTextModule
+    InputTextModule,
+    CheckboxModule
   ],
   providers: [ConfirmationService],
   bootstrap: [AppComponent],

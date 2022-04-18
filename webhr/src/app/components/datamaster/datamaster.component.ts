@@ -19,6 +19,8 @@ export class DatamasterComponent implements OnInit {
     username: string = '';
     checkUser: boolean = false;
     userData: any;
+    action = 0;
+    nama: string = '';
     
     valuepass1: string='';
     valuepass2: string='';
@@ -29,16 +31,25 @@ export class DatamasterComponent implements OnInit {
     first = 0;
     rows = 10;
 
+    showSearch: boolean = false;
+    selectedCities: string[] = [];
+    selectedCategories: any[] = ['Technology', 'Sports'];
+    categories: any[] = [{name: 'Accounting', key: 'A'}, {name: 'Marketing', key: 'M'}, {name: 'Production', key: 'P'}, {name: 'Research', key: 'R'}];
+    checked: boolean = false;
 
-  constructor(private userService:UserService) { }
+
+  constructor(private usersService:UserService) { }
 
   ngOnInit(): void {
-    this.userService.getUser().subscribe((res) => {
+    this.usersService.getUser().subscribe((res) => {
       console.log(res.data);
       this.users = res.data;
     });
   }
-showModalDialog() {
+    showSearchCall(){
+      this.showSearch = !this.showSearch;
+    }
+    showModalDialog() {
         this.displayModal = true;
     }
 
@@ -54,8 +65,9 @@ showModalDialog() {
         this.submitted=false;
     }
 
-    showMaximizableDialog() {
+    showMaximizableDialog(act : any) {
         this.displayMaximizable = true;
+
     }
 
     showPositionDialog(position: string) {
@@ -87,4 +99,13 @@ showModalDialog() {
     isFirstPage(): boolean {
         return this.users ? this.first === 0 : true;
     }
+
+    onChanged(){
+      this.usersService.getUsername(this.nama).subscribe(
+        res => {
+          this.users = res.data;
+          console.log(this.users)
+        }
+      )
+    }    
 }
