@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import com.lokakarya.backend.entity.Group;
 import com.lokakarya.backend.entity.GroupMenu;
 import com.lokakarya.backend.exception.BusinessException;
 import com.lokakarya.backend.repository.GroupMenuRepository;
@@ -78,6 +79,14 @@ private GroupMenuWrapper toWrapper(GroupMenu groupMenu) {
         if(!groupMenu.isPresent())
             throw new BusinessException("Hak Akses not found: "+ id + ".");
         return toWrapper(groupMenu.get());
+    }
+    public List<GroupMenuWrapper> findByGroupId(Long id){
+        if( id == null)
+            throw new BusinessException("Id cannot be null.");
+        Optional<Group> group = groupRepository.findById(id);
+        if(!group.isPresent())
+            throw new BusinessException("Hak Akses not found: "+ id + ".");
+        return toWrapperList(groupMenuRepository.findByGroup(group.get()));
     }
 
     // post & update

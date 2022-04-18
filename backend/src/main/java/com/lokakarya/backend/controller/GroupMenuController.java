@@ -38,6 +38,10 @@ public class GroupMenuController {
       DataResponse<GroupMenuWrapper> post(@RequestBody GroupMenuWrapper wrapper){
           return new DataResponse<GroupMenuWrapper>(groupMenuService.save(wrapper));
       }
+      @GetMapping(path = "/findByGroup")
+      DataResponseList<GroupMenuWrapper> findByGroup(@RequestParam("group") Long group){
+          return new DataResponseList<GroupMenuWrapper>(groupMenuService.findByGroupId(group));
+      } 
       @PutMapping(path = "/put")
       DataResponse<GroupMenuWrapper> update(@RequestBody GroupMenuWrapper wrapper){
           return new DataResponse<GroupMenuWrapper>(groupMenuService.save(wrapper));
