@@ -3,7 +3,7 @@ package com.lokakarya.backend.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -86,6 +86,12 @@ public class JobService {
 		List<Job> jobList = jobPage.getContent();
 		List<JobWrapper> jobWrapperList = toWrapperList(jobList);
 		return new PaginationList<JobWrapper, Job>(jobWrapperList, jobPage);
+	}
+
+	//find job title without pagination
+	public List<JobWrapper> findByJobTitleContaining(String jobTitle) {
+		List<Job> job = jobRepository.findByJobTitleContainingIgnoreCase(jobTitle);
+		return toWrapperList(job);
 	}
 }
 

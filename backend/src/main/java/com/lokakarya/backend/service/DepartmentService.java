@@ -13,8 +13,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -83,19 +83,19 @@ public class DepartmentService {
         Pageable paging = PageRequest.of(page, size);
         Page<Department> departmentPage = departmentRepository.findAll(paging);
         List<Department> departmentList = departmentPage.getContent();
-        List<DepartmentWrapper> countryWrapperList = toWrapperList(departmentList);
-        return new PaginationList<DepartmentWrapper, Department>(countryWrapperList, departmentPage);
+        List<DepartmentWrapper> departmentWrapperList = toWrapperList(departmentList);
+        return new PaginationList<DepartmentWrapper, Department>(departmentWrapperList, departmentPage);
     }
 
-//    public PaginationList<DepartmentWrapper, Department> findByDepartmentNamePaginationContainingIgnoreCase(
-//            String departmentName, int page, int size) {
-//        Pageable paging = PageRequest.of(page, size);
-//        Page<Department> departmentPage = departmentRepository.findByDepartmentNamePaginationContainingIgnoreCase(departmentName,
-//                paging);
-//        List<Department> departmentList = departmentPage.getContent();
-//        List<DepartmentWrapper> departmentWrapperList = toWrapperList(departmentList);
-//        return new PaginationList<DepartmentWrapper, Department>(departmentWrapperList, departmentPage);
-//    }
+    public PaginationList<DepartmentWrapper, Department> findByDepartmentNamePaginationContainingIgnoreCase(
+            String departmentName, int page, int size) {
+        Pageable paging = PageRequest.of(page, size);
+        Page<Department> departmentPage = departmentRepository.findByDepartmentNameContainingIgnoreCase(departmentName,
+                paging);
+        List<Department> departmentList = departmentPage.getContent();
+        List<DepartmentWrapper> departmentWrapperList = toWrapperList(departmentList);
+        return new PaginationList<DepartmentWrapper, Department>(departmentWrapperList, departmentPage);
+    }
     public  List<DepartmentWrapper> findByDepartmentNameContainingIgnoreCase(String departmentName){
        List<Department> departmentList = departmentRepository.findByDepartmentNameContainingIgnoreCase(departmentName);
         List <DepartmentWrapper> departmentWrappers = toWrapperList(departmentList);

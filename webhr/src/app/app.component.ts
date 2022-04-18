@@ -10,4 +10,5 @@ export class AppComponent {
 
   isLoggedIn = localStorage.getItem('token')
   show: boolean = this.isLoggedIn ? true : false;
+  whichUser: any;
 }

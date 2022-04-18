@@ -34,13 +34,13 @@ public class DepartmentController {
                 departmentService.findAllWithPagination(page, size));
     }
 
-//    @GetMapping("/findByDepartmentNamePagination")
-//    public DataResponsePagination<DepartmentWrapper, Department> findDepartmentName(
-//            @RequestParam("departmentName") String departmentName, @RequestParam("page") int page,
-//            @RequestParam("size") int size) {
-//        return new DataResponsePagination<DepartmentWrapper, Department>(
-//                departmentService.findByDepartmentNamePaginationContainingIgnoreCase(departmentName, page, size));
-//    }
+    @GetMapping("/findByDepartmentNamePagination")
+    public DataResponsePagination<DepartmentWrapper, Department> findDepartmentNamePagination(
+            @RequestParam("departmentName") String departmentName, @RequestParam("page") int page,
+            @RequestParam("size") int size) {
+        return new DataResponsePagination<DepartmentWrapper, Department>(
+                departmentService.findByDepartmentNamePaginationContainingIgnoreCase(departmentName, page, size));
+    }
 
     @GetMapping("/findByDepartmentName")
     public DataResponseList<DepartmentWrapper> findDepartmentName(@RequestParam("departmentName") String departmentName) {

@@ -10,6 +10,7 @@ import com.lokakarya.backend.repository.EmployeeRepository;
 import com.lokakarya.backend.repository.JobHistoryRepository;
 import com.lokakarya.backend.repository.JobRepository;
 import com.lokakarya.backend.util.PaginationList;
+import com.lokakarya.backend.wrapper.DepartmentWrapper;
 import com.lokakarya.backend.wrapper.EmployeeWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,8 +18,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -85,7 +87,7 @@ public class EmployeeService {
     }
 
     private List<EmployeeWrapper> toWrapperList(List<Employee> entityList) {
-        List<EmployeeWrapper> wrapperList = new ArrayList<>();
+        List<EmployeeWrapper> wrapperList = new ArrayList<EmployeeWrapper>();
         for (Employee entity : entityList) {
             EmployeeWrapper wrapper = toWrapper(entity);
             wrapperList.add(wrapper);
@@ -98,45 +100,13 @@ public class EmployeeService {
         Employee employee = employeeRepository.findById(employeeId).get();
         return toWrapper(employee);
     }
+
     /* Retrieve All Data */
     public List<EmployeeWrapper> findAll() {
         List<Employee> employeeList = employeeRepository.findAll();
         return toWrapperList(employeeList);
     }
-    /* Create and Update */
-    public EmployeeWrapper save(EmployeeWrapper wrapper) {
-        Employee employee = new Employee();
-        if(wrapper.getEmployeeId()==null) {
-            if (wrapper.getLastName()==null){
-                throw new BusinessException("Last name can't be empty");
-            } else if (wrapper.getEmail()==null){
-                throw new BusinessException("Email can't be empty");
-            } else if (wrapper.getHireDate()==null){
-                throw new BusinessException("Hire date can't be empty");
-            } else if (wrapper.getJobId()==null){
-                throw new BusinessException("Job Id can't be empty");
-            } else if (wrapper.getSalary()==0){
-                throw new BusinessException("Salary must be bigger than zero");
-            }
-            employee = employeeRepository.save(toEntity(wrapper));
-        } else {
-            Optional<Employee> employeeExist=employeeRepository.findById(wrapper.getEmployeeId());
-            if(!employeeExist.isPresent()) {
-                throw new BusinessException("Tidak ada employee dengan ID tersebut");
-            }
-            if(employeeExist.get().getJob().getJobId() != wrapper.getJobId()||employeeExist.get().getDepartment().getDepartmentId() != wrapper.getDepartmentId()) {
-                JobHistory jobHistory=new JobHistory();
-                jobHistory.setEmployeeId(employeeExist.get().getEmployeeId());
-                jobHistory.setStartDate(employeeExist.get().getHireDate());
-                jobHistory.setEndDate(wrapper.getHireDate());
-                jobHistory.setJob(employeeExist.get().getJob());
-                jobHistory.setDepartment(employeeExist.get().getDepartment());
-                jobHistoryRepository.save(jobHistory);
-            }
-            employee=employeeRepository.save(toEntity(wrapper));
-        }
-        return toWrapper(employee);
-    }
+
     /* Find All With Pagination */
     public PaginationList<EmployeeWrapper, Employee> findAllWithPagination(int page, int size) {
         Pageable paging = PageRequest.of(page, size);
@@ -146,97 +116,28 @@ public class EmployeeService {
         return new PaginationList<EmployeeWrapper, Employee>(employeeWrapperList, employeePage);
     }
 
-    public PaginationList<EmployeeWrapper, Employee> findByFirstNameContaining(String firstName, int page, int size) {
+    public PaginationList<EmployeeWrapper, Employee> findByFirstNamePaginationContainingIgnoreCase(
+            String firstName, int page, int size) {
         Pageable paging = PageRequest.of(page, size);
-        Page<Employee> employeePage = employeeRepository.findByFirstNameContainingIgnoreCase(firstName, paging);
+        Page<Employee> employeePage = employeeRepository.findByFirstNameContainingIgnoreCase(firstName,
+                paging);
         List<Employee> employeeList = employeePage.getContent();
         List<EmployeeWrapper> employeeWrapperList = toWrapperList(employeeList);
         return new PaginationList<EmployeeWrapper, Employee>(employeeWrapperList, employeePage);
     }
-
-    public PaginationList<EmployeeWrapper, Employee> findByFirstNameWithCustomOrderBy(String firstName, int page,
-                                                                                       int size, String orderBy, String column) {
-        Pageable paging;
-        if (orderBy.equalsIgnoreCase("DESC") || orderBy.equalsIgnoreCase("descending")) {
-            paging = PageRequest.of(page, size, Sort.by(column).descending());
-        } else if (orderBy.equalsIgnoreCase("ASC") || orderBy.equalsIgnoreCase("ascending")) {
-            paging = PageRequest.of(page, size, Sort.by(column).ascending());
-        } else {
-            paging = PageRequest.of(page, size, Sort.by(column));
-        }
-        Page<Employee> pageEmployeeList = employeeRepository.findByFirstNameWithJpqlNamedParam(firstName, paging);
-        List<Employee> employeeList = pageEmployeeList.getContent();
-
-        List<EmployeeWrapper> employeeWrapperList = toWrapperList(employeeList);
-        return new PaginationList<EmployeeWrapper, Employee>(employeeWrapperList, pageEmployeeList);
+    public  List<EmployeeWrapper> findByFirstNameContainingIgnoreCase(String firstName){
+        List<Employee> employeeList = employeeRepository.findByFirstNameContainingIgnoreCase(firstName);
+        List <EmployeeWrapper> employeeWrappers = toWrapperList(employeeList);
+        return employeeWrappers;
     }
-
+    /* Create and Update */
+    public EmployeeWrapper save(EmployeeWrapper wrapper) {
+        Employee employee = employeeRepository.save(toEntity(wrapper));
+        return toWrapper(employee);
+    }
     /* Delete Data */
     public void delete(Long id) {
-        employeeRepository.deleteById(id);
+        departmentRepository.deleteById(id);
     }
-
-    public List<Employee> findByFirstName(String firstName) {
-        return employeeRepository.findByFirstName(firstName);
-    }
-//
-//    public List<Employee> findByFirstNameContaining(String firstName) {
-//        return employeeRepository.findByFirstNameContaining(firstName);
-//    }
-
-    public List<Employee> findByFirstNameOrLastName(String firstName, String lastName) {
-        return employeeRepository.findByFirstNameOrLastName(firstName, lastName);
-    }
-
-    public List<Employee> findByFirstNameContainingOrLastNameContainingAllIgnoreCase(String firstName,
-                                                                                      String lastName) {
-        return employeeRepository.findByFirstNameContainingOrLastNameContainingAllIgnoreCase(firstName, lastName);
-    }
-
-//	public List<Employees> findAllWithPagination(int page, int size) {
-//		Pageable paging = PageRequest.of(page, size, Sort.by("employeeId").ascending());
-//		Page<Employees> employeePage = employeeRepository.findAll(paging);
-//		return employeePage.toList();
-////		return emplyeeList;
-//	}
-
-    public Page<Employee> findByFirstNameContainingWithPagination(String firstName, int page, int size) {
-        Pageable paging = PageRequest.of(page, size,
-                Sort.by("firstName").ascending().and(Sort.by("employeeId").descending()));
-        return employeeRepository.findByFirstNameContaining(firstName, paging);
-    }
-
-    public List<Employee> findByFirstNameWithJpqlIndexedQueryParam(String firstName) {
-        return employeeRepository.findByFirstNameWithJpqlIndexedQueryParam(firstName);
-    }
-
-    public Page<Employee> findByFirstNameWithJpqlIndexedQueryParamPagination(String firstName, int page, int size) {
-        Pageable paging = PageRequest.of(page, size,
-                Sort.by("firstName").ascending().and(Sort.by("employeeId").descending()));
-        return employeeRepository.findByFirstNameWithJpqlIndexedQueryParam(firstName, paging);
-    }
-
-    public Page<Employee> findByFirstNameWithJpqlNamedParamPagination(String firstName, int page, int size) {
-//		Pageable paging = PageRequest.of(page, size, Sort.by("firstName").ascending().and(Sort.by("employeenId").descending()));
-        Pageable paging = PageRequest.of(page, size, Sort.by("employeeId").ascending());
-        return employeeRepository.findByFirstNameWithJpqlNamedParam(firstName, paging);
-    }
-
-    public List<Employee> findByFirstNameWithNativeIndexedQueryParam(String firstName) {
-        return employeeRepository.findByFirstNameWithNativeIndexedQueryParam(firstName);
-    }
-
-    public Page<Employee> findByFirstNameWithNativeIndexedQueryParamPagination(String firstName, int page, int size) {
-        Pageable paging = PageRequest.of(page, size);
-        return employeeRepository.findByFirstNameWithNativeIndexedQueryParam(firstName, paging);
-    }
-
-    public Page<Employee> findByFirstNameWithNativeNamedParamPagination(String firstName, int page, int size) {
-        Pageable paging = PageRequest.of(page, size);
-        return employeeRepository.findByFirstNameWithNativeNamedParam(firstName, paging);
-    }
-
-
-
 
 }

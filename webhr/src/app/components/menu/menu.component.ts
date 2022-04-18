@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem, MessageService } from 'primeng/api';
+import { AppComponent } from 'src/app/app.component';
+import { GroupMenuService } from 'src/app/services/group-menu.service';
+import { GroupService } from 'src/app/services/group.service';
+import { HakAksesService } from 'src/app/services/hakakses.service';
+import { MenuService } from 'src/app/services/menu.service';
+import { LoginComponent } from '../login/login.component';
 
 @Component({
   selector: 'app-menu',
@@ -7,9 +13,14 @@ import { MenuItem, MessageService } from 'primeng/api';
   styleUrls: ['./menu.component.css'],
   providers: [MessageService]
 })
+
+
+
 export class MenuComponent implements OnInit {
 
-  constructor(private messageService: MessageService) { }
+  dataAccess: any;
+
+  constructor(private loginComp: LoginComponent, private app: AppComponent, private messageService: MessageService, private hakAksesService: HakAksesService, private groupService: GroupService, private groupMenu: GroupMenuService, private menuService: MenuService) { }
   items: MenuItem[] = [];
 
   logout(): void {
@@ -18,39 +29,16 @@ export class MenuComponent implements OnInit {
     window.location.reload();
   }
   ngOnInit() {
+    console.log('ini user id: ', localStorage.getItem('token'))
+    this.getAccessById(localStorage.getItem('token'));
+    for (let i in this.dataAccess) {
+
+    }
     this.items = [
       {
         label: 'Employee',
         icon: 'pi pi-spin pi-users',
         routerLink: '/employee',
-        // items:[
-        //     {
-        //         label:'New',
-        //         icon:'pi pi-fw pi-plus',
-        //         items:[
-        //         {
-        //             label:'Bookmark',
-        //             icon:'pi pi-fw pi-bookmark'
-        //         },
-        //         {
-        //             label:'Video',
-        //             icon:'pi pi-fw pi-video'
-        //         },
-
-        //         ]
-        //     },
-        //     {
-        //         label:'Delete',
-        //         icon:'pi pi-fw pi-trash'
-        //     },
-        //     {
-        //         separator:true
-        //     },
-        //     {
-        //         label:'Export',
-        //         icon:'pi pi-fw pi-external-link'
-        //     }
-        // ]
       },
       {
         label: 'Department',
@@ -79,10 +67,20 @@ export class MenuComponent implements OnInit {
       },
       {
         label: 'Data Master',
-        icon: 'pi pi-spin pi-users',
+        icon: 'pi pi-spin pi-user-plus',
         routerLink: '/datamaster'
       },
 
     ];
   }
+
+  getAccessById(id: any) {
+    this.hakAksesService.getAccessById(id).subscribe(
+      res => {
+        this.dataAccess = res.data;
+        console.log(res.data)
+      }
+    );
+  }
+
 }

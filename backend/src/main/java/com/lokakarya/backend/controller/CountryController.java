@@ -46,6 +46,13 @@ public class CountryController {
 	public DataResponsePagination<CountryWrapper, Country> findByCountryName(@RequestParam("countryName") String countryName, @RequestParam("page")int page, @RequestParam("size")int size){
 		return new DataResponsePagination<CountryWrapper, Country>(countryService.findByCountryNameContaining(countryName, page, size));
 	}
+
+	//find country Name without pagination
+	@GetMapping(path = "/findCountryByName")
+	public DataResponseList<CountryWrapper> findCountryByName(@RequestParam("countryName") String countryName){
+		return new DataResponseList<CountryWrapper>(countryService.findByCountryNameContaining(countryName));
+	}
+	
 	
 	@DeleteMapping(path = "/{id}")
 	public void delete(@PathVariable("id") String countryId) {
