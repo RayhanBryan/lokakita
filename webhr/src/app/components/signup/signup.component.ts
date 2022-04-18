@@ -96,7 +96,6 @@ export class SignupComponent implements OnInit {
         next: (data) => {
           console.log(data)
           if (data.status) {
-
             this.successSignUp();
           }
         },
