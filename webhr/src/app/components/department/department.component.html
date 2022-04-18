@@ -14,19 +14,19 @@
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
         <ng-template pTemplate="header">
             <tr>
-                <th>Department Name</th>
-                <th>Manager Name</th>
-                <th>Street Address</th>
-                <th>City</th>
+                <th pSortableColumn="departmentId">Department ID <p-sortIcon field="departmentId"></p-sortIcon></th>
+                <th pSortableColumn="departmentName">Department Name <p-sortIcon field="departmentName"></p-sortIcon></th>
+                <th pSortableColumn="managerName">Manager Name <p-sortIcon field="managerLastName"></p-sortIcon></th>
+                <th pSortableColumn="streetAddress">Street Address <p-sortIcon field="streetAddress"></p-sortIcon></th>
                 <th>Action</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-department>
             <tr>
+                <td>{{department.departmentId}}</td>
                 <td>{{department.departmentName}}</td>
-                <td>{{department.firstName}}</td>
+                <td>{{department.managerFirstName}} {{department.managerLastName}}</td>
                 <td>{{department.streetAddress}}</td>
-                <td>{{department.city}}</td>
                 <td>
                     <p-button icon="pi pi-pencil" (click)="openEdit(department)"></p-button>
                     <p-button icon="pi pi-trash" (click)="showDeleteDialog(department.departmentId)" styleClass="p-button-danger ml-2"></p-button>
@@ -43,7 +43,7 @@
             <h5>Department Name</h5>
             <span class="p-float-label">
                 <input type="text" pInputText [(ngModel)]="row.departmentName" required autofocus>
-                <h5 *ngIf="submitted && !row.departmentName">Isi dulu bos</h5> 
+                <h5 *ngIf="submitted && !row.departmentName">Required!!</h5> 
                 <label for="float-input">Department Name</label>
             </span>
         </div>
@@ -52,14 +52,14 @@
             <span class="p-float-label">
                 <!-- <input type="text" pInputText [(ngModel)]="row.departmentName" required autofocus> -->
                 <p-dropdown appendTo="body" [options]="employee" [(ngModel)]="row.managerId" placeholder="Select a Manager" optionLabel="firstName" optionValue="employeeId" [showClear]="true"></p-dropdown>
-                <h5 *ngIf="submitted && !row.departmentName">Isi dulu bos</h5>
+                <h5 *ngIf="submitted && !row.departmentName">Required!!</h5>
             </span>
         </div><div class="col-6">
-            <h5>City</h5>
+            <h5>Street Address</h5>
             <span class="p-float-label">
                 <!-- <input type="text" pInputText [(ngModel)]="row.departmentName" required autofocus> -->
-                <p-dropdown appendTo="body" [options]="location" [(ngModel)]="row.locationId" placeholder="Select a Location" optionLabel="city" optionValue="locationId" [showClear]="true"></p-dropdown>
-                <h5 *ngIf="submitted && !row.departmentName">Isi dulu bos</h5>
+                <p-dropdown appendTo="body" [options]="location" [(ngModel)]="row.locationId" placeholder="Select a Street Address" optionLabel="streetAddress" optionValue="locationId" [showClear]="true"></p-dropdown>
+                <h5 *ngIf="submitted && !row.locationId">Required!!</h5>
             </span>
         </div>
     </div>
