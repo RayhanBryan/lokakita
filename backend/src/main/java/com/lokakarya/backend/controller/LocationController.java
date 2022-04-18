@@ -49,7 +49,7 @@ public class LocationController {
 	}
 	
 	// FIND BY STREET ADDRESS WITH PAGINATION
-	@GetMapping(path = "/findByStreetAddress")
+	@GetMapping(path = "/findByStreetAddressWithPagination")
 	public DataResponsePagination<LocationWrapper, Location> findByFirstName(
 			@RequestParam("streetAddresss") String streetAddress, @RequestParam("page") int page,
 			@RequestParam("size") int size) {
@@ -58,8 +58,8 @@ public class LocationController {
 
 	// FIND BY STREET ADDRESS
 	@GetMapping(path = "/getByStreetAddress")
-	DataResponse<LocationWrapper> getByStreetAddress(@RequestParam("streetAddress") String streetAddress){
-		return new DataResponse<LocationWrapper>(locationService.getByStreetAddress(streetAddress));
+	DataResponseList<LocationWrapper> getByStreetAddress(@RequestParam("streetAddress") String streetAddress){
+		return new DataResponseList<LocationWrapper>(locationService.getByStreetAddress(streetAddress));
 	}
 	
 	// DELETE

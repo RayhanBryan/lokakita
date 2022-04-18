@@ -32,6 +32,10 @@ public class HakAksesController {
       DataResponse<HakAksesWrapper> getById(@RequestParam("id") Long id){
           return new DataResponse<HakAksesWrapper>(hakAksesService.getById(id));
       }
+      @GetMapping(path = "/findByUserId")
+      DataResponseList<HakAksesWrapper> findByUserId(@RequestParam("id") Long id){
+          return new DataResponseList<HakAksesWrapper>(hakAksesService.findByUserId(id));
+      }
       @PostMapping(path= "/post")
       DataResponse<HakAksesWrapper> post(@RequestBody HakAksesWrapper wrapper){
           return new DataResponse<HakAksesWrapper>(hakAksesService.save(wrapper));

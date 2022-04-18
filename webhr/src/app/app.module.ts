@@ -28,6 +28,7 @@ import { CardModule } from 'primeng/card';
 import { PasswordModule } from 'primeng/password';
 import { SignupComponent } from './components/signup/signup.component';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { CalendarModule } from 'primeng/calendar';
 import { DatamasterComponent } from './components/datamaster/datamaster.component';
 import {CheckboxModule} from 'primeng/checkbox';
 
@@ -35,7 +36,6 @@ import {CheckboxModule} from 'primeng/checkbox';
   declarations: [
     AppComponent,
     MenuComponent,
-    EmployeeComponent,
     DepartmentComponent,
     JobComponent,
     LocationComponent,
@@ -64,7 +64,8 @@ import {CheckboxModule} from 'primeng/checkbox';
     CardModule,
     PasswordModule,
     InputTextModule,
-    CheckboxModule
+    CheckboxModule,
+    CalendarModule
   ],
   providers: [ConfirmationService],
   bootstrap: [AppComponent],

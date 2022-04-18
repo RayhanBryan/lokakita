@@ -89,13 +89,9 @@ public class LocationService {
 	}
 
 	// FIND BY STREET ADDRESS
-	public LocationWrapper getByStreetAddress(String streetAddress) {
-		if (streetAddress == null)
-			throw new BusinessException("Street Address cannot be null.");
-		Optional<Location> location = locationRepository.findByStreetAddressContainingIgnoreCase(streetAddress);
-		if (!location.isPresent())
-			throw new BusinessException("Location with Street Address " + streetAddress + " is not found");
-		return toWrapper(location.get());
+	public List<LocationWrapper> getByStreetAddress(String streetAddress) {
+		List<Location> locationList = locationRepository.findByStreetAddressContainingIgnoreCase(streetAddress);
+		return toWrapperList(locationList);
 	}
 
 	// FIND BY LOCATION ID

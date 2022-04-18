@@ -23,21 +23,25 @@ public class RegionService {
 	@Autowired
 	RegionRepository regionRepository;
 	
+	// GET BY ID
 	public RegionWrapper getByRegionId(Long regionId) {
 		Region region = regionRepository.getById(regionId);
 		return toWrapper(region);  
 	}
 	
+	// FIND ALL
 	public List<RegionWrapper> findAll() {
 		List<Region> regionList = regionRepository.findAll();
 		return toWrapperList(regionList);
 	};
 	
+	// CREATE AND UPDATE
 	public RegionWrapper save(RegionWrapper wrapper) {
 		Region region = regionRepository.save(toEntity(wrapper));
 		return toWrapper(region);
 	}
 	
+	// DELETE
 	public void delete(Long id) {
 		regionRepository.deleteById(id);
 	}
@@ -69,7 +73,7 @@ public class RegionService {
 		return wrapperList;
 	}
 	
-
+	// FIND ALL WITH PAGINATION
 	public PaginationList<RegionWrapper, Region> findaAllWithPagination(int page, int size){
 		Pageable paging = PageRequest.of(page, size);
 		Page<Region> regionPage = regionRepository.findAll(paging);
@@ -78,12 +82,18 @@ public class RegionService {
 		return new PaginationList<RegionWrapper, Region>(regionWrapperList, regionPage);
 	}
 		
+	// FIND BY REGION NAME WITH PAGINATION
 	public PaginationList<RegionWrapper, Region> findByRegionNameContaining(String regionName, int page, int size){
 		Pageable paging = PageRequest.of(page, size);
 		Page<Region> regionPage = regionRepository.findByRegionNameContainingIgnoreCase(regionName, paging);
 		List<Region> regionList = regionPage.getContent();
 		List<RegionWrapper> regionWrapperList = toWrapperList(regionList);
 		return new PaginationList<RegionWrapper, Region>(regionWrapperList, regionPage);
+	}
+
+	public List<RegionWrapper> getByRegionName(String regionName) {
+		List<Region> locationList = regionRepository.findByRegionNameContainingIgnoreCase(regionName);
+		return toWrapperList(locationList);
 	}
 }
 
