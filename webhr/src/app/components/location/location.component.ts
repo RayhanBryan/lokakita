@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { LocationService } from 'src/app/services/location.service';
 // import { ConfirmationService } from 'primeng/api/confirmationservice';
 // import { MessageService } from 'primeng/api/messageservice';
+// import Swal from 'sweetalert2';
+import {ConfirmationService, ConfirmEventType, MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-location',
@@ -9,23 +12,25 @@ import { Component, OnInit } from '@angular/core';
   // providers:[ConfirmationService, MessageService]
 })
 export class LocationComponent implements OnInit {
-  // locations: any;
-  locations = [
-    { locationId: 1, streetAddress: 'Jalan Selatan', postalCode:'55781', city:'Bandung', stateProvince:'Jawa Barat', countryId:'ID',countryName:'Indonesia',createdDate:'19 April 2020' },
-    { locationId: 2, streetAddress: 'Jalan Utara', postalCode:'55782', city:'Lembang', stateProvince:'Jawa Barat', countryId:'ID',countryName:'Indonesia',createdDate:'20 April 2020' },
-  ];
+  locations: any;
+  location= { locationId: 25, streetAddress: 'Jalan Utara', postalCode:'55782', city:'Lembang', stateProvince:'Jawa Barat', countryId:'ID',countryName:'Indonesia',createdDate:'20 April 2020' };
   first = 0;
   rows = 10;
   nama:string='';
   showSearch:boolean=false;
   displayForm:boolean=false;
 
-  constructor() {}
+  constructor(
+    private locationService: LocationService,
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getALlLocations();
+  }
 
   next() {
     this.first = this.first + this.rows;
+    console.log(this.isLastPage());
   }
 
   prev() {
@@ -51,4 +56,22 @@ export class LocationComponent implements OnInit {
   showForm(){
     this.displayForm=!this.displayForm;
   }
+
+  // API
+  getALlLocations() {
+    this.locationService.getLocation().subscribe({
+      next:(data:any)=>{
+        this.locations = data.data;
+      },
+      error: (err) => {
+        console.log(err);
+        // Swal.fire({
+        //   icon: 'error',
+        //   title: 'Oops...',
+        //   text: 'Something went wrong! Could not load records!',
+        // });
+      },
+    });
+  }
+  
 }

@@ -16,6 +16,7 @@ import {ConfirmationService, ConfirmEventType, MessageService} from 'primeng/api
 
 
 export class DepartmentComponent implements OnInit {
+
   row: any = {
     departmentId: 0,
     departmentName: '',

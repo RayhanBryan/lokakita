@@ -1,15 +1,12 @@
 package com.lokakarya.backend.service;
 
-import com.lokakarya.backend.entity.Department;
 import com.lokakarya.backend.entity.Employee;
 import com.lokakarya.backend.entity.Job;
+import com.lokakarya.backend.exception.BusinessException;
 import com.lokakarya.backend.repository.BonusRepository;
-import com.lokakarya.backend.repository.DepartmentRepository;
 import com.lokakarya.backend.repository.JobRepository;
 import com.lokakarya.backend.util.PaginationList;
 import com.lokakarya.backend.wrapper.BonusWrapper;
-import com.lokakarya.backend.wrapper.DepartmentWrapper;
-import com.lokakarya.backend.wrapper.EmployeeWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -97,9 +94,24 @@ public class BonusService {
     }
 
     /* Create and Update */
-
     public BonusWrapper save(BonusWrapper wrapper) {
-        Employee employee = bonusRepository.save(toEntity(wrapper));
+        Employee employee = new Employee();
+        if (wrapper.getEmployeeId() == null) {
+        if (wrapper.getLastName() == null){
+        throw new BusinessException("Last name can't be empty");
+        } else if (wrapper.getJobId() == null ){
+            throw  new BusinessException("Job id can't be empty");
+        } else if (wrapper.getSalary() == 0) {
+            throw new BusinessException("Salary must be bigger than zero");
+        }
+            employee = bonusRepository.save(toEntity(wrapper));
+        } else {
+            Optional<Employee> employeeExist = bonusRepository.findById(wrapper.getEmployeeId());
+            if (!employeeExist.isPresent()) {
+                throw new BusinessException("Tidak ada employee dengan ID tersebut");
+            }
+            employee = bonusRepository.save(toEntity(wrapper));
+        }
         return toWrapper(employee);
     }
 

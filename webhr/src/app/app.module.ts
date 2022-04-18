@@ -29,6 +29,7 @@ import { PasswordModule } from 'primeng/password';
 import { SignupComponent } from './components/signup/signup.component';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { CalendarModule } from 'primeng/calendar';
+import { DatamasterComponent } from './components/datamaster/datamaster.component';
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import { CalendarModule } from 'primeng/calendar';
     HomeComponent,
     LoginComponent,
     SignupComponent,
+    DatamasterComponent,
   ],
   imports: [
     BrowserModule,

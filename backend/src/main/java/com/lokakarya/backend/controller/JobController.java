@@ -26,10 +26,10 @@ public class JobController {
 	@Autowired
 	JobService jobService;
 
-	@GetMapping(path = "/getById")
-	public DataResponse<JobWrapper> getByJobId(@RequestParam("id") String jobId) {
-		return new DataResponse<JobWrapper>(jobService.getByJobId(jobId));
-	}
+	// @GetMapping(path = "/getById")
+	// public DataResponse<JobWrapper> getByJobId(@RequestParam("id") String jobId) {
+	// 	return new DataResponse<JobWrapper>(jobService.getByJobId(jobId));
+	// }
 
 	@GetMapping(path = "/findAll")
 	public DataResponseList<JobWrapper> findAll() {

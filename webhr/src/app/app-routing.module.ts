@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CountryComponent } from './components/country/country.component';
+import { DatamasterComponent } from './components/datamaster/datamaster.component';
 import { DepartmentComponent } from './components/department/department.component';
 import { EmployeeComponent } from './components/employee/employee.component';
 import { HomeComponent } from './components/home/home.component';
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'location', component: LocationComponent, canActivate: [AuthGuardService] },
   { path: 'country', component: CountryComponent, canActivate: [AuthGuardService] },
   { path: 'region', component: RegionComponent, canActivate: [AuthGuardService] },
+  { path: 'datamaster', component: DatamasterComponent, canActivate: [AuthGuardService] },
   { path: 'signup', component: SignupComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];

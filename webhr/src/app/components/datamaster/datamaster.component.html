@@ -1,0 +1,136 @@
+<p-button (click)="showBasicDialog()" icon="pi pi-sync" label="Change Password"
+  styleClass="mt-2 mr-3 p-button-secondary"></p-button>
+<p-dialog header="Change Password" [(visible)]="displayBasic" [style]="{width: '50vw'}">
+  <div class="grid p-fluid">
+    <div class="col-12 md:col-12">
+      <label for="lastpass">Last Password</label>
+      <p-password id="lastpass" type="text" required autofocus placeholder="Last Password" [(ngModel)]="valuepass1"
+        [feedback]="false" [toggleMask]="true"></p-password>
+      <small class="p-invalid" style="color: red" *ngIf="submitted">Last Password Required
+      </small>
+    </div>
+    <div class="col-12 md:col-12">
+      <label for="newpass">New Password</label>
+      <p-password id="newpass" type="text" required autofocus placeholder="New Password" [(ngModel)]="valuepass2"
+        [toggleMask]="true"></p-password>
+      <small class="p-invalid" style="color: red" *ngIf="submitted">New Password Required
+      </small>
+    </div>
+    <div class="col-12 md:col-12">
+      <label for="cnewpass">Confirm New Password</label>
+      <p-password id="cnewpass" type="text" required autofocus placeholder="Confirm New Password"
+        [(ngModel)]="valuepass3" [toggleMask]="true"></p-password>
+      <small class="p-invalid" style="color: red" *ngIf="submitted">Confirm New Password Required
+      </small>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" (onClick)="handleSaveDepartment($event)" label="Submit" styleClass="p-button-text">
+    </p-button>
+    <p-button icon="pi pi-times" (click)="displayBasic=false" label="Cancel" styleClass="p-button-text p-button-danger">
+    </p-button>
+  </ng-template>
+</p-dialog>
+
+<p-button (click)="showBasicDialog2()" icon="pi pi-user pi-plus" styleClass="p-button-success" label="Add User">
+</p-button>
+<p-dialog header="Add New User" [(visible)]="displayBasic2" [style]="{width: '50vw'}">
+  <div class="grid p-fluid">
+    <div class="col-12 md:col-6">
+      <label for="username">Username</label>
+      <input id="username" type="text" pInputText required autofocus placeholder="Username" />
+      <small class="p-invalid" style="color: red" *ngIf="submitted">Username Required
+      </small>
+    </div>
+    <div class="col-12 md:col-6">
+      <label for="password">Password</label>
+      <p-password id="password" type="text" required autofocus placeholder="Password" [(ngModel)]="valuepass4"
+        [toggleMask]="true"></p-password>
+      <small class="p-invalid" style="color: red" *ngIf="submitted">Password Required
+      </small>
+    </div>
+    <div class="col-12 md:col-6">
+      <label for="name">Name</label>
+      <input id="name" type="text" pInputText required autofocus placeholder="Name" />
+      <small class="p-invalid" style="color: red" *ngIf="submitted">Name Required
+      </small>
+    </div>
+    <div class="col-12 md:col-6">
+      <label for="email">Email</label>
+      <input id="email" type="email" pInputText required autofocus placeholder="Email" />
+      <small class="p-invalid" style="color: red" *ngIf="submitted">Email Required
+      </small>
+    </div>
+    <div class="col-12 md:col-6">
+      <label for="address">Address</label>
+      <input id="address" type="text" pInputText required autofocus placeholder="Address" />
+      <small class="p-invalid" style="color: red" *ngIf="submitted">Alamat Required
+      </small>
+    </div>
+    <div class="col-12 md:col-6">
+      <label for="phonenum">Phone Number</label>
+      <input id="phonenum" type="text" pInputText required autofocus placeholder="Phone Number" />
+      <small class="p-invalid" style="color: red" *ngIf="submitted">Nama Required
+      </small>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" (onClick)="handleSaveDepartment($event)" label="Submit" styleClass="p-button-text">
+    </p-button>
+    <p-button icon="pi pi-times" (click)="displayBasic=false" label="Cancel" styleClass="p-button-text p-button-danger">
+    </p-button>
+  </ng-template>
+</p-dialog>
+
+<div class="card">
+  <div class="mb-3">
+    <p-button type="button" icon="pi pi-chevron-left" (click)="prev()" [disabled]="isFirstPage()"
+      styleClass="p-button-text mt-2"></p-button>
+    <p-button type="button" icon="pi pi-refresh" (click)="reset()" styleClass="p-button-text mt-2"></p-button>
+    <p-button type="button" icon="pi pi-chevron-right" (click)="next()" [disabled]="isLastPage()"
+      styleClass="p-button-text mt-2"></p-button>
+  </div>
+  <p-table [value]="users" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true" [(first)]="first"
+    responsiveLayout="scroll" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[10,25,50]">
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="username">Username<p-sortIcon field="username"></p-sortIcon>
+        </th>
+        <th pSortableColumn="password">Password<p-sortIcon field="password"></p-sortIcon>
+        </th>
+        <th pSortableColumn="name">Name<p-sortIcon field="name"></p-sortIcon>
+        </th>
+        <th pSortableColumn="email">Email<p-sortIcon field="email"></p-sortIcon>
+        </th>
+        <th pSortableColumn="address">Address<p-sortIcon field="address"></p-sortIcon>
+        </th>
+        <th pSortableColumn="phoneNumber">Phone Number<p-sortIcon field="phoneNumber"></p-sortIcon>
+        </th>
+        <th pSortableColumn="group">Group<p-sortIcon field="phoneNumber"></p-sortIcon>
+        </th>
+        <th>Action</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-users>
+      <tr>
+        <td>{{users.username}}</td>
+        <td>********</td>
+        <td>{{users.name}}</td>
+        <td>{{users.email}}</td>
+        <td>{{users.address}}</td>
+        <td>{{users.phone}}</td>
+        <td>
+          <div class="grid p-fluid">
+            <div class="col-12 md:col-6">
+              <p-button icon="pi pi-pencil"></p-button>
+            </div>
+            <div class="col-12 md:col-6">
+              <p-button icon="pi pi-trash" styleClass="p-button-danger"></p-button>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

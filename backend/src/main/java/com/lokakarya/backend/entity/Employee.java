@@ -22,7 +22,7 @@ public class Employee {
 
     @Id
     @GeneratedValue(generator = "EMPLOYEE_GEN", strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "EMPLOYEE_GEN", sequenceName = "EMPLOYEES_SEQ_01", initialValue = 1, allocationSize = 1)
+    @SequenceGenerator(name = "EMPLOYEE_GEN", sequenceName = "EMPLOYEES_SEQ", initialValue = 1, allocationSize = 1)
     public Long getEmployeeId() {
         return employeeId;
     }

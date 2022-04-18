@@ -5,3 +5,4 @@ desc GROUPS;
 select * from menus;
 
 DESC MENUS;
+
