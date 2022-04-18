@@ -28,7 +28,7 @@ public class HakAkses {
     }
     @Id
     @GeneratedValue(generator = "HAK_AKSES_GEN", strategy = GenerationType.SEQUENCE)
-	@SequenceGenerator(name = "HAK_AKSES_GEN", sequenceName = "HAK_AKSES_SEQ_", initialValue = 1, allocationSize = 1)
+	@SequenceGenerator(name = "HAK_AKSES_GEN", sequenceName = "HAK_AKSES_SEQ", initialValue = 1, allocationSize = 1)
     public Long getHakAksesId() {
         return hakAksesId;
     }
