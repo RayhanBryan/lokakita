@@ -27,4 +27,8 @@ export class UserService {
       responseType: 'json',
     });
   }
+
+  getByUsername(username: string): Observable<any> {
+    return this.http.get<any>(url + `/users/getByUsername?username=${username}`)
+  }
 }

@@ -17,12 +17,12 @@ export class EmployeeComponent implements OnInit {
   first = 0;
   rows = 10;
   display: boolean = false;
-  
+
   submitted: boolean = false;
   action: string = '';
   id: number = 0;
   dataEmployee: any;
-  firstName:string='';
+  firstName: string = '';
   displayForm: boolean = false;
 
   row: any = {
@@ -40,14 +40,14 @@ export class EmployeeComponent implements OnInit {
 
 
   constructor(private confirmationService: ConfirmationService,
-              private employeeService: EmployeeService,
-              private messageService: MessageService,
-              private departmentService: DepartmentService,
-              private jobService: JobService) { }
+    private employeeService: EmployeeService,
+    private messageService: MessageService,
+    private departmentService: DepartmentService,
+    private jobService: JobService) { }
 
   ngOnInit(): void {
     this.getEmployee();
-    
+
   }
 
   getEmployee() {
@@ -56,9 +56,9 @@ export class EmployeeComponent implements OnInit {
         console.log(res.data);
         this.employees = res.data;
       },
-    //   error: (err) => {
-    //     console.log(err);
-    //   },
+      //   error: (err) => {
+      //     console.log(err);
+      //   },
     );
   }
 
@@ -132,9 +132,9 @@ export class EmployeeComponent implements OnInit {
             next: (data) => {
               console.log(data);
               if (data.status) {
-                this.display=false;
-                    this.getEmployee();
-                    alert('Data berhasil diinput.')
+                this.display = false;
+                this.getEmployee();
+                alert('Data berhasil diinput.')
                 this.getEmployee();
                 this.display = false;
               }
@@ -207,22 +207,22 @@ export class EmployeeComponent implements OnInit {
     this.messageService.clear();
   }
 
-  showForm(){
-    this.displayForm=!this.displayForm;
+  showForm() {
+    this.displayForm = !this.displayForm;
   }
 
-  getDepartment(): void{
+  getDepartment(): void {
     this.departmentService.getDepartment().subscribe(
       res => {
-        this.locations=res;
+        this.locations = res;
       }
     )
   }
 
-  getJob(): void{
+  getJob(): void {
     this.jobService.getJob().subscribe(
       res => {
-        this.locations=res;
+        this.locations = res;
       }
     )
   }

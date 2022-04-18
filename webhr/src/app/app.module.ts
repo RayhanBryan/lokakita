@@ -35,7 +35,6 @@ import { DatamasterComponent } from './components/datamaster/datamaster.componen
   declarations: [
     AppComponent,
     MenuComponent,
-    EmployeeComponent,
     DepartmentComponent,
     JobComponent,
     LocationComponent,
