@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+// import { ConfirmationService } from 'primeng/api/confirmationservice';
+// import { MessageService } from 'primeng/api/messageservice';
 
 @Component({
   selector: 'app-location',
   templateUrl: './location.component.html',
   styleUrls: ['./location.component.css'],
+  // providers:[ConfirmationService, MessageService]
 })
 export class LocationComponent implements OnInit {
   // locations: any;
@@ -15,6 +18,7 @@ export class LocationComponent implements OnInit {
   rows = 10;
   nama:string='';
   showSearch:boolean=false;
+  displayForm:boolean=false;
 
   constructor() {}
 
@@ -42,5 +46,9 @@ export class LocationComponent implements OnInit {
 
   showSearchCall(){
     this.showSearch = !this.showSearch;
+  }
+
+  showForm(){
+    this.displayForm=!this.displayForm;
   }
 }

@@ -15,6 +15,7 @@ export class RegionComponent implements OnInit {
   rows = 10;
   showSearch: boolean = false;
   nama: string = '';
+  displayForm:boolean=false;
 
   constructor() {}
 
@@ -42,5 +43,9 @@ export class RegionComponent implements OnInit {
 
   showSearchCall(){
     this.showSearch = !this.showSearch;
+  }
+
+  showForm(){
+    this.displayForm=!this.displayForm;
   }
 }
