@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DepartmentInputComponent } from './department-input.component';
+import { DatamasterComponent } from './datamaster.component';
 
-describe('DepartmentInputComponent', () => {
-  let component: DepartmentInputComponent;
-  let fixture: ComponentFixture<DepartmentInputComponent>;
+describe('DatamasterComponent', () => {
+  let component: DatamasterComponent;
+  let fixture: ComponentFixture<DatamasterComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DepartmentInputComponent ]
+      declarations: [ DatamasterComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DepartmentInputComponent);
+    fixture = TestBed.createComponent(DatamasterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

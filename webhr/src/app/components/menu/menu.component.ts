@@ -57,12 +57,12 @@ export class MenuComponent implements OnInit {
       },
       {
         label: 'Department',
-        icon: 'pi pi-spin pi-home',
+        icon: 'pi pi-spin pi-building',
         routerLink: '/department'
       },
       {
         label: 'Job',
-        icon: 'pi pi-spin pi-sync',
+        icon: 'pi pi-spin pi-briefcase',
         routerLink: '/job'
       },
       {
@@ -80,6 +80,12 @@ export class MenuComponent implements OnInit {
         icon: 'pi pi-spin pi-compass',
         routerLink: '/region'
       },
+      {
+        label: 'Data Master',
+        icon: 'pi pi-spin pi-users',
+        routerLink: '/datamaster'
+      },
+
     ];
   }
 }

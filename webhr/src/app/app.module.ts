@@ -14,7 +14,6 @@ import { CountryComponent } from './components/country/country.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { TabMenuModule } from 'primeng/tabmenu';
-import { DepartmentInputComponent } from './components/department-input/department-input.component';
 import { TableModule } from 'primeng/table';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { InputTextModule } from 'primeng/inputtext';
@@ -29,6 +28,7 @@ import { CardModule } from 'primeng/card';
 import { PasswordModule } from 'primeng/password';
 import { SignupComponent } from './components/signup/signup.component';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { DatamasterComponent } from './components/datamaster/datamaster.component';
 
 
 @NgModule({
@@ -43,8 +43,8 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     CountryComponent,
     HomeComponent,
     LoginComponent,
-    DepartmentInputComponent,
     SignupComponent,
+    DatamasterComponent,
   ],
   imports: [
     BrowserModule,
