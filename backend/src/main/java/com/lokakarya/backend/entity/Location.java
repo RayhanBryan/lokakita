@@ -26,8 +26,8 @@ public class Location {
     private Country country;
 
     @Id
-    @GeneratedValue(generator = "LOCACTION_GEN", strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "LOCACTION_GEN", sequenceName = "LOCATIONS_SEQ_03", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(generator = "LOCATION_GEN", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "LOCATION_GEN", sequenceName = "LOCATIONS_SEQ_03", initialValue = 1, allocationSize = 1)
     public Long getLocationId() {
         return locationId;
     }
