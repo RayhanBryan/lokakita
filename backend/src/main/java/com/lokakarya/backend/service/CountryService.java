@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -95,4 +95,11 @@ public class CountryService {
 		List<CountryWrapper> countryWrapperList = toWrapperList(countryList);
 		return new PaginationList<CountryWrapper, Country>(countryWrapperList, countryPage);
 	}
+
+	//find CountryName without pagination
+	public List<CountryWrapper> findByCountryNameContaining(String countryName) {
+		List<Country> countryList = countryRepository.findByCountryNameContainingIgnoreCase(countryName);
+		return toWrapperList(countryList);
+	}
+
 }
