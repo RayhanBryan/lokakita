@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
 import { CountryService } from 'src/app/services/country.service';
+import { RegionService } from 'src/app/services/region.service';
 
 export interface Country{
   countryId: string;
@@ -51,7 +52,8 @@ export class CountryComponent implements OnInit {
   constructor(
     private countryService: CountryService,
     private confirmationService: ConfirmationService,
-    private router: Router
+    private router: Router,
+    private regionService: RegionService
     ) { }
 
   ngOnInit(): void {
@@ -156,7 +158,7 @@ this.action='add';
 }
 
 getRegion(): void{
-this.regionService.getRegionJson().subscribe(
+this.regionService.getRegion().subscribe(
   res=> {
     this.regions=res;
     //console.log(res, 'aaaaa');
