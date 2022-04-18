@@ -7,8 +7,11 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import com.lokakarya.backend.entity.HakAkses;
 import com.lokakarya.backend.entity.User;
 import com.lokakarya.backend.exception.BusinessException;
+import com.lokakarya.backend.repository.GroupRepository;
+import com.lokakarya.backend.repository.HakAksesRepository;
 import com.lokakarya.backend.repository.UserRepository;
 // import com.lokakarya.backend.util.PaginationList;
 import com.lokakarya.backend.wrapper.UserWrapper;
@@ -25,6 +28,11 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    GroupRepository groupRepository;
+
+    @Autowired
+    HakAksesRepository hakAksesRepository;
     // get
     public List<UserWrapper> findAll(){
         return toWrapperList(userRepository.findAll(Sort.by("userId").ascending()));
@@ -54,6 +62,10 @@ public class UserService {
         }else{
             entity.setCreatedDate(new Date());
             entity.setCreatedBy(wrapper.getCreatedBy());
+            HakAkses hakAkses = new HakAkses();
+            hakAkses.setUser(entity);
+            hakAkses.setGroup(groupRepository.getByGroupName("User"));
+            hakAksesRepository.save(hakAkses);
         }
         return toWrapper(userRepository.save(entity));
     }
