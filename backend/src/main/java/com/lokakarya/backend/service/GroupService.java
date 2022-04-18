@@ -29,18 +29,18 @@ public class GroupService {
     public GroupWrapper getById(Long id){
         if(id == null)
             throw new BusinessException("Id cannot be null.");
-        Optional<Group> group = groupRepository.findById(id);
-        if(!group.isPresent())
+        Optional<Group> entity = groupRepository.findById(id);
+        if(!entity.isPresent())
             throw new BusinessException("Group not found: "+ id + ".");
-        return toWrapper(group.get());
+        return toWrapper(entity.get());
     }
     public GroupWrapper getByGroupName(String groupName){
         if(groupName == null)
             throw new BusinessException("Id cannot be null.");
-        Optional<Group> group = groupRepository.findByGroupName(groupName);
-        if(!group.isPresent())
+        Optional<Group> entity = groupRepository.findByGroupName(groupName);
+        if(!entity.isPresent())
             throw new BusinessException("Group not found: "+ groupName + ".");
-        return toWrapper(group.get());
+        return toWrapper(entity.get());
     }
     // post & update
     public GroupWrapper save(GroupWrapper wrapper){
@@ -59,9 +59,9 @@ public class GroupService {
     public void delete(Long id){
         if (id == null)
 	         throw new BusinessException("ID cannot be null.");
-		Optional<Group> user = groupRepository.findById(id);
-		if (!user.isPresent())
-			throw new BusinessException("User not found: " + id + '.');
+		Optional<Group> entity = groupRepository.findById(id);
+		if (!entity.isPresent())
+			throw new BusinessException("Group not found: " + id + '.');
 		groupRepository.deleteById(id);
     }
 
@@ -69,7 +69,10 @@ public class GroupService {
     private Group toEntity(GroupWrapper wrapper){
         Group entity = new Group();
         if(wrapper.getGroupId() != null){
-            entity=groupRepository.getById(wrapper.getGroupId());
+            Optional<Group> group = groupRepository.findById(wrapper.getGroupId());
+            if(!group.isPresent())
+                throw new BusinessException("Group not found: "+ wrapper.getGroupId() + ".");
+            entity=group.get();
         }
         entity.setGroupName(wrapper.getGroupName());
         entity.setProgramName(wrapper.getProgramName());
@@ -88,10 +91,10 @@ public class GroupService {
         return wrapper;
     }
 
-    private List<GroupWrapper> toWrapperList(List<Group> userList){
+    private List<GroupWrapper> toWrapperList(List<Group> entityList){
         List<GroupWrapper> wrapperList = new ArrayList<GroupWrapper>();
-        for (Group user : userList) {
-            wrapperList.add(toWrapper(user));
+        for (Group entity : entityList) {
+            wrapperList.add(toWrapper(entity));
         }
         return wrapperList;
     }
