@@ -6,6 +6,7 @@ import {
   Router
 } from '@angular/router';
 import { ConfirmationService, ConfirmEventType, MessageService } from 'primeng/api';
+import { HakAksesService } from 'src/app/services/hakakses.service';
 // import { throws } from 'assert';
 import {
   UserService
@@ -38,9 +39,10 @@ export class SignupComponent implements OnInit {
     name: '',
     createdBy: '',
   }
+
   newUserValid: boolean = false;
 
-  constructor(private confirmationService: ConfirmationService, private router: Router, private userService: UserService, private messageService: MessageService) { }
+  constructor(private confirmationService: ConfirmationService, private router: Router, private userService: UserService, private messageService: MessageService, private hakAkses: HakAksesService) { }
 
   ngOnInit(): void {
     this.getUser();
@@ -52,7 +54,6 @@ export class SignupComponent implements OnInit {
   getUser() {
     this.userService.getUser().subscribe(
       res => {
-        // console.log(res);
         this.userData = res.data;
         console.log(this.userData)
       }
@@ -104,20 +105,6 @@ export class SignupComponent implements OnInit {
       }
     );
   }
-
-  // login() {
-  //   console.log(this.userData, 'login')
-  //   for (let i in this.userData) {
-  //     if (this.userData[i].username == this.username && this.userData[i].password == this.password) {
-  //       this.successLogin()
-  //       localStorage.setItem('token', 'x')
-  //       localStorage.setItem('name', 'Administrator')
-  //       window.location.reload()
-  //       return
-  //     }
-  //   }
-  //   this.wrongUser();
-  // }
   toLogin() {
     console.log(this.newUserValid)
     if (this.newUserValid) {

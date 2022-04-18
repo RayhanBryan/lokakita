@@ -7,8 +7,11 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import com.lokakarya.backend.entity.HakAkses;
 import com.lokakarya.backend.entity.User;
 import com.lokakarya.backend.exception.BusinessException;
+import com.lokakarya.backend.repository.GroupRepository;
+import com.lokakarya.backend.repository.HakAksesRepository;
 import com.lokakarya.backend.repository.UserRepository;
 // import com.lokakarya.backend.util.PaginationList;
 import com.lokakarya.backend.wrapper.UserWrapper;
@@ -25,6 +28,11 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    GroupRepository groupRepository;
+
+    @Autowired
+    HakAksesRepository hakAksesRepository;
     // get
     public List<UserWrapper> findAll(){
         return toWrapperList(userRepository.findAll(Sort.by("userId").ascending()));
@@ -51,19 +59,27 @@ public class UserService {
         if(entity.getUserId() != null){
             entity.setUpdatedDate(new Date());
             entity.setUpdatedBy(wrapper.getUpdatedBy());
+            return toWrapper(userRepository.save(entity));
         }else{
             entity.setCreatedDate(new Date());
             entity.setCreatedBy(wrapper.getCreatedBy());
+            entity = userRepository.save(entity);
+            HakAkses hakAkses = new HakAkses();
+            hakAkses.setUser(entity);
+            hakAkses.setGroup(groupRepository.getByGroupName("User"));
+            hakAkses.setCreatedDate(new Date());
+            hakAkses.setCreatedBy(wrapper.getCreatedBy());
+            hakAksesRepository.save(hakAkses);
+            return toWrapper(entity);
         }
-        return toWrapper(userRepository.save(entity));
     }
 
     // delete
     public void delete(Long id){
         if (id == null)
 	         throw new BusinessException("ID cannot be null.");
-		Optional<User> user = userRepository.findById(id);
-		if (!user.isPresent())
+		Optional<User> entity = userRepository.findById(id);
+		if (!entity.isPresent())
 			throw new BusinessException("User not found: " + id + '.');
 		userRepository.deleteById(id);
     }
@@ -72,7 +88,10 @@ public class UserService {
     private User toEntity(UserWrapper wrapper){
         User entity = new User();
         if(wrapper.getUserId() != null){
-            entity=userRepository.getById(wrapper.getUserId());
+            Optional<User> user = userRepository.findById(wrapper.getUserId());
+            if (!user.isPresent())
+                throw new BusinessException("User not found: " + wrapper.getUserId() + '.');
+            entity=user.get();
         }
         entity.setUsername(wrapper.getUsername());
         entity.setPassword(wrapper.getPassword());
@@ -101,10 +120,10 @@ public class UserService {
         return wrapper;
     }
 
-    private List<UserWrapper> toWrapperList(List<User> userList){
+    private List<UserWrapper> toWrapperList(List<User> entityList){
         List<UserWrapper> wrapperList = new ArrayList<UserWrapper>();
-        for (User user : userList) {
-            wrapperList.add(toWrapper(user));
+        for (User entity : entityList) {
+            wrapperList.add(toWrapper(entity));
         }
         return wrapperList;
     }

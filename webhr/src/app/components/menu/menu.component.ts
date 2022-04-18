@@ -20,9 +20,6 @@ export class MenuComponent implements OnInit {
   ngOnInit() {
     this.items = [
       {
-        label: 'Web HR Batch #7',
-      },
-      {
         label: 'Employee',
         icon: 'pi pi-spin pi-users',
         routerLink: '/employee',
