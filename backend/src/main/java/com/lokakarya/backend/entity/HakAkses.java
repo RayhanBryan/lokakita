@@ -38,7 +38,7 @@ public class HakAkses {
     }
 
     @ManyToOne
-    @JoinColumn (name = "USER_ID", insertable = false, updatable = false)
+    @JoinColumn (name = "USER_ID")
     public User getUser() {
         return user;
     }
@@ -48,7 +48,7 @@ public class HakAkses {
     }
 
     @ManyToOne
-    @JoinColumn (name = "GROUP_ID", insertable = false, updatable = false)
+    @JoinColumn (name = "GROUP_ID")
     public Group getGroup() {
         return group;
     }

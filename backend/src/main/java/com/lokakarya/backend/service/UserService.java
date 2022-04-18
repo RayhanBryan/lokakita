@@ -67,6 +67,8 @@ public class UserService {
             HakAkses hakAkses = new HakAkses();
             hakAkses.setUser(entity);
             hakAkses.setGroup(groupRepository.getByGroupName("User"));
+            hakAkses.setCreatedDate(new Date());
+            hakAkses.setCreatedBy(wrapper.getCreatedBy());
             hakAksesRepository.save(hakAkses);
             return toWrapper(entity);
         }
