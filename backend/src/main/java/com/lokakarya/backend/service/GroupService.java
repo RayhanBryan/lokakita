@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
+// import javax.transaction.Transactional;
 
 import com.lokakarya.backend.entity.Group;
 import com.lokakarya.backend.exception.BusinessException;
@@ -14,6 +14,7 @@ import com.lokakarya.backend.wrapper.GroupWrapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional

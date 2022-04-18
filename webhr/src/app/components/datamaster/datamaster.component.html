@@ -73,11 +73,22 @@
       <small class="p-invalid" style="color: red" *ngIf="submitted">Nama Required
       </small>
     </div>
+    <div class="col-12 md:col-12">
+      <label for="group">Group</label>
+      <div class="grid mt-1">
+        <div *ngFor="let category of categories" class="col-3 field-checkbox">
+          <p-checkbox id="group" name="group2" value="category" [value]="category" [(ngModel)]="selectedCategories"
+            [inputId]="category.key" [disabled]="category.key === 'R'"></p-checkbox>
+          <label [for]="category.key">{{category.name}}</label>
+        </div>
+      </div>
+    </div>
   </div>
   <ng-template pTemplate="footer">
     <p-button icon="pi pi-check" (onClick)="handleSaveDepartment($event)" label="Submit" styleClass="p-button-text">
     </p-button>
-    <p-button icon="pi pi-times" (click)="displayBasic=false" label="Cancel" styleClass="p-button-text p-button-danger">
+    <p-button icon="pi pi-times" (click)="displayBasic2=false" label="Cancel"
+      styleClass="p-button-text p-button-danger">
     </p-button>
   </ng-template>
 </p-dialog>
@@ -89,6 +100,12 @@
     <p-button type="button" icon="pi pi-refresh" (click)="reset()" styleClass="p-button-text mt-2"></p-button>
     <p-button type="button" icon="pi pi-chevron-right" (click)="next()" [disabled]="isLastPage()"
       styleClass="p-button-text mt-2"></p-button>
+    <button pButton pRipple type="button" icon="pi pi-search" label="Search" class="mt-2 ml-3"
+      [style]="{'float': 'right'}" (click)="showSearchCall()"></button>
+    <span *ngIf="showSearch" class="p-input-icon-left mt-2 ml-3" [style]="{'float': 'right'}">
+      <i class="pi pi-search"></i>
+      <input type="text" pInputText placeholder="Search" [(ngModel)]="nama" (input)="onChanged()" />
+    </span>
   </div>
   <p-table [value]="users" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true" [(first)]="first"
     responsiveLayout="scroll" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
@@ -105,9 +122,9 @@
         </th>
         <th pSortableColumn="address">Address<p-sortIcon field="address"></p-sortIcon>
         </th>
-        <th pSortableColumn="phoneNumber">Phone Number<p-sortIcon field="phoneNumber"></p-sortIcon>
+        <th pSortableColumn="phone">Phone Number<p-sortIcon field="phone"></p-sortIcon>
         </th>
-        <th pSortableColumn="group">Group<p-sortIcon field="phoneNumber"></p-sortIcon>
+        <th pSortableColumn="group">Group<p-sortIcon field="group"></p-sortIcon>
         </th>
         <th>Action</th>
       </tr>
@@ -120,6 +137,7 @@
         <td>{{users.email}}</td>
         <td>{{users.address}}</td>
         <td>{{users.phone}}</td>
+        <td>{{users}}</td>
         <td>
           <div class="grid p-fluid">
             <div class="col-12 md:col-6">

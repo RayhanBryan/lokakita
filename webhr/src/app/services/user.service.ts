@@ -28,6 +28,13 @@ export class UserService {
     });
   }
 
+  getUsername(namereq: any): Observable<any> {
+    return this.http.get<any>(
+      url + `users/findByUsername?username=${namereq}`,
+      { responseType: 'json', }
+    );
+  }
+
   getByUsername(username: string): Observable<any> {
     return this.http.get<any>(url + `/users/getByUsername?username=${username}`)
   }

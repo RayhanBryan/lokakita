@@ -67,7 +67,7 @@ export class MenuComponent implements OnInit {
       },
       {
         label: 'Data Master',
-        icon: 'pi pi-spin pi-users',
+        icon: 'pi pi-spin pi-user-plus',
         routerLink: '/datamaster'
       },
 
