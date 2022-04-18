@@ -14,7 +14,7 @@ public class JobHistoryId implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -4907182680249802382L;
-	
+
 	private Long employeeId;
 	private Date startDate;
 
@@ -27,9 +27,6 @@ public class JobHistoryId implements Serializable {
 		this.employeeId = employeeId;
 		this.startDate = startDate;
 	}
-	
-	
-	
 
 	@Override
 	public int hashCode() {
@@ -66,5 +63,4 @@ public class JobHistoryId implements Serializable {
 		this.startDate = startDate;
 	}
 
-	
 }
