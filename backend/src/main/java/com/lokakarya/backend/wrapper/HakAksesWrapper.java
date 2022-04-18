@@ -1,34 +1,24 @@
-package com.lokakarya.backend.entity;
+package com.lokakarya.backend.wrapper;
 
 import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
 
-@Entity
-@Table (name="HAK_AKSES")
-public class HakAkses {
+public class HakAksesWrapper {
     private Long hakAksesId;
-    private User user;
-    private Group group;
+    private Long userId;
+    private String user;
+    private Long groupId;
+    private String group;
     private String programName;
     private Date createdDate;
     private String createdBy;
     private Date updatedDate;
     private String updatedBy;
 
-    public HakAkses(){
-        
+    public HakAksesWrapper() {
+
     }
-    @Id
-    @GeneratedValue(generator = "HAK_AKSES_GEN", strategy = GenerationType.SEQUENCE)
-	@SequenceGenerator(name = "HAK_AKSES_GEN", sequenceName = "HAK_AKSES_SEQ_", initialValue = 1, allocationSize = 1)
+
     public Long getHakAksesId() {
         return hakAksesId;
     }
@@ -37,23 +27,35 @@ public class HakAkses {
         this.hakAksesId = hakAksesId;
     }
 
-    @ManyToOne
-    @JoinColumn (name = "USER_ID", insertable = false, updatable = false)
-    public User getUser() {
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(String user) {
         this.user = user;
     }
 
-    @ManyToOne
-    @JoinColumn (name = "GROUP_ID", insertable = false, updatable = false)
-    public Group getGroup() {
+    public Long getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(Long groupId) {
+        this.groupId = groupId;
+    }
+
+    public String getGroup() {
         return group;
     }
 
-    public void setGroup(Group group) {
+    public void setGroup(String group) {
         this.group = group;
     }
 
@@ -97,4 +99,5 @@ public class HakAkses {
         this.updatedBy = updatedBy;
     }
 
+    
 }
