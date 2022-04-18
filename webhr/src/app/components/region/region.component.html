@@ -11,7 +11,7 @@
         <p-button icon="pi pi-plus-circle" label="Add" styleClass="p-button-success mt-2 ml-3" [style]="{'float': 'right'}" (onClick)="showForm()"></p-button>
     </div>
     <p-table [value]="regions" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true" [(first)]="first" responsiveLayout="scroll"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10,25,50]">
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10,25,50]" sortMode="multiple">
         <ng-template pTemplate="header">
             <tr>
                 <th pSortableColumn="regionId">Region ID <p-sortIcon field="regionId"></p-sortIcon></th>
@@ -29,10 +29,11 @@
 </div>
 
 <p-dialog [(visible)]="displayForm" [modal]="true"
-    [style]="{width: '50vw', height: '50vw'}" [draggable]="false" [resizable]="true">
+    [style]="{width: '50vw'}" [draggable]="false" [resizable]="true">
     <div class="grid p-fluid">
       <div class="col-12 md:col-6">
         <h5>Region Name</h5>
+        <input type="text" pInputText [(ngModel)]="region.regionName">
       </div>
     </div>
 

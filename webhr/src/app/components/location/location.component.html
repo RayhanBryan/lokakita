@@ -11,7 +11,7 @@
         <p-button icon="pi pi-plus-circle" label="Add" styleClass="p-button-success mt-2 ml-3" [style]="{'float': 'right'}" (onClick)="showForm()"></p-button>
     </div>
     <p-table [value]="locations" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true" [(first)]="first" responsiveLayout="scroll"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10,25,50]">
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10,25,50]" sortMode="multiple">
         <ng-template pTemplate="header">
             <tr>
                 <th pSortableColumn="locationId">Location ID <p-sortIcon field="locationId"></p-sortIcon></th>
@@ -44,26 +44,31 @@
     <div class="grid p-fluid">
       <div class="col-12 md:col-6">
         <h5>Street Address</h5>
-        <span class="p-float-label">
-        </span>
+        <input type="text" pInputText [(ngModel)]="location.streetAddress">
       </div>
       <div class="col-12 md:col-6">
         <h5>Postal Code</h5>
+        <input type="text" pInputText [(ngModel)]="location.postalCode">
       </div>
       <div class="col-12 md:col-6">
         <h5>City</h5>
+        <input type="text" pInputText [(ngModel)]="location.city">
       </div>
       <div class="col-12 md:col-6">
         <h5>State Province</h5>
+        <input type="text" pInputText [(ngModel)]="location.stateProvince">
       </div>
       <div class="col-12 md:col-6">
         <h5>Country ID</h5>
+        <input type="text" pInputText [(ngModel)]="location.countryId">
       </div>
       <div class="col-12 md:col-6">
         <h5>Country Name</h5>
+        <input type="text" pInputText [(ngModel)]="location.countryName">
       </div>
       <div class="col-12 md:col-6">
-        <h5>Created Name</h5>
+        <h5>Created Date</h5>
+        <input type="date" pInputText [(ngModel)]="location.createdDate">
       </div>
     </div>
 
