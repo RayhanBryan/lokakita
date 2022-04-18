@@ -5,9 +5,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
+// import javax.transaction.Transactional;
 
-import com.lokakarya.backend.entity.HakAkses;
+// import com.lokakarya.backend.entity.HakAkses;
 import com.lokakarya.backend.entity.User;
 import com.lokakarya.backend.exception.BusinessException;
 import com.lokakarya.backend.repository.GroupRepository;
@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
@@ -56,7 +57,7 @@ public class UserService {
     public List<UserWrapper> findByUsername(String username){
         if (username == null)
 	        return findAll();
-        List<User> user = userRepository.findByUsernameContainingIgnoreCase(username);
+        List<User> user = userRepository.findByUsernameContaining(username);
         return toWrapperList(user);
     }
     // post & put
@@ -70,12 +71,12 @@ public class UserService {
             entity.setCreatedDate(new Date());
             entity.setCreatedBy(wrapper.getCreatedBy());
             entity = userRepository.save(entity);
-            HakAkses hakAkses = new HakAkses();
-            hakAkses.setUser(entity);
-            hakAkses.setGroup(groupRepository.getByGroupName("User"));
-            hakAkses.setCreatedDate(new Date());
-            hakAkses.setCreatedBy(wrapper.getCreatedBy());
-            hakAksesRepository.save(hakAkses);
+            // HakAkses hakAkses = new HakAkses();
+            // hakAkses.setUser(entity);
+            // hakAkses.setGroup(groupRepository.getByGroupName("User"));
+            // hakAkses.setCreatedDate(new Date());
+            // hakAkses.setCreatedBy(wrapper.getCreatedBy());
+            // hakAksesRepository.save(hakAkses);
             return toWrapper(entity);
         }
     }
