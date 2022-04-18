@@ -67,7 +67,10 @@ public class MenuService {
     private Menu toEntity(MenuWrapper wrapper){
         Menu entity = new Menu();
         if(wrapper.getMenuId() != null){
-            entity= menuRepository.getById(wrapper.getMenuId());
+            Optional<Menu> menu = menuRepository.findById(wrapper.getMenuId());
+            if (!menu.isPresent())
+                throw new BusinessException("Menu not found: " + wrapper.getMenuId() + '.');
+            entity = menu.get();
         }
         entity.setMenuName(wrapper.getMenuName());
         entity.setIcon(wrapper.getIcon());
