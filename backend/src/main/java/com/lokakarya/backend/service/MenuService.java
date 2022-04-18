@@ -24,7 +24,7 @@ public class MenuService {
 
     // get
     public List<MenuWrapper> findAll(){
-        return toWrapperList(menuRepository.findAll(Sort.by("userId").ascending()));
+        return toWrapperList(menuRepository.findAll(Sort.by("menuId").ascending()));
     }
     public MenuWrapper getById(Long id){
         if (id == null)
