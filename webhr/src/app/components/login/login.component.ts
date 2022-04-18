@@ -1,16 +1,21 @@
 import {
   Component,
+  Injectable,
   OnInit
 } from '@angular/core';
 import {
   Router
 } from '@angular/router';
 import { ConfirmationService, ConfirmEventType, MessageService } from 'primeng/api';
+import { AppComponent } from 'src/app/app.component';
 // import { throws } from 'assert';
 import {
   UserService
 } from 'src/app/services/user.service';
 
+@Injectable({
+  providedIn: 'root'
+})
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -22,37 +27,31 @@ export class LoginComponent implements OnInit {
   username: string = '';
   checkUser: boolean = false;
   userData: any;
+  userId: any;
 
-  constructor(private router: Router, private userService: UserService, private messageService: MessageService) { }
+  constructor(private app: AppComponent, private router: Router, private userService: UserService, private messageService: MessageService) { }
 
   ngOnInit(): void {
-    this.getUser();
     if (localStorage.getItem('token')) {
       this.router.navigate(['/home']);
     }
   }
 
-  getUser() {
-    this.userService.getUser().subscribe(
+  login() {
+    this.userService.getByUsername(this.username).subscribe(
       res => {
-        // console.log(res);
         this.userData = res.data;
+        console.log(this.userData);
+        if (this.userData.username == this.username && this.userData.password == this.password) {
+          this.successLogin()
+          localStorage.setItem('token', this.userData.userId)
+          localStorage.setItem('name', 'Administrator')
+          window.location.reload()
+          return
+        }
+        this.wrongUser();
       }
     );
-  }
-
-  login() {
-    console.log(this.userData, 'login')
-    for (let i in this.userData) {
-      if (this.userData[i].username == this.username && this.userData[i].password == this.password) {
-        this.successLogin()
-        localStorage.setItem('token', 'x')
-        localStorage.setItem('name', 'Administrator')
-        window.location.reload()
-        return
-      }
-    }
-    this.wrongUser();
   }
 
   checkUsername() {

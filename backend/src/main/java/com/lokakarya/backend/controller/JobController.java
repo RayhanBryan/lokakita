@@ -50,6 +50,12 @@ public class JobController {
 				jobService.findByJobTitleContaining(jobTitle, page, size));
 	}
 
+	//find Job Title without pagination
+	@GetMapping(path = "/findJobByTitle")
+	public DataResponseList<JobWrapper> findJobByTitle(@RequestParam("jobTitle") String jobTitle){
+		return new DataResponseList<JobWrapper>(jobService.findByJobTitleContaining(jobTitle));
+	}
+
 	@DeleteMapping(path = "/{id}")
 	public void delete(@PathVariable("id") String jobId) {
 		jobService.delete(jobId);

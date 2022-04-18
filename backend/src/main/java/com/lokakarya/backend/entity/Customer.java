@@ -3,7 +3,7 @@ package com.lokakarya.backend.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Customer")
+@Table(name = "CUSTOMER")
 public class Customer {
 private Long customerId;
 private String email;
@@ -13,6 +13,7 @@ private String phoneNumber;
     @Id
     @GeneratedValue(generator = "CUSTOMER_GEN", strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "CUSTOMER_GEN", sequenceName = "CUS_SEQ", initialValue = 1, allocationSize = 1)
+    @Column(name = "ID")
     public Long getCustomerId() {
         return customerId;
     }
@@ -28,7 +29,7 @@ private String phoneNumber;
     public void setEmail(String email) {
         this.email = email;
     }
-@Column(name = "CUSTOMER")
+@Column(name = "NAME")
     public String getCustomerName() {
         return customerName;
     }

@@ -34,8 +34,8 @@ public class RegionController {
 		return new DataResponsePagination<RegionWrapper, Region>(regionService.findaAllWithPagination(page, size));
 	}
 	
-	@GetMapping(path = "/findByRegionName")
-	public DataResponsePagination<RegionWrapper, Region> findByDepartmentName(
+	@GetMapping(path = "/findByRegionNameWithPagination")
+	public DataResponsePagination<RegionWrapper, Region> findByDepartmentNameWithPagination(
 			@RequestParam("regionName") String regionName, @RequestParam("page") int page,
 			@RequestParam("size") int size) {
 		return new DataResponsePagination<RegionWrapper, Region>(regionService.findByRegionNameContaining(regionName, page, size));
@@ -56,4 +56,8 @@ public class RegionController {
 		return new DataResponse<RegionWrapper>(regionService.save(wrapper));
 	}
 	
+	@GetMapping(path="/getByRegionName")
+	DataResponseList<RegionWrapper> getByRegionName(@RequestParam("regionName") String regionName){
+		return new DataResponseList<RegionWrapper>(regionService.getByRegionName(regionName));
+	}
 }

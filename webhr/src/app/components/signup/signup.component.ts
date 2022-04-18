@@ -40,6 +40,12 @@ export class SignupComponent implements OnInit {
     createdBy: '',
   }
 
+  newAccess: any = {
+    userId: '',
+    groupId: '',
+    createdBy: ''
+  }
+
   newUserValid: boolean = false;
 
   constructor(private confirmationService: ConfirmationService, private router: Router, private userService: UserService, private messageService: MessageService, private hakAkses: HakAksesService) { }
@@ -97,6 +103,15 @@ export class SignupComponent implements OnInit {
           console.log(data)
           if (data.status) {
             this.successSignUp();
+            this.newAccess.userId = data.data.userId;
+            this.newAccess.createdBy = data.data.createdBy;
+            this.newAccess.groupId = 3;
+            console.log(this.newAccess)
+            this.hakAkses.postAccess(this.newAccess).subscribe(
+              res => {
+                console.log(res);
+              }
+            )
           }
         },
         error: (err) => {

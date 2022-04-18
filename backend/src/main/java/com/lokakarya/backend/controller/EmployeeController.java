@@ -5,6 +5,7 @@ import com.lokakarya.backend.service.EmployeeService;
 import com.lokakarya.backend.util.DataResponse;
 import com.lokakarya.backend.util.DataResponseList;
 import com.lokakarya.backend.util.DataResponsePagination;
+import com.lokakarya.backend.wrapper.DepartmentWrapper;
 import com.lokakarya.backend.wrapper.EmployeeWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -35,13 +36,19 @@ public class EmployeeController {
                 employeeService.findAllWithPagination(page, size));
     }
 
-    @GetMapping("/findByFirstName")
+    @GetMapping("/findByFirstNameContaining")
     public DataResponsePagination<EmployeeWrapper, Employee> findByFIrstName(
             @RequestParam("firstName") String firstName, @RequestParam("page") int page,
             @RequestParam("size") int size) {
         return new DataResponsePagination<EmployeeWrapper, Employee>(
-                employeeService.findByFirstNameContaining(firstName, page, size));
+                employeeService.findByFirstNamePaginationContainingIgnoreCase(firstName, page, size));
     }
+
+    @GetMapping("/findByFirstName")
+    public DataResponseList<EmployeeWrapper> findByDepartmentNameContainingIgnoreCase(@RequestParam("firstName") String firstName) {
+        return new DataResponseList<EmployeeWrapper>(employeeService.findByFirstNameContainingIgnoreCase(firstName));
+    }
+
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") Long employeeId) {
