@@ -27,7 +27,7 @@ public class Location {
 
     @Id
     @GeneratedValue(generator = "LOCATION_GEN", strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "LOCATION_GEN", sequenceName = "LOCATIONS_SEQ_03", initialValue = 1, allocationSize = 1)
+    @SequenceGenerator(name = "LOCATION_GEN", sequenceName = "LOCATIONS_SEQ_01", initialValue = 1, allocationSize = 1)
     public Long getLocationId() {
         return locationId;
     }
