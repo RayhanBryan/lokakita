@@ -8,12 +8,12 @@
         </div>
         <div class="col-12 lg:col-6">
           <label for="username" class="block">Username</label>
-          <input type="text" pInputText [(ngModel)]="username" (input)="checkUsername()">
+          <input (keyup.enter)="login()" type="text" pInputText [(ngModel)]="username" (input)="checkUsername()">
           <small id="username-help" class="p-error block" *ngIf="checkUser">Username min contains 5 characters</small>
         </div>
         <div class="col-12 lg:col-6">
           <label for="password" class="block">Password</label>
-          <p-password type="password" [(ngModel)]="password" [toggleMask]="true" [feedback]="false" id="password" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}">
+          <p-password (keyup.enter)="login()" type="password" [(ngModel)]="password" [toggleMask]="true" [feedback]="false" id="password" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}">
           </p-password>
         </div>
       </div>
