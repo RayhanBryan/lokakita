@@ -37,12 +37,17 @@ public class CustomerController {
                 customerService.findAllWithPagination(page, size));
     }
 
-    @GetMapping("/findByCustomerName")
-    public DataResponsePagination<CustomerWrapper, Customer> findCustomerName(
+    @GetMapping("/findByCustomerNamePaginition")
+    public DataResponsePagination<CustomerWrapper, Customer> findCustomerNamePagination(
             @RequestParam("customerName") String customerName, @RequestParam("page") int page,
             @RequestParam("size") int size) {
         return new DataResponsePagination<CustomerWrapper, Customer>(
-                customerService.findByCustomerNameContainingIgnoreCase(customerName, page, size));
+                customerService.findByCustomerNameContainingIgnoreCasePagination(customerName, page, size));
+    }
+
+    @GetMapping("/findByCustomerName")
+    public DataResponseList<CustomerWrapper> findCustomerName(@RequestParam("customerName") String customerName) {
+        return new DataResponseList<CustomerWrapper>(customerService.findByCustomerNameContainingIgnoreCase(customerName));
     }
 
     @DeleteMapping("/{id}")

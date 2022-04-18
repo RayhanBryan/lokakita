@@ -30,6 +30,7 @@ public class Employee {
     public void setEmployeeId(Long employeeId) {
         this.employeeId = employeeId;
     }
+
     @Column(name = "FIRST_NAME")
     public String getFirstName() {
         return firstName;
