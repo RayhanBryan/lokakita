@@ -19,7 +19,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @CrossOrigin
 @RestController
-@RequestMapping (name = "/groupmenu")
+@RequestMapping (path = "/groupmenu")
 public class GroupMenuController {
     @Autowired
     GroupMenuService groupMenuService;
