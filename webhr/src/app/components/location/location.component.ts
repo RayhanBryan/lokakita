@@ -33,10 +33,14 @@ export class LocationComponent implements OnInit {
   }
 
   isLastPage(): boolean {
-    return false;
+    return this.locations ? this.first === (this.locations.length - this.rows): true;
   }
 
   isFirstPage(): boolean {
-    return false;
+    return this.locations ? this.first === 0 : true;
+  }
+
+  showSearchCall(){
+    this.showSearch = !this.showSearch;
   }
 }
