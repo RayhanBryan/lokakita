@@ -24,8 +24,8 @@ public class JobHistoryController {
 	JobHistoryService jobHistoryService;
 
 	@GetMapping(path = "/getById")
-	public DataResponse<JobHistoryWrapper> getByEmployeeId(@RequestParam("id") Long employeeId) {
-		return new DataResponse<JobHistoryWrapper>(jobHistoryService.getByEmployeeId(employeeId));
+	public DataResponseList<JobHistoryWrapper> getByEmployeeId(@RequestParam("id") Long employeeId) {
+		return new DataResponseList<JobHistoryWrapper>(jobHistoryService.getByEmployeeId(employeeId));
 	}
 
 	@GetMapping(path = "/findAll")

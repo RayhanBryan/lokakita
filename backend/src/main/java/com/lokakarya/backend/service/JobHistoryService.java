@@ -32,9 +32,9 @@ public class JobHistoryService {
 	DepartmentRepository departmentRepository;
 
 	// retrieve single item
-	public JobHistoryWrapper getByEmployeeId(Long employeeId) {
-		JobHistory employee = jobHistoryRepository.getById(employeeId);
-		return toWrapper(employee);
+	public List<JobHistoryWrapper> getByEmployeeId(Long employeeId) {
+		List<JobHistory> employee = jobHistoryRepository.getByEmployeeId(employeeId);
+		return toWrapperList(employee);
 	}
 
 	private JobHistoryWrapper toWrapper(JobHistory entity) {
