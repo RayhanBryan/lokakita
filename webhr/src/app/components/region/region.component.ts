@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RegionService } from 'src/app/services/region.service';
-import Swal from 'sweetalert2';
+// import Swal from 'sweetalert2';
+import {ConfirmationService, ConfirmEventType, MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-region',
@@ -9,11 +10,11 @@ import Swal from 'sweetalert2';
 })
 export class RegionComponent implements OnInit {
   regions: any;
-  region = { regionId: 32, regionName: 'Wonderland' };
+  region = { regionId: 0, regionName: '' };
   first = 0;
   rows = 10;
   showSearch: boolean = false;
-  nama: string = '';
+  keyword: string = '';
   displayForm: boolean = false;
 
   constructor(private regionService: RegionService) {}
@@ -58,12 +59,37 @@ export class RegionComponent implements OnInit {
       },
       error: (err) => {
         console.log(err);
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'Something went wrong! Could not load records!',
-        });
+        // Swal.fire({
+        //   icon: 'error',
+        //   title: 'Oops...',
+        //   text: 'Something went wrong! Could not load records!',
+        // });
       },
     });
   }
+
+  search(){
+    this.regionService.searchRegion(this.keyword).subscribe({
+      next:(data:any)=>{
+        if(data.data.length==0){
+          // Swal.fire({
+          //   icon: 'error',
+          //   title: 'Sorry',
+          //   text: 'The search key was not found in any record!',
+          // });
+        }
+        this.regions = data.data;
+      },
+      error: (err) => {
+        console.log(err);
+        // Swal.fire({
+        //   icon: 'error',
+        //   title: 'Oops...',
+        //   text: 'Something went wrong! Could not load records!',
+        // });
+      },
+    });
+  }
+
+
 }
