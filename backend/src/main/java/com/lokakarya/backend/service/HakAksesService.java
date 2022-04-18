@@ -34,7 +34,6 @@ public class HakAksesService {
         if(wrapper.getHakAksesId() != null){
             entity=hakAksesRepository.getById(wrapper.getHakAksesId());
         }
-        entity.setHakAksesId(wrapper.getHakAksesId());
         if (wrapper.getUserId() != null){
             entity.setUser(userRepository.getById(wrapper.getUserId()));
         }
@@ -42,10 +41,6 @@ public class HakAksesService {
             entity.setGroup(groupRepository.getById(wrapper.getGroupId()));
         }
         entity.setProgramName(wrapper.getProgramName());
-        entity.setCreatedDate(wrapper.getCreatedDate());
-        entity.setCreatedBy(wrapper.getCreatedBy());
-        entity.setUpdatedDate(wrapper.getUpdatedDate());
-        entity.setUpdatedBy(wrapper.getUpdatedBy());
         return entity;
     }
     
@@ -77,10 +72,10 @@ public class HakAksesService {
     public HakAksesWrapper getById(Long id){
         if(id == null)
             throw new BusinessException("Id cannot be null.");
-        Optional<HakAkses> group = hakAksesRepository.findById(id);
-        if(!group.isPresent())
+        Optional<HakAkses> hakAkses = hakAksesRepository.findById(id);
+        if(!hakAkses.isPresent())
             throw new BusinessException("Hak Akses not found: "+ id + ".");
-        return toWrapper(group.get());
+        return toWrapper(hakAkses.get());
     }
 
     // post & update
@@ -100,8 +95,8 @@ public class HakAksesService {
     public void delete(Long id){
         if (id == null)
 	         throw new BusinessException("ID cannot be null.");
-		Optional<HakAkses> user = hakAksesRepository.findById(id);
-		if (!user.isPresent())
+		Optional<HakAkses> hakAkses = hakAksesRepository.findById(id);
+		if (!hakAkses.isPresent())
 			throw new BusinessException("User not found: " + id + '.');
 		hakAksesRepository.deleteById(id);
     }
