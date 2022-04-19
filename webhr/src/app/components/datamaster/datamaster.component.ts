@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
+import { GroupService } from 'src/app/services/group.service';
 import { UserService } from 'src/app/services/user.service';
 
 export interface User {
@@ -10,6 +11,7 @@ export interface User {
   address: string;
   email: string;
   phone: string;
+  group:string;
   createdDate:Date;
   createdBy:string;
 }
@@ -59,17 +61,27 @@ export class DatamasterComponent implements OnInit {
     address: '',
     email:'',
     phone:'',
+    groupName:'',
     createdDate:'',
     createdBy:'',
     };
 
-  constructor(private usersService:UserService) { }
+  constructor(private usersService:UserService, private groupsService:GroupService) { }
 
   ngOnInit(): void {
     this.usersService.getUser().subscribe((res) => {
       console.log(res.data);
+      res.data.forEach((row:any) => {
+        this.groupsService.getGroupByUserId(row.userId).subscribe((result)=>{
+          row.groupName = result.data[0].groupName;
+          console.log(result.data,'result')
+        });  
+      });
       this.users = res.data;
+      console.log(res.data,'tes');
     });
+
+    
   }
     showSearchCall(){
       this.showSearch = !this.showSearch;
@@ -104,6 +116,21 @@ export class DatamasterComponent implements OnInit {
     handleSaveDepartment(event: any) {
     console.log('ini rownya');
     this.submitted = true;
+  }
+
+  handleReset(event: any) {
+    this.row = {
+    userId: 0,
+    username: '',
+    password: '',
+    name: '',
+    address: '',
+    email:'',
+    phone:'',
+    groupName:'',
+    createdDate:'',
+    createdBy:'',
+    };
   }
 
   next() {

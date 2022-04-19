@@ -39,4 +39,10 @@ export class GroupService {
       responseType: 'json',
     });
   }
+
+    getGroupByUserId(Id: any): Observable<any>{
+     return this.http.get<any>(url+`groups/getGroupByUserId?userId=${Id}`, {
+      responseType : 'json',
+    });
+  }
 }
