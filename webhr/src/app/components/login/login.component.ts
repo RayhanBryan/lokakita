@@ -62,46 +62,6 @@ export class LoginComponent implements OnInit {
     );
   }
 
-  getAccessById(id: any) {
-    this.hakAksesService.getAccessById(id).subscribe(
-      res => {
-        this.dataAccess = res.data;
-        console.log(res.data, ' ini object tidak diketahui');
-        for (let i in this.dataAccess) {
-          console.log(this.dataAccess[i].groupId, 'ini apa sih')
-          this.groupMenu.getByGroupId(this.dataAccess[i].groupId).subscribe(
-            res => {
-              this.dataMenu = res.data;
-              console.log(this.dataMenu, 'ini datamenu')
-              for (let i in res.data) {
-                this.penampungMenuId.push(res.data[i].menuId)
-                console.log(this.penampungMenuId, ' ini penampung menu id')
-              }
-              this.penampungMenuId = [...new Set(this.penampungMenuId)]
-              this.penampungMenuId.sort();
-              for (let i in this.penampungMenuId.sort()) {
-                this.menuService.getMenuById(this.penampungMenuId[i]).subscribe(
-                  res => {
-                    console.log(res, 'ini res menu')
-                    this.items.push({
-                      label: res.data.menuName,
-                      icon: res.data.icon,
-                      routerLink: res.data.url,
-                    })
-                  }
-                )
-              }
-              let itemString = JSON.stringify(this.items)
-              localStorage.setItem('items', itemString)
-              window.location.reload()
-            }
-          )
-        }
-
-      }
-    );
-  }
-
   checkUsername() {
     if (this.username.length <= 5) {
       this.checkUser = true;

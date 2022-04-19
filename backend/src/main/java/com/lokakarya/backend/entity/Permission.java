@@ -16,9 +16,10 @@ public class Permission {
     @SequenceGenerator(name = "PERMISSIONS_GEN", sequenceName = "PERMISSION_SEQ",initialValue = 1, allocationSize = 1)
     @Column(name = "PERMISSION_ID")
     private Long permissionId;
+    @Column(name = "PERMISSION")
     private String permission;
+    @Column(name = "NOTE")
     private String note;
-
 
     public Long getPermissionId() {
         return permissionId;
