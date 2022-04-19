@@ -34,7 +34,7 @@ export class JobComponent implements OnInit {
   showSearch:boolean=false;
   displayForm:boolean=false;
   submitted:boolean=false;
-  // action:string='';
+  displayMaximizable: boolean = false;
   action=0;
   keyword:any;
 
@@ -43,12 +43,6 @@ export class JobComponent implements OnInit {
     minSalary: 0,
     maxSalary: 0,
   }
-
-  display: boolean = false;
-  displayModal: boolean = false;
-  displayBasic: boolean=false;
-
-
 
   constructor(
     private jobService: JobService,
@@ -77,19 +71,9 @@ export class JobComponent implements OnInit {
     )
   }
 
-  // getJob(){
-  //   this.jobService.getJob().subscribe(
-  //     res => {
-  //       // console.log(res);
-  //       this.jobs = res.data;
-  //       console.log(this.jobs)
-  //     }
-  //   );
-  // }
-
   // handleSaveJob(event:any){
   //   console.log(this.row, 'ini rownya')
-  //   this.submitted=true
+  //   this.submitted=true;
 
   //   if(this.handleValidation()){
   //     this.confirmationService.confirm({
@@ -179,7 +163,75 @@ export class JobComponent implements OnInit {
     });
   
   }
-    
+    handleSaveJob2(event:any){
+      this.submitted=true;
+      if(this.handleValidation() && this.action==1){
+        this.confirmationService.confirm({
+          message:'Are you sure that you want to perform this action?',
+        accept: () => {
+          this.jobService.postJob(this.row).subscribe(
+            {
+              next: (data) => {
+                console.log(data);
+                if(data.status){
+                  this.messageService.add({
+                    severity: 'success',
+                    summary: 'Input',
+                    detail: 'Data has been inserted',
+                  });
+                  this.loadData();
+                  this.displayMaximizable=false;
+                }
+              },
+              error: (err) => {
+                console.log('error cuy');
+              },
+            }
+          );
+        },
+
+        reject: () => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Input Failed',
+          });
+        },
+        });
+      } else if(this.handleValidation() && this.action==2){
+        this.confirmationService.confirm({
+          message: 'Are you sure that yo want to perform this action?',
+          accept: () => {
+            this.jobService.putJob(this.row).subscribe({
+              next: (data) => {
+                console.log(data);
+                if(data.status){
+                  this.messageService.add({
+                    severity: 'success',
+                    summary: 'Edit',
+                    detail: 'Data has been edited',
+                  });
+                  this. loadData();
+                  this.displayMaximizable=false;
+                }
+              },
+              error: (err) => {
+                console.log('error cuy');
+              },
+            });
+          },
+          reject: () => {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Edit Failed',
+            });
+          }
+        })
+
+      }
+
+    }
     
     handleValidation(){
       let result: boolean=false;
@@ -191,9 +243,7 @@ export class JobComponent implements OnInit {
           result=true;
         }
       }
-    
       return result;
-    
     }
     
     handleResetJob(event:any, param:string): void{
@@ -203,7 +253,6 @@ export class JobComponent implements OnInit {
         minSalary:0,
         maxSalary:0,
       }
-
     }
     
     openEdit(row:any){
@@ -211,23 +260,6 @@ export class JobComponent implements OnInit {
     this.displayMaximizable = true;
     this.action=2;
     }
-    
-    // openInsert(){
-    // this.displayBasic=true;
-    // this.action='add';
-    // }
-    
-    // delJob(id:string): void {
-    // if(confirm('Are you sure want to delete this Job?')){
-    //   this.jobService.deleteJob(id).subscribe(data => {
-    //     this.router.navigate(['/job']);
-    //      this.loadData();
-    // })}else{
-    //   alert("Delete data canceled.");
-    //   this.loadData();
-    // }
-    
-    // }
 
     deleteData(){
       this.jobService.deleteJob(this.deleteId).subscribe(
@@ -242,9 +274,7 @@ export class JobComponent implements OnInit {
     searchJobTitle(keyword:string): void {
       this.jobService.getJobByTitle(keyword).subscribe(
         res => {
-          
           this.jobs=res;
-          console.log(res);
         }
       );
     
@@ -273,14 +303,12 @@ export class JobComponent implements OnInit {
     });
     };
 
-    displayMaximizable: boolean = false;
-    
+
     showMaximizableDialog(act: number) {
       this.displayMaximizable = true;
       this.action = act;
     }
   
-
   next(){
     this.first=this.first+this.rows;
   }
@@ -294,11 +322,11 @@ export class JobComponent implements OnInit {
   }
 
   isLastPage(): boolean{
-    return this.jobs?this.first===(this.jobs.length-this.rows):true;
+    return this.jobs?this.first === (this.jobs.length-this.rows) : true;
   }
 
   isFirstPage():boolean{
-    return this.jobs?this.first===0:true;
+    return this.jobs?this.first === 0 : true;
   }
 
   showSearchCall(){
