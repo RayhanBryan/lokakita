@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, ConfirmEventType, MessageService, Message } from 'primeng/api';
 import { JobService } from 'src/app/services/job.service';
+
 
 export interface Job{
   jobId: string;
@@ -13,7 +14,8 @@ export interface Job{
 @Component({
   selector: 'app-job',
   templateUrl: './job.component.html',
-  styleUrls: ['./job.component.css']
+  styleUrls: ['./job.component.css'],
+  providers: [ConfirmationService,MessageService]
 })
 export class JobComponent implements OnInit {
   jobs:any;
@@ -21,6 +23,9 @@ export class JobComponent implements OnInit {
   jobName:string='';
   minSalary:number=0;
   maxSalary:number=0;
+  deleteId='';
+  displayDelete=false;
+  show: boolean = true;
 
   
   first=0;
@@ -29,7 +34,8 @@ export class JobComponent implements OnInit {
   showSearch:boolean=false;
   displayForm:boolean=false;
   submitted:boolean=false;
-  action:string='';
+  // action:string='';
+  action=0;
   keyword:any;
 
   row: Job={
@@ -48,13 +54,14 @@ export class JobComponent implements OnInit {
   constructor(
     private jobService: JobService,
     private confirmationService: ConfirmationService,
-    private router: Router
+    private router: Router,
+    private messageService: MessageService
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void {  
     this.loadData();
 
-  }
+    }
 
   loadData(){
     this.jobService.getJob().subscribe(
@@ -70,6 +77,16 @@ export class JobComponent implements OnInit {
       }
     )
   }
+
+  // getJob(){
+  //   this.jobService.getJob().subscribe(
+  //     res => {
+  //       // console.log(res);
+  //       this.jobs = res.data;
+  //       console.log(this.jobs)
+  //     }
+  //   );
+  // }
 
   handleSaveJob(event:any){
     console.log(this.row, 'ini rownya')
@@ -123,7 +140,7 @@ export class JobComponent implements OnInit {
     
     }
     
-    handleResetJob(event:any): void{
+    handleResetJob(){
       this.row={
         jobId:'',
         jobTitle:'',
@@ -136,24 +153,34 @@ export class JobComponent implements OnInit {
     openEdit(row:any){
     this.row={...row}
     this.displayBasic=true;
-    this.action='edit';
+    this.action=2;
     }
     
-    openInsert(){
-    this.displayBasic=true;
-    this.action='add';
-    }
+    // openInsert(){
+    // this.displayBasic=true;
+    // this.action='add';
+    // }
     
-    delJob(id:string): void {
-    if(confirm('Are you sure want to delete this Job?')){
-      this.jobService.deleteJob(id).subscribe(data => {
-        this.router.navigate(['/job']);
-         this.loadData();
-    })}else{
-      alert("Delete data canceled.");
-      this.loadData();
-    }
+    // delJob(id:string): void {
+    // if(confirm('Are you sure want to delete this Job?')){
+    //   this.jobService.deleteJob(id).subscribe(data => {
+    //     this.router.navigate(['/job']);
+    //      this.loadData();
+    // })}else{
+    //   alert("Delete data canceled.");
+    //   this.loadData();
+    // }
     
+    // }
+
+    deleteData(){
+      this.jobService.deleteJob(this.deleteId).subscribe(
+        res => {
+          console.log(res)
+          this.loadData();
+          // this.showSuccess();
+        })
+      this.displayDelete = false;
     }
     
     searchJobTitle(): void {
@@ -166,6 +193,36 @@ export class JobComponent implements OnInit {
         }
       );
     
+    }
+
+    showDeleteDialog(id: string){
+      this.deleteId = id;
+      this.confirmationService.confirm({
+        message: 'Do you want to delete this record?',
+        header: 'Delete Confirmation',
+        icon: 'pi pi-info-circle',
+        accept: () => {
+            this.messageService.add({severity:'info', summary:'Confirmed', detail:'Data deleted'});
+            this.deleteData();
+        },
+        reject: (type: any) => {
+            switch(type) {
+                case ConfirmEventType.REJECT:
+                    this.messageService.add({severity:'error', summary:'Rejected', detail:'You have rejected'});
+                break;
+                case ConfirmEventType.CANCEL:
+                    this.messageService.add({severity:'warn', summary:'Cancelled', detail:'You have cancelled'});
+                break;
+            }
+        }
+    });
+    };
+
+    displayMaximizable: boolean = false;
+    
+    showMaximizableDialog(act: number) {
+      this.displayMaximizable = true;
+      this.action = act;
     }
   
 
