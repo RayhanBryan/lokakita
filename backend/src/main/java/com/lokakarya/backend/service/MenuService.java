@@ -4,12 +4,22 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+
+import com.lokakarya.backend.entity.Group;
+import com.lokakarya.backend.entity.GroupMenu;
+import com.lokakarya.backend.entity.HakAkses;
 
 // import javax.transaction.Transactional;
 
 import com.lokakarya.backend.entity.Menu;
+import com.lokakarya.backend.entity.User;
 import com.lokakarya.backend.exception.BusinessException;
+import com.lokakarya.backend.repository.GroupMenuRepository;
+import com.lokakarya.backend.repository.GroupRepository;
+import com.lokakarya.backend.repository.HakAksesRepository;
 import com.lokakarya.backend.repository.MenuRepository;
+import com.lokakarya.backend.repository.UserRepository;
 import com.lokakarya.backend.wrapper.MenuWrapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +33,17 @@ public class MenuService {
     @Autowired
     MenuRepository menuRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    GroupRepository groupRepository;
+
+    @Autowired
+    GroupMenuRepository groupMenuRepository;
+
+    @Autowired
+    HakAksesRepository hakAksesRepository;
     // get
     public List<MenuWrapper> findAll(){
         return toWrapperList(menuRepository.findAll(Sort.by("menuId").ascending()));
@@ -43,6 +64,16 @@ public class MenuService {
             throw new BusinessException("User not found: " + menuName + '.');
         return toWrapper(entity.get());
     }
+
+    public List<MenuWrapper> getMenuByUserId(Long id){
+        if (id == null)
+	        throw new BusinessException("ID cannot be null.");
+        Optional<User> entity = userRepository.findById(id);
+        if (!entity.isPresent())
+            throw new BusinessException("User not found: " + id + '.');
+        return toWrapperList(menuRepository.findMenuByUserId(id));
+    }
+
     // post & update
     public MenuWrapper save(MenuWrapper wrapper){
         Menu entity = toEntity(wrapper);
