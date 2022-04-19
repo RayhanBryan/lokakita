@@ -50,12 +50,15 @@ export class LoginComponent implements OnInit {
       res => {
         this.userData = res.data;
         if (res.status) {
+          console.log('wfafwa')
           if (this.userData.username == this.username && this.userData.password == this.password) {
             this.successLogin()
             localStorage.setItem('token', this.userData.userId)
             localStorage.setItem('name', 'Administrator')
             window.location.reload()
             return
+          } else {
+            this.wrongUser();
           }
         } else {
           this.wrongUser();
