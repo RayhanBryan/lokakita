@@ -33,28 +33,6 @@ export class MenuComponent implements OnInit {
   ngOnInit() {
     console.log('ini user id: ', localStorage.getItem('items'))
     this.getMenuByUserId(Number(localStorage.getItem('token')));
-    // this.items = JSON.parse(localStorage.getItem('items'));
-    // this.menuService.getMenu().subscribe(
-    //   res => {
-    //     for (let i in res.data) {
-    //       this.items.push({
-    //         label: res.data.menuName,
-    //         icon: res.data.icon,
-    //         routerLink: res.data.url,
-    //         visible: false
-    //       })
-    //     };
-    //     this.getAccessById(Number(localStorage.getItem('token')));
-    //   }
-    // )
-    // this.items = [
-    //   {
-    //     label: 'Employee',
-    //     icon: 'pi pi-users',
-    //     routerLink: '/employee',
-    //     visible: false
-    //   }
-    // ]
   }
 
   getMenuByUserId(id: any) {
@@ -70,42 +48,6 @@ export class MenuComponent implements OnInit {
         localStorage.setItem('items', JSON.stringify(res.data))
       }
     )
-  }
-
-  getAccessById(id: any) {
-    this.hakAksesService.getAccessById(id).subscribe(
-      res => {
-        this.dataAccess = res.data;
-        console.log(res.data, ' ini object tidak diketahui');
-        for (let i in this.dataAccess) {
-          console.log(this.dataAccess[i].groupId, 'ini apa sih')
-          this.groupMenu.getByGroupId(this.dataAccess[i].groupId).subscribe(
-            res => {
-              this.dataMenu = res.data;
-              console.log(this.dataMenu, 'ini datamenu')
-              for (let i in res.data) {
-                this.penampungMenuId.push(res.data[i].menuId)
-                console.log(this.penampungMenuId, ' ini penampung menu id')
-              }
-              this.penampungMenuId = [...new Set(this.penampungMenuId)]
-              this.penampungMenuId.sort();
-              for (let i in this.penampungMenuId.sort()) {
-                this.menuService.getMenuById(this.penampungMenuId[i]).subscribe(
-                  res => {
-                    console.log(res, 'ini res menu')
-                    this.items.push({
-                      label: res.data.menuName,
-                      icon: res.data.icon,
-                      routerLink: res.data.url,
-                    })
-                  }
-                )
-              }
-            }
-          )
-        }
-      }
-    );
   }
 
 }
