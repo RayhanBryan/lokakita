@@ -34,7 +34,9 @@ public class UserController {
     }
     @GetMapping(path = "/getByUsername")
     DataResponse<UserWrapper> getByUsername(@RequestParam("username") String username){
-        return new DataResponse<UserWrapper>(userService.getByUsername(username));
+        UserWrapper hasil = userService.getByUsername(username);
+        if(hasil == null) return new DataResponse<UserWrapper>(false,"GA ADA USERNYA");
+        return new DataResponse<UserWrapper>(hasil);
     }
     @GetMapping(path = "/findByUsername")
     DataResponseList<UserWrapper> findByUsername(@RequestParam("username") String username){
