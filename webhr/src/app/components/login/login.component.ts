@@ -6,8 +6,11 @@ import {
 import {
   Router
 } from '@angular/router';
-import { ConfirmationService, ConfirmEventType, MessageService } from 'primeng/api';
+import { ConfirmationService, ConfirmEventType, MenuItem, MessageService } from 'primeng/api';
 import { AppComponent } from 'src/app/app.component';
+import { GroupMenuService } from 'src/app/services/group-menu.service';
+import { HakAksesService } from 'src/app/services/hakakses.service';
+import { MenuService } from 'src/app/services/menu.service';
 // import { throws } from 'assert';
 import {
   UserService
@@ -29,7 +32,12 @@ export class LoginComponent implements OnInit {
   userData: any;
   userId: any;
 
-  constructor(private app: AppComponent, private router: Router, private userService: UserService, private messageService: MessageService) { }
+  constructor(private menuService: MenuService, private groupMenu: GroupMenuService, private hakAksesService: HakAksesService, private app: AppComponent, private router: Router, private userService: UserService, private messageService: MessageService) { }
+
+  dataAccess: any;
+  dataMenu: any;
+  penampungMenuId: any[] = [];
+  items: MenuItem[] = [];
 
   ngOnInit(): void {
     if (localStorage.getItem('token')) {
@@ -50,6 +58,46 @@ export class LoginComponent implements OnInit {
           return
         }
         this.wrongUser();
+      }
+    );
+  }
+
+  getAccessById(id: any) {
+    this.hakAksesService.getAccessById(id).subscribe(
+      res => {
+        this.dataAccess = res.data;
+        console.log(res.data, ' ini object tidak diketahui');
+        for (let i in this.dataAccess) {
+          console.log(this.dataAccess[i].groupId, 'ini apa sih')
+          this.groupMenu.getByGroupId(this.dataAccess[i].groupId).subscribe(
+            res => {
+              this.dataMenu = res.data;
+              console.log(this.dataMenu, 'ini datamenu')
+              for (let i in res.data) {
+                this.penampungMenuId.push(res.data[i].menuId)
+                console.log(this.penampungMenuId, ' ini penampung menu id')
+              }
+              this.penampungMenuId = [...new Set(this.penampungMenuId)]
+              this.penampungMenuId.sort();
+              for (let i in this.penampungMenuId.sort()) {
+                this.menuService.getMenuById(this.penampungMenuId[i]).subscribe(
+                  res => {
+                    console.log(res, 'ini res menu')
+                    this.items.push({
+                      label: res.data.menuName,
+                      icon: res.data.icon,
+                      routerLink: res.data.url,
+                    })
+                  }
+                )
+              }
+              let itemString = JSON.stringify(this.items)
+              localStorage.setItem('items', itemString)
+              window.location.reload()
+            }
+          )
+        }
+
       }
     );
   }

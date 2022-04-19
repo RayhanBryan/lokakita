@@ -31,15 +31,51 @@ export class MenuComponent implements OnInit {
     window.location.reload();
   }
   ngOnInit() {
-    console.log('ini user id: ', localStorage.getItem('token'))
-    this.getAccessById(Number(localStorage.getItem('token')));
+    console.log('ini user id: ', localStorage.getItem('items'))
+    this.getMenuByUserId(Number(localStorage.getItem('token')));
+    // this.items = JSON.parse(localStorage.getItem('items'));
+    // this.menuService.getMenu().subscribe(
+    //   res => {
+    //     for (let i in res.data) {
+    //       this.items.push({
+    //         label: res.data.menuName,
+    //         icon: res.data.icon,
+    //         routerLink: res.data.url,
+    //         visible: false
+    //       })
+    //     };
+    //     this.getAccessById(Number(localStorage.getItem('token')));
+    //   }
+    // )
+    // this.items = [
+    //   {
+    //     label: 'Employee',
+    //     icon: 'pi pi-users',
+    //     routerLink: '/employee',
+    //     visible: false
+    //   }
+    // ]
+  }
+
+  getMenuByUserId(id: any) {
+    this.menuService.getMenuByUserId(id).subscribe(
+      res => {
+        res.data.forEach((l: any) => {
+          l.label = l.menuName,
+            l.icon = l.icon,
+            l.routerLink = l.url
+        });
+        console.log(res.data, ' in res')
+        this.items = res.data;
+      }
+    )
   }
 
   getAccessById(id: any) {
     this.hakAksesService.getAccessById(id).subscribe(
       res => {
         this.dataAccess = res.data;
-        console.log(res.data);
+        console.log(res.data, ' ini object tidak diketahui');
         for (let i in this.dataAccess) {
           console.log(this.dataAccess[i].groupId, 'ini apa sih')
           this.groupMenu.getByGroupId(this.dataAccess[i].groupId).subscribe(
@@ -51,14 +87,15 @@ export class MenuComponent implements OnInit {
                 console.log(this.penampungMenuId, ' ini penampung menu id')
               }
               this.penampungMenuId = [...new Set(this.penampungMenuId)]
-              for (let i in this.penampungMenuId) {
+              this.penampungMenuId.sort();
+              for (let i in this.penampungMenuId.sort()) {
                 this.menuService.getMenuById(this.penampungMenuId[i]).subscribe(
                   res => {
                     console.log(res, 'ini res menu')
                     this.items.push({
                       label: res.data.menuName,
                       icon: res.data.icon,
-                      routerLink: res.data.url
+                      routerLink: res.data.url,
                     })
                   }
                 )
