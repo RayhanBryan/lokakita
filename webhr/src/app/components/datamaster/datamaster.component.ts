@@ -50,7 +50,7 @@ export class DatamasterComponent implements OnInit {
     showSearch: boolean = false;
     selectedCities: string[] = [];
     selectedCategories: any[] = ['Technology', 'Sports'];
-    categories: any[] = [{name: 'Accounting', key: 'A'}, {name: 'Marketing', key: 'M'}, {name: 'Production', key: 'P'}, {name: 'Research', key: 'R'}];
+    categories: any[] = [{name: 'Admin', key: 'A'}, {name: 'User', key: 'M'}];
     checked: boolean = false;
 
     row: any = {
@@ -61,7 +61,7 @@ export class DatamasterComponent implements OnInit {
     address: '',
     email:'',
     phone:'',
-    groupName:'',
+    groupName:[],
     createdDate:'',
     createdBy:'',
     };
@@ -73,15 +73,16 @@ export class DatamasterComponent implements OnInit {
       console.log(res.data);
       res.data.forEach((row:any) => {
         this.groupsService.getGroupByUserId(row.userId).subscribe((result)=>{
-          row.groupName = result.data[0].groupName;
-          console.log(result.data,'result')
+          row.groupName=result.data;
+          console.log(this.row.groupName, 'fwafaw')
         });  
       });
       this.users = res.data;
       console.log(res.data,'tes');
+      
     });
 
-    
+
   }
     showSearchCall(){
       this.showSearch = !this.showSearch;
@@ -105,7 +106,6 @@ export class DatamasterComponent implements OnInit {
 
     showMaximizableDialog(act : any) {
         this.displayMaximizable = true;
-
     }
 
     showPositionDialog(position: string) {
