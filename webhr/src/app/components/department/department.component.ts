@@ -176,9 +176,9 @@ export class DepartmentComponent implements OnInit {
     }
   }
 
-  handleReset(event: any): void {
+  handleReset(event: any, param: string): void {
     this.row = {
-      departmentId: 0,
+      departmentId: (this.action == 'edit' && param == 'click') ? this.row.departmentId : 0,
       departmentName: '',
       managerId: 0,
       locationId: 0,
