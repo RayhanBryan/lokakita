@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, RouterStateSnapshot } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
 import { AppComponent } from 'src/app/app.component';
 import { GroupMenuService } from 'src/app/services/group-menu.service';
@@ -6,6 +7,7 @@ import { GroupService } from 'src/app/services/group.service';
 import { HakAksesService } from 'src/app/services/hakakses.service';
 import { MenuService } from 'src/app/services/menu.service';
 import { LoginComponent } from '../login/login.component';
+
 
 @Component({
   selector: 'app-menu',
@@ -21,17 +23,24 @@ export class MenuComponent implements OnInit {
   dataAccess: any;
   dataMenu: any;
   penampungMenuId: any[] = [];
+  show: boolean = true;
+  visibleSidebar: any;
 
-  constructor(private loginComp: LoginComponent, private app: AppComponent, private messageService: MessageService, private hakAksesService: HakAksesService, private groupService: GroupService, private groupMenu: GroupMenuService, private menuService: MenuService) { }
+  constructor(private router: Router, private loginComp: LoginComponent, private app: AppComponent, private messageService: MessageService, private hakAksesService: HakAksesService, private groupService: GroupService, private groupMenu: GroupMenuService, private menuService: MenuService) { }
   items: MenuItem[] = [];
-
   logout(): void {
     this.messageService.add({ key: 'tc', severity: 'info', summary: 'Goodbye', detail: 'Thank you, see you later' });
     localStorage.clear();
-    window.location.reload();
+    window.location.reload()
   }
   ngOnInit() {
     this.getMenuByUserId(Number(localStorage.getItem('token')));
+    // console.log(this.state.url)
+    // if (this.state.url == '/notfound') {
+    //   this.show = false;
+    // } else if (this.state.url != '/notfound') {
+    //   this.show = true;
+    // }
   }
 
   getMenuByUserId(id: any) {

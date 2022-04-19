@@ -23,9 +23,10 @@ const routes: Routes = [
   { path: 'country', component: CountryComponent, canActivate: [AuthGuardService] },
   { path: 'region', component: RegionComponent, canActivate: [AuthGuardService] },
   { path: 'datamaster', component: DatamasterComponent, canActivate: [AuthGuardService] },
-  { path: 'notfound', component: NotfoundComponent },
+  { path: 'notfound', component: NotfoundComponent, canActivate: [AuthGuardService] },
   { path: 'signup', component: SignupComponent },
-  { path: '', redirectTo: '/login', pathMatch: 'full' }
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '**', redirectTo: '/home', pathMatch: 'full' }
 ];
 
 @NgModule({
