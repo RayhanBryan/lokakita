@@ -36,7 +36,7 @@ import { NotfoundComponent } from './components/notfound/notfound.component';
 import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
 import { BonusComponent } from './components/bonus/bonus.component';
-import { SidebarModule } from 'primeng/sidebar';
+import { CustomerComponent } from './components/customer/customer.component';
 
 
 @NgModule({
@@ -55,7 +55,8 @@ import { SidebarModule } from 'primeng/sidebar';
     DatamasterComponent,
     EmployeeComponent,
     NotfoundComponent,
-    BonusComponent
+    BonusComponent,
+    CustomerComponent
   ],
   imports: [
     BrowserModule,
@@ -78,8 +79,7 @@ import { SidebarModule } from 'primeng/sidebar';
     CheckboxModule,
     CalendarModule,
     MessagesModule,
-    MessageModule,
-    SidebarModule
+    MessageModule
   ],
   providers: [ConfirmationService],
   bootstrap: [AppComponent],
