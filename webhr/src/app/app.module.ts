@@ -33,6 +33,10 @@ import { DatamasterComponent } from './components/datamaster/datamaster.componen
 import { CheckboxModule } from 'primeng/checkbox';
 import { NotfoundComponent } from './components/notfound/notfound.component';
 
+import {MessagesModule} from 'primeng/messages';
+import {MessageModule} from 'primeng/message';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -69,7 +73,9 @@ import { NotfoundComponent } from './components/notfound/notfound.component';
     PasswordModule,
     InputTextModule,
     CheckboxModule,
-    CalendarModule
+    CalendarModule,
+    MessagesModule,
+    MessageModule
   ],
   providers: [ConfirmationService],
   bootstrap: [AppComponent],

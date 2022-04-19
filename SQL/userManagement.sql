@@ -96,3 +96,50 @@ create SEQUENCE menu_seq
     INCREMENT BY 1
     NOCACHE
     NOCYCLE;
+
+create table permissions(
+    permission_id NUMBER(10)
+        constraint const_permissions_permission_id_pk primary key,
+    permission varchar2(255)
+        constraint const_permissions_permission_nn not null
+        constraint const_permissions_permission_uk UNIQUE,
+    note varchar2(255) 
+)
+
+drop table permissions;
+
+create SEQUENCE permission_seq
+    MINVALUE 1
+    MAXVALUE 10000000000
+    START WITH 1
+    INCREMENT BY 1
+    NOCACHE
+    NOCYCLE;
+
+create table permission_groups(
+    permission_group_id NUMBER(10)
+        constraint const_permissions_role_permission_group_id_pk primary key,
+    permission_id NUMBER(10)
+        constraint const_permissions_role_permission_id_nn not NULL,
+    group_id NUMBER(10)
+        constraint const_permissions_role_group_id_nn not NULL,
+    
+    CONSTRAINT const_permissions_role_group_id_fk
+        FOREIGN KEY (GROUP_ID)
+        REFERENCES GROUPS (GROUP_ID)
+        ON DELETE CASCADE,
+    CONSTRAINT const_permissions_role_permission_id_fk
+        FOREIGN KEY (permission_ID)
+        REFERENCES permissions (permission_ID)
+        ON DELETE CASCADE
+)
+
+drop table permissions;
+
+create SEQUENCE permission_seq
+    MINVALUE 1
+    MAXVALUE 10000000000
+    START WITH 1
+    INCREMENT BY 1
+    NOCACHE
+    NOCYCLE;

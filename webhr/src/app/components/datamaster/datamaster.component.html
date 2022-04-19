@@ -70,7 +70,7 @@
     <div class="col-12 md:col-6">
       <label for="phonenum">Phone Number</label>
       <input id="phonenum" type="text" pInputText [(ngModel)]="row.phone" required autofocus placeholder="Phone Number" />
-      <small class="p-invalid" style="color: red" *ngIf="submitted">Nama Required
+      <small class="p-invalid" style="color: red" *ngIf="submitted">Phone Number Required
       </small>
     </div>
         <div class="col-12 md:col-6">
@@ -122,7 +122,7 @@
   </div>
   <p-table [value]="users" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true" [(first)]="first"
     responsiveLayout="scroll" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    [rowsPerPageOptions]="[10,25,50]">
+    [rowsPerPageOptions]="[10,25,50]" styleClass="p-datatable-striped" responsiveLayout="scroll">
     <ng-template pTemplate="header">
       <tr>
         <th pSortableColumn="username">Username<p-sortIcon field="username"></p-sortIcon>
