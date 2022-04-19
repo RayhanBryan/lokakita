@@ -68,7 +68,7 @@ export class LoginComponent implements OnInit {
   }
 
   checkUsername() {
-    if (this.username.length <= 5) {
+    if (this.username.length < 5) {
       this.checkUser = true;
     } else {
       this.checkUser = false;

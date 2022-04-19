@@ -3,14 +3,15 @@
   <div class="grid p-fluid">
     <div class="col-12 md:col-12">
       <label for="lastpass">Last Password</label>
-      <p-password id="lastpass" type="text" required autofocus placeholder="Last Password" [(ngModel)]="valuepass1"
+      <p-password id="lastpass" type="text" required autofocus placeholder="Last Password" [(ngModel)]="password"
         [feedback]="false" [toggleMask]="true"></p-password>
       <small class="p-invalid" style="color: red" *ngIf="submitted">Last Password Required
       </small>
+      <small id="username-help" class="p-error block" *ngIf="wrongPassword">Wrong password</small>
     </div>
     <div class="col-12 md:col-12">
       <label for="newpass">New Password</label>
-      <p-password id="newpass" type="text" required autofocus placeholder="New Password" [(ngModel)]="valuepass2"
+      <p-password id="newpass" type="text" required autofocus placeholder="New Password" [(ngModel)]="newPass"
         [toggleMask]="true"></p-password>
       <small class="p-invalid" style="color: red" *ngIf="submitted">New Password Required
       </small>
@@ -18,13 +19,14 @@
     <div class="col-12 md:col-12">
       <label for="cnewpass">Confirm New Password</label>
       <p-password id="cnewpass" type="text" required autofocus placeholder="Confirm New Password"
-        [(ngModel)]="valuepass3" [toggleMask]="true"></p-password>
+        [(ngModel)]="confirmNewPass" [toggleMask]="true"></p-password>
       <small class="p-invalid" style="color: red" *ngIf="submitted">Confirm New Password Required
       </small>
+      <small id="username-help" class="p-error block" *ngIf="wrongConfirmPassword">Please check again your new password</small>
     </div>
   </div>
   <ng-template pTemplate="footer">
-    <p-button icon="pi pi-check" (onClick)="handleSaveDepartment($event)" label="Submit" styleClass="p-button-text">
+    <p-button icon="pi pi-check" (onClick)="saveNewPassword()" label="Submit" styleClass="p-button-text">
     </p-button>
     <p-button icon="pi pi-times" (click)="displayBasic=false" label="Cancel" styleClass="p-button-text p-button-danger">
     </p-button>
@@ -172,3 +174,5 @@
     </ng-template>
   </p-table>
 </div>
+
+<p-toast></p-toast>
