@@ -1,0 +1,70 @@
+package com.lokakarya.backend.service;
+
+import java.util.ArrayList;
+import java.util.List;
+// import java.util.Optional;
+import java.util.Optional;
+
+import com.lokakarya.backend.entity.Permission;
+import com.lokakarya.backend.entity.User;
+import com.lokakarya.backend.exception.BusinessException;
+import com.lokakarya.backend.repository.PermissionRepository;
+import com.lokakarya.backend.repository.UserRepository;
+import com.lokakarya.backend.wrapper.PermissionWrapper;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@Transactional
+public class PermissionService {
+
+    @Autowired
+    PermissionRepository permissionRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
+    public List<PermissionWrapper> findAll(){
+        return toWrapperList(permissionRepository.findAll());
+    }
+
+    public List<PermissionWrapper> getPermissionByUserId(Long userId){
+        if (userId == null)
+            throw new BusinessException("Id cannot be null.");
+        Optional<User> user = userRepository.findById(userId);
+        if(!user.isPresent())
+            throw new BusinessException("User not found: "+userId+".");
+        return toWrapperList(permissionRepository.getPermissionByUserId(userId));
+    }
+
+    // private Permission toEntity(PermissionWrapper wrapper){
+    //     Permission entity = new Permission();
+    //     if(wrapper.getPermissionId() != null){
+    //         Optional<Permission> permission = permissionRepository.findById(wrapper.getPermissionId());
+    //         if (!permission.isPresent())
+    //             throw new BusinessException("Permission not found: " + wrapper.getPermissionId() + '.');
+    //         entity = permission.get();
+    //     }
+    //     entity.setPermission(wrapper.getPermission());
+    //     entity.setNote(wrapper.getNote());
+    //     return entity;
+    // }
+
+    private PermissionWrapper toWrapper(Permission entity){
+        PermissionWrapper wrapper = new PermissionWrapper();
+        wrapper.setPermissionId(entity.getPermissionId());
+        wrapper.setPermission(entity.getPermission());
+        wrapper.setNote(entity.getNote());
+        return wrapper;
+    }
+
+    private List<PermissionWrapper> toWrapperList(List<Permission> entityList){
+        List<PermissionWrapper> wrapperList = new ArrayList<PermissionWrapper>();
+        for (Permission entity : entityList) {
+            wrapperList.add(toWrapper(entity));
+        }
+        return wrapperList;
+    }
+}
