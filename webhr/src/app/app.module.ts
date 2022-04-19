@@ -32,6 +32,10 @@ import { CalendarModule } from 'primeng/calendar';
 import { DatamasterComponent } from './components/datamaster/datamaster.component';
 import { CheckboxModule } from 'primeng/checkbox';
 
+import {MessagesModule} from 'primeng/messages';
+import {MessageModule} from 'primeng/message';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -67,7 +71,9 @@ import { CheckboxModule } from 'primeng/checkbox';
     PasswordModule,
     InputTextModule,
     CheckboxModule,
-    CalendarModule
+    CalendarModule,
+    MessagesModule,
+    MessageModule
   ],
   providers: [ConfirmationService],
   bootstrap: [AppComponent],

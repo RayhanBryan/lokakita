@@ -27,11 +27,75 @@
             <td>{{job.jobTitle}}</td>
             <td>{{job.minSalary}}</td>
             <td>{{job.maxSalary}}</td>
+            <td>
+              <p-button icon="pi pi-pencil" (click)="openEdit(job)"></p-button>
+              <p-button icon="pi pi-trash" (click)="showDeleteDialog(job.jobId)" styleClass="p-button-danger ml-2"></p-button>
+            </td>
         </tr>
     </ng-template>
 </p-table>
 
-<p-dialog [(visible)]="displayForm" [modal]="true"
+<p-dialog [header]="action == 1 ? 'Input Job' : 'Edit Job' " [(visible)]="displayMaximizable" [modal]="true" [style]="{width: '50vw'}" [maximizable]="true"
+    [draggable]="false" [resizable]="false" (onHide)="handleResetJob()">
+    <div class="grid">
+      <div class="col-6">
+          <h5>Job ID</h5>
+          <span class="p-float-label">
+              <input type="text" pInputText [(ngModel)]="row.jobId" (ngModelChange)="row.jobId = $event.toUpperCase()" required autofocus> 
+              <!-- <h5 *ngIf="submitted && !row.jobId">Required!!</h5>  -->
+              <label for="float-input">Job ID</label>
+              <h5 class="p invalid" style="color: red;" *ngIf="submitted && !row.jobId">Job ID is required.</h5>
+          </span>
+      </div>
+      <div class="col-6">
+          <h5>Job Title</h5>
+          <span class="p-float-label">
+              <input type="text" pInputText [(ngModel)]="row.jobTitle" required autofocus> 
+              <!-- <h5 *ngIf="submitted && !row.jobTitle">Required!!</h5> -->
+              <label for="float-input">Job Title</label>
+              <h5 class="p invalid" style="color: red;" *ngIf="submitted && !row.jobTitle">Job Name is required.</h5>
+          </span>
+      </div>
+      <div class="col-6">
+          <h5>Minimum Salary</h5>
+          <span class="p-float-label">
+              <input type="number" pInputText [(ngModel)]="row.minSalary" required autofocus> 
+              <label for="float-input">Minimum Salary</label>
+              <h5 class="p invalid" style="color: red;" *ngIf="submitted && row.minSalary<0">Minimum Salary 0.</h5>
+          </span>
+      </div>
+      <div class="col-6">
+          <h5>Maximum Salary</h5>
+          <span class="p-float-label">
+              <input type="number" pInputText [(ngModel)]="row.maxSalary" required autofocus> 
+              <label for="float-input">Maximum Salary</label>
+          </span>
+      </div>
+  </div>
+
+
+  <ng-template pTemplate="footer">
+    <button pButton pRipple type="button" (click)="handleSaveJob($event)" icon="pi pi-check" label="Save" class="mt-2 ml-1"></button>
+    <button pButton pRipple type="button" (click)="handleResetJob()" icon="pi pi-spinner" label="Reset" class="mt-2 ml-1 p-button-danger"></button>
+    <button pButton pRipple type="button" (click)="displayMaximizable=false" icon="pi pi-times" label="Cancel" class="mt-2 ml-1 p-button-danger"></button>
+</ng-template>
+</p-dialog>
+
+
+<p-dialog header="Delete Data" [(visible)]="displayDelete" [style]="{width: '50vw'}">
+  <p>Are You Sure?</p>
+  <ng-template pTemplate="footer">
+      <button pButton pRipple type="button" (click)="deleteData()" icon="pi pi-trash" label="Delete" class="mt-2 ml-1 p-button-danger"></button>
+      <button pButton pRipple type="button" icon="pi pi-times" label="Batal" class="mt-2 ml-1 p-button-success"></button>
+  </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+<p-toast></p-toast>
+
+
+
+<!-- <p-dialog [(visible)]="displayForm" [modal]="true"
 [style]="{width: '50vw', height: '50vw'}" [draggable]="false" [resizable]="true">
 <div class="grid p-fluid">
   <div class="col-12 md:col-6">
@@ -60,13 +124,13 @@
       <span class="ml-2">{{maxSalary}}</span>
 
   </div>
-</div>
+</div> -->
 
-<ng-template pTemplate="footer">
+<!-- <ng-template pTemplate="footer">
     <p-button icon="pi pi-save"  label="save" styleClass="p-button-text" (click)="handleSaveJob($event)"></p-button>
     <p-button icon="pi pi-times"  label="reset" styleClass="p-button-text" (click)="handleResetJob($event)"></p-button>
   </ng-template>
-</p-dialog>
+</p-dialog> -->
 
 </div>
 
