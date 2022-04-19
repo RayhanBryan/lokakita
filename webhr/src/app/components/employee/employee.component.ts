@@ -12,11 +12,12 @@ import { JobService } from 'src/app/services/job.service';
 })
 export class EmployeeComponent implements OnInit {
   departments: any;
-  locations: any;
+  jobs: any;
   employees: any;
   first = 0;
   rows = 10;
   display: boolean = false;
+  showSearch: boolean = false;
 
   submitted: boolean = false;
   action: string = '';
@@ -114,6 +115,7 @@ export class EmployeeComponent implements OnInit {
         });
       },
       reject: () => {
+        console.log('reject')
         //reject action
       },
     });
@@ -123,7 +125,7 @@ export class EmployeeComponent implements OnInit {
     this.submitted = true;
     console.log('b');
       this.confirmationService.confirm({
-        header: 'Confirmation',
+      header: 'Confirmation',
       message: 'Are you sure that you want to perform this action?',
       accept: () => {
         if (this.row.employeeId === 0) {
@@ -214,7 +216,7 @@ export class EmployeeComponent implements OnInit {
   getDepartment(): void {
     this.departmentService.getDepartment().subscribe(
       res => {
-        this.locations = res;
+        this.departments = res;
       }
     )
   }
@@ -222,8 +224,20 @@ export class EmployeeComponent implements OnInit {
   getJob(): void {
     this.jobService.getJob().subscribe(
       res => {
-        this.locations = res;
+        this.jobs = res;
       }
     )
+  }
+
+  onChanged(nama: string){
+    this.employeeService.getEmployeeName(nama).subscribe(
+      res => {
+        this.employees = res.data;
+        console.log(this.employees)
+      }
+    )
+  }
+  showSearchCall(){
+    this.showSearch = !this.showSearch;
   }
 }

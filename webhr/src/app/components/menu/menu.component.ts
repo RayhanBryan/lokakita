@@ -67,6 +67,7 @@ export class MenuComponent implements OnInit {
         });
         console.log(res.data, ' in res')
         this.items = res.data;
+        localStorage.setItem('items', JSON.stringify(res.data))
       }
     )
   }

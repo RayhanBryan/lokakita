@@ -31,6 +31,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { CalendarModule } from 'primeng/calendar';
 import { DatamasterComponent } from './components/datamaster/datamaster.component';
 import { CheckboxModule } from 'primeng/checkbox';
+import { NotfoundComponent } from './components/notfound/notfound.component';
 
 import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
@@ -50,7 +51,8 @@ import {MessageModule} from 'primeng/message';
     LoginComponent,
     SignupComponent,
     DatamasterComponent,
-    EmployeeComponent
+    EmployeeComponent,
+    NotfoundComponent
   ],
   imports: [
     BrowserModule,
