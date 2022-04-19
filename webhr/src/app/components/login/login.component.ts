@@ -49,7 +49,6 @@ export class LoginComponent implements OnInit {
     this.userService.getByUsername(this.username).subscribe(
       res => {
         this.userData = res.data;
-        console.log(res, 'tetete');
         if (res.status) {
           if (this.userData.username == this.username && this.userData.password == this.password) {
             this.successLogin()
