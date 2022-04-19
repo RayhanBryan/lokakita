@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { DialogService } from 'primeng/dynamicdialog/dialogservice';
 import { DepartmentService } from 'src/app/services/department.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { JobService } from 'src/app/services/job.service';
@@ -8,16 +9,19 @@ import { JobService } from 'src/app/services/job.service';
   selector: 'app-employee',
   templateUrl: './employee.component.html',
   styleUrls: ['./employee.component.css'],
-  providers: [ConfirmationService, MessageService]
+  providers: [ConfirmationService, MessageService],
 })
 export class EmployeeComponent implements OnInit {
   departments: any;
   jobs: any;
   employees: any;
+  managers: any;
+  bonus: any;
   first = 0;
   rows = 10;
   display: boolean = false;
   showSearch: boolean = false;
+  displaySalary: boolean = false;
 
   submitted: boolean = false;
   action: string = '';
@@ -29,46 +33,58 @@ export class EmployeeComponent implements OnInit {
   row: any = {
     employeeId: 0,
     firstName: '',
+    lastName: '',
+    fullName: '',
     email: '',
     phoneNumber: '',
     hireDate: '',
     jobId: '',
     salary: 0,
-    commission: 0,
+    commissionPct: 0,
     managerId: 0,
     departmentId: 0,
+    managerFirstName: '',
+    managerLastName: '',
+    manager: '',
   };
 
-
-  constructor(private confirmationService: ConfirmationService,
+  constructor(
+    private confirmationService: ConfirmationService,
     private employeeService: EmployeeService,
     private messageService: MessageService,
     private departmentService: DepartmentService,
-    private jobService: JobService) { }
+    private jobService: JobService
+  ) {}
 
   ngOnInit(): void {
     this.getEmployee();
+    this.getDepartment();
+    this.getJob();
+  }
 
+  removeDuplicates(arr: any[]) {
+    return arr.filter((item: any, index: any) => arr.indexOf(item) === index);
   }
 
   getEmployee() {
-    this.employeeService.getEmployee().subscribe(
-      res => {
-        console.log(res.data);
-        this.employees = res.data;
-      },
-      //   error: (err) => {
-      //     console.log(err);
-      //   },
-    );
+    this.employeeService.getEmployee().subscribe((res) => {
+      // console.log(res.data);
+      this.employees = res.data;
+      this.employees.forEach((element: any) => {
+        element.manager =
+          element.managerFirstName + ' ' + element.managerLastName;
+        console.log(element);
+      });
+      this.managers=this.removeDuplicates(this.employees);
+      console.log(this.employees);
+    });
   }
 
   findByEmployeeName() {
-    this.employeeService.getEmployeeName(this.firstName).subscribe(
-      res => {
-        console.log(res);
-        this.employees = res;
-      });
+    this.employeeService.getEmployeeName(this.firstName).subscribe((res) => {
+      console.log(res);
+      this.employees = res;
+    });
   }
 
   showDialog(action: string) {
@@ -106,7 +122,7 @@ export class EmployeeComponent implements OnInit {
       accept: () => {
         this.employeeService.deleteEmployee(value).subscribe((res) => {
           console.log(res);
-          this.getEmployee()
+          this.getEmployee();
           this.messageService.add({
             severity: 'Success',
             summary: 'Delete',
@@ -115,16 +131,14 @@ export class EmployeeComponent implements OnInit {
         });
       },
       reject: () => {
-        console.log('reject')
-        //reject action
+        console.log('reject');
       },
     });
   }
 
   handleSaveDepartment(event: any) {
     this.submitted = true;
-    console.log('b');
-      this.confirmationService.confirm({
+    this.confirmationService.confirm({
       header: 'Confirmation',
       message: 'Are you sure that you want to perform this action?',
       accept: () => {
@@ -136,7 +150,7 @@ export class EmployeeComponent implements OnInit {
               if (data.status) {
                 this.display = false;
                 this.getEmployee();
-                alert('Data berhasil diinput.')
+                alert('Data berhasil diinput.');
                 this.getEmployee();
                 this.display = false;
               }
@@ -146,7 +160,6 @@ export class EmployeeComponent implements OnInit {
             },
           });
         } else {
-          console.log('b');
           this.employeeService.putEmployee(this.row).subscribe({
             next: (data) => {
               console.log(data);
@@ -188,6 +201,7 @@ export class EmployeeComponent implements OnInit {
       employeeId: 0,
       firstName: '',
       lastName: '',
+      fullName: '',
       email: '',
       phoneNumber: '',
       hireDate: '',
@@ -196,6 +210,7 @@ export class EmployeeComponent implements OnInit {
       commission: 0,
       managerId: 0,
       departmentId: 0,
+      manager: '',
     };
   }
 
@@ -214,30 +229,36 @@ export class EmployeeComponent implements OnInit {
   }
 
   getDepartment(): void {
-    this.departmentService.getDepartment().subscribe(
-      res => {
-        this.departments = res;
-      }
-    )
+    this.departmentService.getDepartment().subscribe((res) => {
+      this.departments = res;
+    });
   }
 
   getJob(): void {
-    this.jobService.getJob().subscribe(
-      res => {
-        this.jobs = res;
-      }
-    )
+    this.jobService.getJob().subscribe((res) => {
+      this.jobs = res;
+    });
   }
 
-  onChanged(nama: string){
-    this.employeeService.getEmployeeName(nama).subscribe(
-      res => {
-        this.employees = res.data;
-        console.log(this.employees)
-      }
-    )
+  onChanged(nama: string) {
+    this.employeeService.getEmployeeName(nama).subscribe((res) => {
+      this.employees = res.data;
+      console.log(this.employees);
+    });
   }
-  showSearchCall(){
+  showSearchCall() {
     this.showSearch = !this.showSearch;
+  }
+
+  salary = [this.row];
+  showBonus(row: any) {
+    this.row = { ...row };
+    this.displaySalary = true;
+    this.employeeService.getEmployeeById(row.employeeId).subscribe((res) => {
+      console.log(res.data);
+      this.salary[0] = res.data;
+      // this.ssss = res.data;
+      // this.s=[res.data];
+    });
   }
 }
