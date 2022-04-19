@@ -25,6 +25,14 @@
     margin-right: 0.5rem;
 }
 
+:host ::ng-deep .p-tieredmenu {
+    padding: 0.25rem 0;
+    background: #ffffff;
+    border: none;
+    border-radius: 3px;
+    width: 100%;
+}
+
 @media screen and (max-width: 960px) {
     :host ::ng-deep .p-menubar .p-menubar-root-list > .p-menuitem > .p-menuitem-link:not(.p-disabled) .p-menuitem-text {
         color: black;
