@@ -36,6 +36,10 @@ public class GroupController {
     DataResponse<GroupWrapper> getByGroupName(@RequestParam("groupName") String groupName){
         return new DataResponse<GroupWrapper>(groupService.getByGroupName(groupName));
     }
+    @GetMapping(path = "/getGroupByUserId")
+    DataResponseList<GroupWrapper> getGroupByUserId(@RequestParam("userId") Long userId){
+        return new DataResponseList<GroupWrapper>(groupService.getGroupByUserId(userId));
+    }
 
     // post & update
     @PostMapping(path = "/post")
