@@ -14,81 +14,32 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
 @Table(name = "LOCATIONS")
+@Getter
+@Setter
 public class Location {
-    private Long locationId;
-    private String streetAddress;
-    private String postalCode;
-    private String city;
-    private String stateProvince;
-    private Date createdDate;
-    private Country country;
 
     @Id
     @GeneratedValue(generator = "LOCATION_GEN", strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "LOCATION_GEN", sequenceName = "LOCATIONS_SEQ_01", initialValue = 1, allocationSize = 1)
-    public Long getLocationId() {
-        return locationId;
-    }
-
-    public void setLocationId(Long locationId) {
-        this.locationId = locationId;
-    }
-
+    private Long locationId;
     @Column(name = "STREET_ADDRESS")
-    public String getStreetAddress() {
-        return streetAddress;
-    }
-
-    public void setStreetAddress(String streetAddress) {
-        this.streetAddress = streetAddress;
-    }
-
+    private String streetAddress;
     @Column(name = "POSTAL_CODE")
-    public String getPostalCode() {
-        return postalCode;
-    }
-
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
-    }
-
+    private String postalCode;
     @Column(name = "CITY")
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
+    private String city;
     @Column(name = "STATE_PROVINCE")
-    public String getStateProvince() {
-        return stateProvince;
-    }
-
-    public void setStateProvince(String stateProvince) {
-        this.stateProvince = stateProvince;
-    }
-
+    private String stateProvince;
     @Column(name = "CREATED_DATE")
     @Temporal(TemporalType.DATE)
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
+    private Date createdDate;
     @ManyToOne
     @JoinColumn(name = "COUNTRY_ID")
-    public Country getCountry() {
-        return country;
-    }
+    private Country country;
 
-    public void setCountry(Country country) {
-        this.country = country;
     }
-}
