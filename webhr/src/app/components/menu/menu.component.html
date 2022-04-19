@@ -8,7 +8,9 @@
 <p-button type="button" class="mr-2" (click)="visibleSidebar = true" icon="pi pi-spin pi-bars"></p-button>
 
 <p-sidebar [(visible)]="visibleSidebar" [baseZIndex]="10000">
+    <a routerLink="/home"><img src="../../../assets/img/hr-logo.png" height="40" class="mr-2"></a>
     <p-tieredMenu [model]="items"></p-tieredMenu>
+    <button pButton label="Logout" icon="pi pi-power-off" (click)="logout()"></button>
 </p-sidebar>
 
 
