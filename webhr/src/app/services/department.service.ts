@@ -1,51 +1,48 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-const url: string = environment.url;
+
+
 const httpOptions = {
   headers: new HttpHeaders({
-    Accept: 'application/json',
-  }),
+    'Accept': 'application/json'
+  })
 };
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class DepartmentService {
-  constructor(private http: HttpClient) { }
+  private _url: string =  "http://localhost:9090/departments/findAll"
+  private _urlPosts: string = "https://jsonplaceholder.typicode.com/posts"
+  private _baseUrl: string = environment.url;
+
+
+  constructor(private http:HttpClient) { }
+
   getDepartment(): Observable<any> {
-    return this.http.get<any>(url + `departments/findAll`, {
-      responseType: 'json',
-    });
+    return this.http.get<any>(this._url, httpOptions).pipe(map((data: any) => (data.data || data)));
   }
 
-  getDepartmentByName(nama: string): Observable<any> {
-    return this.http.get<any>(
-      url +
-      `departments/findByDepartmentName?departmentName=${nama}&page=0&size=10000`,
-      {
-        responseType: 'json',
-      }
-    );
+  getDepartmentName(name: string): Observable<any> {
+    return this.http.get<any>(this._baseUrl+`/departments/findByDepartmentName?departmentName=${name}&page=0&size=20`, { responseType: 'json' }).pipe(map((data: any) => (data.data || data)));
   }
 
-  postDepartment(req: any): Observable<any> {
-    return this.http.post<any>(url + `departments/post`, req, {
-      responseType: 'json',
-    });
+  getDepartmentById(id: number): Observable<any> {
+    return this.http.get<any>(this._baseUrl + `departments/GetById?id=${id}`, httpOptions);
   }
 
-  putDepartment(req: any): Observable<any> {
-    return this.http.put<any>(url + `departments/put`, req, {
-      responseType: 'json',
-    });
+    postDepartment(req:any): Observable<any> {
+    return this.http.post<any>(this._baseUrl+ 'departments/posts', req, httpOptions);
+    }
+  
+  putDepartment(data: any): Observable<any> {
+    return this.http.put<any>(this._baseUrl + 'departments/update', data, httpOptions);
   }
-
-  deleteDepartment(id: number): Observable<any> {
-    return this.http.delete<any>(url + `departments/delete?id=${id}`, {
-      responseType: 'json',
-    });
+  deleteDepartment(id: any): Observable<any> {
+    return this.http.delete<any>(this._baseUrl + `departments/${id}`, httpOptions);
+    
   }
 }
