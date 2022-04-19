@@ -2,6 +2,7 @@ package com.lokakarya.backend.entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="GROUP_MENU")
@@ -30,6 +33,7 @@ public class GroupMenu {
     @Id
     @GeneratedValue(generator = "GROUP_MENU_GEN", strategy = GenerationType.SEQUENCE)
 	@SequenceGenerator(name = "GROUP_MENU_GEN", sequenceName = "GROUP_MENU_SEQ", initialValue = 1, allocationSize = 1)
+    @Column (name = "GROUP_MENU_ID")
     public Long getGroupMenuId() {
         return groupMenuId;
     }
@@ -58,12 +62,15 @@ public class GroupMenu {
         this.menu = menu;
     }
 
+    @Column (name = "IS_ACTIVE")
     public Character getIsActive() {
         return isActive;
     }
     public void setIsActive(Character isActive) {
         this.isActive = isActive;
     }
+
+    @Column (name = "PROGRAM_NAME")
     public String getProgramName() {
         return programName;
     }
@@ -72,6 +79,8 @@ public class GroupMenu {
         this.programName = programName;
     }
 
+    @Column (name = "CREATED_DATE")
+    @Temporal(TemporalType.DATE)
     public Date getCreatedDate() {
         return createdDate;
     }
@@ -80,6 +89,7 @@ public class GroupMenu {
         this.createdDate = createdDate;
     }
 
+    @Column (name = "CREATED_BY")
     public String getCreatedBy() {
         return createdBy;
     }
@@ -88,6 +98,8 @@ public class GroupMenu {
         this.createdBy = createdBy;
     }
 
+    @Column (name = "UPDATED_DATE")
+    @Temporal(TemporalType.DATE)
     public Date getUpdatedDate() {
         return updatedDate;
     }
@@ -96,6 +108,7 @@ public class GroupMenu {
         this.updatedDate = updatedDate;
     }
 
+    @Column (name = "UPDATED_BY")
     public String getUpdatedBy() {
         return updatedBy;
     }
