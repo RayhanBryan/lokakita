@@ -1,5 +1,4 @@
 <div class="card px-5">
-  <h1>Departments</h1>
   <div class="mb-3">
     <p-button type="button" icon="pi pi-chevron-left" (click)="prev()" [disabled]="isFirstPage()"
       styleClass="p-button-text"></p-button>
@@ -13,8 +12,14 @@
       <input type="text" pInputText placeholder="Search" [(ngModel)]="departmentName"
         (input)="findByDepartmentName()" />
     </span>
-    <p-button icon (click)="showDialog('Add')" icon="pi pi-plus-circle" label="Input"
-      styleClass="p-button-success mt-2 ml-3" [style]="{ float: 'right' }"></p-button>
+    <p-button
+      icon
+      (click)="showDialog('Add')"
+      icon="pi pi-plus-circle"
+      label="Add"
+      styleClass="p-button-success mt-2 ml-3"
+      [style]="{ float: 'right' }"
+    ></p-button>
   </div>
 </div>
 <p-table class="col" [value]="departments" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true"

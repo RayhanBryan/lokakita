@@ -38,8 +38,7 @@ export class JobComponent implements OnInit {
   action=0;
   keyword:any;
 
-  row: Job={
-    jobId: '',
+  row: any={
     jobTitle: '',
     minSalary: 0,
     maxSalary: 0,
@@ -88,41 +87,98 @@ export class JobComponent implements OnInit {
   //   );
   // }
 
+  // handleSaveJob(event:any){
+  //   console.log(this.row, 'ini rownya')
+  //   this.submitted=true
+
+  //   if(this.handleValidation()){
+  //     this.confirmationService.confirm({
+  //       message: 'are you sure?',
+  //       header: 'confirmation',
+  //       icon: 'pi pi exclamation-triangle',
+  //       accept: ()=>{
+  //         this.jobService.postJob(this.row).subscribe(
+  //           {
+  //             next: (data)=>{
+  //               console.log(data)
+  //               if(data.status){
+  //                 this.messageService.add({
+  //                   severity: 'success',
+  //                   summary: 'Input',
+  //                   detail: 'Data has been inserted',
+  //                 });
+  //                 this.loadData();
+  //                 this.displayMaximizable=false;
+                  
+  //               }
+  //             },
+  //             error: (err)=>{
+  //               console.log('error cuy')
+  //             }
+  //           }
+  //         );
+    
+  //       }
+  //     })
+  //   }
+    
+  //   }
+
+
   handleSaveJob(event:any){
-    console.log(this.row, 'ini rownya')
-    this.submitted=true
-    //this.row.hireDate=this.datepipe.transform(this.row.hireDate, 'yyyy-MM-dd');
-    
-    if(this.handleValidation()){
-      this.confirmationService.confirm({
-        message: 'are you sure?',
-        header: 'confirmation',
-        icon: 'pi pi exclamation-triangle',
-        accept: ()=>{
-          this.jobService.postJob(this.row).subscribe(
-            {
-              next: (data)=>{
-                console.log(data)
-                if(data.status){
-                  this.displayBasic=false;
-                  
-                  alert('berhasil.')
-                  this.loadData();
-                  
-                  // this.router.navigate(['/countries'])
-                }
-              },
-              error: (err)=>{
-                console.log('error cuy')
+    this.submitted=true;
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to perform this action?',
+      accept:()=>{
+        if(this.handleValidation() && this.action==1){
+          this.jobService.postJob(this.row).subscribe({
+            next: (data) =>{
+              console.log(data);
+              if(data.status){
+                this.messageService.add({
+                  severity: 'success',
+                  summary: 'Input',
+                  detail: 'Data has been inserted',
+                });
+                this.loadData();
+                this.displayMaximizable=false;
               }
-            }
-          );
-    
+            },
+            error: (err)=>{
+              console.log('error cuy');
+            },
+          });
+        } else{
+          console.log('b');
+          this.jobService.putJob(this.row).subscribe({
+            next: (data) => {
+              console.log(data);
+              if(data.status){
+                this.messageService.add({
+                  severity: 'success',
+                  summary: 'Input',
+                  detail: 'Data has been edited',
+                });
+                this.loadData();
+                this.displayMaximizable=false;
+              }
+            },
+            error: (err)=>{
+              console.log('error cuy');
+            },
+          });
         }
-      })
-    }
-    
-    }
+      },
+      reject: ()=>{
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Input Failed',
+        });
+      },
+    });
+  
+  }
     
     
     handleValidation(){
@@ -140,19 +196,19 @@ export class JobComponent implements OnInit {
     
     }
     
-    handleResetJob(){
+    handleResetJob(event:any, param:string): void{
       this.row={
-        jobId:'',
+        jobId:(this.action==2 && param=='click')?this.row.jobId:'',
         jobTitle:'',
         minSalary:0,
-        maxSalary:0
+        maxSalary:0,
       }
-    
+
     }
     
     openEdit(row:any){
     this.row={...row}
-    this.displayBasic=true;
+    this.displayMaximizable = true;
     this.action=2;
     }
     
@@ -183,9 +239,8 @@ export class JobComponent implements OnInit {
       this.displayDelete = false;
     }
     
-    searchJobTitle(): void {
-      console.log(this.keyword)
-      this.jobService.getJobByTitle(this.keyword).subscribe(
+    searchJobTitle(keyword:string): void {
+      this.jobService.getJobByTitle(keyword).subscribe(
         res => {
           
           this.jobs=res;

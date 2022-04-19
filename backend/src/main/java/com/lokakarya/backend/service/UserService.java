@@ -51,7 +51,8 @@ public class UserService {
 	        throw new BusinessException("Username cannot be null.");
         Optional<User> user = userRepository.findByUsername(username);
         if (!user.isPresent())
-            throw new BusinessException("User not found: " + username + '.');
+            // throw new BusinessException("User not found: " + username + '.');
+            return null;
         return toWrapper(user.get());
     }
     public List<UserWrapper> findByUsername(String username){

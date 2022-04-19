@@ -6,7 +6,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 const url: string = environment.url;
 const httpOptions = {
   headers: new HttpHeaders({
-    Accept: 'application/json',
+    "Content-Type": 'application/json',
   }),
 };
 
@@ -32,7 +32,7 @@ export class UserService {
     return this.http.put<any>(url + `users/put`, res, httpOptions);
   }
 
-   deleteUser(id: number): Observable<any> {
+  deleteUser(id: number): Observable<any> {
     return this.http.delete<any>(url + `users/delete?id=${id}`, {
       responseType: 'json',
     });
@@ -46,6 +46,6 @@ export class UserService {
   }
 
   getByUsername(username: string): Observable<any> {
-    return this.http.get<any>(url + `users/getByUsername?username=${username}`)
+    return this.http.get<any>(url + `users/getByUsername?username=${username}`, httpOptions)
   }
 }

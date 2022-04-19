@@ -1,13 +1,11 @@
 package com.lokakarya.backend.controller;
 
 import com.lokakarya.backend.entity.Customer;
-import com.lokakarya.backend.entity.Department;
 import com.lokakarya.backend.service.CustomerService;
 import com.lokakarya.backend.util.DataResponse;
 import com.lokakarya.backend.util.DataResponseList;
 import com.lokakarya.backend.util.DataResponsePagination;
 import com.lokakarya.backend.wrapper.CustomerWrapper;
-import com.lokakarya.backend.wrapper.DepartmentWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
