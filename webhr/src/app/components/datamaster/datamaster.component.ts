@@ -2,11 +2,25 @@ import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { UserService } from 'src/app/services/user.service';
 
+export interface User {
+  userId: number;
+  username: string;
+  password: string;
+  name: string;
+  address: string;
+  email: string;
+  phone: string;
+  createdDate:Date;
+  createdBy:string;
+}
+
+
 @Component({
   selector: 'app-datamaster',
   templateUrl: './datamaster.component.html',
   styleUrls: ['./datamaster.component.css']
 })
+
 export class DatamasterComponent implements OnInit {
     displayModal: boolean=false;
     displayBasic: boolean=false;
@@ -21,7 +35,7 @@ export class DatamasterComponent implements OnInit {
     userData: any;
     action = 0;
     nama: string = '';
-    
+    actions: string= '';
     valuepass1: string='';
     valuepass2: string='';
     valuepass3: string='';
@@ -37,6 +51,17 @@ export class DatamasterComponent implements OnInit {
     categories: any[] = [{name: 'Accounting', key: 'A'}, {name: 'Marketing', key: 'M'}, {name: 'Production', key: 'P'}, {name: 'Research', key: 'R'}];
     checked: boolean = false;
 
+    row: any = {
+    userId: 0,
+    username: '',
+    password: '',
+    name: '',
+    address: '',
+    email:'',
+    phone:'',
+    createdDate:'',
+    createdBy:'',
+    };
 
   constructor(private usersService:UserService) { }
 
@@ -63,6 +88,7 @@ export class DatamasterComponent implements OnInit {
       this.displayBasic=false;
         this.displayBasic2 = true;
         this.submitted=false;
+        this.actions='add';
     }
 
     showMaximizableDialog(act : any) {
@@ -107,5 +133,54 @@ export class DatamasterComponent implements OnInit {
           console.log(this.users)
         }
       )
-    }    
+    }   
+
+  openEdit(row: any) {
+    this.displayBasic2 = true;
+    this.actions = 'edit';
+    this.row = { ...row };
+  }
+
+  deleteUser(id: any) {
+    this.usersService.deleteUser(id).subscribe((res) => {
+      console.log(res.data);
+      this.users = res.data;
+    });
+    window.location.reload();
+  }
+
+    input(): void {
+    if (this.row.userId == 0) {
+      this.row.userId = null;
+      this.usersService.postUser(this.row).subscribe({
+        next: (data) => {
+          console.log(data);
+          if (data.status) {
+            this.reset;
+            this.ngOnInit();
+            this.displayBasic2 = false;
+            window.location.reload();
+          }
+        },
+        error: (err) => {
+          console.log('error cuy');
+        },
+      });
+    } else {
+      console.log(this.row);
+      this.usersService.putUser(this.row).subscribe({
+        next: (data) => {
+          if (data.status) {
+            this.reset;
+            this.ngOnInit();
+            this.displayBasic2 = false;
+          }
+        },
+        error: (err) => {
+          console.log('error cuy');
+          // this.displayBasic = false;
+        },
+      });
+    }
+  }
 }
