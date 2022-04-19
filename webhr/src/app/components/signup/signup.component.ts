@@ -42,7 +42,8 @@ export class SignupComponent implements OnInit {
 
   newAccess: any = {
     userId: '',
-    groupId: ''
+    groupId: '',
+    createdBy: ''
   }
 
   newUserValid: boolean = false;
@@ -102,8 +103,10 @@ export class SignupComponent implements OnInit {
           console.log(data)
           if (data.status) {
             this.successSignUp();
-            this.newAccess.userId = data.id;
+            this.newAccess.userId = data.data.userId;
+            this.newAccess.createdBy = data.data.createdBy;
             this.newAccess.groupId = 3;
+            console.log(this.newAccess)
             this.hakAkses.postAccess(this.newAccess).subscribe(
               res => {
                 console.log(res);

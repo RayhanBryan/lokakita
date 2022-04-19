@@ -18,25 +18,31 @@ export class MenuService {
   constructor(private http: HttpClient) { }
 
   getMenu(): Observable<any> {
-    return this.http.get<any>(url + `/menu/findAll`, {
+    return this.http.get<any>(url + `menus/findAll`, {
+      responseType: 'json',
+    });
+  }
+
+  getMenuById(id: number): Observable<any> {
+    return this.http.get<any>(url + `menus/getById?id=${id}`, {
       responseType: 'json',
     });
   }
 
   postMenu(req: any): Observable<any> {
-    return this.http.post<any>(url + `/menu/post`, req, {
+    return this.http.post<any>(url + `menus/post`, req, {
       responseType: 'json',
     })
   }
 
   putMenu(req: any): Observable<any> {
-    return this.http.put<any>(url + `/menu/put`, req, {
+    return this.http.put<any>(url + `menus/put`, req, {
       responseType: 'json',
     })
   }
 
   deleteMenu(id: number): Observable<any> {
-    return this.http.get<any>(url + `/menu/delete?id=${id}`, {
+    return this.http.get<any>(url + `/menus/delete?id=${id}`, {
       responseType: 'json',
     });
   }

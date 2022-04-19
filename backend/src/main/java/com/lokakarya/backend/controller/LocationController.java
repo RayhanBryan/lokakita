@@ -50,7 +50,7 @@ public class LocationController {
 	
 	// FIND BY STREET ADDRESS WITH PAGINATION
 	@GetMapping(path = "/findByStreetAddressWithPagination")
-	public DataResponsePagination<LocationWrapper, Location> findByFirstName(
+	public DataResponsePagination<LocationWrapper, Location> findByStreetAddressWithPagination(
 			@RequestParam("streetAddresss") String streetAddress, @RequestParam("page") int page,
 			@RequestParam("size") int size) {
 		return new DataResponsePagination<LocationWrapper, Location>(locationService.findByStreetAddressContaining(streetAddress, page, size));

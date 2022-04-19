@@ -17,13 +17,13 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   getUser(): Observable<any> {
-    return this.http.get<any>(url + `/users/findAll`, {
+    return this.http.get<any>(url + `users/findAll`, {
       responseType: 'json',
     });
   }
 
   postUser(req: any): Observable<any> {
-    return this.http.post<any>(url + `/users/post`, req, {
+    return this.http.post<any>(url + `users/post`, req, {
       responseType: 'json',
     });
   }
@@ -36,6 +36,6 @@ export class UserService {
   }
 
   getByUsername(username: string): Observable<any> {
-    return this.http.get<any>(url + `/users/getByUsername?username=${username}`)
+    return this.http.get<any>(url + `users/getByUsername?username=${username}`)
   }
 }

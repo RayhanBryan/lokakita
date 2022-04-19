@@ -122,8 +122,8 @@ export class EmployeeComponent implements OnInit {
   handleSaveDepartment(event: any) {
     this.submitted = true;
     console.log('b');
-    this.confirmationService.confirm({
-      header: 'Confirmation',
+      this.confirmationService.confirm({
+        header: 'Confirmation',
       message: 'Are you sure that you want to perform this action?',
       accept: () => {
         if (this.row.employeeId === 0) {

@@ -110,3 +110,4 @@ public class HakAksesService {
 		hakAksesRepository.deleteById(id);
     }
 }
+ 

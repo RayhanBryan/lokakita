@@ -11,14 +11,24 @@
 	<groupId>com.lokakarya</groupId>
 	<artifactId>backend</artifactId>
 	<packaging>war</packaging>
+<<<<<<< HEAD
 	<name>hrd</name>
 	<version>0.0.1-SNAPSHOT</version>
+=======
+	<!-- <version>0.0.1-SNAPSHOT</version> -->
+	<name>backend</name>
+>>>>>>> 9a9bc0a125e64b85f7a2b27a0172bda544dc5f9f
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>8</java.version>
 		<hibernate.version>5.6.5.Final</hibernate.version>
 	</properties>
 	<dependencies>
+		<dependency>
+		   <groupId>org.springframework.boot</groupId>
+		   <artifactId>spring-boot-starter-tomcat</artifactId>
+		   <scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -43,11 +53,14 @@
 			<artifactId>ojdbc8</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+<<<<<<< HEAD
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
 		</dependency>
+=======
+>>>>>>> 9a9bc0a125e64b85f7a2b27a0172bda544dc5f9f
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -64,13 +77,11 @@
 	        <version>3.0.0</version>
 	    </dependency>
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-<!--				<version>${project.parent.version}</version>-->
 			</plugin>
 		</plugins>
 	</build>
