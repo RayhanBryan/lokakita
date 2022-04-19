@@ -5,8 +5,12 @@
     <button pButton label="Logout" icon="pi pi-power-off" (click)="logout()"></button>
 </p-menubar> -->
 
-<p-button type="button" class="mr-2" (click)="visibleSidebar = true" icon="pi pi-spin pi-bars"></p-button>
-
+<div class="grid">
+    <div class="col-12 text-center">
+        <!-- <p-button type="button" class="mr-2" (click)="visibleSidebar = true" icon="pi pi-spin pi-bars" [style]="{'float' : 'left'}"></p-button> -->
+        <h1><p-button type="button" class="mr-2" (click)="visibleSidebar = true" icon="pi pi-spin pi-bars" [style]="{'float' : 'left'}"></p-button>Batch 7 LokaKita</h1>
+    </div>
+</div>
 <p-sidebar [(visible)]="visibleSidebar" [baseZIndex]="10000">
     <a routerLink="/home"><img src="../../../assets/img/hr-logo.png" height="40" class="mr-2"></a>
     <p-tieredMenu [model]="items"></p-tieredMenu>
