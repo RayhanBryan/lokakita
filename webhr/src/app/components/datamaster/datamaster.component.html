@@ -32,7 +32,7 @@
   </ng-template>
 </p-dialog>
 
-<p-button (click)="showBasicDialog2()" icon="pi pi-user pi-plus" styleClass="p-button-success" label="Add User">
+<p-button (click)="showBasicDialog2()" (onClick)="handleReset($event)" icon="pi pi-user pi-plus" styleClass="p-button-success" label="Add User">
 </p-button>
 <p-dialog header="Add New User" [(visible)]="displayBasic2" [style]="{width: '50vw'}">
   <div class="grid p-fluid">
@@ -137,7 +137,7 @@
         </th>
         <th pSortableColumn="phone">Phone Number<p-sortIcon field="phone"></p-sortIcon>
         </th>
-        <th pSortableColumn="group">Group<p-sortIcon field="group"></p-sortIcon>
+        <th pSortableColumn="groupName">Group Name<p-sortIcon field="groupName"></p-sortIcon>
         </th>
         <th pSortableColumn="createdBy">Created By<p-sortIcon field="createdBy"></p-sortIcon>
         </th>
@@ -152,7 +152,7 @@
         <td>{{users.email}}</td>
         <td>{{users.address}}</td>
         <td>{{users.phone}}</td>
-        <td>{{users}}</td>
+        <td>{{users.groupName}}</td>
         <td>{{users.createdBy}}</td>
         <td>
           <div class="grid p-fluid">

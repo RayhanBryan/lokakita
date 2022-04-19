@@ -136,7 +136,7 @@ create table permission_groups(
 
 drop table permissions;
 
-create SEQUENCE permission_seq
+create SEQUENCE permission_group_seq
     MINVALUE 1
     MAXVALUE 10000000000
     START WITH 1

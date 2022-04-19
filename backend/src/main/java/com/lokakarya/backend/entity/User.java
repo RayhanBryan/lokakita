@@ -12,120 +12,118 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+
+@Data
+@NoArgsConstructor
 @Entity
 @Table(name = "USERS")
 public class User {
-    private Long userId;
-    private String username;
-    private String password;
-    private String name;
-    private String address;
-    private String email;
-    private String phone;
-    private String programName;
-    private Date createdDate;
-    private String createdBy;
-    private Date updatedDate;
-    private String updatedBy;
-    
+
     @Id
     @GeneratedValue(generator = "USERS_GEN", strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "USERS_GEN", sequenceName = "USER_SEQ",initialValue = 1, allocationSize = 1)
     @Column(name = "USER_ID")
-    public Long getUserId() {
-        return userId;
-    }
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
+    private Long userId;
     @Column(name = "USERNAME")
-    public String getUsername() {
-        return username;
-    }
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
+    private String username;
     @Column(name = "PASSWORD")
-    public String getPassword() {
-        return password;
-    }
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
+    private String password;
     @Column(name="USER_NAME")
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    private String name;
     @Column(name="ADDRESS")
-    public String getAddress() {
-        return address;
-    }
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
+    private String address;
     @Column(name = "EMAIL")
-    public String getEmail() {
-        return email;
-    }
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
+    private String email;
     @Column(name="PHONE")
-    public String getPhone() {
-        return phone;
-    }
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
+    private String phone;
     @Column(name = "PROGRAM_NAME")
-    public String getProgramName() {
-        return programName;
-    }
-    public void setProgramName(String programName) {
-        this.programName = programName;
-    }
-
+    private String programName;
     @Column(name="CREATED_DATE")
     @Temporal(TemporalType.DATE)
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
+    private Date createdDate;
     @Column(name = "CREATED_BY")
-    public String getCreatedBy() {
-        return createdBy;
-    }
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
+    private String createdBy;
     @Column(name = "UPDATED_DATE")
     @Temporal(TemporalType.DATE)
-    public Date getUpdatedDate() {
-        return updatedDate;
-    }
-    public void setUpdatedDate(Date updatedDate) {
-        this.updatedDate = updatedDate;
-    }
-
+    private Date updatedDate;
     @Column(name = "UPDATED_BY")
-    public String getUpdatedBy() {
-        return updatedBy;
-    }
-    public void setUpdatedBy(String updatedBy) {
-        this.updatedBy = updatedBy;
-    }
+    private String updatedBy;
+
+    // public Long getUserId() {
+    //     return userId;
+    // }
+    // public void setUserId(Long userId) {
+    //     this.userId = userId;
+    // }
+    // public String getUsername() {
+    //     return username;
+    // }
+    // public void setUsername(String username) {
+    //     this.username = username;
+    // }
+    // public String getPassword() {
+    //     return password;
+    // }
+    // public void setPassword(String password) {
+    //     this.password = password;
+    // }
+    // public String getName() {
+    //     return name;
+    // }
+    // public void setName(String name) {
+    //     this.name = name;
+    // }
+    // public String getAddress() {
+    //     return address;
+    // }
+    // public void setAddress(String address) {
+    //     this.address = address;
+    // }
+    // public String getEmail() {
+    //     return email;
+    // }
+    // public void setEmail(String email) {
+    //     this.email = email;
+    // }
+    // public String getPhone() {
+    //     return phone;
+    // }
+    // public void setPhone(String phone) {
+    //     this.phone = phone;
+    // }
+    // public String getProgramName() {
+    //     return programName;
+    // }
+    // public void setProgramName(String programName) {
+    //     this.programName = programName;
+    // }
+    // public Date getCreatedDate() {
+    //     return createdDate;
+    // }
+    // public void setCreatedDate(Date createdDate) {
+    //     this.createdDate = createdDate;
+    // }
+    // public String getCreatedBy() {
+    //     return createdBy;
+    // }
+    // public void setCreatedBy(String createdBy) {
+    //     this.createdBy = createdBy;
+    // }
+    // public Date getUpdatedDate() {
+    //     return updatedDate;
+    // }
+    // public void setUpdatedDate(Date updatedDate) {
+    //     this.updatedDate = updatedDate;
+    // }
+    // public String getUpdatedBy() {
+    //     return updatedBy;
+    // }
+    // public void setUpdatedBy(String updatedBy) {
+    //     this.updatedBy = updatedBy;
+    // }
+
+    
 }
