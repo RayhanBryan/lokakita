@@ -36,6 +36,10 @@ public class MenuController {
     public DataResponse<MenuWrapper> getByMenuName(@RequestParam("menuName") String menuName){
         return new DataResponse<MenuWrapper>(menuService.getByMenuName(menuName));
     }
+    @GetMapping(path = "/getMenuByUserId")
+    public DataResponseList<MenuWrapper> getMenuByUser(@RequestParam("id") Long id){
+        return new DataResponseList<MenuWrapper>(menuService.getMenuByUserId(id));
+    }
     // post&update
     @PostMapping(path = "/post")
     public DataResponse<MenuWrapper> post(@RequestBody MenuWrapper wrapper){

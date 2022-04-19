@@ -46,4 +46,10 @@ export class MenuService {
       responseType: 'json',
     });
   }
+
+  getMenuByUserId(id: number): Observable<any> {
+    return this.http.get<any>(url + `menus/getMenuByUserId?id=${id}`, {
+      responseType: 'json',
+    });
+  }
 }
