@@ -4,6 +4,7 @@ public class PermissionWrapper {
     private Long permissionId;
     private String permission;
     private String note;
+    
     public Long getPermissionId() {
         return permissionId;
     }
