@@ -8,8 +8,10 @@ import java.util.Optional;
 // import javax.transaction.Transactional;
 
 import com.lokakarya.backend.entity.Group;
+import com.lokakarya.backend.entity.User;
 import com.lokakarya.backend.exception.BusinessException;
 import com.lokakarya.backend.repository.GroupRepository;
+import com.lokakarya.backend.repository.UserRepository;
 import com.lokakarya.backend.wrapper.GroupWrapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,8 @@ public class GroupService {
     @Autowired
     GroupRepository groupRepository;
 
+    @Autowired
+    UserRepository userRepository;
     // get
     public List<GroupWrapper> findAll(){
         return toWrapperList(groupRepository.findAll());
@@ -42,6 +46,14 @@ public class GroupService {
         if(!entity.isPresent())
             throw new BusinessException("Group not found: "+ groupName + ".");
         return toWrapper(entity.get());
+    }
+    public List<GroupWrapper> getGroupByUserId(Long id){
+        if(id == null)
+            throw new BusinessException("Id cannot be null.");
+        Optional<User> entity = userRepository.findById(id);
+        if(!entity.isPresent())
+            throw new BusinessException("User not found: "+ id + ".");
+        return toWrapperList(groupRepository.getGroupByUserId(id));
     }
     // post & update
     public GroupWrapper save(GroupWrapper wrapper){

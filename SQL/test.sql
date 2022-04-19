@@ -13,4 +13,13 @@ LEFT JOIN HAK_AKSES ha on gs.group_id = ha.group_ID
 LEFT JOIN USERS u on ha.user_id = u.user_ID
 where u.USER_ID = ;
 
-select * from users;
+select * from HAK_AKSES;
+
+select * from GROUPS
+
+select * from GROUP_MENU
+
+select * from GROUPS g 
+left JOIN HAK_AKSES ha on g.group_ID = ha.group_ID 
+LEFT JOIN USERS u on ha.user_ID = u.user_ID
+where u.user_Id = 1;
