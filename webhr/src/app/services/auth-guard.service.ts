@@ -20,8 +20,8 @@ export class AuthGuardService {
         return true
       }
       else {
-        this.router.navigate(['notfound']);
-        return false
+        this.router.navigate(['/home']);
+        return true
       }
     } else {
       this.router.navigate(['login']);
