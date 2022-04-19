@@ -31,7 +31,6 @@ export class MenuComponent implements OnInit {
     window.location.reload();
   }
   ngOnInit() {
-    console.log('ini user id: ', localStorage.getItem('items'))
     this.getMenuByUserId(Number(localStorage.getItem('token')));
   }
 
@@ -43,7 +42,6 @@ export class MenuComponent implements OnInit {
             l.icon = l.icon,
             l.routerLink = l.url
         });
-        console.log(res.data, ' in res')
         this.items = res.data;
         localStorage.setItem('items', JSON.stringify(res.data))
       }

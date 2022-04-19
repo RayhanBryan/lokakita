@@ -15,7 +15,6 @@ export class AuthGuardService {
         count++;
       }
     });
-    console.log(state);
     if (this.isLoggedIn) {
       if (count > 0 || state.url == '/home') {
         return true
