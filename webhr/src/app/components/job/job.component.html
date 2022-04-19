@@ -6,9 +6,9 @@
         <button pButton pRipple type="button" icon="pi pi-search" label="Search" class="mt-2 ml-3" [style]="{'float': 'right'}" (click)="showSearchCall()"></button>
         <span *ngIf="showSearch" class="p-input-icon-left mt-2 ml-3" [style]="{'float': 'right'}">
             <i class="pi pi-search"></i>
-            <input type="text" pInputText placeholder="Search" [(ngModel)]="nama" (ngModelChange)="searchJobTitle()"/>
+            <input type="text" pInputText placeholder="Search" [(ngModel)]="keyword" (input)="searchJobTitle(keyword)"/>
         </span>
-        <p-button icon="pi pi-plus-circle" label="Add" styleClass="p-button-success mt-2 ml-3" [style]="{'float': 'right'}" (onClick)="showForm()"></p-button>
+        <p-button (onClick)="showMaximizableDialog(1)" icon="pi pi-plus-circle" label="Input" styleClass="p-button-success mt-2 ml-3" [style]="{'float': 'right'}" (onClick)="showForm()"></p-button>
     </div>
     <p-table [value]="jobs" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true" [(first)]="first" responsiveLayout="scroll"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10,25,50]">
@@ -36,14 +36,14 @@
 </p-table>
 
 <p-dialog [header]="action == 1 ? 'Input Job' : 'Edit Job' " [(visible)]="displayMaximizable" [modal]="true" [style]="{width: '50vw'}" [maximizable]="true"
-    [draggable]="false" [resizable]="false" (onHide)="handleResetJob()">
+    [draggable]="false" [resizable]="false" (onHide)="handleResetJob($event,'hide')">
     <div class="grid">
       <div class="col-6">
           <h5>Job ID</h5>
           <span class="p-float-label">
-              <input type="text" pInputText [(ngModel)]="row.jobId" (ngModelChange)="row.jobId = $event.toUpperCase()" required autofocus> 
+              <input *ngIf="action==1" type="text" pInputText [(ngModel)]="row.jobId" (ngModelChange)="row.jobId = $event.toUpperCase()" required autofocus> 
               <!-- <h5 *ngIf="submitted && !row.jobId">Required!!</h5>  -->
-              <label for="float-input">Job ID</label>
+              <label for="float-input">{{row.jobId}}</label>
               <h5 class="p invalid" style="color: red;" *ngIf="submitted && !row.jobId">Job ID is required.</h5>
           </span>
       </div>
@@ -52,7 +52,6 @@
           <span class="p-float-label">
               <input type="text" pInputText [(ngModel)]="row.jobTitle" required autofocus> 
               <!-- <h5 *ngIf="submitted && !row.jobTitle">Required!!</h5> -->
-              <label for="float-input">Job Title</label>
               <h5 class="p invalid" style="color: red;" *ngIf="submitted && !row.jobTitle">Job Name is required.</h5>
           </span>
       </div>
@@ -75,8 +74,8 @@
 
 
   <ng-template pTemplate="footer">
-    <button pButton pRipple type="button" (click)="handleSaveJob($event)" icon="pi pi-check" label="Save" class="mt-2 ml-1"></button>
-    <button pButton pRipple type="button" (click)="handleResetJob()" icon="pi pi-spinner" label="Reset" class="mt-2 ml-1 p-button-danger"></button>
+    <button pButton pRipple type="button" (click)="handleSaveJob2($event)" icon="pi pi-check" label="Save" class="mt-2 ml-1"></button>
+    <button pButton pRipple type="button" (click)="handleResetJob($event,'click')" icon="pi pi-spinner" label="Reset" class="mt-2 ml-1 p-button-danger"></button>
     <button pButton pRipple type="button" (click)="displayMaximizable=false" icon="pi pi-times" label="Cancel" class="mt-2 ml-1 p-button-danger"></button>
 </ng-template>
 </p-dialog>

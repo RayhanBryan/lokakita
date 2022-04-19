@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { ConfirmationService } from 'primeng/api';
+import { Router} from '@angular/router';
+import { ConfirmationService, MessageService, ConfirmEventType } from 'primeng/api';
 import { CountryService } from 'src/app/services/country.service';
 import { RegionService } from 'src/app/services/region.service';
 
@@ -18,7 +18,9 @@ export interface Region{
 @Component({
   selector: 'app-country',
   templateUrl: './country.component.html',
-  styleUrls: ['./country.component.css']
+  styleUrls: ['./country.component.css'],
+  providers: [ConfirmationService,MessageService]
+
 })
 export class CountryComponent implements OnInit {
   countries:any;
@@ -29,8 +31,15 @@ export class CountryComponent implements OnInit {
   displayForm:boolean=false;
   regions:any;
   submitted:boolean=false;
-  action:string='';
+  action:number=0;
   keyword:string='';
+  deleteId:string='';
+  displayDelete=false;
+  countryId: string='';
+  countryName: string='';
+  regionId: string='';
+  res:any;
+  displayMaximizable: boolean = false;
 
   row: Country={
     countryId:'',
@@ -38,22 +47,12 @@ export class CountryComponent implements OnInit {
     regionId:''
   }
 
-  row_loc: Region={
-    regionId: 0,
-    regionName: ''
-
-  }
-
-  display: boolean = false;
-  displayModal: boolean = false;
-  displayBasic: boolean=false;
-
-
   constructor(
     private countryService: CountryService,
     private confirmationService: ConfirmationService,
     private router: Router,
-    private regionService: RegionService
+    private regionService: RegionService,
+    private messageService: MessageService
     ) { }
 
   ngOnInit(): void {
@@ -64,130 +63,166 @@ export class CountryComponent implements OnInit {
     this.countryService.getCountry().subscribe(
       {
         next: (data)=>{
-          console.log(data)
+          // console.log(data)
           this.countries=data.data
             //this.onReset();
         },
-        error: (err)=>{
+        error: (err) => {
           console.log('error cuy')
         }
       }
     )
-
     this.regions=this.getRegion();
   }
 
-// showDialog() {
-//     this.display = true;
-// }
-
-// showBasicDialog() {
-//   this.displayBasic = true;
-// }
-
-// showModalDialog() {
-//   this.displayModal = true;
-// }
-
 handleSaveCountry(event:any){
-console.log(this.row, 'ini rownya')
-this.submitted=true;
-
-
-if(this.handleValidation()){
-  this.confirmationService.confirm({
-    message: 'are you sure?',
-    header: 'confirmation',
-    icon: 'pi pi exclamation-triangle',
-    accept: ()=>{
-      this.countryService.postCountry(this.row).subscribe(
-        {
-          next: (data)=>{
-            console.log(data)
-            if(data.status){
-              this.displayBasic=false;
-              
-              alert('berhasil.')
-              this.loadData();
-              
-              // this.router.navigate(['/countries'])
-            }
-          },
-          error: (err)=>{
-            console.log('error cuy')
-          }
+  this.submitted=true;
+  if(this.handleValidation() && this.action==1){
+    this.confirmationService.confirm({
+      message:'Are you sure that you want to perform this action?',
+    accept: () => {
+    this.countryService.postCountry(this.row).subscribe(
+      {
+      next: (data) => {
+        //console.log(data);
+        if(data.status){
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Input',
+            detail: 'Data has been inserted',
+          });
+          this.loadData();
+          this.displayMaximizable=false;
+          
         }
-      );
+      },
+      error: (err) => {
+        console.log('error cuy');
+      },
+    });
+  },
 
-    }
-  })
-}
+  reject: () => {
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: 'Input Failed',
+    });
+  },
+  
+  } );
+
+  }else if(this.handleValidation() && this.action==2){
+    this.confirmationService.confirm({
+      message:'Are you sure that you want to perform this action?',
+    accept: () => {
+    this.countryService.putCountry(this.row).subscribe({
+      next: (data) => {
+        //console.log(data);
+        if(data.status){
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Edit',
+            detail: 'Data has been edited',
+          });
+          
+          this.loadData();
+          this.displayMaximizable=false;
+          
+        }
+      } ,
+      error: (err) => {
+        console.log('error cuy');
+      },
+    });
+  },
+  reject: () => {
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: 'Edit Failed',
+    });
+  }
+})}
 
 }
 
 
 handleValidation(){
 let result: boolean=false;
-//console.log(this.row.regionId)
 if(this.row.countryId.length==2 && this.row.countryName.length>0 && this.row.regionId !==''){
   result=true;
 }
-
 return result;
-
 }
 
-handleResetCountry(event:any): void{
+handleResetCountry(event:any, param:string): void{
 this.row={
-  countryId:'',
+  countryId:(this.action==2 && param=='click')?this.row.countryId:'',
   countryName:'',
   regionId:''
 }
-
 }
 
 openEdit(row:any){
 this.row={...row}
-this.displayBasic=true;
-this.action='edit';
-}
-
-openInsert(){
-this.displayBasic=true;
-this.action='add';
+this.displayMaximizable = true;
+this.action=2;
 }
 
 getRegion(): void{
 this.regionService.getRegion().subscribe(
-  res=> {
-    this.regions=res;
-    //console.log(res, 'aaaaa');
+  res => {
+    this.regions=res.data;
   }
 )
 }
 
-delCountry(id:string): void {
-if(confirm('Are you sure want to delete this country?')){
-  this.countryService.deleteCountry(id).subscribe(data => {
-    this.router.navigate(['/country']);
-     this.loadData();
-})}else{
-  alert("Delete data canceled.");
-  this.loadData();
-}
 
-}
-
-searchCountryName(): void {
-  console.log(this.keyword)
-  this.countryService.getCountryByName(this.keyword).subscribe(
+deleteData(){
+  this.countryService.deleteCountry(this.deleteId).subscribe(
     res => {
-      
+      //console.log(res)
+      this.loadData();
+    })
+  this.displayDelete = false;
+}
+
+searchCountryName(keyword:string): void {
+  this.countryService.getCountryByName(keyword).subscribe(
+    res => {
       this.countries=res;
-      console.log(res);
     }
   );
 
+}
+
+showDeleteDialog(id: string){
+  this.deleteId = id;
+  this.confirmationService.confirm({
+    message: 'Do you want to delete this record?',
+    header: 'Delete Confirmation',
+    icon: 'pi pi-info-circle',
+    accept: () => {
+        this.messageService.add({severity:'info', summary:'Confirmed', detail:'Data deleted'});
+        this.deleteData();
+    },
+    reject: (type: any) => {
+        switch(type) {
+            case ConfirmEventType.REJECT:
+                this.messageService.add({severity:'error', summary:'Rejected', detail:'You have rejected'});
+            break;
+            case ConfirmEventType.CANCEL:
+                this.messageService.add({severity:'warn', summary:'Cancelled', detail:'You have cancelled'});
+            break;
+        }
+    }
+});
+};
+    
+showMaximizableDialog(act: number) {
+  this.displayMaximizable = true;
+  this.action = act;
 }
 
   next(){
@@ -203,11 +238,11 @@ searchCountryName(): void {
   }
 
   isLastPage(): boolean{
-    return this.countries?this.first===(this.countries.length-this.rows):true;
+    return this.countries?this.first === (this.countries.length-this.rows) : true;
   }
 
   isFirstPage():boolean{
-    return this.countries?this.first===0:true;
+    return this.countries?this.first === 0 : true;
   }
 
   showSearchCall(){

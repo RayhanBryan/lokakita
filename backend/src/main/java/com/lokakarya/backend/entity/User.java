@@ -12,13 +12,14 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+
+@Data
+@NoArgsConstructor
 @Entity
 @Table(name = "USERS")
-@Getter
-@Setter
 public class User {
 
     @Id
@@ -26,7 +27,6 @@ public class User {
     @SequenceGenerator(name = "USERS_GEN", sequenceName = "USER_SEQ",initialValue = 1, allocationSize = 1)
     @Column(name = "USER_ID")
     private Long userId;
-
     @Column(name = "USERNAME")
     private String username;
     @Column(name = "PASSWORD")

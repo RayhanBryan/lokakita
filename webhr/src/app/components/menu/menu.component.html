@@ -1,8 +1,32 @@
-<p-menubar [model]="items" class="menu" *ngIf="items">
+<!-- <p-menubar [model]="items" class="menu">
     <ng-template pTemplate="start">
         <a routerLink="/home"><img src="../../../assets/img/hr-logo.png" height="40" class="mr-2"></a>
     </ng-template>
     <button pButton label="Logout" icon="pi pi-power-off" (click)="logout()"></button>
-</p-menubar>
+</p-menubar> -->
+
+<div class="grid">
+    <div class="col-12 text-center">
+        <img class="logo-atas" src="../../../assets/img/logo-atas.png" alt="">
+        <p-button type="button" class="mr-2" (click)="visibleSidebar = true" icon="pi pi-spin pi-bars" [style]="{'float' : 'left'}"></p-button>
+    </div>
+</div>
+<p-sidebar [(visible)]="visibleSidebar" [baseZIndex]="10000" [style]="{'background-color' : '#2196f3'}">
+    <div class="grid">
+        <div class="col-3">
+        <a routerLink="/home" class="home-logo">
+            <img src="../../../assets/img/hr-logo.png" height="40" class="mr-2">
+        </a>
+    </div>
+    <div class="col-9">
+        <h3>Web HR</h3>
+    </div>
+    </div>
+    
+    <p-tieredMenu [model]="items"></p-tieredMenu>
+    <button pButton label="Logout" icon="pi pi-power-off" (click)="logout()"></button>
+</p-sidebar>
+
+
 
 <p-toast position="top-center" key="tc"></p-toast>

@@ -49,21 +49,26 @@ export class LoginComponent implements OnInit {
     this.userService.getByUsername(this.username).subscribe(
       res => {
         this.userData = res.data;
-        console.log(this.userData);
-        if (this.userData.username == this.username && this.userData.password == this.password) {
-          this.successLogin()
-          localStorage.setItem('token', this.userData.userId)
-          localStorage.setItem('name', 'Administrator')
-          window.location.reload()
-          return
+        if (res.status) {
+          console.log('wfafwa')
+          if (this.userData.username == this.username && this.userData.password == this.password) {
+            this.successLogin()
+            localStorage.setItem('token', this.userData.userId)
+            localStorage.setItem('name', 'Administrator')
+            window.location.reload()
+            return
+          } else {
+            this.wrongUser();
+          }
+        } else {
+          this.wrongUser();
         }
-        this.wrongUser();
       }
     );
   }
 
   checkUsername() {
-    if (this.username.length <= 5) {
+    if (this.username.length < 5) {
       this.checkUser = true;
     } else {
       this.checkUser = false;

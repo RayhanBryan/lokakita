@@ -44,6 +44,7 @@ public class HakAksesController {
       DataResponse<HakAksesWrapper> update(@RequestBody HakAksesWrapper wrapper){
           return new DataResponse<HakAksesWrapper>(hakAksesService.save(wrapper));
       }
+      
       @DeleteMapping(path = "/delete")
       DataResponse<HakAksesWrapper> delete(@RequestParam("id") Long id){
           hakAksesService.delete(id);

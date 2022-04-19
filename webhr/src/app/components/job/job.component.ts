@@ -34,22 +34,15 @@ export class JobComponent implements OnInit {
   showSearch:boolean=false;
   displayForm:boolean=false;
   submitted:boolean=false;
-  // action:string='';
+  displayMaximizable: boolean = false;
   action=0;
   keyword:any;
 
-  row: Job={
-    jobId: '',
+  row: any={
     jobTitle: '',
     minSalary: 0,
     maxSalary: 0,
   }
-
-  display: boolean = false;
-  displayModal: boolean = false;
-  displayBasic: boolean=false;
-
-
 
   constructor(
     private jobService: JobService,
@@ -78,52 +71,167 @@ export class JobComponent implements OnInit {
     )
   }
 
-  // getJob(){
-  //   this.jobService.getJob().subscribe(
-  //     res => {
-  //       // console.log(res);
-  //       this.jobs = res.data;
-  //       console.log(this.jobs)
-  //     }
-  //   );
-  // }
+  // handleSaveJob(event:any){
+  //   console.log(this.row, 'ini rownya')
+  //   this.submitted=true;
+
+  //   if(this.handleValidation()){
+  //     this.confirmationService.confirm({
+  //       message: 'are you sure?',
+  //       header: 'confirmation',
+  //       icon: 'pi pi exclamation-triangle',
+  //       accept: ()=>{
+  //         this.jobService.postJob(this.row).subscribe(
+  //           {
+  //             next: (data)=>{
+  //               console.log(data)
+  //               if(data.status){
+  //                 this.messageService.add({
+  //                   severity: 'success',
+  //                   summary: 'Input',
+  //                   detail: 'Data has been inserted',
+  //                 });
+  //                 this.loadData();
+  //                 this.displayMaximizable=false;
+                  
+  //               }
+  //             },
+  //             error: (err)=>{
+  //               console.log('error cuy')
+  //             }
+  //           }
+  //         );
+    
+  //       }
+  //     })
+  //   }
+    
+  //   }
+
 
   handleSaveJob(event:any){
-    console.log(this.row, 'ini rownya')
-    this.submitted=true
-    //this.row.hireDate=this.datepipe.transform(this.row.hireDate, 'yyyy-MM-dd');
-    
-    if(this.handleValidation()){
-      this.confirmationService.confirm({
-        message: 'are you sure?',
-        header: 'confirmation',
-        icon: 'pi pi exclamation-triangle',
-        accept: ()=>{
+    this.submitted=true;
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to perform this action?',
+      accept:()=>{
+        if(this.handleValidation() && this.action==1){
+          this.jobService.postJob(this.row).subscribe({
+            next: (data) =>{
+              console.log(data);
+              if(data.status){
+                this.messageService.add({
+                  severity: 'success',
+                  summary: 'Input',
+                  detail: 'Data has been inserted',
+                });
+                this.loadData();
+                this.displayMaximizable=false;
+              }
+            },
+            error: (err)=>{
+              console.log('error cuy');
+            },
+          });
+        } else{
+          console.log('b');
+          this.jobService.putJob(this.row).subscribe({
+            next: (data) => {
+              console.log(data);
+              if(data.status){
+                this.messageService.add({
+                  severity: 'success',
+                  summary: 'Input',
+                  detail: 'Data has been edited',
+                });
+                this.loadData();
+                this.displayMaximizable=false;
+              }
+            },
+            error: (err)=>{
+              console.log('error cuy');
+            },
+          });
+        }
+      },
+      reject: ()=>{
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Input Failed',
+        });
+      },
+    });
+  
+  }
+    handleSaveJob2(event:any){
+      this.submitted=true;
+      if(this.handleValidation() && this.action==1){
+        this.confirmationService.confirm({
+          message:'Are you sure that you want to perform this action?',
+        accept: () => {
           this.jobService.postJob(this.row).subscribe(
             {
-              next: (data)=>{
-                console.log(data)
+              next: (data) => {
+                console.log(data);
                 if(data.status){
-                  this.displayBasic=false;
-                  
-                  alert('berhasil.')
+                  this.messageService.add({
+                    severity: 'success',
+                    summary: 'Input',
+                    detail: 'Data has been inserted',
+                  });
                   this.loadData();
-                  
-                  // this.router.navigate(['/countries'])
+                  this.displayMaximizable=false;
                 }
               },
-              error: (err)=>{
-                console.log('error cuy')
-              }
+              error: (err) => {
+                console.log('error cuy');
+              },
             }
           );
-    
-        }
-      })
+        },
+
+        reject: () => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Input Failed',
+          });
+        },
+        });
+      } else if(this.handleValidation() && this.action==2){
+        this.confirmationService.confirm({
+          message: 'Are you sure that yo want to perform this action?',
+          accept: () => {
+            this.jobService.putJob(this.row).subscribe({
+              next: (data) => {
+                console.log(data);
+                if(data.status){
+                  this.messageService.add({
+                    severity: 'success',
+                    summary: 'Edit',
+                    detail: 'Data has been edited',
+                  });
+                  this. loadData();
+                  this.displayMaximizable=false;
+                }
+              },
+              error: (err) => {
+                console.log('error cuy');
+              },
+            });
+          },
+          reject: () => {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Edit Failed',
+            });
+          }
+        })
+
+      }
+
     }
-    
-    }
-    
     
     handleValidation(){
       let result: boolean=false;
@@ -135,43 +243,23 @@ export class JobComponent implements OnInit {
           result=true;
         }
       }
-    
       return result;
-    
     }
     
-    handleResetJob(){
+    handleResetJob(event:any, param:string): void{
       this.row={
-        jobId:'',
+        jobId:(this.action==2 && param=='click')?this.row.jobId:'',
         jobTitle:'',
         minSalary:0,
-        maxSalary:0
+        maxSalary:0,
       }
-    
     }
     
     openEdit(row:any){
     this.row={...row}
-    this.displayBasic=true;
+    this.displayMaximizable = true;
     this.action=2;
     }
-    
-    // openInsert(){
-    // this.displayBasic=true;
-    // this.action='add';
-    // }
-    
-    // delJob(id:string): void {
-    // if(confirm('Are you sure want to delete this Job?')){
-    //   this.jobService.deleteJob(id).subscribe(data => {
-    //     this.router.navigate(['/job']);
-    //      this.loadData();
-    // })}else{
-    //   alert("Delete data canceled.");
-    //   this.loadData();
-    // }
-    
-    // }
 
     deleteData(){
       this.jobService.deleteJob(this.deleteId).subscribe(
@@ -183,13 +271,10 @@ export class JobComponent implements OnInit {
       this.displayDelete = false;
     }
     
-    searchJobTitle(): void {
-      console.log(this.keyword)
-      this.jobService.getJobByTitle(this.keyword).subscribe(
+    searchJobTitle(keyword:string): void {
+      this.jobService.getJobByTitle(keyword).subscribe(
         res => {
-          
           this.jobs=res;
-          console.log(res);
         }
       );
     
@@ -218,14 +303,12 @@ export class JobComponent implements OnInit {
     });
     };
 
-    displayMaximizable: boolean = false;
-    
+
     showMaximizableDialog(act: number) {
       this.displayMaximizable = true;
       this.action = act;
     }
   
-
   next(){
     this.first=this.first+this.rows;
   }
@@ -239,11 +322,11 @@ export class JobComponent implements OnInit {
   }
 
   isLastPage(): boolean{
-    return this.jobs?this.first===(this.jobs.length-this.rows):true;
+    return this.jobs?this.first === (this.jobs.length-this.rows) : true;
   }
 
   isFirstPage():boolean{
-    return this.jobs?this.first===0:true;
+    return this.jobs?this.first === 0 : true;
   }
 
   showSearchCall(){

@@ -1,119 +1,177 @@
 <div class="card px-5">
     <div class="mb-3">
         <div class="mb-3">
-            <p-button type="button" icon="pi pi-chevron-left" (click)="prev()" [disabled]="isFirstPage()" styleClass="p-button-text"></p-button>
+            <p-button type="button" icon="pi pi-chevron-left" (click)="prev()" [disabled]="isFirstPage()"
+                styleClass="p-button-text"></p-button>
             <p-button type="button" icon="pi pi-refresh" (click)="reset()" styleClass="p-button-text"></p-button>
-            <p-button type="button" icon="pi pi-chevron-right" (click)="next()" [disabled]="isLastPage()" styleClass="p-button-text"></p-button>
-            <button pButton pRipple type="button" icon="pi pi-search" label="Search" class="mt-2 ml-3" [style]="{'float': 'right'}" (click)="showSearchCall()" ></button>
-        <span *ngIf="showSearch" class="p-input-icon-left mt-2 ml-3" [style]="{'float': 'right'}">
-            <i class="pi pi-search"></i>
-            <input type="text" pInputText placeholder="Search" [(ngModel)]="firstName" (input)="findByEmployeeName()"/>
-        </span>
-            <p-button (click)="showDialog('Add')" icon="pi pi-plus-circle" label="Add" styleClass="p-button-success mt-2 ml-3" [style]="{'float': 'right'}"></p-button>
+            <p-button type="button" icon="pi pi-chevron-right" (click)="next()" [disabled]="isLastPage()"
+                styleClass="p-button-text"></p-button>
+            <button pButton pRipple type="button" icon="pi pi-search" label="Search" class="mt-2 ml-3"
+                [style]="{ float: 'right' }" (click)="showSearchCall()"></button>
+            <span *ngIf="showSearch" class="p-input-icon-left mt-2 ml-3" [style]="{ float: 'right' }">
+                <i class="pi pi-search"></i>
+                <input type="text" pInputText placeholder="Search" [(ngModel)]="firstName"
+                    (input)="findByEmployeeName()" />
+            </span>
+            <p-button (click)="showDialog('Add')" icon="pi pi-plus-circle" label="Add"
+                styleClass="p-button-success mt-2 ml-3" [style]="{ float: 'right' }"></p-button>
         </div>
-        
     </div>
-    <p-table [value]="employees" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true" [(first)]="first" responsiveLayout="scroll"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10,25,50]">
+    <p-table [value]="employees" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true" [(first)]="first"
+        responsiveLayout="scroll" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[10, 25, 50]">
         <ng-template pTemplate="header">
             <tr>
-                <th pSortableColumn="Id" style="width: 10px;">ID <p-sortIcon field="Id"></p-sortIcon></th>
-                <th pSortableColumn="employeeName" style="width: 40px;">Employee Name<p-sortIcon field="employeeName"></p-sortIcon></th>
-                <th pSortableColumn="email" style="width: 20px;">Email <p-sortIcon field="email"></p-sortIcon></th>
-                <th pSortableColumn="phoneNumber" style="width: 30px;">Phone Number <p-sortIcon field="phoneNumber"></p-sortIcon></th>
-                <th pSortableColumn="hireDate" style="width: 40px;">Hire Date <p-sortIcon field="hireDate"></p-sortIcon></th>
-                <th pSortableColumn="jobId" style="width: 25px;">Job Title <p-sortIcon field="jobId"></p-sortIcon></th>
+                <th pSortableColumn="Id" style="width: 10px">
+                    ID <p-sortIcon field="Id"></p-sortIcon>
+                </th>
+                <th pSortableColumn="employeeName" style="width: 40px">
+                    Employee Name<p-sortIcon field="employeeName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="email" style="width: 20px">
+                    Email <p-sortIcon field="email"></p-sortIcon>
+                </th>
+                <th pSortableColumn="manager" style="width: 20px">
+                    Manager Name <p-sortIcon field="manager"></p-sortIcon>
+                </th>
+                <th pSortableColumn="phoneNumber" style="width: 30px">
+                    Phone Number <p-sortIcon field="phoneNumber"></p-sortIcon>
+                </th>
+                <th pSortableColumn="hireDate" style="width: 40px">
+                    Hire Date <p-sortIcon field="hireDate"></p-sortIcon>
+                </th>
+                <th pSortableColumn="jobId" style="width: 25px">
+                    Job Title <p-sortIcon field="jobId"></p-sortIcon>
+                </th>
+                <th pSortableColumn="salary" style="width: 25px">
+                    Salary <p-sortIcon field="salary"></p-sortIcon>
+                </th>
                 <!-- <th pSortableColumn="managerId" style="width: 20px;">Manager Id <p-sortIcon field="managerId"></p-sortIcon></th> -->
-                <th pSortableColumn="departmentName" style="width: 25px;">Department Name <p-sortIcon field="departmentId"></p-sortIcon></th>
-                <th style="width: 100px;">Action</th>
+                <th pSortableColumn="departmentName" style="width: 25px">
+                    Department Name <p-sortIcon field="departmentId"></p-sortIcon>
+                </th>
+                <th style="width: 100px">Action</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-employee>
             <tr>
-                <td>{{employee.employeeId}}</td>
-                <td>{{employee.firstName}} {{employee.lastName}}</td>
-                <td>{{employee.email}}</td>
-                <td>{{employee.phoneNumber}}</td>
-                <td>{{employee.hireDate}}</td>
-                <td>{{employee.jobTitle}}</td>
+                <td>{{ employee.employeeId }}</td>
+                <td>{{ employee.firstName }} {{ employee.lastName }}</td>
+                <td>{{ employee.email }}</td>
+                <td>{{ employee.manager}} </td>
+                <td>{{ employee.phoneNumber }}</td>
+                <td>{{ employee.hireDate }}</td>
+                <td>{{ employee.jobTitle }}</td>
                 <!-- <td>{{employee.managerId}}</td> -->
-                <td>{{employee.departmentName}}</td>
+                <td>
+                    <p-button (click)="showBonus(employee)" icon="pi pi-external-link" label="Salary"></p-button>
+                </td>
+                <td>{{ employee.departmentName }}</td>
                 <td>
                     <p-button icon="pi pi-pencil" (click)="openEdit(employee)"></p-button>
-                    <p-button icon="pi pi-trash" (click)="handleDelete(employee.employeeId)" styleClass="p-button-danger ml-2"></p-button>
+                    <p-button icon="pi pi-trash" (click)="handleDelete(employee.employeeId)"
+                        styleClass="p-button-danger ml-2"></p-button>
                 </td>
             </tr>
         </ng-template>
     </p-table>
 
+    <p-dialog [header]="action == 'Add' ? 'Add Employee' : 'Edit Employee'" [(visible)]="display" [modal]="true"
+        [style]="{ width: '50vw', height: '40vw' }" [maximizable]="true" [baseZIndex]="10000" [draggable]="false"
+        [resizable]="false" (onHide)="handleReset($event)">
+        <div class="grid p-fluid">
+            <div class="col-12 md:col-6">
+                <h5>First Name</h5>
+                <input type="text" pInputText id="firstName" [(ngModel)]="row.firstName" required="autofocus" />
+                <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.firstName">
+                    First Name Required...!
+                </h5>
+            </div>
+            <div class="col-12 md:col-6">
+                <h5>Last Name</h5>
+                <input type="text" pInputText id="lastName" [(ngModel)]="row.lastName" required="autofocus" />
+                <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.lastName">
+                    Last Name Required...!
+                </h5>
+            </div>
+            <div class="col-12 md:col-6">
+                <h5>Email</h5>
+                <input type="text" pInputText id="email" [(ngModel)]="row.email" required="autofocus" />
+                <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.email">
+                    Email Required...!
+                </h5>
+            </div>
+            <div class="col-12 md:col-6">
+                <h5>Phone Number</h5>
+                <input type="text" pInputText id="phoneNumber" [(ngModel)]="row.phoneNumber" required="autofocus" />
+                <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.phoneNumber">
+                    Phone Number Required...!
+                </h5>
+            </div>
+            <div class="col-12 md:col-6">
+                <h5>Hire Date</h5>
+                <p-calendar inputId="hireDate" [(ngModel)]="row.hireDate"></p-calendar>
+                <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.hireDate">
+                    Hire Date Required...!
+                </h5>
+            </div>
+            <div class="col-12 md:col-6">
+                <h5>Job Title</h5>
+                <p-dropdown appendTo="body" [options]="employees" [(ngModel)]="row.jobId" optionLabel="jobTitle"
+                    placeholder="Job Title" optionValue="jobId">
+                </p-dropdown>
+            </div>
+            <div class="col-12 md:col-6">
+                <h5>Manager Name</h5>
+                <p-dropdown appendTo="body" [options]="managers" [(ngModel)]="row.managerId"
+                    optionLabel="manager" placeholder="Manager Name" optionValue="managerId">
+                </p-dropdown>
+            </div>
+            <div class="col-12 md:col-6">
+                <h5>Department Name</h5>
+                <p-dropdown appendTo="body" [options]="departments" [(ngModel)]="row.departmentId"
+                    optionLabel="departmentName" placeholder="Department Name" optionValue="departmentId">
+                </p-dropdown>
+            </div>
+            <div class="col-12 md:col-6">
+                <h5>Salary</h5>
+                <input type="number" pInputText id="salary" [(ngModel)]="row.salary" required="autofocus" />
+                <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.salary">
+                    Salary Required...!
+                </h5>
+            </div>
+        </div>
 
-    <p-dialog [header]="action == 'Add' ? 'Add Employee' : 'Edit Employee' " [(visible)]="display" [modal]="true"
-    [style]="{width: '50vw',height: '40vw'}" [maximizable]="true" [baseZIndex]="10000" [draggable]="false"
-    [resizable]="false" (onHide)="handleReset($event)">
-    <div class="grid p-fluid">
-      <div class="col-12 md:col-6">
-        <h5>First Name</h5>
-        <input type="text" pInputText id="firstName" [(ngModel)]="row.firstName" required="autofocus" />
-            <h5 class="p-invalid" style="color: red;" *ngIf="submitted && !row.firstName">First Name
-                Required...!</h5>
-      </div>
-      <div class="col-12 md:col-6">
-        <h5>Last Name</h5>
-        <input type="text" pInputText id="lastName" [(ngModel)]="row.lastName" required="autofocus" />
-            <h5 class="p-invalid" style="color: red;" *ngIf="submitted && !row.lastName">Last Name
-                Required...!</h5>
-      </div>
-      <div class="col-12 md:col-6">
-        <h5>Email</h5>
-        <input type="text" pInputText id="email" [(ngModel)]="row.email" required="autofocus" />
-            <h5 class="p-invalid" style="color: red;" *ngIf="submitted && !row.email">Email
-                Required...!</h5>
-      </div>
-      <div class="col-12 md:col-6">
-        <h5>Phone Number</h5>
-        <input type="text" pInputText id="phoneNumber" [(ngModel)]="row.phoneNumber" required="autofocus" />
-            <h5 class="p-invalid" style="color: red;" *ngIf="submitted && !row.phoneNumber">Phone Number
-                Required...!</h5>
-      </div>
-      <div class="col-12 md:col-6">
-        <h5>Hire Date</h5>
-        <p-calendar inputId="hireDate" [(ngModel)]="row.hireDate"></p-calendar>
-            <h5 class="p-invalid" style="color: red;" *ngIf="submitted && !row.hireDate">Hire Date
-                Required...!</h5>
-      </div>
-      <div class="col-12 md:col-6">
-        <h5>Job Title</h5>
-        <p-dropdown appendTo="body" [options]="employees" [(ngModel)]="row.jobId" optionLabel="jobTitle"
-                placeholder="Job Title" optionValue="jobId">
-            </p-dropdown>
-      </div>
-      <div class="col-12 md:col-6">
-        <h5>Manager Id</h5>
-        <input type="text" pInputText id="managerId" [(ngModel)]="row.managerId" required="autofocus" />
-            <h5 class="p-invalid" style="color: red;" *ngIf="submitted && !row.managerId">Manager Id
-                Required...!</h5>
-      </div>
-      <div class="col-12 md:col-6">
-        <h5>Department Name</h5>
-        <p-dropdown appendTo="body" [options]="employees" [(ngModel)]="row.departmentId" optionLabel="departmentName"
-                placeholder="Department Name" optionValue="departmentId">
-            </p-dropdown>
-      </div>
-      <div class="col-12 md:col-6">
-        <h5>Salary</h5>
-        <input type="number" pInputText id="salary" [(ngModel)]="row.salary" required="autofocus" />
-            <h5 class="p-invalid" style="color: red;" *ngIf="submitted && !row.salary">Salary
-                Required...!</h5>
-      </div>
-    </div>
+        <ng-template pTemplate="footer">
+            <button pButton type="button" label="Save" icon="pi pi-check"
+                (click)="handleSaveDepartment($event)"></button>
+            <button pButton type="button" label="Reset  " icon="pi pi-times" class="p-button-danger ml-2"
+                (click)="handleReset($event)"></button>
+        </ng-template>
+    </p-dialog>
 
-      <ng-template pTemplate="footer">
-        <button pButton type="button" label="Save" icon="pi pi-check" (click)="handleSaveDepartment($event)"></button>
-        <button pButton type="button" label="Reset  " icon="pi pi-times" class="p-button-danger ml-2"
-            (click)="handleReset($event)"></button>
-    </ng-template>
-</p-dialog>
-
+    <p-dialog header="Total Salary" [(visible)]="displaySalary" [style]="{ width: '50vw' }">
+        <p-table [value]="salary" responsiveLayout="scroll">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Salary</th>
+                    <th>Bonus</th>
+                    <th>Total</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-row>
+                <tr>
+                    <td>{{ row.salary }}</td>
+                    <td>{{ row.commissionPct }}</td>
+                    <td>{{ row.salary + row.commissionPct }}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+        <ng-template pTemplate="footer">
+            <p-button icon="pi pi-check" (click)="displaySalary = false" label="Ok" styleClass="p-button-text">
+            </p-button>
+        </ng-template>
+    </p-dialog>
 </div>
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 <p-toast></p-toast>
