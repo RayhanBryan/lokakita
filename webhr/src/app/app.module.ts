@@ -35,6 +35,7 @@ import { NotfoundComponent } from './components/notfound/notfound.component';
 
 import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
+import { BonusComponent } from './components/bonus/bonus.component';
 
 
 @NgModule({
@@ -52,7 +53,8 @@ import {MessageModule} from 'primeng/message';
     SignupComponent,
     DatamasterComponent,
     EmployeeComponent,
-    NotfoundComponent
+    NotfoundComponent,
+    BonusComponent
   ],
   imports: [
     BrowserModule,
