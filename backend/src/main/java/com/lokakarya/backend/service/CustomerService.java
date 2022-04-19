@@ -1,13 +1,9 @@
 package com.lokakarya.backend.service;
 
 import com.lokakarya.backend.entity.Customer;
-import com.lokakarya.backend.entity.Department;
-import com.lokakarya.backend.entity.Employee;
-import com.lokakarya.backend.entity.Location;
 import com.lokakarya.backend.repository.CustomerRepository;
 import com.lokakarya.backend.util.PaginationList;
 import com.lokakarya.backend.wrapper.CustomerWrapper;
-import com.lokakarya.backend.wrapper.DepartmentWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,7 +13,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -35,6 +30,7 @@ public class CustomerService {
         entity.setPhoneNumber(wrapper.getPhoneNumber());
         return entity;
     }
+
     private CustomerWrapper toWrapper(Customer entity) {
         CustomerWrapper wrapper = new CustomerWrapper();
         wrapper.setCustomerId(entity.getCustomerId());
@@ -43,6 +39,7 @@ public class CustomerService {
         wrapper.setPhoneNumber(entity.getPhoneNumber());
         return wrapper;
     }
+
     private List<CustomerWrapper> toWrapperList(List<Customer> entityList) {
         List<CustomerWrapper> wrapperList = new ArrayList<CustomerWrapper>();
         for (Customer entity : entityList) {
@@ -76,15 +73,15 @@ public class CustomerService {
     public PaginationList<CustomerWrapper, Customer> findByCustomerNameContainingIgnoreCasePagination(
             String customerName, int page, int size) {
         Pageable paging = PageRequest.of(page, size);
-        Page<Customer> customerPage = customerRepository.findByCustomerNameContainingIgnoreCase(customerName,paging);
+        Page<Customer> customerPage = customerRepository.findByCustomerNameContainingIgnoreCase(customerName, paging);
         List<Customer> customerList = customerPage.getContent();
         List<CustomerWrapper> customerWrapperList = toWrapperList(customerList);
         return new PaginationList<CustomerWrapper, Customer>(customerWrapperList, customerPage);
     }
 
-    public  List<CustomerWrapper> findByCustomerNameContainingIgnoreCase(String departmentName){
+    public List<CustomerWrapper> findByCustomerNameContainingIgnoreCase(String departmentName) {
         List<Customer> customerList = customerRepository.findByCustomerNameContainingIgnoreCase(departmentName);
-        List <CustomerWrapper> customerWrappers = toWrapperList(customerList);
+        List<CustomerWrapper> customerWrappers = toWrapperList(customerList);
         return customerWrappers;
     }
     /* Create and Update */
