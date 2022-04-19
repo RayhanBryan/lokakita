@@ -33,10 +33,14 @@ import { DatamasterComponent } from './components/datamaster/datamaster.componen
 import { CheckboxModule } from 'primeng/checkbox';
 import { NotfoundComponent } from './components/notfound/notfound.component';
 
-import {MessagesModule} from 'primeng/messages';
-import {MessageModule} from 'primeng/message';
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
 import { BonusComponent } from './components/bonus/bonus.component';
+<<<<<<< HEAD
 import { CustomerComponent } from './components/customer/customer.component';
+=======
+import { SidebarModule } from 'primeng/sidebar';
+>>>>>>> 5a9e937d8c1e877a8b816f4f355896c1e339b405
 
 
 @NgModule({
@@ -79,7 +83,8 @@ import { CustomerComponent } from './components/customer/customer.component';
     CheckboxModule,
     CalendarModule,
     MessagesModule,
-    MessageModule
+    MessageModule,
+    SidebarModule
   ],
   providers: [ConfirmationService],
   bootstrap: [AppComponent],

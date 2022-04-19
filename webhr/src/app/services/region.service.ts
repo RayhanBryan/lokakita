@@ -14,26 +14,30 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class RegionService {
-  private LocationUrl=URL+'regions/';
+  private regionUrl=URL+'regions/';
   constructor(private http: HttpClient) { }
 
   getRegion(): Observable<any> {
-    return this.http.get<any>(this.LocationUrl+`findAll`,httpOptions);
+    return this.http.get<any>(this.regionUrl+`findAll`,httpOptions);
   }
 
-  deleteRegion(regionId:string){
-    return this.http.get<any>(this.LocationUrl+regionId,httpOptions);
+  deleteRegion(regionId:number){
+    return this.http.delete<any>(this.regionUrl+regionId,httpOptions);
   }
 
   postRegion(res:any):Observable<any>{
-    return this.http.post<any>(this.LocationUrl+'post',res,httpOptions);
+    return this.http.post<any>(this.regionUrl+'post',res,httpOptions);
   }
 
   putRegion(res:any):Observable<any>{
-    return this.http.put<any>(this.LocationUrl+'put',res,httpOptions);
+    return this.http.put<any>(this.regionUrl+'put',res,httpOptions);
   }
   
   searchRegion(keyword:string):Observable<any>{
-    return this.http.get<any>(this.LocationUrl+`findByRegionName?regionName=${keyword}&page=0&size=10000`,httpOptions);
+    return this.http.get<any>(this.regionUrl+`getByRegionName?regionName=${keyword}`,httpOptions);
+  }
+
+  getRegionById(regionId:number):Observable<any>{
+    return this.http.get<any>(this.regionUrl+`getById?id=${regionId}`,httpOptions);
   }
 }

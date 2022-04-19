@@ -27,6 +27,10 @@ export class JobService {
   postJob(req:any): Observable<any>{
     return this.http.post<any>(API_URL+'jobs/post',req, httpOptions)
   }
+
+  putJob(req:any): Observable<any>{
+    return this.http.put<any>(API_URL+'jobs/put',req, httpOptions)
+  }
   
   deleteJob(id:string):Observable<any>{
     return this.http.delete<any>(API_URL+'jobs/'+id, httpOptions)
@@ -34,7 +38,7 @@ export class JobService {
   }
   
   getJobByTitle(search:string): Observable<any>{
-    return this.http.get<any>(API_URL+'country/findByJobTitle?jobTitle='+search+'&page=0&size=100',{responseType: 'json'}).pipe(map((data:any)=>(data.data||data)));
+    return this.http.get<any>(API_URL+'jobs/findJobByTitle?jobTitle='+search,{responseType: 'json'}).pipe(map((data:any)=>(data.data||data)));
   
   }
 
