@@ -52,6 +52,7 @@ private GroupMenuWrapper toWrapper(GroupMenu groupMenu) {
         wrapper.setGroupName(groupMenu.getGroup() != null ? groupMenu.getGroup().getGroupName() : null);
         wrapper.setMenuId(groupMenu.getMenu() != null ? groupMenu.getMenu().getMenuId() : null);
         wrapper.setMenuName(groupMenu.getMenu() != null ? groupMenu.getMenu().getMenuName() : null);
+        wrapper.setIsActive(groupMenu.getIsActive());
         wrapper.setProgramName(groupMenu.getProgramName());
         wrapper.setCreatedDate(groupMenu.getCreatedDate());
         wrapper.setCreatedBy(groupMenu.getCreatedBy());
