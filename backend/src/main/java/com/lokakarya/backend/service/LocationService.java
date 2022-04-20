@@ -90,14 +90,26 @@ public class LocationService {
 
 	// FIND BY STREET ADDRESS
 	public List<LocationWrapper> getByStreetAddress(String streetAddress) {
-		List<Location> locationList = locationRepository.findByStreetAddressContainingIgnoreCase(streetAddress);
-		return toWrapperList(locationList);
+		List<Location> streetAddressList = locationRepository.findByStreetAddressContainingIgnoreCase(streetAddress);
+		return toWrapperList(streetAddressList);
 	}
 
 	// FIND BY CITY
 	public List<LocationWrapper> getByCity(String city) {
-		List<Location> locationList = locationRepository.findByCityContainingIgnoreCase(city);
-		return toWrapperList(locationList);
+		List<Location> cityList = locationRepository.findByCityContainingIgnoreCase(city);
+		return toWrapperList(cityList);
+	}
+
+	// FIND BY STATE PROVINCE
+	public List<LocationWrapper> getByStateProvince(String stateProvince) {
+		List<Location> stateProvinceList = locationRepository.findByStateProvinceContainingIgnoreCase(stateProvince);
+		return toWrapperList(stateProvinceList);
+	}
+
+	// FIND BY COUNTRY NAME
+	public List<LocationWrapper> getByCountryName(String countryName) {
+		List<Location> countryNameList = locationRepository.findByCountryNameContainingIgnoreCase(countryName);
+		return toWrapperList(countryNameList);
 	}
 
 	// FIND BY LOCATION ID
