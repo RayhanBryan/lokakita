@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
+import { Timestamp } from 'rxjs';
 import { GroupService } from 'src/app/services/group.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -31,6 +32,7 @@ export class DatamasterComponent implements OnInit {
   newPass: string = '';
   confirmNewPass: string = '';
   valuepass4: string = '';
+  today:any = new Date();
 
   users: any;
   first = 0;
@@ -79,8 +81,12 @@ export class DatamasterComponent implements OnInit {
         console.log(this.dataUser)
       }
     )
-
   }
+
+  dateToString(){
+  this.today.dateToString
+  }
+
   showSearchCall() {
     this.showSearch = !this.showSearch;
   }

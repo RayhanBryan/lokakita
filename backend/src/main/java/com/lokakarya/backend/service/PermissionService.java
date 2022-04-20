@@ -31,14 +31,14 @@ public class PermissionService {
         return toWrapperList(permissionRepository.findAll());
     }
 
-    // public List<PermissionWrapper> getPermissionByUserId(Long userId){
-    //     if (userId == null)
-    //         throw new BusinessException("Id cannot be null.");
-    //     Optional<User> user = userRepository.findById(userId);
-    //     if(!user.isPresent())
-    //         throw new BusinessException("User not found: "+userId+".");
-    //     return toWrapperList(permissionRepository.getPermissionByUserId(userId));
-    // }
+    public List<PermissionWrapper> findPermissionByUserId(Long userId){
+        if (userId == null)
+            throw new BusinessException("Id cannot be null.");
+        Optional<User> user = userRepository.findById(userId);
+        if(!user.isPresent())
+            throw new BusinessException("User not found: "+userId+".");
+        return toWrapperList(permissionRepository.getPermissionByUserId(userId));
+    }
 
     private Permission toEntity(PermissionWrapper wrapper){
         Permission entity = new Permission();
@@ -97,8 +97,8 @@ public class PermissionService {
     public void delete(Long id){
         if (id == null)
 	         throw new BusinessException("ID cannot be null.");
-		Optional<Permission> hakAkses = permissionRepository.findById(id);
-		if (!hakAkses.isPresent())
+		Optional<Permission> permission = permissionRepository.findById(id);
+		if (!permission.isPresent())
 			throw new BusinessException("Permission not found: " + id + '.');
 		permissionRepository.deleteById(id);
     }
