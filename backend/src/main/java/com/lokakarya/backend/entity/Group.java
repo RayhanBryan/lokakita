@@ -41,60 +41,60 @@ public class Group {
     @Column(name = "UPDATED_BY")
     private String updatedBy;
 
-    // public Long getGroupId() {
-    //     return groupId;
-    // }
+    public Long getGroupId() {
+        return groupId;
+    }
 
-    // public void setGroupId(Long groupId) {
-    //     this.groupId = groupId;
-    // }
+    public void setGroupId(Long groupId) {
+        this.groupId = groupId;
+    }
 
-    // public String getGroupName() {
-    //     return groupName;
-    // }
+    public String getGroupName() {
+        return groupName;
+    }
 
-    // public void setGroupName(String groupName) {
-    //     this.groupName = groupName;
-    // }
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
 
-    // public String getProgramName() {
-    //     return programName;
-    // }
+    public String getProgramName() {
+        return programName;
+    }
 
-    // public void setProgramName(String programName) {
-    //     this.programName = programName;
-    // }
+    public void setProgramName(String programName) {
+        this.programName = programName;
+    }
 
-    // public Date getCreatedDate() {
-    //     return createdDate;
-    // }
+    public Date getCreatedDate() {
+        return createdDate;
+    }
 
-    // public void setCreatedDate(Date createdDate) {
-    //     this.createdDate = createdDate;
-    // }
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
 
-    // public String getCreatedBy() {
-    //     return createdBy;
-    // }
+    public String getCreatedBy() {
+        return createdBy;
+    }
 
-    // public void setCreatedBy(String createdBy) {
-    //     this.createdBy = createdBy;
-    // }
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
 
-    // public Date getUpdatedDate() {
-    //     return updatedDate;
-    // }
+    public Date getUpdatedDate() {
+        return updatedDate;
+    }
 
-    // public void setUpdatedDate(Date updatedDate) {
-    //     this.updatedDate = updatedDate;
-    // }
+    public void setUpdatedDate(Date updatedDate) {
+        this.updatedDate = updatedDate;
+    }
 
-    // public String getUpdatedBy() {
-    //     return updatedBy;
-    // }
-    // public void setUpdatedBy(String updatedBy) {
-    //     this.updatedBy = updatedBy;
-    // }
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
 
 
 }
