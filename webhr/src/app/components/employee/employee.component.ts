@@ -29,7 +29,7 @@ export class EmployeeComponent implements OnInit {
   action: string = '';
   id: number = 0;
   dataEmployee: any;
-  firstName: string = '';
+  keyword: string = '';
   displayForm: boolean = false;
 
   row: any = {
@@ -83,8 +83,34 @@ export class EmployeeComponent implements OnInit {
     });
   }
 
+  searchOption: string = 'First Name';
+  searchOptions = [
+    { label: 'First Name', value: 'firstName' },
+    { label: 'Email', value: 'email' },
+  ];
+  search() {
+    switch (this.searchOption) {
+      case 'email':
+        this.searchByEmail();
+        break;
+      case 'firstName':
+        this.findByEmployeeName();
+        break;
+    }
+  }
+
+  /**
+   * This is a function to search location using city
+   */
+  searchByEmail() {
+    this.employeeService.getEmployeebyEmail(this.keyword).subscribe((res) => {
+      console.log(res);
+      this.employees = res;
+    });
+  }
+
   findByEmployeeName() {
-    this.employeeService.getEmployeeName(this.firstName).subscribe((res) => {
+    this.employeeService.getEmployeeName(this.keyword).subscribe((res) => {
       console.log(res);
       this.employees = res;
     });

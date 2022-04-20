@@ -68,6 +68,18 @@ public class LocationController {
 		return new DataResponseList<LocationWrapper>(locationService.getByCity(city));
 	}
 
+	// FIND BY PROVINCE STATE
+	@GetMapping(path = "/getByStateProvince")
+	DataResponseList<LocationWrapper> getByStateProvince(@RequestParam("stateProvince") String stateProvince){
+		return new DataResponseList<LocationWrapper>(locationService.getByStateProvince(stateProvince));
+	}
+
+	// FIND BY COUNTRY NAME
+	@GetMapping(path = "/getByCountryName")
+	DataResponseList<LocationWrapper> getByCountryName(@RequestParam("countryName") String countryName){
+		return new DataResponseList<LocationWrapper>(locationService.getByCountryName(countryName));
+	}
+
 	// DELETE
 	@DeleteMapping(path = "/{id}")
 	public void delete(@PathVariable("id") Long locationId) {

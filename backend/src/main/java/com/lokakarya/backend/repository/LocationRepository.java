@@ -6,6 +6,8 @@ import com.lokakarya.backend.entity.Location;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface LocationRepository extends JpaRepository<Location, Long> {
 
@@ -13,4 +15,10 @@ public interface LocationRepository extends JpaRepository<Location, Long> {
     List<Location> findByStreetAddressContainingIgnoreCase(String streetAddress);
     Page<Location> findBystreetAddressContainingIgnoreCase(String streetAddress, Pageable paging);
     List<Location> findByCityContainingIgnoreCase(String city);
+    List<Location> findByStateProvinceContainingIgnoreCase(String stateProvince);
+
+    @Query(value = "SELECT * FROM LOCATIONS l" +
+    " LEFT JOIN " + " COUNTRIES c " +
+    " ON l.COUNTRY_ID = " + "c.COUNTRY_ID WHERE LOWER(c.COUNTRY_NAME) LIKE LOWER(CONCAT(CONCAT('%', :pCountryName), '%'))", nativeQuery = true )
+    List<Location> findByCountryNameContainingIgnoreCase(@Param("pCountryName") String countryName);
 }

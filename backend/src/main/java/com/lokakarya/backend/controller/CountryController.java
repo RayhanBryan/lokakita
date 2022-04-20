@@ -50,9 +50,13 @@ public class CountryController {
 	//find country Name without pagination
 	@GetMapping(path = "/findCountryByName")
 	public DataResponseList<CountryWrapper> findCountryByName(@RequestParam("countryName") String countryName){
-		return new DataResponseList<CountryWrapper>(countryService.findByCountryNameContaining(countryName));
+		return new DataResponseList<CountryWrapper>(countryService.findByCountryNameContainingIgnoreCase(countryName));
 	}
 	
+	@GetMapping(path = "/findRegionByName")
+	public DataResponseList<CountryWrapper> findRegionByName(@RequestParam("regionName") String regionName){
+		return new DataResponseList<CountryWrapper>(countryService.findByRegionNameContainingIgnoreCase(regionName));
+	}
 	
 	@DeleteMapping(path = "/{id}")
 	public void delete(@PathVariable("id") String countryId) {
