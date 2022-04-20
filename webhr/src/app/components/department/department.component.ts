@@ -21,7 +21,7 @@ export class DepartmentComponent implements OnInit {
   submitted: boolean = false;
   action: string = '';
   id: number = 0;
-  showSearch:boolean = false;
+  showSearch: boolean = false;
 
   dataDepartment: any;
   row: any = {
@@ -37,7 +37,7 @@ export class DepartmentComponent implements OnInit {
     private locationService: LocationService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getCity();
@@ -83,7 +83,7 @@ export class DepartmentComponent implements OnInit {
     this.departmentService
       .getDepartmentName(this.departmentName)
       .subscribe((res) => {
-        console.log(res);
+        console.log(this.departmentName);
         this.departments = res;
       });
   }
@@ -205,7 +205,7 @@ export class DepartmentComponent implements OnInit {
     this.messageService.clear();
   }
 
-  showSearchCall(){
-    this.showSearch =!this.showSearch;
+  showSearchCall() {
+    this.showSearch = !this.showSearch;
   }
 }
