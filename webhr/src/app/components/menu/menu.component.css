@@ -81,8 +81,8 @@
     top: 15%;
 }
 
-:host ::ng-deep .ng-tns-c119-2 {
-    height: 100px;
+:host ::ng-deep .p-slidemenu-content{
+    height: 100px !important;
 }
 
 

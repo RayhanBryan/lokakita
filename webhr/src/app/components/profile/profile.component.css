@@ -1,0 +1,8 @@
+:host ::ng-deep .p-input-icon-right > .p-inputtext {
+    padding-right: 2rem;
+    border: none;
+}
+
+:host ::ng-deep .password {
+    display: inline;    
+}
