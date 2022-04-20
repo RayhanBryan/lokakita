@@ -19,7 +19,6 @@ import java.util.List;
 public class CustomerService {
     @Autowired
     CustomerRepository customerRepository;
-
     private Customer toEntity(CustomerWrapper wrapper) {
         Customer entity = new Customer();
         if (wrapper.getCustomerId() != null) {

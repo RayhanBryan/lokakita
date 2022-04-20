@@ -1,121 +1,44 @@
 package com.lokakarya.backend.entity;
 
 
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.Date;
 
+@Data
+@NoArgsConstructor
 @Entity
 @Table(name = "EMPLOYEES")
 public class Employee {
-
-    private Long employeeId;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String phoneNumber;
-    private Date hireDate;
-    private Job job;
-    private Integer salary;
-    private Long commissionPct;
-    private Department department;
-    private Employee manager;
-
     @Id
     @GeneratedValue(generator = "EMPLOYEE_GEN", strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "EMPLOYEE_GEN", sequenceName = "EMPLOYEES_SEQ", initialValue = 1, allocationSize = 1)
-    public Long getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(Long employeeId) {
-        this.employeeId = employeeId;
-    }
-
+    @SequenceGenerator(name = "EMPLOYEE_GEN", sequenceName = "EMPLOYEES_SEQ", allocationSize = 1)
+    private Long employeeId;
     @Column(name = "FIRST_NAME")
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+    private String firstName;
+    @Column(name = "LAST_NAME")
+    private String lastName;
     @Column(name = "EMAIL")
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    private String email;
     @Column(name = "PHONE_NUMBER")
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
+    private String phoneNumber;
     @Column(name = "HIRE_DATE")
     @Temporal(TemporalType.DATE)
-    public Date getHireDate() {
-        return hireDate;
-    }
-
-    public void setHireDate(Date hireDate) {
-        this.hireDate = hireDate;
-    }
+    private Date hireDate;
     @ManyToOne
     @JoinColumn(name = "JOB_ID")
-    public Job getJob() {
-        return job;
-    }
-
-    public void setJob(Job job) {
-        this.job = job;
-    }
-
+    private Job job;
     @Column(name = "SALARY")
-    public Integer getSalary() {
-        return salary;
-    }
-
-    public void setSalary(Integer salary) {
-        this.salary = salary;
-    }
+    private Integer salary;
     @Column(name = "COMMISSION_PCT")
-    public Long getCommissionPct() {
-        return commissionPct;
-    }
-
-    public void setCommissionPct(Long commissionPct) {
-        this.commissionPct = commissionPct;
-    }
+    private Long commissionPct;
     @ManyToOne
     @JoinColumn(name = "DEPARTMENT_ID")
-    public Department getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
-
+    private Department department;
     @ManyToOne
-    @JoinColumn(name = "MANAGER_ID")
-    public Employee getManager() {
-        return manager;
-    }
-
-    public void setManager(Employee manager) {
-        this.manager = manager;
-    }
+    @JoinColumn(name ="MANAGER_ID")
+    private Employee manager;
 }

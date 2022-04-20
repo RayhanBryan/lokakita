@@ -31,6 +31,10 @@ public class PermissionController {
     DataResponse<PermissionWrapper> getById(@RequestParam("id") Long id){
         return new DataResponse<PermissionWrapper>(permissionService.getById(id));
     }
+    @GetMapping(path = "/findByUser")
+      DataResponseList<PermissionWrapper> findByUser(@RequestParam("user") Long user){
+          return new DataResponseList<PermissionWrapper>(permissionService.findPermissionByUserId(user));
+      }
 
     @PostMapping(path= "/post")
     DataResponse<PermissionWrapper> post(@RequestBody PermissionWrapper wrapper){
