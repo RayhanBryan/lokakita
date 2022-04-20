@@ -24,29 +24,37 @@ public class PermissionController {
     PermissionService permissionService;
 
     @GetMapping(path = "/findAll")
-    DataResponseList<PermissionWrapper> findAll(){
+    DataResponseList<PermissionWrapper> findAll() {
         return new DataResponseList<PermissionWrapper>(permissionService.findAll());
     }
+
     @GetMapping(path = "/getById")
-    DataResponse<PermissionWrapper> getById(@RequestParam("id") Long id){
+    DataResponse<PermissionWrapper> getById(@RequestParam("id") Long id) {
         return new DataResponse<PermissionWrapper>(permissionService.getById(id));
     }
-    @GetMapping(path = "/findByUser")
-      DataResponseList<PermissionWrapper> findByUser(@RequestParam("user") Long user){
-          return new DataResponseList<PermissionWrapper>(permissionService.findPermissionByUserId(user));
-      }
 
-    @PostMapping(path= "/post")
-    DataResponse<PermissionWrapper> post(@RequestBody PermissionWrapper wrapper){
+    @GetMapping(path = "/findByUser")
+    DataResponseList<PermissionWrapper> findByUser(@RequestParam("user") Long user) {
+        return new DataResponseList<PermissionWrapper>(permissionService.findPermissionByUserId(user));
+    }
+
+    @GetMapping(path = "/findByPermission")
+    DataResponse<PermissionWrapper> findPermissionByName(@RequestParam("permission") String permission) {
+        return new DataResponse<PermissionWrapper>(permissionService.findPermissionByName(permission));
+    }
+
+    @PostMapping(path = "/post")
+    DataResponse<PermissionWrapper> post(@RequestBody PermissionWrapper wrapper) {
         return new DataResponse<PermissionWrapper>(permissionService.save(wrapper));
     }
+
     @PutMapping(path = "/put")
-    DataResponse<PermissionWrapper> update(@RequestBody PermissionWrapper wrapper){
+    DataResponse<PermissionWrapper> update(@RequestBody PermissionWrapper wrapper) {
         return new DataResponse<PermissionWrapper>(permissionService.save(wrapper));
     }
-    
+
     @DeleteMapping(path = "/delete")
-    DataResponse<PermissionWrapper> delete(@RequestParam("id") Long id){
+    DataResponse<PermissionWrapper> delete(@RequestParam("id") Long id) {
         permissionService.delete(id);
         return new DataResponse<PermissionWrapper>(true, "Delete Sukses");
     }

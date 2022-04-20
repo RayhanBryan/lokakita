@@ -55,6 +55,7 @@ public class HakAksesService {
         wrapper.setCreatedBy(hakAkses.getCreatedBy());
         wrapper.setUpdatedDate(hakAkses.getUpdatedDate());
         wrapper.setUpdatedBy(hakAkses.getUpdatedBy());
+        wrapper.setIsActive(hakAkses.getIsActive());
         return wrapper;
     }
 

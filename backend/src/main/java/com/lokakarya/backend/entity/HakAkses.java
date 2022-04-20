@@ -14,98 +14,44 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
 @Entity
 @Table (name="HAK_AKSES")
 public class HakAkses {
-    private Long hakAksesId;
-    private User user;
-    private Group group;
-    private String programName;
-    private Date createdDate;
-    private String createdBy;
-    private Date updatedDate;
-    private String updatedBy;
-
-    public HakAkses(){
-        
-    }
     @Id
     @GeneratedValue(generator = "HAK_AKSES_GEN", strategy = GenerationType.SEQUENCE)
 	@SequenceGenerator(name = "HAK_AKSES_GEN", sequenceName = "HAK_AKSES_SEQ", initialValue = 1, allocationSize = 1)
     @Column (name = "HAK_AKSES_ID")
-    public Long getHakAksesId() {
-        return hakAksesId;
-    }
-
-    public void setHakAksesId(Long hakAksesId) {
-        this.hakAksesId = hakAksesId;
-    }
+    private Long hakAksesId;
 
     @ManyToOne
     @JoinColumn (name = "USER_ID")
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
+    private User user;
 
     @ManyToOne
     @JoinColumn (name = "GROUP_ID")
-    public Group getGroup() {
-        return group;
-    }
-
-    public void setGroup(Group group) {
-        this.group = group;
-    }
+    private Group group;
 
     @Column (name = "PROGRAM_NAME")
-    public String getProgramName() {
-        return programName;
-    }
-
-    public void setProgramName(String programName) {
-        this.programName = programName;
-    }
+    private String programName;
 
     @Column (name = "CREATED_DATE")
     @Temporal(TemporalType.DATE)
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
+    private Date createdDate;
 
     @Column (name = "CREATED_BY")
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
+    private String createdBy;
 
     @Column (name = "UPDATED_DATE")
-    @Temporal (TemporalType.DATE)
-    public Date getUpdatedDate() {
-        return updatedDate;
-    }
-
-    public void setUpdatedDate(Date updatedDate) {
-        this.updatedDate = updatedDate;
-    }
+    private Date updatedDate;
 
     @Column (name = "UPDATED_BY")
-    public String getUpdatedBy() {
-        return updatedBy;
-    }
+    private String updatedBy;
 
-    public void setUpdatedBy(String updatedBy) {
-        this.updatedBy = updatedBy;
-    }
-
+    @Column (name = "IS_ACTIVE")
+    private Character isActive;
 }
