@@ -94,6 +94,12 @@ public class LocationService {
 		return toWrapperList(locationList);
 	}
 
+	// FIND BY CITY
+	public List<LocationWrapper> getByCity(String city) {
+		List<Location> locationList = locationRepository.findByCityContainingIgnoreCase(city);
+		return toWrapperList(locationList);
+	}
+
 	// FIND BY LOCATION ID
 	public LocationWrapper getByLocationId(Long locationId) {
 		if (locationId == null)

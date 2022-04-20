@@ -12,4 +12,5 @@ public interface LocationRepository extends JpaRepository<Location, Long> {
     Page<Location> findAll(Pageable page);
     List<Location> findByStreetAddressContainingIgnoreCase(String streetAddress);
     Page<Location> findBystreetAddressContainingIgnoreCase(String streetAddress, Pageable paging);
+    List<Location> findByCityContainingIgnoreCase(String city);
 }
