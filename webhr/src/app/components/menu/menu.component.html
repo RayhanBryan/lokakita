@@ -6,9 +6,10 @@
 </p-menubar> -->
 
 <div class="grid">
-    <div class="col-12 text-center">
-        <img class="logo-atas" src="../../../assets/img/logo-atas.png" alt="">
-        <p-button type="button" class="mr-2" (click)="visibleSidebar = true" icon="pi pi-spin pi-bars" [style]="{'float' : 'left'}"></p-button>
+    <div class="col-12 bar-atas">
+        <p-button type="button" class="ml-5" (click)="changeVisible()" icon="pi pi-bars" [style]="{'float' : 'left'}"></p-button>
+        <h4 [style]="{'float' : 'right'}" type="text" pButton (click)="menu.toggle($event)" class="mt-2"><i class="pi pi-user" style="font-size: 28px"></i></h4>
+        <p [style]="{'float' : 'right'}" class="halo">Halo, <br>{{name}}</p>
     </div>
 </div>
 <p-sidebar [(visible)]="visibleSidebar" [baseZIndex]="10000" [style]="{'background-color' : '#2196f3'}">
@@ -23,10 +24,10 @@
     </div>
     </div>
     
-    <p-tieredMenu [model]="items"></p-tieredMenu>
+    <p-tieredMenu [model]="items" (click)="changeVisible()"></p-tieredMenu>
     <button pButton label="Logout" icon="pi pi-power-off" (click)="logout()"></button>
 </p-sidebar>
 
 
-
+<p-slideMenu #menu [model]="profiles" [popup]="true" [viewportHeight]="250"></p-slideMenu>
 <p-toast position="top-center" key="tc"></p-toast>
