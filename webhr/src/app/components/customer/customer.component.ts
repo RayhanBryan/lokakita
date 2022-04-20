@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CustomerService } from 'src/app/services/customer.service';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, ConfirmEventType, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-customer',
@@ -95,14 +95,29 @@ export class CustomerComponent implements OnInit {
           console.log(res);
           this.getCustomer();
           this.messageService.add({
-            severity: 'Success',
+            severity: 'success',
             summary: 'Delete',
             detail: 'Data has been deleted',
           });
         });
       },
-      reject: () => {
-        //reject action
+      reject: (type: any) => {
+        switch (type) {
+          case ConfirmEventType.REJECT:
+            this.messageService.add({
+              severity: 'info',
+              summary: 'Cancelled',
+              detail: 'Your data is safe',
+            });
+            break;
+          case ConfirmEventType.CANCEL:
+            this.messageService.add({
+              severity: 'info',
+              summary: 'Cancelled',
+              detail: 'Your data is safe',
+            });
+            break;
+        }
       },
     });
   }
@@ -132,7 +147,7 @@ export class CustomerComponent implements OnInit {
             },
           });
         } else {
-          console.log('b');
+          console.log('save');
           this.customerService.putCustomer(this.row).subscribe({
             next: (data) => {
               console.log(data);
