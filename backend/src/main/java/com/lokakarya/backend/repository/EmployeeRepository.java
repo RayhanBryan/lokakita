@@ -19,14 +19,14 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     @Query(value = "SELECT * FROM EMPLOYEES e " +
             "LEFT JOIN " +
             "JOBS j " +
-            "ON e.JOB_ID= " +
-            "j.JOB_ID " +
+            "ON j.JOB_ID = " +
+            "e.JOB_ID " +
             "LEFT JOIN DEPARTMENTS d " +
             "ON d.DEPARTMENT_ID = e.DEPARTMENT_ID " +
             "WHERE " +
             "LOWER(j.JOB_TITLE) " +
-            "LIKE LOWER('%:pJobTitle%')", nativeQuery = true)
-    List<Employee> findByJobTitleContainingIgnoreCase(@Param("pJobTitle") String jobTitle);
+            "LIKE LOWER(CONCAT(CONCAT('%',:pJobTitle),'%'))", nativeQuery = true)
+    List<Employee> getByJobTitleContainingIgnoreCase(@Param("pJobTitle") String jobTitle);
 
     List<Employee> findByEmailContainingIgnoreCase(String email);
 
@@ -36,7 +36,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             "ON e.DEPARTMENT_ID= " +
             "d.DEPARTMENT_ID WHERE " +
             "LOWER(d.DEPARTMENT_NAME) " +
-            "LIKE LOWER('%:pDepartmentName%')", nativeQuery = true)
+            "LIKE LOWER(CONCAT(CONCAT('%',:pDepartmentName), '%'))", nativeQuery = true)
     List<Employee> findByDepartmentNameContainingIgnoreCase(@Param("pDepartmentName") String departmentName);
 
     List<Employee> getByManager(Employee manager);

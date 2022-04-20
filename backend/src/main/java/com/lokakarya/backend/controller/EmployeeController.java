@@ -56,10 +56,10 @@ public class EmployeeController {
     }
 
     @GetMapping("/findByJobTitle")
-    public DataResponseList<EmployeeWrapper> findByJobTitleContainingIgnoreCase(
+    public DataResponseList<EmployeeWrapper> getByJobTitleContainingIgnoreCase(
             @RequestParam("jobTitle") String jobTitle) {
         return new DataResponseList<EmployeeWrapper>(
-                employeeService.findByJobTitleContainingIgnoreCase(jobTitle));
+                employeeService.getByJobTitleContainingIgnoreCase(jobTitle));
     }
 
     @GetMapping("/findByManagerName")
