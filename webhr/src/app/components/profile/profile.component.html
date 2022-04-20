@@ -65,11 +65,11 @@
   </span>
   <span class="p-float-label" *ngIf="inputPassword">
     <p-password id="cnewpass" type="text" required autofocus placeholder="New Password"
-    [(ngModel)]="newPasswordInput" [toggleMask]="true"></p-password>
+    [(ngModel)]="newPasswordInput" [toggleMask]="true" [style]="{width: '100%'}"></p-password>
     <br>
     <br>
     <p-password id="cnewpass" type="text" required autofocus placeholder="Confirm New Password"
-    [(ngModel)]="confirmNewPass" [toggleMask]="true"></p-password>
+    [(ngModel)]="confirmNewPass" [toggleMask]="true" [style]="{width: '100%'}"></p-password>
     <small id="username-help" class="p-error block" *ngIf="wrongConfirmPassword">Please check again your new password</small>
   </span>
   <span class="p-float-label" *ngIf="inputPhone">
