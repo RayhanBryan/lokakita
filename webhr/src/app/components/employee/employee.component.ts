@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, ConfirmEventType, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog/dialogservice';
 import { DepartmentService } from 'src/app/services/department.service';
 import { EmployeeService } from 'src/app/services/employee.service';
@@ -127,14 +127,29 @@ export class EmployeeComponent implements OnInit {
           console.log(res);
           this.getEmployee();
           this.messageService.add({
-            severity: 'Success',
+            severity: 'success',
             summary: 'Delete',
             detail: 'Data has been deleted',
           });
         });
       },
-      reject: () => {
-        console.log('reject');
+      reject: (type: any) => {
+        switch (type) {
+          case ConfirmEventType.REJECT:
+            this.messageService.add({
+              severity: 'info',
+              summary: 'Cancelled',
+              detail: 'Your data is safe',
+            });
+            break;
+          case ConfirmEventType.CANCEL:
+            this.messageService.add({
+              severity: 'info',
+              summary: 'Cancelled',
+              detail: 'Your data is safe',
+            });
+            break;
+        }
       },
     });
   }
@@ -148,18 +163,23 @@ export class EmployeeComponent implements OnInit {
         if (this.row.employeeId === 0) {
           this.row.employeeId = null;
           this.employeeService.postEmployee(this.row).subscribe({
-            next: (data) => {
-              console.log(data);
+            next: (data) => { console.log(data);
               if (data.status) {
-                this.display = false;
-                this.getEmployee();
-                alert('Data berhasil diinput.');
+                this.messageService.add({
+                  severity: 'success',
+                  summary: 'Input',
+                  detail: 'Data has been inserted',
+                });
                 this.getEmployee();
                 this.display = false;
               }
             },
             error: (err) => {
-              console.log('error');
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Could not add a new record',
+              });
             },
           });
         } else {
@@ -167,12 +187,21 @@ export class EmployeeComponent implements OnInit {
             next: (data) => {
               console.log(data);
               if (data.status) {
+                this.messageService.add({
+                  severity: 'success',
+                  summary: 'Input',
+                  detail: 'Data has been inserted',
+                });
                 this.getEmployee();
                 this.display = false;
               }
             },
             error: (err) => {
-              console.log('error');
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Could not update a new record',
+              });
             },
           });
         }
