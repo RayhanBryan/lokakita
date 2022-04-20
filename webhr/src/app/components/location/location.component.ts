@@ -91,7 +91,51 @@ export class LocationComponent implements OnInit {
   /**
    * This is a function to search location using streetAddress
    */
+  searchOption: string = 'streetAddress';
+  searchOptions = [
+    { label: 'search by street Address', value: 'streetAddress' },
+    { label: 'search by city', value: 'city' },
+  ];
   search() {
+    switch (this.searchOption) {
+      case 'city':
+        this.searchByCity();
+        break;
+      case 'streetAddress':
+        this.searchByStreetAddress();
+        break;
+    }
+  }
+
+  /**
+   * This is a function to search location using city
+   */
+  searchByCity() {
+    this.locationService.searchLocationByCity(this.keyword).subscribe({
+      next: (data: any) => {
+        if (data.data.length == 0) {
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'No result',
+            detail: 'The search key was not found in any record!',
+          });
+        }
+        this.locations = data.data;
+      },
+      error: (err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Could not load the location content',
+        });
+      },
+    });
+  }
+
+  /**
+   * This is a function to search location using streetAddress
+   */
+  searchByStreetAddress() {
     this.locationService.searchLocation(this.keyword).subscribe({
       next: (data: any) => {
         if (data.data.length == 0) {
