@@ -1,5 +1,5 @@
 
-<p-dialog header="Change Password" [header]="actions == 'add' ? 'Input User' : 'Edit User'" [(visible)]="displayBasic" [style]="{width: '50vw'}">
+<p-dialog header="Change Password" [(visible)]="displayBasic" [style]="{width: '50vw'}">
   <div class="grid p-fluid">
     <div class="col-12 md:col-12">
       <label for="lastpass">Last Password</label>
@@ -34,55 +34,56 @@
 </p-dialog>
 
 
-<p-dialog header="Add New User" [(visible)]="displayBasic2" [style]="{width: '50vw'}">
+<p-dialog [header]="actions == 'add' ? 'Input User' : 'Edit User'" [(visible)]="displayBasic2" [style]="{width: '50vw'}">
   <div class="grid p-fluid">
     <div class="col-12 md:col-6">
       <label for="username">Username</label>
       <input id="username" type="text" pInputText [(ngModel)]="row.username" required autofocus placeholder="Username" />
-      <small class="p-invalid" style="color: red" *ngIf="submitted">Username Required
+      <small class="p-invalid" style="color: red" *ngIf="submitted&&!row.username">Username Required
       </small>
     </div>
-    <!-- <div class="col-12 md:col-6">
+    <div class="col-12 md:col-6" *ngIf="actions=='add'">
       <label for="password">Password</label>
       <p-password id="password" type="text" required [(ngModel)]="row.password" autofocus placeholder="Password" [(ngModel)]="valuepass4"
         [toggleMask]="true"></p-password>
       <small class="p-invalid" style="color: red" *ngIf="submitted">Password Required
       </small>
-    </div> -->
+    </div>
     <div class="col-12 md:col-6">
       <label for="name">Name</label>
       <input id="name" type="text" pInputText [(ngModel)]="row.name" required autofocus placeholder="Name" />
-      <small class="p-invalid" style="color: red" *ngIf="submitted">Name Required
+      <small class="p-invalid" style="color: red" *ngIf="submitted&&!row.name">Name Required
       </small>
     </div>
     <div class="col-12 md:col-6">
       <label for="email">Email</label>
       <input id="email" type="email" pInputText [(ngModel)]="row.email" required autofocus placeholder="Email" />
-      <small class="p-invalid" style="color: red" *ngIf="submitted">Email Required
+      <small class="p-invalid" style="color: red" *ngIf="submitted&&!row.email">Email Required
       </small>
     </div>
     <div class="col-12 md:col-6">
       <label for="address">Address</label>
       <input id="address" type="text" pInputText [(ngModel)]="row.address" required autofocus placeholder="Address" />
-      <small class="p-invalid" style="color: red" *ngIf="submitted">Alamat Required
+      <small class="p-invalid" style="color: red" *ngIf="submitted&&!row.address">Alamat Required
       </small>
     </div>
     <div class="col-12 md:col-6">
       <label for="phonenum">Phone Number</label>
-      <input id="phonenum" type="text" pInputText [(ngModel)]="row.phone" required autofocus placeholder="Phone Number" />
-      <small class="p-invalid" style="color: red" *ngIf="submitted">Phone Number Required
+      <input id="phonenum" type="text" pInputText [(ngModel)]="row.phone" required autofocus placeholder="Phone Number"/>
+      <small class="p-invalid" style="color: red" *ngIf="submitted&&!row.phone">Phone Number Required
       </small>
     </div>
         <div class="col-12 md:col-6">
       <label for="createdate">Create Date</label>
-      <p-calendar inputId="createdate" [(ngModel)]="row.createdDate"></p-calendar>
+      <input id="phonenum" type="text" pInputText [(ngModel)]="row.createdDate" required autofocus placeholder="Created Date" />
+      <!-- <p-calendar inputId="createdate" [(ngModel)]="row.createdDate" autofocus ></p-calendar> -->
       <small class="p-invalid" style="color: red" *ngIf="submitted">Create Date Required
       </small>
     </div>
         <div class="col-12 md:col-6">
       <label for="phonenum">Create By</label>
       <input id="phonenum" type="text" pInputText [(ngModel)]="row.createdBy" required autofocus placeholder="Createor Name" />
-      <small class="p-invalid" style="color: red" *ngIf="submitted">Creator Required
+      <small class="p-invalid" style="color: red" *ngIf="submitted&&!row.createdBy">Creator Required
       </small>
     </div>
     <div class="col-12 md:col-12">
@@ -97,7 +98,7 @@
     </div>
   </div>
   <ng-template pTemplate="footer">
-     <p-button icon="pi pi-check" (onClick)="input()" (onClick)="handleReset($event)" label="Submit" styleClass="p-button-text">
+     <p-button icon="pi pi-check" (onClick)="dateToString()" (onClick)="input()" (onClick)="handleReset($event)" label="Submit" styleClass="p-button-text">
     </p-button>
     <!-- (onClick)="handleSaveDepartment($event)" -->
     <p-button icon="pi pi-times" (click)="displayBasic2=false" label="Cancel"
