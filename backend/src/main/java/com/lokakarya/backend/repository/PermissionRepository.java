@@ -1,6 +1,7 @@
 package com.lokakarya.backend.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.lokakarya.backend.entity.Permission;
 
@@ -18,4 +19,6 @@ public interface PermissionRepository extends JpaRepository<Permission,Long>{
     " where u.USER_ID = :pUserId"+
     " order by p.PERMISSION_ID", nativeQuery = true)
     List<Permission> getPermissionByUserId(@Param("pUserId") Long userId);
+
+    Optional<Permission> getByPermission(String permission);
 }

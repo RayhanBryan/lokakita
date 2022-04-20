@@ -41,6 +41,7 @@ public class HakAksesService {
         if (wrapper.getGroupId() != null){
             entity.setGroup(groupRepository.getById(wrapper.getGroupId()));
         }
+        entity.setIsActive(wrapper.getIsActive());
         entity.setProgramName(wrapper.getProgramName());
         return entity;
     }
@@ -49,12 +50,15 @@ public class HakAksesService {
         HakAksesWrapper wrapper = new HakAksesWrapper();
         wrapper.setHakAksesId(hakAkses.getHakAksesId());
         wrapper.setUserId(hakAkses.getUser() != null ? hakAkses.getUser().getUserId() : null);
+        wrapper.setUser(hakAkses.getUser() != null ? hakAkses.getUser().getUsername() : null);
         wrapper.setGroupId(hakAkses.getGroup() != null ? hakAkses.getGroup().getGroupId() : null);
+        wrapper.setGroup(hakAkses.getGroup() != null ? hakAkses.getGroup().getGroupName() : null);
         wrapper.setProgramName(hakAkses.getProgramName());
         wrapper.setCreatedDate(hakAkses.getCreatedDate());
         wrapper.setCreatedBy(hakAkses.getCreatedBy());
         wrapper.setUpdatedDate(hakAkses.getUpdatedDate());
         wrapper.setUpdatedBy(hakAkses.getUpdatedBy());
+        wrapper.setIsActive(hakAkses.getIsActive());
         return wrapper;
     }
 
