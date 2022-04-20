@@ -6,12 +6,13 @@ select * from menus;
 
 DESC MENUS;
 
-select * from menus m 
+select distinct (m.MENU_ID), m.MENU_NAME, m.ICON, m.URL from menus m 
 LEFT JOIN GROUP_MENU gm on m.menu_id = gm.MENU_ID
 LEFT JOIN Groups gs on gm.group_id = gs.group_ID
 LEFT JOIN HAK_AKSES ha on gs.group_id = ha.group_ID
 LEFT JOIN USERS u on ha.user_id = u.user_ID
-where u.USER_ID = ;
+where u.USER_ID = 88
+ORDER BY m.MENU_ID ASC;
 
 select * from HAK_AKSES;
 

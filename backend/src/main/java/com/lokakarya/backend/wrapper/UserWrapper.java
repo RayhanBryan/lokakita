@@ -1,6 +1,7 @@
 package com.lokakarya.backend.wrapper;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,4 +21,6 @@ public class UserWrapper {
     private String createdBy;
     private Date updatedDate;
     private String updatedBy;
+    private List<String> permissions;
+    private List<String> menus;
 }

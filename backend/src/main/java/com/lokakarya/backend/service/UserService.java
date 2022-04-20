@@ -5,6 +5,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import com.lokakarya.backend.entity.Menu;
+import com.lokakarya.backend.entity.Permission;
+
 // import javax.transaction.Transactional;
 
 // import com.lokakarya.backend.entity.HakAkses;
@@ -12,6 +15,8 @@ import com.lokakarya.backend.entity.User;
 import com.lokakarya.backend.exception.BusinessException;
 import com.lokakarya.backend.repository.GroupRepository;
 import com.lokakarya.backend.repository.HakAksesRepository;
+import com.lokakarya.backend.repository.MenuRepository;
+import com.lokakarya.backend.repository.PermissionRepository;
 import com.lokakarya.backend.repository.UserRepository;
 // import com.lokakarya.backend.util.PaginationList;
 import com.lokakarya.backend.wrapper.UserWrapper;
@@ -34,6 +39,12 @@ public class UserService {
 
     @Autowired
     HakAksesRepository hakAksesRepository;
+
+    @Autowired
+    PermissionRepository permissionRepository;
+
+    @Autowired
+    MenuRepository menuRepository;
     // get
     public List<UserWrapper> findAll(){
         return toWrapperList(userRepository.findAll(Sort.by("userId").ascending()));
@@ -125,6 +136,18 @@ public class UserService {
         wrapper.setCreatedBy(entity.getCreatedBy());
         wrapper.setUpdatedDate(entity.getUpdatedDate());
         wrapper.setUpdatedBy(entity.getUpdatedBy());
+        List<Permission> permissionEntities = permissionRepository.getPermissionByUserId(entity.getUserId());
+        List<String> permissions = new ArrayList<String>();
+        for (Permission permission : permissionEntities){
+            permissions.add(permission.getPermission());
+        }
+        wrapper.setPermissions(permissions);
+        List<Menu> menuEntities = menuRepository.findMenuByUserId(entity.getUserId());
+        List<String> menus = new ArrayList<String>();
+        for (Menu menu : menuEntities){
+            menus.add(menu.getMenuName());
+        }
+        wrapper.setMenus(menus);
         return wrapper;
     }
 
