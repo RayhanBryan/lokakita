@@ -32,11 +32,12 @@ import { CalendarModule } from 'primeng/calendar';
 import { DatamasterComponent } from './components/datamaster/datamaster.component';
 import { CheckboxModule } from 'primeng/checkbox';
 import { NotfoundComponent } from './components/notfound/notfound.component';
-
+import { SidebarModule } from 'primeng/sidebar';
 import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
 import { BonusComponent } from './components/bonus/bonus.component';
-import { SidebarModule } from 'primeng/sidebar';
+import { CustomerComponent } from './components/customer/customer.component';
+import { TieredMenuModule } from 'primeng/tieredmenu';
 
 
 @NgModule({
@@ -55,7 +56,8 @@ import { SidebarModule } from 'primeng/sidebar';
     DatamasterComponent,
     EmployeeComponent,
     NotfoundComponent,
-    BonusComponent
+    BonusComponent,
+    CustomerComponent
   ],
   imports: [
     BrowserModule,
@@ -79,6 +81,7 @@ import { SidebarModule } from 'primeng/sidebar';
     CalendarModule,
     MessagesModule,
     MessageModule,
+    TieredMenuModule,
     SidebarModule
   ],
   providers: [ConfirmationService],

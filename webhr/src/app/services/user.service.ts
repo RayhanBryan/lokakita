@@ -22,6 +22,12 @@ export class UserService {
     });
   }
 
+  getByUserId(id: number): Observable<any> {
+    return this.http.get<any>(url + `users/getById?id=${id}`, {
+      responseType: 'json',
+    });
+  }
+
   postUser(req: any): Observable<any> {
     return this.http.post<any>(url + `users/post`, req, {
       responseType: 'json',
