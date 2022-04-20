@@ -18,6 +18,7 @@ public interface MenuRepository extends JpaRepository<Menu,Long>{
     " LEFT JOIN Groups gs on gm.group_id = gs.group_ID"+
     " LEFT JOIN HAK_AKSES ha on gs.group_id = ha.group_ID"+ 
     " LEFT JOIN USERS u on ha.user_id = u.user_ID" +
-    " where u.USER_ID = :pUserId", nativeQuery = true)
+    " where u.USER_ID = :pUserId" +
+    " ORDER BY m.MENU_ID ASC", nativeQuery = true)
     List<Menu> findMenuByUserId (@Param("pUserId") Long userId);
 }
