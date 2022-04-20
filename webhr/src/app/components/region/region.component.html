@@ -1,5 +1,5 @@
 <div class="card">
-  <div class="mb-3">
+  <div class="mb-3" >
     <p-button type="button" icon="pi pi-chevron-left" (click)="prev()" [disabled]="isFirstPage()"
       styleClass="p-button-text"></p-button>
     <p-button type="button" icon="pi pi-refresh" (click)="reset()" styleClass="p-button-text"></p-button>
@@ -40,17 +40,17 @@
   </p-table>
 </div>
 
-<p-dialog [header]="action == 1 ? 'Input Department' : 'Edit Employee' " [(visible)]="displayMaximizable" [modal]="true"
+<p-dialog [header]="action == 1 ? 'Add Region' : 'Edit Region' " [(visible)]="displayMaximizable" [modal]="true"
   [style]="{width: '50vw'}" [maximizable]="true" [draggable]="false" [resizable]="false" (onHide)="resetForm()">
   <div class="grid p-fluid">
     <div class="col-12 md:col-12">
       <label for="regionName">Region Name</label>
       <input type="text" pInputText [(ngModel)]="row.regionName" required autofocus maxlength="25">
-      <h5 *ngIf="submitted && !row.departmentName">Required!!</h5>
+      <h5 class="p-invalid" style="color:red" *ngIf="submitted && !row.regionName">Region name is required!</h5>
     </div>
   </div>
   <ng-template pTemplate="footer">
-    <button pButton pRipple type="button" (click)="submit()" icon="pi pi-check" label="Save" class="mt-2 ml-1"></button>
+    <button pButton pRipple type="button" (click)="submit()" icon="pi pi-check" label="Save" class="mt-2 ml-1" [disabled]="handleValidation()"></button>
     <button pButton pRipple type="button" (click)="resetForm()" icon="pi pi-spinner" label="Reset"
       class="mt-2 ml-1 p-button-danger"></button>
     <button pButton pRipple type="button" (click)="displayMaximizable=false" icon="pi pi-times" label="Cancel"

@@ -61,53 +61,58 @@
     </ng-template>
   </p-table>
 
-  <p-dialog [header]="action == 1 ? 'Input Department' : 'Edit Employee' " [(visible)]="displayMaximizable"
+  <p-dialog [header]="action == 1 ? 'Add Location' : 'Edit Location'" [(visible)]="displayMaximizable"
     [modal]="true" [style]="{width: '50vw'}" [maximizable]="true" [draggable]="false" [resizable]="false"
     (onHide)="resetForm()">
     <div class="grid p-fluid">
       <div class="col-12 md:col-6">
         <label for="streetAddress">Street Address</label>
-        <input type="text" pInputText [(ngModel)]="row.streetAddress" maxlength="40">
-        <!-- <h5 class="p-invalid" style="color: red;" *ngIf="submitted && !row.departmentName">Street address required...!
-        </h5> -->
+        <input type="text" pInputText [(ngModel)]="row.streetAddress" maxlength="40" required>
+        <h5 class="p-invalid" style="color: red;" *ngIf="submitted && !row.streetAddress">
+          Street address required!
+        </h5>
       </div>
       <div class="col-12 md:col-6">
         <label for="streetAddress">Postal Code</label>
-        <input type="text" pInputText [(ngModel)]="row.postalCode" maxlength="12">
-        <!-- <h5 class="p-invalid" style="color: red;" *ngIf="submitted && !row.postalCode">Postal code required...!</h5> -->
+        <input type="text" pInputText [(ngModel)]="row.postalCode" maxlength="12" required>
+        <h5 class="p-invalid" style="color: red;" *ngIf="submitted && !row.postalCode">
+          Postal code required!</h5>
       </div>
       <div class="col-12 md:col-6">
         <label for="streetAddress">City</label>
-        <input type="text" pInputText [(ngModel)]="row.city" maxlength="30">
-        <!-- <h5 class="p-invalid" style="color: red;" *ngIf="submitted && !row.city">City required...!</h5> -->
+        <input type="text" pInputText [(ngModel)]="row.city" maxlength="30" required>
+        <h5 class="p-invalid" style="color: red;" *ngIf="submitted && !row.city">
+          City required!</h5>
       </div>
       <div class="col-12 md:col-6">
         <label for="streetAddress">State Province</label>
-        <input type="text" pInputText [(ngModel)]="row.stateProvince" maxlength="25">
-        <!-- <h5 class="p-invalid" style="color: red;" *ngIf="submitted && !row.stateProvince">State province required...!
-        </h5> -->
+        <input type="text" pInputText [(ngModel)]="row.stateProvince" maxlength="25" required>
+        <h5 class="p-invalid" style="color: red;" *ngIf="submitted && !row.stateProvince">
+          State province required!
+        </h5>
       </div>
       <div class="col-12 md:col-6">
         <label for="countryId">Country</label>
         <p-dropdown appendTo="body" [options]="countries" [(ngModel)]="row.countryId" optionLabel="countryName"
-          optionValue="countryId" placeholder="Country">
+          optionValue="countryId" placeholder="Country" [required]="true">
         </p-dropdown>
-        <!-- <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.managerId">
-          Country Required...!
-        </h5> -->
+        <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.countryId">
+          Country Required!
+        </h5>
       </div>
       <div class="col-12 md:col-6">
         <label for="createdDate">Created Date</label>
-        <input type="date" pInputText [(ngModel)]="row.createdDate">
-        <!-- <h5 class="p-invalid" style="color: red;" *ngIf="submitted && !row.departmentName">Created date required...!
-        </h5> -->
+        <input type="date" pInputText [(ngModel)]="row.createdDate" required>
+        <h5 class="p-invalid" style="color: red;" *ngIf="submitted && !row.createdDate">
+          Created date required!
+        </h5>
       </div>
     </div>
 
 
     <ng-template pTemplate="footer">
       <button pButton pRipple type="button" (click)="submit()" icon="pi pi-check" label="Save"
-        class="mt-2 ml-1"></button>
+        class="mt-2 ml-1" [disabled]="handleValidation()"></button>
       <button pButton pRipple type="button" (click)="resetForm()" icon="pi pi-spinner" label="Reset"
         class="mt-2 ml-1 p-button-danger"></button>
       <button pButton pRipple type="button" (click)="displayMaximizable=false" icon="pi pi-times" label="Cancel"
