@@ -3,6 +3,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog/dialogservice';
 import { DepartmentService } from 'src/app/services/department.service';
 import { EmployeeService } from 'src/app/services/employee.service';
+import { JobHistoryService } from 'src/app/services/job-history.service';
 import { JobService } from 'src/app/services/job.service';
 
 @Component({
@@ -22,6 +23,7 @@ export class EmployeeComponent implements OnInit {
   display: boolean = false;
   showSearch: boolean = false;
   displaySalary: boolean = false;
+  displayJobHistory: boolean = false;
 
   submitted: boolean = false;
   action: string = '';
@@ -53,7 +55,8 @@ export class EmployeeComponent implements OnInit {
     private employeeService: EmployeeService,
     private messageService: MessageService,
     private departmentService: DepartmentService,
-    private jobService: JobService
+    private jobService: JobService,
+    private jobHistoryService: JobHistoryService
   ) {}
 
   ngOnInit(): void {
@@ -260,5 +263,26 @@ export class EmployeeComponent implements OnInit {
       // this.ssss = res.data;
       // this.s=[res.data];
     });
+  }
+
+
+  jobHistory: any;
+
+  showJobHistory(row: any){
+    this.row = { ...row };
+    this.displayJobHistory = true;
+    this.jobHistoryService.getJobHistoryByEmployeeId(row.employeeId).subscribe(
+      {
+        next: (data)=>{
+          
+          this.jobHistory=data
+          console.log(data)
+            //this.onReset();
+        },
+        error: (err) => {
+          console.log('error cuy')
+        }
+      }
+    )
   }
 }
