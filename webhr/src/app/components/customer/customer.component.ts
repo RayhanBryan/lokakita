@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { CustomerService } from 'src/app/services/customer.service';
-// import { LocationService } from 'src/app/services/location.service';
-// import { EmployeeService } from 'src/app/services/employee.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 
 @Component({
@@ -11,9 +9,9 @@ import { ConfirmationService, MessageService } from 'primeng/api';
   providers: [ConfirmationService, MessageService],
 })
 export class CustomerComponent implements OnInit {
-  customers : any;
+  customer : any;
   first = 0;
-  name: string = '';
+  customerName: string = '';
   rows = 10;
   display: boolean = false;
   submitted: boolean = false;
@@ -23,10 +21,10 @@ export class CustomerComponent implements OnInit {
 
   dataCustomer: any;
   row: any = {
-    id: 0,
-    name: '',
+    customerId: 0,
+    customerName: '',
     email: '',
-    phoneNo: '',
+    phoneNumber: '',
   };
 
   constructor(
@@ -43,7 +41,7 @@ export class CustomerComponent implements OnInit {
     this.customerService.getCustomer().subscribe({
       next: (data) => {
         console.log(data);
-        this.customers = data;
+        this.customer = data;
       },
       error: (err) => {
         console.log(err);
@@ -64,21 +62,21 @@ export class CustomerComponent implements OnInit {
   }
 
   isLastPage(): boolean {
-    return this.customers
-      ? this.first === this.customers.length - this.rows
+    return this.customer
+      ? this.first === this.customer.length - this.rows
       : true;
   }
 
   isFirstPage(): boolean {
-    return this.customers ? this.first === 0 : true;
+    return this.customer ? this.first === 0 : true;
   }
 
   findByCustomerName() {
     this.customerService
-      .getCustomerName(this.name)
+      .getCustomerName(this.customerName)
       .subscribe((res) => {
         console.log(res);
-        this.customers = res;
+        this.customer = res;
       });
   }
 
@@ -114,8 +112,8 @@ export class CustomerComponent implements OnInit {
     this.confirmationService.confirm({
       message: 'Are you sure that you want to perform this action?',
       accept: () => {
-        if (this.row.Id === 0) {
-          this.row.Id = null;
+        if (this.row.customerId === 0) {
+          this.row.customerId = null;
           this.customerService.postCustomer(this.row).subscribe({
             next: (data) => {
               console.log(data);
@@ -161,7 +159,7 @@ export class CustomerComponent implements OnInit {
 
   handleValidation() {
     let err = 0;
-    if (this.row.name.length < 1) {
+    if (this.row.customerName.length < 1) {
       err++;
     }
     if (err == 0) {
@@ -173,10 +171,10 @@ export class CustomerComponent implements OnInit {
 
   handleReset(event: any, param: string): void {
     this.row = {
-      id: (this.action == 'edit' && param == 'click') ? this.row.departmentId : 0,
-      name: '',
+      customerId: (this.action == 'edit' && param == 'click') ? this.row.customerId : 0,
+      customerName: '',
       email: '',
-      phoneNo: '',
+      phoneNumber: '',
     };
   }
 
