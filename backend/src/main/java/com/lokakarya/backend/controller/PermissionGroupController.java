@@ -31,6 +31,10 @@ public class PermissionGroupController {
     DataResponse<PermissionGroupWrapper> getById(@RequestParam("id") Long id){
         return new DataResponse<PermissionGroupWrapper>(permissionGroupService.getById(id));
     }
+    @GetMapping(path = "/findByUser")
+      DataResponseList<PermissionGroupWrapper> findByUser(@RequestParam("user") Long user){
+          return new DataResponseList<PermissionGroupWrapper>(permissionGroupService.findPermissionGroupByUserId(user));
+      }
 
     @PostMapping(path= "/post")
     DataResponse<PermissionGroupWrapper> post(@RequestBody PermissionGroupWrapper wrapper){
