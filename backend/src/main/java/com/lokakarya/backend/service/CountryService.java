@@ -97,9 +97,14 @@ public class CountryService {
 	}
 
 	//find CountryName without pagination
-	public List<CountryWrapper> findByCountryNameContaining(String countryName) {
+	public List<CountryWrapper> findByCountryNameContainingIgnoreCase(String countryName) {
 		List<Country> countryList = countryRepository.findByCountryNameContainingIgnoreCase(countryName);
 		return toWrapperList(countryList);
 	}
+
+	public List<CountryWrapper> findByRegionNameContainingIgnoreCase(String regionName) {
+        List<Country> countryList = countryRepository.findByRegionNameContainingIgnoreCase(regionName);
+        return toWrapperList(countryList);
+    }
 
 }
