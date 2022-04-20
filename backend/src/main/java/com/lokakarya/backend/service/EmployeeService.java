@@ -10,13 +10,11 @@ import com.lokakarya.backend.repository.EmployeeRepository;
 import com.lokakarya.backend.repository.JobHistoryRepository;
 import com.lokakarya.backend.repository.JobRepository;
 import com.lokakarya.backend.util.PaginationList;
-import com.lokakarya.backend.wrapper.DepartmentWrapper;
 import com.lokakarya.backend.wrapper.EmployeeWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
