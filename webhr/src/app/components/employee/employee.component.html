@@ -63,17 +63,17 @@
                 <td>{{ employee.hireDate }}</td>
                 <!-- <td>{{ employee.jobTitle }}</td> -->
                 <td>
-                    <p-button title="Show Job History" (click)="showJobHistory(employee)">{{ employee.jobTitle }}</p-button>
+                    <p-button styleClass="p-button-link" title="Show Job History" (click)="showJobHistory(employee)">{{ employee.jobTitle }}</p-button>
                 </td>
                 <!-- <td>{{employee.managerId}}</td> -->
                 <td>
                     <p-button (click)="showBonus(employee)" icon="pi pi-external-link" label="Salary"></p-button>
                 </td>
                 <td>{{ employee.departmentName }}</td>
-                <td>
+                <td><div style="width: 100px;">
                     <p-button icon="pi pi-pencil" (click)="openEdit(employee)"></p-button>
                     <p-button icon="pi pi-trash" (click)="handleDelete(employee.employeeId)"
-                        styleClass="p-button-danger ml-2"></p-button>
+                        styleClass="p-button-danger ml-2"></p-button></div>
                 </td>
             </tr>
         </ng-template>
@@ -87,28 +87,28 @@
                 <h5>First Name</h5>
                 <input type="text" pInputText id="firstName" [(ngModel)]="row.firstName" required="autofocus" />
                 <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.firstName">
-                    First Name Required...!
+                    First Name Required!
                 </h5>
             </div>
             <div class="col-12 md:col-6">
                 <h5>Last Name</h5>
                 <input type="text" pInputText id="lastName" [(ngModel)]="row.lastName" required="autofocus" />
                 <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.lastName">
-                    Last Name Required...!
+                    Last Name Required!
                 </h5>
             </div>
             <div class="col-12 md:col-6">
                 <h5>Email</h5>
                 <input type="text" pInputText id="email" [(ngModel)]="row.email" required="autofocus" />
                 <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.email">
-                    Email Required...!
+                    Email Required!
                 </h5>
             </div>
             <div class="col-12 md:col-6">
                 <h5>Phone Number</h5>
                 <input type="text" pInputText id="phoneNumber" [(ngModel)]="row.phoneNumber" required="autofocus" />
                 <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.phoneNumber">
-                    Phone Number Required...!
+                    Phone Number Required!
                 </h5>
             </div>
             
@@ -117,32 +117,45 @@
                 <p-dropdown appendTo="body" [options]="jobs" [(ngModel)]="row.jobId" optionLabel="jobTitle"
                     placeholder="Job Title" optionValue="jobId">
                 </p-dropdown>
+                <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.jobId">
+                    Job Required!
+                </h5>
             </div>
             <div class="col-12 md:col-6">
                 <h5>Manager Name</h5>
                 <p-dropdown appendTo="body" [options]="managers" [(ngModel)]="row.managerId"
                     optionLabel="manager" placeholder="Manager Name" optionValue="managerId">
                 </p-dropdown>
+                <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.managerId">
+                    Manager Name Required!
+                </h5>
             </div>
             <div class="col-12 md:col-6">
                 <h5>Department Name</h5>
                 <p-dropdown appendTo="body" [options]="departments" [(ngModel)]="row.departmentId"
                     optionLabel="departmentName" placeholder="Department Name" optionValue="departmentId">
                 </p-dropdown>
+                <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.departmentId">
+                    Department Required!
+                </h5>
             </div>
             <div class="col-12 md:col-6">
                 <h5>Hire Date</h5>
                 <p-calendar [(ngModel)]="row.hireDate" [showIcon]="true" inputId="icon" class="p-calendar-sm" placeholder="Hire Date"></p-calendar>
                 <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.hireDate">
-                    Hire Date Required...!
+                    Hire Date Required!
                 </h5>
             </div>
             <div class="col-12 md:col-6">
                 <h5>Salary</h5>
                 <input type="number" pInputText id="salary" [(ngModel)]="row.salary" required="autofocus" />
                 <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.salary">
-                    Salary Required...!
+                    Salary Required!
                 </h5>
+            </div>
+            <div class="col-12 md:col-6">
+                <h5>Bonus</h5>
+                <input type="number" pInputText id="commissionPct" [(ngModel)]="row.commissionPct" required="autofocus" />
             </div>
         </div>
 

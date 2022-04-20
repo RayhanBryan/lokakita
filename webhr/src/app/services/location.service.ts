@@ -38,4 +38,8 @@ export class LocationService {
   getLocationById(locationId:number):Observable<any>{
     return this.http.get<any>(this.locationUrl+`getById?id=${locationId}`,httpOptions);
   }
+
+  searchLocationByCity(keyword:string){
+    return this.http.get<any>(this.locationUrl+`getByCity?city=${keyword}`,httpOptions);
+  }
 }

@@ -209,14 +209,14 @@ export class DatamasterComponent implements OnInit {
             )  
             }
             }
-            else if((this.selectedGroup[0]=='Admin')&&(this.selectedGroup[1]!='User'||'Admin')){
+            else if((this.selectedGroup[0]=='Admin')&&(this.selectedGroup[1]!='')){
             this.newAccess.groupId = 2;
             this.hakAkses.postAccess(this.newAccess).subscribe(
             res => {
             console.log(res);
             }
             )
-            }else if((this.selectedGroup[0]=='User')&&(this.selectedGroup[1]!='User'||'Admin')){
+            }else if((this.selectedGroup[0]=='User')&&(this.selectedGroup[1]!='')){
             this.newAccess.groupId = 3;
             this.hakAkses.postAccess(this.newAccess).subscribe(
             res => {
