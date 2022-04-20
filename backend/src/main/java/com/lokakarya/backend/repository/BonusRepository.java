@@ -1,6 +1,5 @@
 package com.lokakarya.backend.repository;
 
-import com.lokakarya.backend.entity.Customer;
 import com.lokakarya.backend.entity.Employee;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
