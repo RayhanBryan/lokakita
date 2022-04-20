@@ -9,6 +9,12 @@ import java.util.List;
 
 public interface DepartmentRepository extends JpaRepository<Department, Long> {
     Page<Department> findAll(Pageable page);
+
     Page<Department> findByDepartmentNameContainingIgnoreCase(String departmentName, Pageable paging);
+
     List<Department> findByDepartmentNameContainingIgnoreCase(String departmentName);
+
+    List<Department> findByStreetAddressContainingIgnoreCase(String streetAddress);
+
+    List<Department> findByCityContainingIgnoreCase(String City);
 }

@@ -16,7 +16,7 @@ export class AuthGuardService {
       }
     });
     if (this.isLoggedIn) {
-      if (count > 0 || state.url == '/home') {
+      if (count > 0 || state.url == '/home' || state.url == '/profile') {
         return true
       }
       else {

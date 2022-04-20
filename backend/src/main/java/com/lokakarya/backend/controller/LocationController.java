@@ -62,6 +62,12 @@ public class LocationController {
 		return new DataResponseList<LocationWrapper>(locationService.getByStreetAddress(streetAddress));
 	}
 	
+	// FIND BY CITY
+	@GetMapping(path = "/getByCity")
+	DataResponseList<LocationWrapper> getByCity(@RequestParam("city") String city){
+		return new DataResponseList<LocationWrapper>(locationService.getByCity(city));
+	}
+
 	// DELETE
 	@DeleteMapping(path = "/{id}")
 	public void delete(@PathVariable("id") Long locationId) {

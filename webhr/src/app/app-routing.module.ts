@@ -10,6 +10,7 @@ import { JobComponent } from './components/job/job.component';
 import { LocationComponent } from './components/location/location.component';
 import { LoginComponent } from './components/login/login.component';
 import { NotfoundComponent } from './components/notfound/notfound.component';
+import { ProfileComponent } from './components/profile/profile.component';
 import { RegionComponent } from './components/region/region.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { AuthGuardService } from './services/auth-guard.service';
@@ -26,6 +27,7 @@ const routes: Routes = [
   { path: 'customer', component: CustomerComponent, canActivate: [AuthGuardService] },
   { path: 'datamaster', component: DatamasterComponent, canActivate: [AuthGuardService] },
   { path: 'notfound', component: NotfoundComponent, canActivate: [AuthGuardService] },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuardService] },
   { path: 'signup', component: SignupComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', redirectTo: '/home', pathMatch: 'full' }

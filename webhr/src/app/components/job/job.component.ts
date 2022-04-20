@@ -71,99 +71,8 @@ export class JobComponent implements OnInit {
     )
   }
 
-  // handleSaveJob(event:any){
-  //   console.log(this.row, 'ini rownya')
-  //   this.submitted=true;
-
-  //   if(this.handleValidation()){
-  //     this.confirmationService.confirm({
-  //       message: 'are you sure?',
-  //       header: 'confirmation',
-  //       icon: 'pi pi exclamation-triangle',
-  //       accept: ()=>{
-  //         this.jobService.postJob(this.row).subscribe(
-  //           {
-  //             next: (data)=>{
-  //               console.log(data)
-  //               if(data.status){
-  //                 this.messageService.add({
-  //                   severity: 'success',
-  //                   summary: 'Input',
-  //                   detail: 'Data has been inserted',
-  //                 });
-  //                 this.loadData();
-  //                 this.displayMaximizable=false;
-                  
-  //               }
-  //             },
-  //             error: (err)=>{
-  //               console.log('error cuy')
-  //             }
-  //           }
-  //         );
-    
-  //       }
-  //     })
-  //   }
-    
-  //   }
-
-
-  handleSaveJob(event:any){
-    this.submitted=true;
-    this.confirmationService.confirm({
-      message: 'Are you sure that you want to perform this action?',
-      accept:()=>{
-        if(this.handleValidation() && this.action==1){
-          this.jobService.postJob(this.row).subscribe({
-            next: (data) =>{
-              console.log(data);
-              if(data.status){
-                this.messageService.add({
-                  severity: 'success',
-                  summary: 'Input',
-                  detail: 'Data has been inserted',
-                });
-                this.loadData();
-                this.displayMaximizable=false;
-              }
-            },
-            error: (err)=>{
-              console.log('error cuy');
-            },
-          });
-        } else{
-          console.log('b');
-          this.jobService.putJob(this.row).subscribe({
-            next: (data) => {
-              console.log(data);
-              if(data.status){
-                this.messageService.add({
-                  severity: 'success',
-                  summary: 'Input',
-                  detail: 'Data has been edited',
-                });
-                this.loadData();
-                this.displayMaximizable=false;
-              }
-            },
-            error: (err)=>{
-              console.log('error cuy');
-            },
-          });
-        }
-      },
-      reject: ()=>{
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Input Failed',
-        });
-      },
-    });
-  
-  }
-    handleSaveJob2(event:any){
+ 
+    handleSaveJob(event:any){
       this.submitted=true;
       if(this.handleValidation() && this.action==1){
         this.confirmationService.confirm({
@@ -254,6 +163,7 @@ export class JobComponent implements OnInit {
         maxSalary:0,
       }
     }
+  
     
     openEdit(row:any){
     this.row={...row}
@@ -287,22 +197,21 @@ export class JobComponent implements OnInit {
         header: 'Delete Confirmation',
         icon: 'pi pi-info-circle',
         accept: () => {
-            this.messageService.add({severity:'info', summary:'Confirmed', detail:'Data deleted'});
+            this.messageService.add({severity:'success', summary:'Confirmed', detail:'Data deleted'});
             this.deleteData();
         },
         reject: (type: any) => {
             switch(type) {
                 case ConfirmEventType.REJECT:
-                    this.messageService.add({severity:'error', summary:'Rejected', detail:'You have rejected'});
+                    this.messageService.add({severity:'warn', summary:'Cancelled', detail:'You have cancelled'});
                 break;
                 case ConfirmEventType.CANCEL:
-                    this.messageService.add({severity:'warn', summary:'Cancelled', detail:'You have cancelled'});
+                    this.messageService.add({severity:'info', summary:'Cancelled', detail:'Your data is safe'});
                 break;
             }
         }
     });
     };
-
 
     showMaximizableDialog(act: number) {
       this.displayMaximizable = true;

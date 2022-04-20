@@ -34,15 +34,15 @@ export class DepartmentService {
     return this.http.get<any>(this._baseUrl + `departments/GetById?id=${id}`, httpOptions);
   }
 
-    postDepartment(req:any): Observable<any> {
+  postDepartment(req:any): Observable<any> {
     return this.http.post<any>(this._baseUrl+ 'departments/posts', req, httpOptions);
     }
   
   putDepartment(data: any): Observable<any> {
     return this.http.put<any>(this._baseUrl + 'departments/update', data, httpOptions);
   }
+
   deleteDepartment(id: any): Observable<any> {
-    return this.http.delete<any>(this._baseUrl + `departments/${id}`, httpOptions);
-    
+    return this.http.delete<any>(this._baseUrl + `departments/${id}`, httpOptions);  
   }
 }

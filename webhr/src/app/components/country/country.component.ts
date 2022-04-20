@@ -75,7 +75,9 @@ export class CountryComponent implements OnInit {
     this.regions=this.getRegion();
   }
 
+
 handleSaveCountry(event:any){
+  
   this.submitted=true;
   if(this.handleValidation() && this.action==1){
     this.confirmationService.confirm({
@@ -162,6 +164,7 @@ this.row={
   countryName:'',
   regionId:''
 }
+
 }
 
 openEdit(row:any){
@@ -204,16 +207,16 @@ showDeleteDialog(id: string){
     header: 'Delete Confirmation',
     icon: 'pi pi-info-circle',
     accept: () => {
-        this.messageService.add({severity:'info', summary:'Confirmed', detail:'Data deleted'});
+        this.messageService.add({severity:'success', summary:'Deleted', detail:'Data deleted'});
         this.deleteData();
     },
     reject: (type: any) => {
         switch(type) {
             case ConfirmEventType.REJECT:
-                this.messageService.add({severity:'error', summary:'Rejected', detail:'You have rejected'});
+                this.messageService.add({severity:'warn', summary:'Canceled', detail:'You have canceled'});
             break;
             case ConfirmEventType.CANCEL:
-                this.messageService.add({severity:'warn', summary:'Cancelled', detail:'You have cancelled'});
+                this.messageService.add({severity:'info', summary:'Cancelled', detail:'Your data is safe'});
             break;
         }
     }
@@ -223,6 +226,7 @@ showDeleteDialog(id: string){
 showMaximizableDialog(act: number) {
   this.displayMaximizable = true;
   this.action = act;
+  
 }
 
   next(){

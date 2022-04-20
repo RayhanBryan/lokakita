@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, ConfirmEventType, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog/dialogservice';
 import { DepartmentService } from 'src/app/services/department.service';
 import { EmployeeService } from 'src/app/services/employee.service';
@@ -24,7 +24,7 @@ export class EmployeeComponent implements OnInit {
   showSearch: boolean = false;
   displaySalary: boolean = false;
   displayJobHistory: boolean = false;
-
+  
   submitted: boolean = false;
   action: string = '';
   id: number = 0;
@@ -36,7 +36,7 @@ export class EmployeeComponent implements OnInit {
     employeeId: 0,
     firstName: '',
     lastName: '',
-    fullName: '',
+    employeeName: '',
     email: '',
     phoneNumber: '',
     hireDate: '',
@@ -71,12 +71,12 @@ export class EmployeeComponent implements OnInit {
 
   getEmployee() {
     this.employeeService.getEmployee().subscribe((res) => {
-      // console.log(res.data);
       this.employees = res.data;
       this.employees.forEach((element: any) => {
         element.manager =
           element.managerFirstName + ' ' + element.managerLastName;
         console.log(element);
+        element.employeeName = element.firstName + ' ' +element.lastName;
       });
       this.managers=this.removeDuplicates(this.employees);
       console.log(this.employees);
@@ -127,14 +127,29 @@ export class EmployeeComponent implements OnInit {
           console.log(res);
           this.getEmployee();
           this.messageService.add({
-            severity: 'Success',
+            severity: 'success',
             summary: 'Delete',
             detail: 'Data has been deleted',
           });
         });
       },
-      reject: () => {
-        console.log('reject');
+      reject: (type: any) => {
+        switch (type) {
+          case ConfirmEventType.REJECT:
+            this.messageService.add({
+              severity: 'info',
+              summary: 'Cancelled',
+              detail: 'Your data is safe',
+            });
+            break;
+          case ConfirmEventType.CANCEL:
+            this.messageService.add({
+              severity: 'info',
+              summary: 'Cancelled',
+              detail: 'Your data is safe',
+            });
+            break;
+        }
       },
     });
   }
@@ -148,18 +163,23 @@ export class EmployeeComponent implements OnInit {
         if (this.row.employeeId === 0) {
           this.row.employeeId = null;
           this.employeeService.postEmployee(this.row).subscribe({
-            next: (data) => {
-              console.log(data);
+            next: (data) => { console.log(data);
               if (data.status) {
-                this.display = false;
-                this.getEmployee();
-                alert('Data berhasil diinput.');
+                this.messageService.add({
+                  severity: 'success',
+                  summary: 'Input',
+                  detail: 'Data has been inserted',
+                });
                 this.getEmployee();
                 this.display = false;
               }
             },
             error: (err) => {
-              console.log('error cuy');
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Could not add a new record',
+              });
             },
           });
         } else {
@@ -167,12 +187,21 @@ export class EmployeeComponent implements OnInit {
             next: (data) => {
               console.log(data);
               if (data.status) {
+                this.messageService.add({
+                  severity: 'success',
+                  summary: 'Input',
+                  detail: 'Data has been inserted',
+                });
                 this.getEmployee();
                 this.display = false;
               }
             },
             error: (err) => {
-              console.log('error cuy');
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Could not update a new record',
+              });
             },
           });
         }
@@ -199,9 +228,9 @@ export class EmployeeComponent implements OnInit {
     }
   }
 
-  handleReset(event: any): void {
+  handleReset(event: any,  param: string): void {
     this.row = {
-      employeeId: 0,
+      employeeId: (this.action == 'edit' && param == 'click') ? this.row.departmentId : 0,
       firstName: '',
       lastName: '',
       fullName: '',
@@ -239,7 +268,7 @@ export class EmployeeComponent implements OnInit {
 
   getJob(): void {
     this.jobService.getJob().subscribe((res) => {
-      this.jobs = res;
+      this.jobs = res.data;
     });
   }
 
@@ -280,7 +309,7 @@ export class EmployeeComponent implements OnInit {
             //this.onReset();
         },
         error: (err) => {
-          console.log('error cuy')
+          console.log('error')
         }
       }
     )

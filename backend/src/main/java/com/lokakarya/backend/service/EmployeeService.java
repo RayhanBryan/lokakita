@@ -129,6 +129,30 @@ public class EmployeeService {
         return employeeWrappers;
     }
 
+    public List<EmployeeWrapper> findByDepartmentNameContainingIgnoreCase(String departmentName) {
+        List<Employee> employeeList = employeeRepository.findByDepartmentNameContainingIgnoreCase(departmentName);
+        List<EmployeeWrapper> employeeWrappers = toWrapperList(employeeList);
+        return employeeWrappers;
+    }
+
+    public List<EmployeeWrapper> findByEmailContainingIgnoreCase(String email) {
+        List<Employee> employeeList = employeeRepository.findByEmailContainingIgnoreCase(email);
+        List<EmployeeWrapper> employeeWrappers = toWrapperList(employeeList);
+        return employeeWrappers;
+    }
+
+    public List<EmployeeWrapper> findByJobTitleContainingIgnoreCase(String jobTitle) {
+        List<Employee> employeeList = employeeRepository.findByJobTitleContainingIgnoreCase(jobTitle);
+        List<EmployeeWrapper> employeeWrappers = toWrapperList(employeeList);
+        return employeeWrappers;
+    }
+
+    public List<EmployeeWrapper> findByManagerFirstNameContainingIgnoreCase(String managerFirstName) {
+        List<Employee> employeeList = employeeRepository.findByManagerFirstNameContainingIgnoreCase(managerFirstName);
+        List<EmployeeWrapper> employeeWrappers = toWrapperList(employeeList);
+        return employeeWrappers;
+    }
+
     /* Create and Update */
     public EmployeeWrapper save(EmployeeWrapper wrapper) {
         Employee employee = new Employee();
