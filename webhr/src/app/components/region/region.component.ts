@@ -76,26 +76,26 @@ export class RegionComponent implements OnInit {
   }
 
   /**
-   * This is a function to search location using region name
+   * This is a function to search
    */
   search() {
     this.regionService.searchRegion(this.keyword).subscribe({
       next: (data: any) => {
         if (data.data.length == 0) {
-          this.messageService.add({
-            severity: 'warn',
-            summary: 'No result',
-            detail: 'The search key was not found in any record!',
-          });
+          // this.messageService.add({
+          //   severity: 'warn',
+          //   summary: 'No result',
+          //   detail: 'The search key was not found in any record!',
+          // });
         }
         this.regions = data.data;
       },
       error: (err) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Could not load the location content',
-        });
+        // this.messageService.add({
+        //   severity: 'error',
+        //   summary: 'Error',
+        //   detail: 'Could not load the location content',
+        // });
       },
     });
   }
@@ -204,7 +204,6 @@ export class RegionComponent implements OnInit {
     this.getRegionById(regionId);
     this.displayMaximizable = true;
     this.action = 2;
-    console.log(this.row);
   }
 
   /**
@@ -235,11 +234,8 @@ export class RegionComponent implements OnInit {
       accept: () => {
         if (this.row.regionId == 0) {
           this.row.regionId = null;
-          console.log(this.row.regionId);
-
           this.regionService.postRegion(this.row).subscribe({
             next: (data) => {
-              console.log(data);
               if (data.status) {
                 this.resetForm();
                 this.getRegion();
@@ -252,7 +248,11 @@ export class RegionComponent implements OnInit {
               this.displayMaximizable = false;
             },
             error: (err) => {
-              console.log('Error broh');
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Could not add a new record',
+              });
             },
           });
         } else {
@@ -270,7 +270,11 @@ export class RegionComponent implements OnInit {
               this.displayMaximizable = false;
             },
             error: (err) => {
-              console.log('Error broh');
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Could not update the record',
+              });
             },
           });
         }
@@ -282,8 +286,6 @@ export class RegionComponent implements OnInit {
   /**
    * This function fills the update form
    * @param regionId this is the location ID of a record we want to update
-   * this.row = res.data;
-      console.log(res.data);
    */
   getRegionById(regionId: number) {
     this.regionService.getRegionById(regionId).subscribe({
