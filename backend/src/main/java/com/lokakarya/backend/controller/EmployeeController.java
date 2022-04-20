@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value="/employees")
+@RequestMapping(value = "/employees")
 public class EmployeeController {
-@Autowired
+    @Autowired
     EmployeeService employeeService;
 
     @GetMapping("/GetById")
@@ -30,9 +30,43 @@ public class EmployeeController {
 
     @GetMapping("/findAllWithPagination")
     public DataResponsePagination<EmployeeWrapper, Employee> findAllWithPagination(@RequestParam("page") int page,
-                                                                                   @RequestParam("size") int size) {
+            @RequestParam("size") int size) {
         return new DataResponsePagination<EmployeeWrapper, Employee>(
                 employeeService.findAllWithPagination(page, size));
+    }
+
+    @GetMapping("/findByFirstName")
+    public DataResponseList<EmployeeWrapper> findByFirstNameContainingIgnoreCase(
+            @RequestParam("firstName") String firstName) {
+        return new DataResponseList<EmployeeWrapper>(employeeService.findByFirstNameContainingIgnoreCase(firstName));
+    }
+
+    @GetMapping("/findByDepartmentName")
+    public DataResponseList<EmployeeWrapper> findByDepartmentNameContainingIgnoreCase(
+            @RequestParam("departmentName") String departmentName) {
+        return new DataResponseList<EmployeeWrapper>(
+                employeeService.findByDepartmentNameContainingIgnoreCase(departmentName));
+    }
+
+    @GetMapping("/findByEmail")
+    public DataResponseList<EmployeeWrapper> findByEmailContainingIgnoreCase(
+            @RequestParam("email") String email) {
+        return new DataResponseList<EmployeeWrapper>(
+                employeeService.findByEmailContainingIgnoreCase(email));
+    }
+
+    @GetMapping("/findByJobTitle")
+    public DataResponseList<EmployeeWrapper> findByJobTitleContainingIgnoreCase(
+            @RequestParam("jobTitle") String jobTitle) {
+        return new DataResponseList<EmployeeWrapper>(
+                employeeService.findByJobTitleContainingIgnoreCase(jobTitle));
+    }
+
+    @GetMapping("/findByManagerName")
+    public DataResponseList<EmployeeWrapper> findByManagerFirstNameContainingIgnoreCase(
+            @RequestParam("managerFirstName") String managerFirstName) {
+        return new DataResponseList<EmployeeWrapper>(
+                employeeService.findByManagerFirstNameContainingIgnoreCase(managerFirstName));
     }
 
     @GetMapping("/findByFirstNameContaining")
@@ -43,12 +77,6 @@ public class EmployeeController {
                 employeeService.findByFirstNamePaginationContainingIgnoreCase(firstName, page, size));
     }
 
-    @GetMapping("/findByFirstName")
-    public DataResponseList<EmployeeWrapper> findByDepartmentNameContainingIgnoreCase(@RequestParam("firstName") String firstName) {
-        return new DataResponseList<EmployeeWrapper>(employeeService.findByFirstNameContainingIgnoreCase(firstName));
-    }
-
-
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") Long employeeId) {
         employeeService.delete(employeeId);
@@ -56,11 +84,11 @@ public class EmployeeController {
 
     @PostMapping("/post")
     public DataResponse<EmployeeWrapper> save(@RequestBody EmployeeWrapper wrapper) {
-        return new DataResponse<EmployeeWrapper> (employeeService.save(wrapper));
+        return new DataResponse<EmployeeWrapper>(employeeService.save(wrapper));
     }
 
     @PutMapping("/update")
     public DataResponse<EmployeeWrapper> update(@RequestBody EmployeeWrapper wrapper) {
-        return new DataResponse<EmployeeWrapper> (employeeService.save(wrapper));
+        return new DataResponse<EmployeeWrapper>(employeeService.save(wrapper));
     }
 }

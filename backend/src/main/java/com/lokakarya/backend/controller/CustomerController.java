@@ -11,30 +11,32 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value="/customer")
+@RequestMapping(value = "/customer")
 public class CustomerController {
-@Autowired
+    @Autowired
     CustomerService customerService;
 
+    // Get Customer By Id
     @GetMapping("/GetById")
     public DataResponse<CustomerWrapper> getCustomerById(@RequestParam("id") Long customerId) {
         return new DataResponse<CustomerWrapper>(customerService.getByCustomerId(customerId));
     }
 
-    // get list of employees using response
+    // Get All Customer
     @GetMapping("/findAll")
     public DataResponseList<CustomerWrapper> findAll() {
         return new DataResponseList<CustomerWrapper>(customerService.findAll());
-
     }
 
+    // Get All Customer With Pagination
     @GetMapping("/findAllWithPagination")
     public DataResponsePagination<CustomerWrapper, Customer> findAllWithPagination(@RequestParam("page") int page,
-                                                                                   @RequestParam("size") int size) {
+            @RequestParam("size") int size) {
         return new DataResponsePagination<CustomerWrapper, Customer>(
                 customerService.findAllWithPagination(page, size));
     }
 
+    // Get Customer Name With Pagination
     @GetMapping("/findByCustomerNamePaginition")
     public DataResponsePagination<CustomerWrapper, Customer> findCustomerNamePagination(
             @RequestParam("customerName") String customerName, @RequestParam("page") int page,
@@ -43,9 +45,18 @@ public class CustomerController {
                 customerService.findByCustomerNameContainingIgnoreCasePagination(customerName, page, size));
     }
 
+    // Find Customer Name IgnoreCase And Containable
     @GetMapping("/findByCustomerName")
     public DataResponseList<CustomerWrapper> findCustomerName(@RequestParam("customerName") String customerName) {
-        return new DataResponseList<CustomerWrapper>(customerService.findByCustomerNameContainingIgnoreCase(customerName));
+        return new DataResponseList<CustomerWrapper>(
+                customerService.findByCustomerNameContainingIgnoreCase(customerName));
+    }
+
+    // Find Customer Email IgnoreCase And Containable
+    @GetMapping("/findByCustomerEmail")
+    public DataResponseList<CustomerWrapper> findCustomerEmail(@RequestParam("email") String email) {
+        return new DataResponseList<CustomerWrapper>(
+                customerService.findByEmail(email));
     }
 
     @DeleteMapping("/{id}")

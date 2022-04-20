@@ -19,6 +19,7 @@ import java.util.List;
 public class CustomerService {
     @Autowired
     CustomerRepository customerRepository;
+
     private Customer toEntity(CustomerWrapper wrapper) {
         Customer entity = new Customer();
         if (wrapper.getCustomerId() != null) {
@@ -78,12 +79,23 @@ public class CustomerService {
         return new PaginationList<CustomerWrapper, Customer>(customerWrapperList, customerPage);
     }
 
+    // Find Customer Name With List
     public List<CustomerWrapper> findByCustomerNameContainingIgnoreCase(String departmentName) {
+        if (departmentName == null)
+            return findAll();
         List<Customer> customerList = customerRepository.findByCustomerNameContainingIgnoreCase(departmentName);
         List<CustomerWrapper> customerWrappers = toWrapperList(customerList);
         return customerWrappers;
     }
-    /* Create and Update */
+
+    // Find Customer Email With List
+    public List<CustomerWrapper> findByEmail(String email) {
+        if (email == null)
+            return findAll();
+        return toWrapperList(customerRepository.findByEmailContainingIgnoreCase(email));
+    }
+
+    // Create and Update
 
     public CustomerWrapper save(CustomerWrapper wrapper) {
         Customer customer = customerRepository.save(toEntity(wrapper));
