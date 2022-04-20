@@ -38,7 +38,9 @@ import { MessageModule } from 'primeng/message';
 import { BonusComponent } from './components/bonus/bonus.component';
 import { CustomerComponent } from './components/customer/customer.component';
 import { TieredMenuModule } from 'primeng/tieredmenu';
-
+import { ProfileComponent } from './components/profile/profile.component';
+import { SlideMenuModule } from 'primeng/slidemenu';
+import { FieldsetModule } from 'primeng/fieldset';
 
 @NgModule({
   declarations: [
@@ -57,7 +59,8 @@ import { TieredMenuModule } from 'primeng/tieredmenu';
     EmployeeComponent,
     NotfoundComponent,
     BonusComponent,
-    CustomerComponent
+    CustomerComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -82,7 +85,9 @@ import { TieredMenuModule } from 'primeng/tieredmenu';
     MessagesModule,
     MessageModule,
     TieredMenuModule,
-    SidebarModule
+    SidebarModule,
+    SlideMenuModule,
+    FieldsetModule
   ],
   providers: [ConfirmationService],
   bootstrap: [AppComponent],
