@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DepartmentService } from 'src/app/services/department.service';
 import { LocationService } from 'src/app/services/location.service';
 import { EmployeeService } from 'src/app/services/employee.service';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, ConfirmEventType, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-department',
@@ -50,6 +50,10 @@ export class DepartmentComponent implements OnInit {
       next: (data) => {
         console.log(data);
         this.departments = data;
+        this.departments.forEach((element: any) => {
+          element.managerName =
+          element.managerFirstName + '' + element.managerLastName;
+        })
       },
       error: (err) => {
         console.log(err);
@@ -102,14 +106,29 @@ export class DepartmentComponent implements OnInit {
           console.log(res);
           this.getDepartment();
           this.messageService.add({
-            severity: 'Success',
+            severity: 'success',
             summary: 'Delete',
             detail: 'Data has been deleted',
           });
         });
       },
-      reject: () => {
-        //reject action
+      reject: (type: any) => {
+        switch (type) {
+          case ConfirmEventType.REJECT:
+            this.messageService.add({
+              severity: 'info',
+              summary: 'Cancelled',
+              detail: 'Your data is safe',
+            });
+            break;
+          case ConfirmEventType.CANCEL:
+            this.messageService.add({
+              severity: 'info',
+              summary: 'Cancelled',
+              detail: 'Your data is safe',
+            });
+            break;
+        }
       },
     });
   }
