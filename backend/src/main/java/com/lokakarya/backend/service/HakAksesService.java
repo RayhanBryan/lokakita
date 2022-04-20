@@ -41,6 +41,7 @@ public class HakAksesService {
         if (wrapper.getGroupId() != null){
             entity.setGroup(groupRepository.getById(wrapper.getGroupId()));
         }
+        entity.setIsActive(wrapper.getIsActive());
         entity.setProgramName(wrapper.getProgramName());
         return entity;
     }
