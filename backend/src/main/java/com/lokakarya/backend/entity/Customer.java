@@ -1,10 +1,12 @@
 package com.lokakarya.backend.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Data
+@NoArgsConstructor
 @Entity
 @Table(name = "CUSTOMER")
 public class Customer {
