@@ -61,7 +61,10 @@
                 <td>{{ employee.manager}} </td>
                 <td>{{ employee.phoneNumber }}</td>
                 <td>{{ employee.hireDate }}</td>
-                <td>{{ employee.jobTitle }}</td>
+                <!-- <td>{{ employee.jobTitle }}</td> -->
+                <td>
+                    <p-button title="Show Job History" (click)="showJobHistory(employee)">{{ employee.jobTitle }}</p-button>
+                </td>
                 <!-- <td>{{employee.managerId}}</td> -->
                 <td>
                     <p-button (click)="showBonus(employee)" icon="pi pi-external-link" label="Salary"></p-button>
@@ -169,6 +172,34 @@
         </p-table>
         <ng-template pTemplate="footer">
             <p-button icon="pi pi-check" (click)="displaySalary = false" label="Ok" styleClass="p-button-text">
+            </p-button>
+        </ng-template>
+    </p-dialog>
+
+
+    <p-dialog header="Job History" [(visible)]="displayJobHistory" [style]="{ width: '50vw' }">
+        <p-table [value]="jobHistory" responsiveLayout="scroll">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Employee ID</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Job Title</th>
+                    <th>Department Name</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-row1>
+                <tr>
+                    <td>{{ row1.employeeId }}</td>
+                    <td>{{row1.startDate | date}}</td>
+                    <td>{{ row1.endDate | date}}</td>
+                    <td>{{ row1.jobTitle }}</td>
+                    <td>{{ row1.departmentName }}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+        <ng-template pTemplate="footer">
+            <p-button icon="pi pi-check" (click)="displayJobHistory = false" label="Ok" styleClass="p-button-text">
             </p-button>
         </ng-template>
     </p-dialog>
