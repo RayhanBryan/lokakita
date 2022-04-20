@@ -39,7 +39,7 @@ public class DepartmentService {
         Location location = optionalLocation.isPresent() ? optionalLocation.get() : null;
         entity.setLocation(location);
         Optional<Employee> optionalEmployee = employeeRepository.findById(wrapper.getManagerId());
-        Employee employee = optionalEmployee.isPresent() ? optionalEmployee.get() :null;
+        Employee employee = optionalEmployee.isPresent() ? optionalEmployee.get() : null;
         entity.setManager(employee);
         return entity;
     }
@@ -49,11 +49,11 @@ public class DepartmentService {
         wrapper.setDepartmentId(entity.getDepartmentId());
         wrapper.setDepartmentName(entity.getDepartmentName());
         wrapper.setLocationId(entity.getLocation() != null ? entity.getLocation().getLocationId() : null);
-        wrapper.setManagerId(entity.getManager()!= null ? entity.getManager().getEmployeeId() : null);
-        wrapper.setManagerFirstName(entity.getManager()!= null ? entity.getManager().getFirstName() : null);
-        wrapper.setManagerLastName(entity.getManager()!= null ? entity.getManager().getLastName() : null);
-        wrapper.setStreetAddress(entity.getLocation()!= null ? entity.getLocation().getStreetAddress() : null);
-        wrapper.setCity(entity.getLocation()!= null ? entity.getLocation().getCity() : null);
+        wrapper.setManagerId(entity.getManager() != null ? entity.getManager().getEmployeeId() : null);
+        wrapper.setManagerFirstName(entity.getManager() != null ? entity.getManager().getFirstName() : null);
+        wrapper.setManagerLastName(entity.getManager() != null ? entity.getManager().getLastName() : null);
+        wrapper.setStreetAddress(entity.getLocation() != null ? entity.getLocation().getStreetAddress() : null);
+        wrapper.setCity(entity.getLocation() != null ? entity.getLocation().getCity() : null);
         return wrapper;
     }
 
@@ -96,11 +96,28 @@ public class DepartmentService {
         List<DepartmentWrapper> departmentWrapperList = toWrapperList(departmentList);
         return new PaginationList<DepartmentWrapper, Department>(departmentWrapperList, departmentPage);
     }
-    public  List<DepartmentWrapper> findByDepartmentNameContainingIgnoreCase(String departmentName){
-       List<Department> departmentList = departmentRepository.findByDepartmentNameContainingIgnoreCase(departmentName);
-        List <DepartmentWrapper> departmentWrappers = toWrapperList(departmentList);
-       return departmentWrappers;
+
+    // Get Department List Using Department Name
+    public List<DepartmentWrapper> findByDepartmentNameContainingIgnoreCase(String departmentName) {
+        List<Department> departmentList = departmentRepository.findByDepartmentNameContainingIgnoreCase(departmentName);
+        List<DepartmentWrapper> departmentWrappers = toWrapperList(departmentList);
+        return departmentWrappers;
     }
+
+    // Get Department List Using Department Name
+    public List<DepartmentWrapper> findByStreetAddressContainingIgnoreCase(String streetAddress) {
+        List<Department> departmentList = departmentRepository.findByStreetAddressContainingIgnoreCase(streetAddress);
+        List<DepartmentWrapper> departmentWrappers = toWrapperList(departmentList);
+        return departmentWrappers;
+    }
+
+    // Get Department List Using Department Name
+    public List<DepartmentWrapper> findByCityContainingIgnoreCase(String city) {
+        List<Department> departmentList = departmentRepository.findByCityContainingIgnoreCase(city);
+        List<DepartmentWrapper> departmentWrappers = toWrapperList(departmentList);
+        return departmentWrappers;
+    }
+
     /* Create and Update */
 
     public DepartmentWrapper save(DepartmentWrapper wrapper) {

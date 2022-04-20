@@ -9,6 +9,16 @@ import java.util.List;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     Page<Employee> findAll(Pageable page);
+
     Page<Employee> findByFirstNameContainingIgnoreCase(String firstName, Pageable paging);
+
     List<Employee> findByFirstNameContainingIgnoreCase(String firstName);
+
+    List<Employee> findByDepartmentNameContainingIgnoreCase(String departmentName);
+
+    List<Employee> findByEmailContainingIgnoreCase(String email);
+
+    List<Employee> findByJobTitleContainingIgnoreCase(String jobTitle);
+
+    List<Employee> findByManagerFirstNameContainingIgnoreCase(String managerFirstName);
 }
