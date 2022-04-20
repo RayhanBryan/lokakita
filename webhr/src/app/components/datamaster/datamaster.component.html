@@ -93,12 +93,13 @@
     </div>
     <div class="col-12 md:col-12">
       <label for="group">Group</label>
-      <div class="grid mt-1">
-        <div *ngFor="let category of categories" class="col-3 field-checkbox">
-          <p-checkbox id="group" name="group2" value="category" [value]="category" [(ngModel)]="selectedCategories"
-            [inputId]="category.key" [disabled]="category.key === 'R'"></p-checkbox>
-          <label [for]="category.key">{{category.name}}</label>
-        </div>
+      <div class="field-checkbox">
+        <p-checkbox name="group1" value="Admin" [(ngModel)]="selectedGroup" inputId="2"></p-checkbox>
+        <label for="admin">Admin</label>
+      </div>
+      <div class="field-checkbox">
+        <p-checkbox name="group1" value="User" [(ngModel)]="selectedGroup" inputId="3"></p-checkbox>
+        <label for="user">User</label>
       </div>
     </div>
   </div>

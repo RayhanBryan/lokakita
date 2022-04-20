@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { Timestamp } from 'rxjs';
 import { GroupService } from 'src/app/services/group.service';
+import { HakAksesService } from 'src/app/services/hakakses.service';
 import { UserService } from 'src/app/services/user.service';
 
 
@@ -39,9 +40,10 @@ export class DatamasterComponent implements OnInit {
   rows = 10;
 
   showSearch: boolean = false;
-  selectedCities: string[] = [];
-  selectedCategories: any[] = ['Technology', 'Sports'];
-  categories: any[] = [{ name: 'Admin', key: 'A' }, { name: 'User', key: 'M' }];
+  selectedGroup: any[]=[];
+  selectedGroup1: any[]=[];
+  // selectedCategories: any[] = ['Admin', 'User'];
+  // categories: any[] = [{ name: 'Admin', key: 'A' }, { name: 'User', key: 'M' }];
   checked: boolean = false;
 
   row: any = {
@@ -57,11 +59,17 @@ export class DatamasterComponent implements OnInit {
     createdBy: '',
   };
 
+  newAccess: any = {
+    userId: '',
+    groupId: '',
+    createdBy: ''
+  }
+
   dataUser: any;
   wrongConfirmPassword: boolean = false;
   wrongPassword: boolean = false;
 
-  constructor(private messageService: MessageService, private usersService: UserService, private groupsService: GroupService) { }
+  constructor(private messageService: MessageService, private usersService: UserService, private groupsService: GroupService, private hakAkses:HakAksesService) { }
 
   ngOnInit(): void {
     this.usersService.getUser().subscribe((res) => {
@@ -188,6 +196,35 @@ export class DatamasterComponent implements OnInit {
           if (data.status) {
             this.reset;
             this.ngOnInit();
+            //test
+            this.newAccess.userId = data.data.userId;
+            this.newAccess.createdBy = data.data.createdBy;
+            if((this.selectedGroup[0]=='Admin') && (this.selectedGroup[1]=='User')){
+            for(let i=2; i<=3; i++){
+            this.newAccess.groupId = i;
+            this.hakAkses.postAccess(this.newAccess).subscribe(
+            res => {
+            console.log(res);
+            }
+            )  
+            }
+            }
+            else if((this.selectedGroup[0]=='Admin')&&(this.selectedGroup[1]!='User'||'Admin')){
+            this.newAccess.groupId = 2;
+            this.hakAkses.postAccess(this.newAccess).subscribe(
+            res => {
+            console.log(res);
+            }
+            )
+            }else if((this.selectedGroup[0]=='User')&&(this.selectedGroup[1]!='User'||'Admin')){
+            this.newAccess.groupId = 3;
+            this.hakAkses.postAccess(this.newAccess).subscribe(
+            res => {
+            console.log(res);
+            }
+            )
+            }
+            //test
             this.displayBasic2 = false;
             window.location.reload();
           }
