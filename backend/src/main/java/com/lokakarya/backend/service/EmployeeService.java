@@ -144,12 +144,18 @@ public class EmployeeService {
     public List<EmployeeWrapper> findByJobTitleContainingIgnoreCase(String jobTitle) {
         List<Employee> employeeList = employeeRepository.findByJobTitleContainingIgnoreCase(jobTitle);
         List<EmployeeWrapper> employeeWrappers = toWrapperList(employeeList);
+        System.out.println(employeeList);
         return employeeWrappers;
     }
 
-    public List<EmployeeWrapper> findByManagerFirstNameContainingIgnoreCase(String managerFirstName) {
-        List<Employee> employeeList = employeeRepository.findByManagerFirstNameContainingIgnoreCase(managerFirstName);
-        List<EmployeeWrapper> employeeWrappers = toWrapperList(employeeList);
+    public List<EmployeeWrapper> findByManagerFirstNameContainingIgnoreCase(String firstName) {
+        List<Employee> managerList = employeeRepository.findByFirstNameContainingIgnoreCase(firstName);
+        List<Employee> employees = new ArrayList<Employee>();
+
+        for (Employee manager : managerList) {
+            employees.addAll(employeeRepository.getByManager(manager));
+        }
+        List<EmployeeWrapper> employeeWrappers = toWrapperList(employees);
         return employeeWrappers;
     }
 

@@ -4,6 +4,8 @@ import com.lokakarya.backend.entity.Department;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -14,7 +16,17 @@ public interface DepartmentRepository extends JpaRepository<Department, Long> {
 
     List<Department> findByDepartmentNameContainingIgnoreCase(String departmentName);
 
-    List<Department> findByStreetAddressContainingIgnoreCase(String streetAddress);
+    @Query(value = "SELECT * FROM DEPARTMENTS d " +
+            "LEFT JOIN " +
+            "LOCATIONS l " +
+            "ON d.LOCATION_ID= " +
+            "l.LOCATION_ID WHERE LOWER(l.STREET_ADDRESS) LIKE LOWER('%:pStreetAddress%')", nativeQuery = true)
+    List<Department> findByStreetAddressContainingIgnoreCase(@Param("pStreetAddress") String streetAddress);
 
-    List<Department> findByCityContainingIgnoreCase(String City);
+    @Query(value = "SELECT * FROM DEPARTMENTS d " +
+            "LEFT JOIN " +
+            "LOCATIONS l " +
+            "ON d.LOCATION_ID= " +
+            "l.LOCATION_ID WHERE LOWER(l.STREET_ADDRESS) LIKE LOWER('%:pCity%')", nativeQuery = true)
+    List<Department> findByCityContainingIgnoreCase(@Param("pCity") String city);
 }

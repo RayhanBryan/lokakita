@@ -4,6 +4,8 @@ import com.lokakarya.backend.entity.Employee;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -14,11 +16,28 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     List<Employee> findByFirstNameContainingIgnoreCase(String firstName);
 
-    List<Employee> findByDepartmentNameContainingIgnoreCase(String departmentName);
+    @Query(value = "SELECT * FROM EMPLOYEES e " +
+            "LEFT JOIN " +
+            "JOBS j " +
+            "ON e.JOB_ID= " +
+            "j.JOB_ID " +
+            "LEFT JOIN DEPARTMENTS d " +
+            "ON d.DEPARTMENT_ID = e.DEPARTMENT_ID " +
+            "WHERE " +
+            "LOWER(j.JOB_TITLE) " +
+            "LIKE LOWER('%:pJobTitle%')", nativeQuery = true)
+    List<Employee> findByJobTitleContainingIgnoreCase(@Param("pJobTitle") String jobTitle);
 
     List<Employee> findByEmailContainingIgnoreCase(String email);
 
-    List<Employee> findByJobTitleContainingIgnoreCase(String jobTitle);
+    @Query(value = "SELECT * FROM EMPLOYEES e  " +
+            "LEFT JOIN " +
+            "DEPARTMENTS d " +
+            "ON e.DEPARTMENT_ID= " +
+            "d.DEPARTMENT_ID WHERE " +
+            "LOWER(d.DEPARTMENT_NAME) " +
+            "LIKE LOWER('%:pDepartmentName%')", nativeQuery = true)
+    List<Employee> findByDepartmentNameContainingIgnoreCase(@Param("pDepartmentName") String departmentName);
 
-    List<Employee> findByManagerFirstNameContainingIgnoreCase(String managerFirstName);
+    List<Employee> getByManager(Employee manager);
 }

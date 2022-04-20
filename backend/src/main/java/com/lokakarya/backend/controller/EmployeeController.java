@@ -48,7 +48,7 @@ public class EmployeeController {
                 employeeService.findByDepartmentNameContainingIgnoreCase(departmentName));
     }
 
-    @GetMapping("/findByFirstName")
+    @GetMapping("/findByEmail")
     public DataResponseList<EmployeeWrapper> findByEmailContainingIgnoreCase(
             @RequestParam("email") String email) {
         return new DataResponseList<EmployeeWrapper>(
