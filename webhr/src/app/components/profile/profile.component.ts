@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { MessageService } from 'primeng/api';
+import { GroupMenuService } from 'src/app/services/group-menu.service';
+import { GroupService } from 'src/app/services/group.service';
 
 @Component({
   selector: 'app-profile',
@@ -10,7 +12,7 @@ import { MessageService } from 'primeng/api';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor(private userService: UserService, private messageService: MessageService) { }
+  constructor(private groupService: GroupService, private userService: UserService, private messageService: MessageService) { }
 
   dataUser: any;
   dupUser: any;
@@ -28,6 +30,11 @@ export class ProfileComponent implements OnInit {
   newPassword: string = '';
   newPhone: string = '';
   newAddress: string = '';
+  newPasswordInput: string = '';
+  confirmNewPass: string = '';
+  wrongConfirmPassword: boolean = false;
+
+  groupUser: any;
 
   headerDialog: string = '';
 
@@ -47,7 +54,17 @@ export class ProfileComponent implements OnInit {
     this.inputPassword = false;
   }
 
+  getGroup() {
+    this.groupService.getGroupByUserId(Number(localStorage.getItem('token'))).subscribe(
+      res => {
+        console.log(res, ' ini res grup')
+        this.groupUser = res.data;
+      }
+    )
+  }
+
   showData() {
+    this.getGroup();
     this.userService.getByUserId(Number(localStorage.getItem('token'))).subscribe(
       res => {
         this.dataUser = res.data;
@@ -79,17 +96,33 @@ export class ProfileComponent implements OnInit {
   }
 
   postEdit() {
-    this.dataUser.name = this.newName
-    this.dataUser.password = this.newPassword
-    this.dataUser.phone = this.newPhone
-    this.dataUser.address = this.newAddress
-    this.userService.postUser(this.dataUser).subscribe(
-      res => {
-        this.displayEdit = false;
-        this.showSuccess();
-        this.showData();
+    if (this.newPasswordInput != '') {
+      this.newPassword = this.newPasswordInput
+      if (this.newPassword == this.confirmNewPass) {
+        this.dataUser.password = this.newPassword
+        this.userService.putUser(this.dataUser).subscribe(
+          res => {
+            this.showSuccess();
+            this.displayEdit = false;
+          }
+        );
+      } else {
+        this.wrongConfirmPassword = true;
       }
-    )
+    } else {
+      this.dataUser.name = this.newName
+      this.dataUser.password = this.newPassword
+      this.dataUser.phone = this.newPhone
+      this.dataUser.address = this.newAddress
+      this.userService.postUser(this.dataUser).subscribe(
+        res => {
+          this.displayEdit = false;
+          this.showSuccess();
+          this.showData();
+          this.newPasswordInput = '';
+        }
+      )
+    }
   }
 
   showSuccess() {

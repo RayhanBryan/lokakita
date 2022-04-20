@@ -6,3 +6,46 @@
 :host ::ng-deep .password {
     display: inline;    
 }
+
+:host ::ng-deep .p-fieldset.p-fieldset-toggleable .p-fieldset-legend a {
+    padding: 1rem;
+    color: white;
+    border-radius: 3px;
+    transition: box-shadow 0.2s;
+    background-color: #2196f3;
+    min-width: 400px;
+    justify-content:left;
+}
+
+:host ::ng-deep .p-fieldset {
+    border: 1px solid #dee2e6;
+    background: ghostwhite;
+    color: #495057;
+    border-radius: 10px;
+}
+
+:host ::ng-deep .p-inputtext {
+    margin: 0;
+    width: 100%;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-footer button {
+    margin: 0 0.5rem 0 0;
+    width: 100px;
+}
+
+@media screen and (max-width: 960px) {
+    :host ::ng-deep .p-fieldset.p-fieldset-toggleable .p-fieldset-legend a {
+        padding: 1rem;
+        color: white;
+        border-radius: 3px;
+        transition: box-shadow 0.2s;
+        background-color: #2196f3;
+        min-width: 200px;
+        justify-content:left;
+    }
+    :host ::ng-deep .p-dialog {
+        width: 100% !important;
+        height: 100% !important;
+    }
+}
