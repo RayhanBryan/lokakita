@@ -24,7 +24,7 @@ export class EmployeeComponent implements OnInit {
   showSearch: boolean = false;
   displaySalary: boolean = false;
   displayJobHistory: boolean = false;
-
+  
   submitted: boolean = false;
   action: string = '';
   id: number = 0;
@@ -36,7 +36,7 @@ export class EmployeeComponent implements OnInit {
     employeeId: 0,
     firstName: '',
     lastName: '',
-    fullName: '',
+    employeeName: '',
     email: '',
     phoneNumber: '',
     hireDate: '',
@@ -71,12 +71,12 @@ export class EmployeeComponent implements OnInit {
 
   getEmployee() {
     this.employeeService.getEmployee().subscribe((res) => {
-      // console.log(res.data);
       this.employees = res.data;
       this.employees.forEach((element: any) => {
         element.manager =
           element.managerFirstName + ' ' + element.managerLastName;
         console.log(element);
+        element.employeeName = element.firstName + ' ' +element.lastName;
       });
       this.managers=this.removeDuplicates(this.employees);
       console.log(this.employees);
@@ -159,7 +159,7 @@ export class EmployeeComponent implements OnInit {
               }
             },
             error: (err) => {
-              console.log('error cuy');
+              console.log('error');
             },
           });
         } else {
@@ -172,7 +172,7 @@ export class EmployeeComponent implements OnInit {
               }
             },
             error: (err) => {
-              console.log('error cuy');
+              console.log('error');
             },
           });
         }
@@ -199,9 +199,9 @@ export class EmployeeComponent implements OnInit {
     }
   }
 
-  handleReset(event: any): void {
+  handleReset(event: any,  param: string): void {
     this.row = {
-      employeeId: 0,
+      employeeId: (this.action == 'edit' && param == 'click') ? this.row.departmentId : 0,
       firstName: '',
       lastName: '',
       fullName: '',
@@ -239,7 +239,7 @@ export class EmployeeComponent implements OnInit {
 
   getJob(): void {
     this.jobService.getJob().subscribe((res) => {
-      this.jobs = res;
+      this.jobs = res.data;
     });
   }
 
@@ -280,7 +280,7 @@ export class EmployeeComponent implements OnInit {
             //this.onReset();
         },
         error: (err) => {
-          console.log('error cuy')
+          console.log('error')
         }
       }
     )

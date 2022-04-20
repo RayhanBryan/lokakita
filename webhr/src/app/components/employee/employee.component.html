@@ -22,7 +22,7 @@
         [rowsPerPageOptions]="[10, 25, 50]">
         <ng-template pTemplate="header">
             <tr>
-                <th pSortableColumn="Id" style="width: 10px">
+                <th pSortableColumn="employeeId" style="width: 10px">
                     ID <p-sortIcon field="Id"></p-sortIcon>
                 </th>
                 <th pSortableColumn="employeeName" style="width: 40px">
@@ -81,7 +81,7 @@
 
     <p-dialog [header]="action == 'Add' ? 'Add Employee' : 'Edit Employee'" [(visible)]="display" [modal]="true"
         [style]="{ width: '50vw', height: '40vw' }" [maximizable]="true" [baseZIndex]="10000" [draggable]="false"
-        [resizable]="false" (onHide)="handleReset($event)">
+        [resizable]="false" (onHide)="handleReset($event,'click')">
         <div class="grid p-fluid">
             <div class="col-12 md:col-6">
                 <h5>First Name</h5>
@@ -111,16 +111,10 @@
                     Phone Number Required...!
                 </h5>
             </div>
-            <div class="col-12 md:col-6">
-                <h5>Hire Date</h5>
-                <p-calendar inputId="hireDate" [(ngModel)]="row.hireDate"></p-calendar>
-                <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.hireDate">
-                    Hire Date Required...!
-                </h5>
-            </div>
+            
             <div class="col-12 md:col-6">
                 <h5>Job Title</h5>
-                <p-dropdown appendTo="body" [options]="employees" [(ngModel)]="row.jobId" optionLabel="jobTitle"
+                <p-dropdown appendTo="body" [options]="jobs" [(ngModel)]="row.jobId" optionLabel="jobTitle"
                     placeholder="Job Title" optionValue="jobId">
                 </p-dropdown>
             </div>
@@ -137,6 +131,13 @@
                 </p-dropdown>
             </div>
             <div class="col-12 md:col-6">
+                <h5>Hire Date</h5>
+                <p-calendar [(ngModel)]="row.hireDate" [showIcon]="true" inputId="icon" class="p-calendar-sm" placeholder="Hire Date"></p-calendar>
+                <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.hireDate">
+                    Hire Date Required...!
+                </h5>
+            </div>
+            <div class="col-12 md:col-6">
                 <h5>Salary</h5>
                 <input type="number" pInputText id="salary" [(ngModel)]="row.salary" required="autofocus" />
                 <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.salary">
@@ -149,7 +150,7 @@
             <button pButton type="button" label="Save" icon="pi pi-check"
                 (click)="handleSaveDepartment($event)"></button>
             <button pButton type="button" label="Reset  " icon="pi pi-times" class="p-button-danger ml-2"
-                (click)="handleReset($event)"></button>
+                (click)="handleReset($event,'click')"></button>
         </ng-template>
     </p-dialog>
 
