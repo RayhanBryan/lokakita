@@ -41,7 +41,7 @@
       <div class="col-6">
           <h5>Country ID</h5>
           <span class="p-float-label">
-              <input *ngIf="action==1" type="text" pInputText [(ngModel)]="row.countryId" (ngModelChange)="row.countryId= $event.toUpperCase()" required autofocus> 
+              <input *ngIf="action==1" type="text" pInputText [(ngModel)]="row.countryId" (ngModelChange)="row.countryId= $event.toUpperCase()"> 
               <label for="float-input">{{row.countryId}}</label>
               <h5 class="p invalid" style="color: red;" *ngIf="submitted && row.countryId.length!==2">Country ID is required and its max length is 2.</h5>
           </span>
