@@ -10,16 +10,13 @@ import com.lokakarya.backend.repository.EmployeeRepository;
 import com.lokakarya.backend.repository.JobHistoryRepository;
 import com.lokakarya.backend.repository.JobRepository;
 import com.lokakarya.backend.util.PaginationList;
-import com.lokakarya.backend.wrapper.DepartmentWrapper;
 import com.lokakarya.backend.wrapper.EmployeeWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -125,19 +122,42 @@ public class EmployeeService {
         List<EmployeeWrapper> employeeWrapperList = toWrapperList(employeeList);
         return new PaginationList<EmployeeWrapper, Employee>(employeeWrapperList, employeePage);
     }
-    public  List<EmployeeWrapper> findByFirstNameContainingIgnoreCase(String firstName){
+
+    public List<EmployeeWrapper> findByFirstNameContainingIgnoreCase(String firstName) {
         List<Employee> employeeList = employeeRepository.findByFirstNameContainingIgnoreCase(firstName);
-        List <EmployeeWrapper> employeeWrappers = toWrapperList(employeeList);
+        List<EmployeeWrapper> employeeWrappers = toWrapperList(employeeList);
         return employeeWrappers;
     }
+
     /* Create and Update */
     public EmployeeWrapper save(EmployeeWrapper wrapper) {
-        Employee employee = employeeRepository.save(toEntity(wrapper));
+        Employee employee = new Employee();
+        if (wrapper.getEmployeeId() == null) {
+            employee = employeeRepository.save(toEntity(wrapper));
+        } else {
+            Optional<Employee> employeeExist = employeeRepository.findById(wrapper.getEmployeeId());
+            if (!employeeExist.isPresent()) {
+                throw new BusinessException("Tidak ada employee dengan ID tersebut");
+            }
+
+            if (employeeExist.get().getJob().getJobId() != wrapper.getJobId()
+                    || employeeExist.get().getDepartment().getDepartmentId() != wrapper.getDepartmentId()) {
+                JobHistory jobHistory = new JobHistory();
+                jobHistory.setEmployeeId(employeeExist.get().getEmployeeId());
+                jobHistory.setStartDate(employeeExist.get().getHireDate());
+                jobHistory.setEndDate(wrapper.getHireDate());
+                jobHistory.setJob(employeeExist.get().getJob());
+                jobHistory.setDepartment(employeeExist.get().getDepartment());
+                jobHistoryRepository.save(jobHistory);
+            }
+            employee = employeeRepository.save(toEntity(wrapper));
+        }
         return toWrapper(employee);
     }
+
     /* Delete Data */
     public void delete(Long id) {
-        departmentRepository.deleteById(id);
+        employeeRepository.deleteById(id);
     }
 
 }

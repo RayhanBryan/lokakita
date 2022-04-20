@@ -5,7 +5,6 @@ import com.lokakarya.backend.service.EmployeeService;
 import com.lokakarya.backend.util.DataResponse;
 import com.lokakarya.backend.util.DataResponseList;
 import com.lokakarya.backend.util.DataResponsePagination;
-import com.lokakarya.backend.wrapper.DepartmentWrapper;
 import com.lokakarya.backend.wrapper.EmployeeWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

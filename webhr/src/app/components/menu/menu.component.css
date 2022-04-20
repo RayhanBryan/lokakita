@@ -7,8 +7,19 @@
     color: white;
 }
 
+:host ::ng-deep .halo {
+    color: white;
+    text-align: right;
+}
+
+:host ::ng-deep .bar-atas {
+    background-color: #2196f3;
+    border-bottom-right-radius: 30px;
+}
+
 :host ::ng-deep .logo-atas {
-    height: 70px;
+    height: 50px;
+    margin-left: 25%;
 }
 
 :host ::ng-deep .p-menubar .p-menubar-root-list > .p-menuitem > .p-menuitem-link {
@@ -69,6 +80,11 @@
     position: relative;
     top: 15%;
 }
+
+:host ::ng-deep .ng-tns-c119-2 {
+    height: 100px;
+}
+
 
 @media screen and (max-width: 960px) {
     :host ::ng-deep .p-menubar .p-menubar-root-list > .p-menuitem > .p-menuitem-link:not(.p-disabled) .p-menuitem-text {

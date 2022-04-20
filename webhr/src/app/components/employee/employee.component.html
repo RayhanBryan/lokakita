@@ -22,7 +22,7 @@
         [rowsPerPageOptions]="[10, 25, 50]">
         <ng-template pTemplate="header">
             <tr>
-                <th pSortableColumn="Id" style="width: 10px">
+                <th pSortableColumn="employeeId" style="width: 10px">
                     ID <p-sortIcon field="Id"></p-sortIcon>
                 </th>
                 <th pSortableColumn="employeeName" style="width: 40px">
@@ -61,7 +61,10 @@
                 <td>{{ employee.manager}} </td>
                 <td>{{ employee.phoneNumber }}</td>
                 <td>{{ employee.hireDate }}</td>
-                <td>{{ employee.jobTitle }}</td>
+                <!-- <td>{{ employee.jobTitle }}</td> -->
+                <td>
+                    <p-button title="Show Job History" (click)="showJobHistory(employee)">{{ employee.jobTitle }}</p-button>
+                </td>
                 <!-- <td>{{employee.managerId}}</td> -->
                 <td>
                     <p-button (click)="showBonus(employee)" icon="pi pi-external-link" label="Salary"></p-button>
@@ -78,7 +81,7 @@
 
     <p-dialog [header]="action == 'Add' ? 'Add Employee' : 'Edit Employee'" [(visible)]="display" [modal]="true"
         [style]="{ width: '50vw', height: '40vw' }" [maximizable]="true" [baseZIndex]="10000" [draggable]="false"
-        [resizable]="false" (onHide)="handleReset($event)">
+        [resizable]="false" (onHide)="handleReset($event,'click')">
         <div class="grid p-fluid">
             <div class="col-12 md:col-6">
                 <h5>First Name</h5>
@@ -108,16 +111,10 @@
                     Phone Number Required...!
                 </h5>
             </div>
-            <div class="col-12 md:col-6">
-                <h5>Hire Date</h5>
-                <p-calendar inputId="hireDate" [(ngModel)]="row.hireDate"></p-calendar>
-                <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.hireDate">
-                    Hire Date Required...!
-                </h5>
-            </div>
+            
             <div class="col-12 md:col-6">
                 <h5>Job Title</h5>
-                <p-dropdown appendTo="body" [options]="employees" [(ngModel)]="row.jobId" optionLabel="jobTitle"
+                <p-dropdown appendTo="body" [options]="jobs" [(ngModel)]="row.jobId" optionLabel="jobTitle"
                     placeholder="Job Title" optionValue="jobId">
                 </p-dropdown>
             </div>
@@ -134,6 +131,13 @@
                 </p-dropdown>
             </div>
             <div class="col-12 md:col-6">
+                <h5>Hire Date</h5>
+                <p-calendar [(ngModel)]="row.hireDate" [showIcon]="true" inputId="icon" class="p-calendar-sm" placeholder="Hire Date"></p-calendar>
+                <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.hireDate">
+                    Hire Date Required...!
+                </h5>
+            </div>
+            <div class="col-12 md:col-6">
                 <h5>Salary</h5>
                 <input type="number" pInputText id="salary" [(ngModel)]="row.salary" required="autofocus" />
                 <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.salary">
@@ -146,7 +150,7 @@
             <button pButton type="button" label="Save" icon="pi pi-check"
                 (click)="handleSaveDepartment($event)"></button>
             <button pButton type="button" label="Reset  " icon="pi pi-times" class="p-button-danger ml-2"
-                (click)="handleReset($event)"></button>
+                (click)="handleReset($event,'click')"></button>
         </ng-template>
     </p-dialog>
 
@@ -169,6 +173,34 @@
         </p-table>
         <ng-template pTemplate="footer">
             <p-button icon="pi pi-check" (click)="displaySalary = false" label="Ok" styleClass="p-button-text">
+            </p-button>
+        </ng-template>
+    </p-dialog>
+
+
+    <p-dialog header="Job History" [(visible)]="displayJobHistory" [style]="{ width: '50vw' }">
+        <p-table [value]="jobHistory" responsiveLayout="scroll">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Employee ID</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Job Title</th>
+                    <th>Department Name</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-row1>
+                <tr>
+                    <td>{{ row1.employeeId }}</td>
+                    <td>{{row1.startDate | date}}</td>
+                    <td>{{ row1.endDate | date}}</td>
+                    <td>{{ row1.jobTitle }}</td>
+                    <td>{{ row1.departmentName }}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+        <ng-template pTemplate="footer">
+            <p-button icon="pi pi-check" (click)="displayJobHistory = false" label="Ok" styleClass="p-button-text">
             </p-button>
         </ng-template>
     </p-dialog>

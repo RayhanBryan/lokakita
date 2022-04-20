@@ -38,10 +38,8 @@ export class CustomerService {
   putCustomer(data: any): Observable<any> {
     return this.http.put<any>(this._baseUrl + 'customer/update', data, httpOptions);
   }
+
   deleteCustomer(id: any): Observable<any> {
-    return this.http.delete<any>(this._baseUrl + `customer/${id}`, httpOptions);
-    
+    return this.http.delete<any>(this._baseUrl + `customer/${id}`, httpOptions);   
   }
-
-
 }

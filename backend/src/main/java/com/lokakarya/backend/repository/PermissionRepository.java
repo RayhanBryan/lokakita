@@ -9,12 +9,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface PermissionRepository extends JpaRepository<Permission,Long>{
-    // @Query(value = 
-    // "select * from permissions p"+
-    // " LEFT JOIN PERMISSION_GROUPS pg on p.PERMISSION_ID = pg.PERMISSION_ID"+
-    // " LEFT JOIN GROUPS g on pg.group_ID = g.GROUP_ID"+
-    // " LEFT JOIN HAK_AKSES ha on g.group_ID = ha.group_ID"+
-    // " LEFT JOIN USERS u on ha.user_ID = u.USER_ID"+
-    // " where u.user_id = :pUserId", nativeQuery = true)
-    // List<Permission> getPermissionByUserId(@Param("pUserId") Long userId);
+    @Query(value = 
+    "select distinct (p.PERMISSION_ID), p.PERMISSION, p.NOTE from permissions p"+
+    " LEFT JOIN PERMISSION_GROUPS pg on p.PERMISSION_ID = pg.PERMISSION_ID"+
+    " LEFT JOIN GROUPS g on pg.GROUP_ID = g.GROUP_ID"+
+    " LEFT JOIN HAK_AKSES ha on g.GROUP_ID = ha.GROUP_ID"+
+    " LEFT JOIN USERS u on ha.USER_ID = u.USER_ID"+
+    " where u.USER_ID = :pUserId"+
+    " order by p.PERMISSION_ID", nativeQuery = true)
+    List<Permission> getPermissionByUserId(@Param("pUserId") Long userId);
 }
