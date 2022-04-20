@@ -83,29 +83,45 @@ export class EmployeeComponent implements OnInit {
     });
   }
 
-  searchOption: string = 'First Name';
+  searchOption: string = 'firstName';
   searchOptions = [
     { label: 'First Name', value: 'firstName' },
     { label: 'Email', value: 'email' },
+    { label: 'Job', value: 'jobTitle' },
+    { label: 'Manager Name', value: 'manager' },
+    { label: 'Department Name', value: 'departmentName' },
   ];
   search() {
     switch (this.searchOption) {
       case 'email':
-        this.searchByEmail();
+        this.findByEmail();
         break;
       case 'firstName':
         this.findByEmployeeName();
         break;
+      case 'jobTitle':
+        this.findByJob();
+        break;
+      case 'manager':
+        this.findByManagerName();
+        break;
+      case 'departmentName':
+        this.findByDeptName();
+        break;
     }
   }
 
-  /**
-   * This is a function to search location using city
-   */
-  searchByEmail() {
+  findByEmail() {
     this.employeeService.getEmployeebyEmail(this.keyword).subscribe((res) => {
       console.log(res);
       this.employees = res;
+      if (res.length==0){
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'No result',
+          detail: 'The search key was not found in any record!',
+        });
+      }
     });
   }
 
@@ -113,6 +129,55 @@ export class EmployeeComponent implements OnInit {
     this.employeeService.getEmployeeName(this.keyword).subscribe((res) => {
       console.log(res);
       this.employees = res;
+      if (res.length==0){
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'No result',
+          detail: 'The search key was not found in any record!',
+        });
+      }
+    });
+  }
+
+  findByJob() {
+    this.employeeService.getEmployeebyJobTitle(this.keyword).subscribe((res) => {
+      console.log(res);
+      this.employees = res;
+      if (res.length==0){
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'No result',
+          detail: 'The search key was not found in any record!',
+        });
+      }
+    });
+  }
+
+  findByManagerName() {
+    this.employeeService.getEmployeeByManagerName(this.keyword).subscribe((res) => {
+      console.log(res);
+      this.employees = res;
+      if (res.length==0){
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'No result',
+          detail: 'The search key was not found in any record!',
+        });
+      }
+    });
+  }
+
+  findByDeptName() {
+    this.employeeService.getEmployeeByDepartmentName(this.keyword).subscribe((res) => {
+      console.log(res);
+      this.employees = res;
+      if (res.length==0){
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'No result',
+          detail: 'The search key was not found in any record!',
+        });
+      }
     });
   }
 
