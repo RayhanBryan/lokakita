@@ -25,19 +25,6 @@ public class PermissionService {
     @Autowired
     UserRepository userRepository;
 
-    public List<PermissionWrapper> findAll(){
-        return toWrapperList(permissionRepository.findAll());
-    }
-
-    public List<PermissionWrapper> findPermissionByUserId(Long userId){
-        if (userId == null)
-            throw new BusinessException("Id cannot be null.");
-        Optional<User> user = userRepository.findById(userId);
-        if(!user.isPresent())
-            throw new BusinessException("User not found: "+userId+".");
-        return toWrapperList(permissionRepository.getPermissionByUserId(userId));
-    }
-
     private Permission toEntity(PermissionWrapper wrapper){
         Permission entity = new Permission();
         if(wrapper.getPermissionId() != null){
@@ -68,6 +55,9 @@ public class PermissionService {
     }
 
     // get
+    public List<PermissionWrapper> findAll(){
+        return toWrapperList(permissionRepository.findAll());
+    }
     public PermissionWrapper getById(Long id){
         if(id == null)
             throw new BusinessException("Id cannot be null.");
@@ -75,6 +65,22 @@ public class PermissionService {
         if(!permission.isPresent())
             throw new BusinessException("Permission not found: "+ id + ".");
         return toWrapper(permission.get());
+    }
+    public List<PermissionWrapper> findPermissionByUserId(Long userId){
+        if (userId == null)
+            throw new BusinessException("Id cannot be null.");
+        Optional<User> user = userRepository.findById(userId);
+        if(!user.isPresent())
+            throw new BusinessException("User not found: "+userId+".");
+        return toWrapperList(permissionRepository.getPermissionByUserId(userId));
+    }
+    public PermissionWrapper findPermissionByName(String permissionName){
+        if (permissionName == null)
+            throw new BusinessException("Name cannot be null");
+        Optional<Permission> permission = permissionRepository.getByPermission(permissionName);
+        if (!permission.isPresent())
+            throw new BusinessException("Permission name not found"+ permissionName +".");
+            return toWrapper(permission.get());
     }
 
     // post & update
