@@ -17,6 +17,6 @@ public interface GroupRepository extends JpaRepository<Group,Long>{
     @Query(value = "select * from GROUPS g" +
     " left JOIN HAK_AKSES ha on g.group_ID = ha.group_ID" + 
     " LEFT JOIN USERS u on ha.user_ID = u.user_ID" +
-    " where u.user_Id = :pUserId",nativeQuery = true)
+    " where u.user_Id = :pUserId and ha.is_active = 'Y'",nativeQuery = true)
     List<Group> getGroupByUserId(@Param("pUserId") Long userId);
 }

@@ -36,6 +36,10 @@ public class HakAksesController {
       DataResponseList<HakAksesWrapper> findByUser(@RequestParam("user") Long user){
           return new DataResponseList<HakAksesWrapper>(hakAksesService.findByUserId(user));
       }
+      @GetMapping(path = "/findByGroup")
+      DataResponseList<HakAksesWrapper> findByGroup(@RequestParam("group") Long group){
+          return new DataResponseList<HakAksesWrapper>(hakAksesService.findByGroupId(group));
+      }
       @GetMapping(path = "/findByUserIdAndGroupId")
       DataResponse<HakAksesWrapper> findByUserIdAndGroupId(@RequestParam("userId") Long userId, @RequestParam("groupId") Long groupId){
           return new DataResponse<HakAksesWrapper>(hakAksesService.findByUserIdAndGroupId(userId, groupId));
@@ -51,6 +55,10 @@ public class HakAksesController {
       @PutMapping(path = "/put")
       DataResponse<HakAksesWrapper> update(@RequestBody HakAksesWrapper wrapper){
           return new DataResponse<HakAksesWrapper>(hakAksesService.save(wrapper));
+      }
+      @PutMapping(path = "/changeIsActiveByUserIdAndGroupId")
+      DataResponse<HakAksesWrapper> changeIsActive(@RequestParam("userId") Long userId, @RequestParam("groupId") Long groupId){
+          return new DataResponse<HakAksesWrapper>(hakAksesService.changeIsActiveByUserIdAndGroupId(userId, groupId));
       }
       
       @DeleteMapping(path = "/delete")
