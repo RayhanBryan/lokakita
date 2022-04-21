@@ -76,18 +76,18 @@
       <small class="p-invalid" style="color: red" *ngIf="submitted&&!row.phone">Phone Number Required
       </small>
     </div>
-    <div class="col-12 md:col-6">
+    <!-- <div class="col-12 md:col-6">
       <label for="createdate">Create Date</label>
       <input id="phonenum" type="text" pInputText [(ngModel)]="row.createdDate" required autofocus
         placeholder="Created Date" />
-      <!-- <p-calendar inputId="createdate" [(ngModel)]="row.createdDate" autofocus ></p-calendar> -->
+      <p-calendar inputId="createdate" [(ngModel)]="row.createdDate" autofocus ></p-calendar>
       <small class="p-invalid" style="color: red" *ngIf="submitted">Create Date Required
       </small>
-    </div>
+    </div> -->
     <div class="col-12 md:col-6">
       <label for="phonenum">Create By</label>
       <input id="phonenum" type="text" pInputText [(ngModel)]="row.createdBy" required autofocus
-        placeholder="Createor Name" />
+        placeholder="Creator Name" [disabled]="true" />
       <small class="p-invalid" style="color: red" *ngIf="submitted&&!row.createdBy">Creator Required
       </small>
     </div>
@@ -113,7 +113,7 @@
     </p-button>
   </ng-template>
 </p-dialog>
-
+<p-toast></p-toast>
 <div class="card">
   <div class="mb-3">
     <p-button type="button" icon="pi pi-chevron-left" (click)="prev()" [disabled]="isFirstPage()"
@@ -127,7 +127,7 @@
       <i class="pi pi-search"></i>
       <input type="text" pInputText placeholder="Search" [(ngModel)]="nama" (input)="onChanged()" />
     </span>
-    <p-button (click)="showBasicDialog2()" (onClick)="handleReset($event)" icon="pi pi-user pi-plus-circle"
+    <p-button (click)="showBasicDialog2(users)" (onClick)="handleReset($event)" icon="pi pi-user pi-plus-circle"
       styleClass="p-button-success mt-2 ml-3" label="Add" [style]="{'float': 'right'}">
     </p-button>
     <p-button (click)="showBasicDialog()" icon="pi pi-sync" label="Change Password"
@@ -186,4 +186,4 @@
   </p-table>
 </div>
 
-<p-toast></p-toast>
+

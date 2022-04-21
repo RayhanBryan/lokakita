@@ -38,14 +38,22 @@ public class GroupMenuController {
       DataResponse<GroupMenuWrapper> post(@RequestBody GroupMenuWrapper wrapper){
           return new DataResponse<GroupMenuWrapper>(groupMenuService.save(wrapper));
       }
-      @GetMapping(path = "/findByGroup")
-      DataResponseList<GroupMenuWrapper> findByGroup(@RequestParam("group") Long group){
-          return new DataResponseList<GroupMenuWrapper>(groupMenuService.findByGroupId(group));
+      @GetMapping(path = "/findByGroupId")
+      DataResponseList<GroupMenuWrapper> findByGroup(@RequestParam("group") Long groupId){
+          return new DataResponseList<GroupMenuWrapper>(groupMenuService.findByGroupId(groupId));
+      }
+      @GetMapping(path = "/findByGroupIdAndMenuId")
+      DataResponse<GroupMenuWrapper> findByGroupAndMenu(@RequestParam("group") Long groupId, @RequestParam("menu") Long menuId){
+          return new DataResponse<GroupMenuWrapper>(groupMenuService.findByGroupIdAndMenuId(groupId,menuId));
       } 
       @PutMapping(path = "/put")
       DataResponse<GroupMenuWrapper> update(@RequestBody GroupMenuWrapper wrapper){
           return new DataResponse<GroupMenuWrapper>(groupMenuService.save(wrapper));
       }
+      @PutMapping(path = "/changeIsActive")
+      DataResponse<GroupMenuWrapper> changeIsActive(@RequestParam("group") Long groupId, @RequestParam("menu") Long menuId){
+          return new DataResponse<GroupMenuWrapper>(groupMenuService.changeIsActiveByGroupIdAndMenuId(groupId,menuId));
+      } 
       @DeleteMapping(path = "/delete")
       DataResponse<GroupMenuWrapper> delete(@RequestParam("id") Long id){
           groupMenuService.delete(id);

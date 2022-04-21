@@ -50,7 +50,7 @@ export class MenuComponent implements OnInit {
       }
     ]
     console.log(localStorage.getItem('token'), 'ini user id');
-    this.getMenuByUserId(Number(localStorage.getItem('token')));
+    this.getActiveMenuByUserId(Number(localStorage.getItem('token')));
     this.userService.getByUserId(Number(localStorage.getItem('token'))).subscribe(
       res => {
         this.name = res.data.name;
@@ -58,8 +58,8 @@ export class MenuComponent implements OnInit {
     )
   }
 
-  getMenuByUserId(id: any) {
-    this.menuService.getMenuByUserId(id).subscribe(
+  getActiveMenuByUserId(id: any) {
+    this.menuService.getActiveMenuByUserId(id).subscribe(
       res => {
         res.data.forEach((l: any) => {
           l.label = l.menuName,

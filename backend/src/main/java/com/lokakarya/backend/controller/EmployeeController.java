@@ -35,10 +35,17 @@ public class EmployeeController {
                 employeeService.findAllWithPagination(page, size));
     }
 
-    @GetMapping("/findByFirstName")
-    public DataResponseList<EmployeeWrapper> findByFirstNameContainingIgnoreCase(
-            @RequestParam("firstName") String firstName) {
-        return new DataResponseList<EmployeeWrapper>(employeeService.findByFirstNameContainingIgnoreCase(firstName));
+    @GetMapping("/findAllCategories")
+    public DataResponseList<EmployeeWrapper> findAllCategories(@RequestParam("all") String all) {
+        return new DataResponseList<EmployeeWrapper>(
+                employeeService.findByAllCategories(all));
+    }
+
+    @GetMapping("/findByFullName")
+    public DataResponseList<EmployeeWrapper> findByFullNameContainingIgnoreCase(
+            @RequestParam("fullName") String fullName) {
+        return new DataResponseList<EmployeeWrapper>(
+                employeeService.findByFullNameContainingIgnoreCase(fullName));
     }
 
     @GetMapping("/findByDepartmentName")
@@ -63,10 +70,10 @@ public class EmployeeController {
     }
 
     @GetMapping("/findByManagerName")
-    public DataResponseList<EmployeeWrapper> findByManagerFirstNameContainingIgnoreCase(
-            @RequestParam("managerFirstName") String managerFirstName) {
+    public DataResponseList<EmployeeWrapper> findByManagerFullNameContainingIgnoreCase(
+            @RequestParam("managerFirstName") String managerFullName) {
         return new DataResponseList<EmployeeWrapper>(
-                employeeService.findByManagerFirstNameContainingIgnoreCase(managerFirstName));
+                employeeService.findByManagerFullNameContainingIgnoreCase(managerFullName));
     }
 
     @GetMapping("/findByFirstNameContaining")
