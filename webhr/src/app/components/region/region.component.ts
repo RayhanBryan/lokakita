@@ -14,7 +14,7 @@ import {
 })
 export class RegionComponent implements OnInit {
   regions: any;
-  region = { regionId: 0, regionName: '' };
+  // region = { regionId: 0, regionName: '' };
   first = 0;
   rows = 10;
   showSearch: boolean = false;
@@ -53,10 +53,6 @@ export class RegionComponent implements OnInit {
 
   showSearchCall() {
     this.showSearch = !this.showSearch;
-  }
-
-  showForm() {
-    this.displayForm = !this.displayForm;
   }
 
   // SHOW REGIONS
@@ -139,11 +135,6 @@ export class RegionComponent implements OnInit {
       header: 'Delete Confirmation',
       icon: 'pi pi-info-circle',
       accept: () => {
-        this.messageService.add({
-          severity: 'info',
-          summary: 'Confirmed',
-          detail: 'Data deleted',
-        });
         this.deleteData();
       },
       reject: (type: any) => {
