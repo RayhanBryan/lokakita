@@ -68,6 +68,14 @@ public class MenuService {
             throw new BusinessException("User not found: " + id + '.');
         return toWrapperList(menuRepository.findMenuByUserId(id));
     }
+    public List<MenuWrapper> getMenuByUserIdAndActive(Long id){
+        if (id == null)
+	        throw new BusinessException("ID cannot be null.");
+        Optional<User> entity = userRepository.findById(id);
+        if (!entity.isPresent())
+            throw new BusinessException("User not found: " + id + '.');
+        return toWrapperList(menuRepository.findMenuByUserIdAndActive(id));
+    }
 
     // post & update
     public MenuWrapper save(MenuWrapper wrapper){
