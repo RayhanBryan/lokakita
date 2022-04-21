@@ -60,7 +60,10 @@ public class HakAksesController {
       DataResponse<HakAksesWrapper> changeIsActive(@RequestParam("userId") Long userId, @RequestParam("groupId") Long groupId){
           return new DataResponse<HakAksesWrapper>(hakAksesService.changeIsActiveByUserIdAndGroupId(userId, groupId));
       }
-      
+      @PutMapping(path = "/putByUserIdAndGroupId")
+      DataResponse<HakAksesWrapper> putUser(@RequestParam("userId") Long userId, @RequestParam("groupId") Long groupId, @RequestParam("isActive") Character isActive){
+          return new DataResponse<HakAksesWrapper>(hakAksesService.putByUserIdAndGroupId(userId, groupId, isActive));
+      }
       @DeleteMapping(path = "/delete")
       DataResponse<HakAksesWrapper> delete(@RequestParam("id") Long id){
           hakAksesService.delete(id);
