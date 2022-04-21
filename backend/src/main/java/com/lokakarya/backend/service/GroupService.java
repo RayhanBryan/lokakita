@@ -8,9 +8,13 @@ import java.util.Optional;
 // import javax.transaction.Transactional;
 
 import com.lokakarya.backend.entity.Group;
+import com.lokakarya.backend.entity.GroupMenu;
+import com.lokakarya.backend.entity.Menu;
 import com.lokakarya.backend.entity.User;
 import com.lokakarya.backend.exception.BusinessException;
+import com.lokakarya.backend.repository.GroupMenuRepository;
 import com.lokakarya.backend.repository.GroupRepository;
+import com.lokakarya.backend.repository.MenuRepository;
 import com.lokakarya.backend.repository.UserRepository;
 import com.lokakarya.backend.wrapper.GroupWrapper;
 
@@ -27,6 +31,12 @@ public class GroupService {
 
     @Autowired
     UserRepository userRepository;
+   
+    @Autowired
+    MenuRepository menuRepository;
+
+    @Autowired
+    GroupMenuRepository groupMenuRepository;
     // get
     public List<GroupWrapper> findAll(){
         return toWrapperList(groupRepository.findAll());
@@ -61,11 +71,23 @@ public class GroupService {
         if(entity.getGroupId() != null){
             entity.setUpdatedDate(new Date());
             entity.setUpdatedBy(wrapper.getUpdatedBy());
+            entity = groupRepository.save(entity);
         }else{
             entity.setCreatedDate(new Date());
             entity.setCreatedBy(wrapper.getCreatedBy());
+            List<Menu> menus = menuRepository.findAll();
+            entity = groupRepository.save(entity);
+            for (Menu menu : menus) {
+                GroupMenu groupMenu = new GroupMenu();
+                groupMenu.setCreatedBy(wrapper.getCreatedBy());
+                groupMenu.setCreatedDate(new Date());
+                groupMenu.setIsActive('N');
+                groupMenu.setGroup(entity);
+                groupMenu.setMenu(menu);
+                groupMenuRepository.save(groupMenu);
+            }
         }
-        return toWrapper(groupRepository.save(entity));
+        return toWrapper(entity);
     }
 
     // delete
