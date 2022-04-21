@@ -22,6 +22,7 @@ export class DepartmentComponent implements OnInit {
   action: string = '';
   id: number = 0;
   showSearch: boolean = false;
+  keyword: string = '';
 
   dataDepartment: any;
   row: any = {
@@ -83,14 +84,68 @@ export class DepartmentComponent implements OnInit {
     return this.departments ? this.first === 0 : true;
   }
 
-  findByDepartmentName() {
-    this.departmentService
-      .getDepartmentName(this.departmentName)
-      .subscribe((res) => {
-        console.log(this.departmentName);
-        this.departments = res;
-      });
+  searchOption: string = 'departmentName';
+  searchOptions = [
+    { label: 'Department Name', value: 'departmentName' },
+    { label: 'Street Address', value: 'streetAddress' },
+    { label: 'City', value: 'city' },
+  ];
+  search() {
+    switch (this.searchOption) {
+      case 'departmentName':
+        this.findByDepartmentName();
+        break;
+      case 'city':
+        this.findByCity();
+        break;
+      case 'streetAddress':
+        this.findByStreetAddress();
+        break;
+    }
   }
+
+  findByDepartmentName() {
+    this.departmentService.getDepartmentName(this.keyword).subscribe((res) => {
+      console.log(res);
+      this.departments = res;
+      if (res.length==0){
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'No result',
+          detail: 'The search key was not found in any record!',
+        });
+      }
+    });
+  }
+
+  findByCity() {
+    this.departmentService.getDepartmentByCity(this.keyword).subscribe((res) => {
+      console.log(res);
+      this.departments = res;
+        if (res.length == 0) {
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'No result',
+            detail: 'The search key was not found in any record!',
+          });
+        }
+      });
+    }
+
+  findByStreetAddress() {
+    this.departmentService.getDepartmentByStreetAddress(this.keyword).subscribe((res) => {
+      console.log(res);
+      this.departments = res;
+        if (res.length == 0) {
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'No result',
+            detail: 'The search key was not found in any record!',
+          });
+        }
+     });
+    }
+      
   showDialog(action: string) {
     this.display = true;
     this.action = action;
@@ -135,12 +190,37 @@ export class DepartmentComponent implements OnInit {
 
   handleSaveDepartment(event: any) {
     this.submitted = true;
+    if (this.handleValidation()){
+      return;
+    }
     this.confirmationService.confirm({
+      header: 'Confirmation',
       message: 'Are you sure that you want to perform this action?',
       accept: () => {
         if (this.row.departmentId === 0) {
           this.row.departmentId = null;
           this.departmentService.postDepartment(this.row).subscribe({
+            next: (data) => { console.log(data);
+              if (data.status) {
+                this.messageService.add({
+                  severity: 'success',
+                  summary: 'Input',
+                  detail: 'Data has been inserted',
+                });
+                this.getDepartment();
+                this.display = false;
+              }
+            },
+            error: (err) => {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Could not add a new record',
+              });
+            },
+          });
+        } else {
+          this.departmentService.putDepartment(this.row).subscribe({
             next: (data) => {
               console.log(data);
               if (data.status) {
@@ -154,21 +234,11 @@ export class DepartmentComponent implements OnInit {
               }
             },
             error: (err) => {
-              console.log('error cuy');
-            },
-          });
-        } else {
-          console.log('b');
-          this.departmentService.putDepartment(this.row).subscribe({
-            next: (data) => {
-              console.log(data);
-              if (data.status) {
-                this.getDepartment();
-                this.display = false;
-              }
-            },
-            error: (err) => {
-              console.log('error cuy');
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Could not update a new record',
+              });
             },
           });
         }
@@ -185,12 +255,12 @@ export class DepartmentComponent implements OnInit {
 
   handleValidation() {
     let err = 0;
-    if (this.row.departmentName.length < 1) {
-      err++;
-    }
-    if (err == 0) {
+    if (this.row.departmentName.length == 0 ||
+        this.row.managerId == null ||
+        this.row.locationId.length == 0 ) {
       return true;
-    } else {
+    }
+    else {
       return false;
     }
   }
@@ -209,6 +279,7 @@ export class DepartmentComponent implements OnInit {
     this.display = true;
     this.action = 'edit';
   }
+
   getCity(): void {
     this.locationService.getLocation().subscribe((res) => {
       this.locations = res.data;
