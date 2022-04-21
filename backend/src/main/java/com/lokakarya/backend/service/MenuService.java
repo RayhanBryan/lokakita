@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import com.lokakarya.backend.entity.Group;
+
 // import javax.transaction.Transactional;
 
 import com.lokakarya.backend.entity.Menu;
@@ -75,6 +77,14 @@ public class MenuService {
         if (!entity.isPresent())
             throw new BusinessException("User not found: " + id + '.');
         return toWrapperList(menuRepository.findMenuByUserIdAndActive(id));
+    }
+    public List<MenuWrapper> getMenuByGroupId(Long groupId){
+        if (groupId == null)
+	        throw new BusinessException("ID cannot be null.");
+        Optional<Group> entity = groupRepository.findById(groupId);
+        if (!entity.isPresent())
+            throw new BusinessException("Group not found: " + groupId + '.');
+        return toWrapperList(menuRepository.findMenuByGroupId(groupId));
     }
 
     // post & update

@@ -140,6 +140,21 @@ public List<HakAksesWrapper> findByGroupId(Long id){
         else hakAkses.get().setIsActive('Y');
         return toWrapper(hakAkses.get());
     }
+    public HakAksesWrapper putByUserIdAndGroupId(Long userId, Long groupId, Character isActive){
+        if( userId == null && groupId == null)
+            throw new BusinessException("Input cannot be null.");
+        Optional<User> user = userRepository.findById(userId);
+        if (!user.isPresent())
+            throw new BusinessException("User ID "+ userId +" not found.");
+        Optional<Group> group = groupRepository.findById(groupId);
+        if (!group.isPresent())
+            throw new BusinessException("Group ID "+ groupId +" not found.");  
+        Optional<HakAkses> hakAkses = hakAksesRepository.findByUserAndGroup(user.get(), group.get());
+        if(!hakAkses.isPresent())
+            throw new BusinessException("Hak Akses is not found");
+        hakAkses.get().setIsActive(isActive);
+        return toWrapper(hakAksesRepository.save(hakAkses.get()));
+    }
 
 
     // delete

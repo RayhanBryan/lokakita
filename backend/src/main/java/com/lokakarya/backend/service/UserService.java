@@ -150,7 +150,7 @@ public class UserService {
             permissions.add(permission.getPermission());
         }
         wrapper.setPermissions(permissions);
-        List<Menu> menuEntities = menuRepository.findMenuByUserId(entity.getUserId());
+        List<Menu> menuEntities = menuRepository.findMenuByUserIdAndActive(entity.getUserId());
         List<String> menus = new ArrayList<String>();
         for (Menu menu : menuEntities){
             menus.add(menu.getMenuName());
