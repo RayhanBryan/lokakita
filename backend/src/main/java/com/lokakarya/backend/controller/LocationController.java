@@ -80,6 +80,12 @@ public class LocationController {
 		return new DataResponseList<LocationWrapper>(locationService.getByCountryName(countryName));
 	}
 
+	// FIND STATE PROVINCE BY COUNTRY ID
+	@GetMapping(path = "/getStateProvinceByCountryId")
+	DataResponseList<String> getStateProvByCountry(@RequestParam("countryId") String countryId){
+		return new DataResponseList<String>(locationService.getStateProvinceByCountryId(countryId));
+	}
+
 	// DELETE
 	@DeleteMapping(path = "/{id}")
 	public void delete(@PathVariable("id") Long locationId) {
