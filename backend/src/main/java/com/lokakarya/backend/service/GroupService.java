@@ -84,6 +84,7 @@ public class GroupService {
                 groupMenu.setIsActive('N');
                 groupMenu.setGroup(entity);
                 groupMenu.setMenu(menu);
+                groupMenu.setProgramName("Group "+ entity.getGroupName() + " memiliki akses untuk menu "+ menu.getMenuName());
                 groupMenuRepository.save(groupMenu);
             }
         }
