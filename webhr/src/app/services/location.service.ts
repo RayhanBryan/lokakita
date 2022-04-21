@@ -50,4 +50,8 @@ export class LocationService {
   searchLocationByStateProvince(keyword:string){
     return this.http.get<any>(this.locationUrl+`getByStateProvince?stateProvince=${keyword}`,httpOptions);
   }
+
+  getStateProvince(countryId:string){
+    return this.http.get<any>(this.locationUrl+`getStateProvinceByCountryId?countryId=${countryId}`,httpOptions);
+  }
 }
