@@ -67,6 +67,7 @@ export class MenuComponent implements OnInit {
             l.routerLink = l.url
         });
         this.items = res.data;
+        // console.log(this.items, ' ini items')
         localStorage.setItem('items', JSON.stringify(res.data))
       }
     )

@@ -15,12 +15,12 @@
 <p-sidebar [(visible)]="visibleSidebar" [baseZIndex]="10000" [style]="{'background-color' : '#2196f3'}">
     <div class="grid">
         <div class="col-3">
-        <a routerLink="/home" class="home-logo">
+        <a routerLink="/home" class="home-logo" (click)="changeVisible()">
             <img src="../../../assets/img/hr-logo.png" height="40" class="mr-2 mt-2">
         </a>
     </div>
     <div class="col-9">
-        <a style="text-decoration: none;" routerLink="/home" class="home-logo">
+        <a style="text-decoration: none;" routerLink="/home" class="home-logo" (click)="changeVisible()">
         <h3>Web HR</h3>
     </a>
     </div>
