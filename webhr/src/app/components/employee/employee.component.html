@@ -213,14 +213,14 @@
                     <td>{{ row1.departmentName }}</td>
                 </tr>
             </ng-template>
-
+<!-- 
             <ng-template pTemplate="emptymessage" let-row1>
                 <tr>
                     <td [attr.colspan]="row1.length" colspan="5">
                         No job history found.
                     </td>
                 </tr>
-            </ng-template>
+            </ng-template> -->
         </p-table>
         <ng-template pTemplate="footer">
             <p-button icon="pi pi-check" (click)="displayJobHistory = false" label="Ok" styleClass="p-button-text">
