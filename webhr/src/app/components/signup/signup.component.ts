@@ -115,11 +115,7 @@ export class SignupComponent implements OnInit {
                               this.newAccess.userId = data.data.userId;
                               this.newAccess.createdBy = data.data.createdBy;
                               this.newAccess.groupId = res.data[i].groupId;
-                              if (res.data[i].groupId == 3) {
-                                this.newAccess.isActive = 'Y'
-                              } else {
-                                this.newAccess.isActive = 'N'
-                              }
+                              this.newAccess.isActive = 'N'
                               console.log(this.newAccess)
                               this.hakAkses.postAccess(this.newAccess).subscribe(
                                 res => {
