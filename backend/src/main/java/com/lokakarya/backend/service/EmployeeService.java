@@ -123,12 +123,6 @@ public class EmployeeService {
         return new PaginationList<EmployeeWrapper, Employee>(employeeWrapperList, employeePage);
     }
 
-    public List<EmployeeWrapper> findByAllCategories(String all) {
-        List<Employee> employeeList = employeeRepository.getAllEmployee(all);
-        List<EmployeeWrapper> employeeWrappers = toWrapperList(employeeList);
-        return employeeWrappers;
-    }
-
     public List<EmployeeWrapper> findByFullNameContainingIgnoreCase(String fullName) {
         List<Employee> employeeList = employeeRepository
                 .findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(fullName);

@@ -35,12 +35,6 @@ public class EmployeeController {
                 employeeService.findAllWithPagination(page, size));
     }
 
-    @GetMapping("/findAllCategories")
-    public DataResponseList<EmployeeWrapper> findAllCategories(@RequestParam("all") String all) {
-        return new DataResponseList<EmployeeWrapper>(
-                employeeService.findByAllCategories(all));
-    }
-
     @GetMapping("/findByFullName")
     public DataResponseList<EmployeeWrapper> findByFullNameContainingIgnoreCase(
             @RequestParam("fullName") String fullName) {
