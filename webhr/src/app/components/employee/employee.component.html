@@ -62,7 +62,6 @@
                 <td>{{ employee.managerFirstName}} {{employee.managerLastName}} </td>
                 <td>{{ employee.phoneNumber }}</td>
                 <td>{{ employee.hireDate }}</td>
-                <!-- <td>{{ employee.jobTitle }}</td> -->
                 <td>
                     <p-button styleClass="p-button-link" title="Show Job History" (click)="showJobHistory(employee)">{{ employee.jobTitle }}</p-button>
                 </td>
@@ -212,6 +211,14 @@
                     <td>{{ row1.endDate | date}}</td>
                     <td>{{ row1.jobTitle }}</td>
                     <td>{{ row1.departmentName }}</td>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="emptymessage" let-row1>
+                <tr>
+                    <td [attr.colspan]="row1.length" colspan="5">
+                        No job history found.
+                    </td>
                 </tr>
             </ng-template>
         </p-table>
