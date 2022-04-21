@@ -173,9 +173,11 @@ public class EmployeeService {
             if (!employeeExist.isPresent()) {
                 throw new BusinessException("Tidak ada employee dengan ID tersebut");
             }
+            
+            String jobLama = employeeExist.get().getJob().getJobId();
+            Long deptLama = employeeExist.get().getDepartment().getDepartmentId(); 
 
-            if (employeeExist.get().getJob().getJobId() != wrapper.getJobId()
-                    || employeeExist.get().getDepartment().getDepartmentId() != wrapper.getDepartmentId()) {
+            if (!jobLama.equals(wrapper.getJobId()) || deptLama != wrapper.getDepartmentId()) {
                 JobHistory jobHistory = new JobHistory();
                 jobHistory.setEmployeeId(employeeExist.get().getEmployeeId());
                 jobHistory.setStartDate(employeeExist.get().getHireDate());
