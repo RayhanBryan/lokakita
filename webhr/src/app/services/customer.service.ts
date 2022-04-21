@@ -24,7 +24,11 @@ export class CustomerService {
   }
 
   getCustomerName(name: string): Observable<any> {
-    return this.http.get<any>(this._baseUrl+`/customer/findByCustomerName?customerName=${name}&page=0&size=20`, { responseType: 'json' }).pipe(map((data: any) => (data.data || data)));
+    return this.http.get<any>(this._baseUrl+`/customer/findByCustomerName?customerName=${name}`, { responseType: 'json' }).pipe(map((data: any) => (data.data || data)));
+  }
+
+  getCustomerEmail(email: string): Observable<any> {
+    return this.http.get<any>(this._baseUrl+`/customer/findByCustomerEmail?email=${email}`, { responseType: 'json' }).pipe(map((data: any) => (data.data || data)));
   }
 
   getCustomerById(id: number): Observable<any> {

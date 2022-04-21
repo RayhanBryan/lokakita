@@ -29,7 +29,6 @@ export class LocationComponent implements OnInit {
   rows = 10;
   keyword: string = '';
   showSearch: boolean = false;
-  displayForm: boolean = false;
 
   constructor(
     private locationService: LocationService,
@@ -38,8 +37,47 @@ export class LocationComponent implements OnInit {
     private countryService: CountryService
   ) {}
 
+  //HANDLING COUNTRY AND STATE/PROVINCE DROPDOWN
+  states: string[]=['Add option'];
+  getStateProvince(){
+    this.locationService.getStateProvince(this.row.countryId).subscribe({
+      next: (data: any) => {
+        this.states=['Add option'];
+        this.states.push(...data.data);
+        this.tes2();
+      },
+      error: (err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Could not load the location content',
+        });
+      },
+    });
+  }
+
+  showAddNewStateProvinceDialog:boolean=false;
+  tes2(){
+    if (this.row.stateProvince==='Add option'){
+      this.showAddNewStateProvinceDialog=true;
+    }
+  }
+
+  cancelAddingNewStateProvince(){
+    this.row.stateProvince='';
+    this.showAddNewStateProvinceDialog=false;
+  }
+
+
+  tempStateProvince:string='';
+  addNewStateProvince(){
+    this.states.push(this.tempStateProvince)
+    this.row.stateProvince=this.tempStateProvince;
+    this.showAddNewStateProvinceDialog=false;
+  }
+
   ngOnInit(): void {
-    this.getLocation();
+    this.getLocation()
   }
 
   next() {
@@ -66,10 +104,6 @@ export class LocationComponent implements OnInit {
 
   showSearchCall() {
     this.showSearch = !this.showSearch;
-  }
-
-  showForm() {
-    this.displayForm = !this.displayForm;
   }
 
   // SHOW LOCATIONS
@@ -99,7 +133,6 @@ export class LocationComponent implements OnInit {
     { label: 'search by state province', value: 'stateProvince' },
   ];
   search() {
-    console.log(this.keyword);
     switch (this.searchOption) {
       case 'city':
         this.searchByCity();
@@ -268,6 +301,7 @@ export class LocationComponent implements OnInit {
     this.displayMaximizable = true;
     this.action = act;
     this.getCountry();
+    this.getStateProvince();
   }
 
   /**

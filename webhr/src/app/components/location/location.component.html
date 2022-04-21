@@ -29,7 +29,7 @@
         </th>
         <th pSortableColumn="city">City <p-sortIcon field="city"></p-sortIcon>
         </th>
-        <th pSortableColumn="stateProvince">State Province <p-sortIcon field="stateProvince"></p-sortIcon>
+        <th pSortableColumn="stateProvince">State/Province <p-sortIcon field="stateProvince"></p-sortIcon>
         </th>
         <!-- <th pSortableColumn="countryId">Country ID <p-sortIcon field="countryId"></p-sortIcon>
         </th> -->
@@ -68,11 +68,45 @@
     (onHide)="resetForm()">
     <div class="grid p-fluid">
       <div class="col-12 md:col-6">
-        <label for="streetAddress">Street Address</label>
-        <input type="text" pInputText [(ngModel)]="row.streetAddress" maxlength="40" required>
-        <h5 class="p-invalid" style="color: red;" *ngIf="submitted && !row.streetAddress">
-          Street address required!
+        <label for="countryId">Country</label>
+        <p-dropdown appendTo="body" [options]="countries" [(ngModel)]="row.countryId" optionLabel="countryName"
+          optionValue="countryId" placeholder="Country" [required]="true" [filter]="true" [filterBy]="'countryName'" (onChange)="getStateProvince()">
+        </p-dropdown>
+        <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.countryId">
+          Country Required!
         </h5>
+      </div>
+      <!-- <div class="col-12 md:col-6">
+        <label for="countryId">Country</label>
+        <p-dropdown appendTo="body" [options]="countries" [(ngModel)]="row.countryId" optionLabel="countryName"
+          optionValue="countryId" placeholder="Country" [required]="true" [filter]="true" [filterBy]="'countryName'" (onChange)="getStateProvince()">
+        </p-dropdown>
+        <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.countryId">
+          Country Required!
+        </h5>
+      </div> -->
+      <div class="col-12 md:col-6">
+        <label for="countryId">State/province</label>
+        <p-dropdown appendTo="body" [options]="states" 
+         placeholder="State/province" [required]="true" [(ngModel)]="row.stateProvince" (onChange)="tes2()"  [maxlength]="25">
+        </p-dropdown>
+        <h5 class="p-invalid" style="color: red;" *ngIf="submitted && !row.stateProvince">
+          State/province required!
+        </h5>
+      </div>
+      
+      <!-- <div class="col-12 md:col-6">
+        <label for="streetAddress">State Province</label>
+        <input type="text" pInputText [(ngModel)]="row.stateProvince" maxlength="25" required>
+        <h5 class="p-invalid" style="color: red;" *ngIf="submitted && !row.stateProvince">
+          State province required!
+        </h5>
+      </div> -->
+      <div class="col-12 md:col-6">
+        <label for="streetAddress">City</label>
+        <input type="text" pInputText [(ngModel)]="row.city" maxlength="30" required>
+        <h5 class="p-invalid" style="color: red;" *ngIf="submitted && !row.city">
+          City required!</h5>
       </div>
       <div class="col-12 md:col-6">
         <label for="streetAddress">Postal Code</label>
@@ -81,25 +115,10 @@
           Postal code required!</h5>
       </div>
       <div class="col-12 md:col-6">
-        <label for="streetAddress">City</label>
-        <input type="text" pInputText [(ngModel)]="row.city" maxlength="30" required>
-        <h5 class="p-invalid" style="color: red;" *ngIf="submitted && !row.city">
-          City required!</h5>
-      </div>
-      <div class="col-12 md:col-6">
-        <label for="streetAddress">State Province</label>
-        <input type="text" pInputText [(ngModel)]="row.stateProvince" maxlength="25" required>
-        <h5 class="p-invalid" style="color: red;" *ngIf="submitted && !row.stateProvince">
-          State province required!
-        </h5>
-      </div>
-      <div class="col-12 md:col-6">
-        <label for="countryId">Country</label>
-        <p-dropdown appendTo="body" [options]="countries" [(ngModel)]="row.countryId" optionLabel="countryName"
-          optionValue="countryId" placeholder="Country" [required]="true">
-        </p-dropdown>
-        <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.countryId">
-          Country Required!
+        <label for="streetAddress">Street Address</label>
+        <input type="text" pInputText [(ngModel)]="row.streetAddress" maxlength="40" required>
+        <h5 class="p-invalid" style="color: red;" *ngIf="submitted && !row.streetAddress">
+          Street address required!
         </h5>
       </div>
       <div class="col-12 md:col-6">
@@ -126,3 +145,19 @@
   </p-confirmDialog>
   <p-toast></p-toast>
 </div>
+
+<p-dialog [(visible)]="showAddNewStateProvinceDialog" [modal]="true"
+  [style]="{width: '50vw'}" [maximizable]="true" [draggable]="false" [resizable]="false" [closable]="false">
+  <div class="grid p-fluid">
+    <div class="col-12 md:col-12">
+      <label for="regionName">Add state/province</label>
+      <input type="text" pInputText [(ngModel)]="tempStateProvince" required autofocus maxlength="25">
+      <h5 class="p-invalid" style="color:red" *ngIf="submitted && !row.stateProvince">State/province name is required!</h5>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple type="button" (click)="addNewStateProvince()" icon="pi pi-check" label="Save" class="mt-2 ml-1"></button>
+    <button pButton pRipple type="button" (click)="cancelAddingNewStateProvince()" icon="pi pi-times" label="Cancel"
+      class="mt-2 ml-1 p-button-danger"></button>
+  </ng-template>
+</p-dialog>

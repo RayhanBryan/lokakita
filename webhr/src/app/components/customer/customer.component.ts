@@ -9,7 +9,7 @@ import { ConfirmationService, ConfirmEventType, MessageService } from 'primeng/a
   providers: [ConfirmationService, MessageService],
 })
 export class CustomerComponent implements OnInit {
-  customer : any;
+  customer: any;
   first = 0;
   customerName: string = '';
   rows = 10;
@@ -17,7 +17,9 @@ export class CustomerComponent implements OnInit {
   submitted: boolean = false;
   action: string = '';
   id: number = 0;
-  showSearch:boolean = false;
+  showSearch: boolean = false;
+  keyword: string = '';
+  email: string = '';
 
   dataCustomer: any;
   row: any = {
@@ -71,13 +73,48 @@ export class CustomerComponent implements OnInit {
     return this.customer ? this.first === 0 : true;
   }
 
+  searchOption: string = 'customerName';
+  searchOptions = [
+    { label: 'Customer Name', value: 'customerName' },
+    { label: 'Email', value: 'email' },
+  ];
+  search() {
+    switch (this.searchOption) {
+      case 'customerName':
+        this.findByCustomerName();
+        break;
+      case 'email':
+        this.findByEmail();
+        break;
+    }
+  }
+
   findByCustomerName() {
-    this.customerService
-      .getCustomerName(this.customerName)
-      .subscribe((res) => {
-        console.log(res);
-        this.customer = res;
-      });
+    this.customerService.getCustomerName(this.keyword).subscribe((res) => {
+      console.log(res);
+      this.customer = res;
+      if (res.length==0){
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'No result',
+          detail: 'The search key was not found in any record!',
+        });
+      }
+    });
+  }
+
+  findByEmail() {
+    this.customerService.getCustomerEmail(this.keyword).subscribe((res) => {
+      console.log(res);
+      this.customer = res;
+      if (res.length==0){
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'No result',
+          detail: 'The search key was not found in any record!',
+        });
+      }
+    });
   }
 
   showDialog(action: string) {
@@ -124,12 +161,37 @@ export class CustomerComponent implements OnInit {
 
   handleSaveCustomer(event: any) {
     this.submitted = true;
+    if (this.handleValidation()){
+      return;
+    }
     this.confirmationService.confirm({
+      header: 'Confirmation',
       message: 'Are you sure that you want to perform this action?',
       accept: () => {
         if (this.row.customerId === 0) {
           this.row.customerId = null;
           this.customerService.postCustomer(this.row).subscribe({
+            next: (data) => { console.log(data);
+              if (data.status) {
+                this.messageService.add({
+                  severity: 'success',
+                  summary: 'Input',
+                  detail: 'Data has been inserted',
+                });
+                this.getCustomer();
+                this.display = false;
+              }
+            },
+            error: (err) => {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Could not add a new record',
+              });
+            },
+          });
+        } else {
+          this.customerService.putCustomer(this.row).subscribe({
             next: (data) => {
               console.log(data);
               if (data.status) {
@@ -143,21 +205,11 @@ export class CustomerComponent implements OnInit {
               }
             },
             error: (err) => {
-              console.log('error cuy');
-            },
-          });
-        } else {
-          console.log('save');
-          this.customerService.putCustomer(this.row).subscribe({
-            next: (data) => {
-              console.log(data);
-              if (data.status) {
-                this.getCustomer();
-                this.display = false;
-              }
-            },
-            error: (err) => {
-              console.log('error cuy');
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Could not update a new record',
+              });
             },
           });
         }
@@ -174,15 +226,16 @@ export class CustomerComponent implements OnInit {
 
   handleValidation() {
     let err = 0;
-    if (this.row.customerName.length < 1) {
-      err++;
-    }
-    if (err == 0) {
+    if (this.row.customerName.length == 0 ||
+        this.row.email.length == 0 ||
+        this.row.phoneNumber.length == 0 ) {
       return true;
-    } else {
+    }
+    else {
       return false;
     }
   }
+
 
   handleReset(event: any, param: string): void {
     this.row = {
@@ -203,8 +256,8 @@ export class CustomerComponent implements OnInit {
     this.messageService.clear();
   }
 
-  showSearchCall(){
-    this.showSearch =!this.showSearch;
+  showSearchCall() {
+    this.showSearch = !this.showSearch;
   }
 
 }
