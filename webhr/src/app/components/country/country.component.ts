@@ -191,14 +191,57 @@ deleteData(){
   this.displayDelete = false;
 }
 
-searchCountryName(keyword:string): void {
-  this.countryService.getCountryByName(keyword).subscribe(
+searchCountryName(): void {
+  this.countryService.getCountryByName(this.keyword).subscribe(
     res => {
       this.countries=res;
+      console.log(res,'bbbb');
+      if(res.length==0){
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'No result',
+          detail: 'The search key was not found in any record!',
+        });
+      }
     }
   );
 
 }
+
+searchRegion(): void {
+  this.countryService.getCountryByRegion(this.keyword).subscribe(
+    res => {
+      this.countries=res;
+      console.log(res,'aaaa')
+      if (res.length==0){
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'No result',
+          detail: 'The search key was not found in any record!',
+        });
+      }
+    }
+  );
+
+}
+
+searchOption: string = 'countryName';
+searchOptions = [
+    { label: 'Country Name', value: 'countryName' },
+    { label: 'Region Name', value: 'region' }
+  ];
+search(){
+  switch(this.searchOption){
+    case 'countryName':
+      this.searchCountryName();
+      break;
+    case 'region':
+      this.searchRegion();
+      break;
+  }
+}  
+
+
 
 showDeleteDialog(id: string){
   this.deleteId = id;
@@ -213,7 +256,7 @@ showDeleteDialog(id: string){
     reject: (type: any) => {
         switch(type) {
             case ConfirmEventType.REJECT:
-                this.messageService.add({severity:'warn', summary:'Canceled', detail:'You have canceled'});
+                this.messageService.add({severity:'info', summary:'Cancelled', detail:'Your data is safe'});
             break;
             case ConfirmEventType.CANCEL:
                 this.messageService.add({severity:'info', summary:'Cancelled', detail:'Your data is safe'});
@@ -256,5 +299,18 @@ showMaximizableDialog(act: number) {
   showForm(){
     this.displayForm=!this.displayForm;
   }
+
+  keyPressAlphaNumeric(event:any) {
+
+    var inp = String.fromCharCode(event.keyCode);
+
+    if (/[a-zA-Z\s]/.test(inp)) {
+      return true;
+    } else {
+      event.preventDefault();
+      return false;
+    }
+  }
+  
 
 }

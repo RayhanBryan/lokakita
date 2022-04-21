@@ -11,8 +11,8 @@
             <span *ngIf="showSearch" class="p-input-icon-left mt-2 ml-3" [style]="{ float: 'right' }">
                 <i class="pi pi-search"></i>
                 <input type="text" pInputText placeholder="Search" [(ngModel)]="keyword" (input)="search()">
-      <p-dropdown appendTo="body" [options]="searchOptions" [(ngModel)]="searchOption" optionLabel="label"
-      optionValue="value" placeholder="Search by"></p-dropdown>
+            <p-dropdown appendTo="body" [options]="searchOptions" [(ngModel)]="searchOption" optionLabel="label"
+                optionValue="value" placeholder="Search by"></p-dropdown>
             </span>
             <p-button (click)="showDialog('Add')" icon="pi pi-plus-circle" label="Add"
                 styleClass="p-button-success mt-2 ml-3" [style]="{ float: 'right' }"></p-button>
@@ -59,10 +59,9 @@
                 <td>{{ employee.employeeId }}</td>
                 <td>{{ employee.firstName }} {{ employee.lastName }}</td>
                 <td>{{ employee.email }}</td>
-                <td>{{ employee.manager}} </td>
+                <td>{{ employee.managerFirstName}} {{employee.managerLastName}} </td>
                 <td>{{ employee.phoneNumber }}</td>
                 <td>{{ employee.hireDate }}</td>
-                <!-- <td>{{ employee.jobTitle }}</td> -->
                 <td>
                     <p-button styleClass="p-button-link" title="Show Job History" (click)="showJobHistory(employee)">{{ employee.jobTitle }}</p-button>
                 </td>
@@ -156,16 +155,16 @@
             </div>
             <div class="col-12 md:col-6">
                 <h5>Bonus</h5>
-                <input type="number" pInputText id="commissionPct" [(ngModel)]="row.commissionPct" required="autofocus" />
+                <input type="number" pInputText id="commissionPct" [(ngModel)]="row.commissionPct"/>
             </div>
         </div>
 
         <ng-template pTemplate="footer">
             <button pButton type="button" label="Save" icon="pi pi-check"
                 (click)="handleSaveEmployee($event)" [disabled]="handleValidation()"></button>
-                <button pButton pRipple type="button" (click)="handleReset($event, 'click')" icon="pi pi-spinner" label="Reset"
+            <button pButton pRipple type="button" (click)="handleReset($event, 'click')" icon="pi pi-spinner" label="Reset"
                 class="mt-2 ml-1 p-button-danger"></button>
-              <button pButton pRipple type="button" (click)="display=false" icon="pi pi-times" label="Cancel"
+            <button pButton pRipple type="button" (click)="display=false" icon="pi pi-times" label="Cancel"
                 class="mt-2 ml-1 p-button-danger"></button>
         </ng-template>
     </p-dialog>
@@ -212,6 +211,14 @@
                     <td>{{ row1.endDate | date}}</td>
                     <td>{{ row1.jobTitle }}</td>
                     <td>{{ row1.departmentName }}</td>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="emptymessage" let-row1>
+                <tr>
+                    <td [attr.colspan]="row1.length" colspan="5">
+                        No job history found.
+                    </td>
                 </tr>
             </ng-template>
         </p-table>

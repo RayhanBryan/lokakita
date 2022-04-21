@@ -11,7 +11,7 @@
         <p-button (onClick)="showMaximizableDialog(1)" icon="pi pi-plus-circle" label="Input" styleClass="p-button-success mt-2 ml-3" [style]="{'float': 'right'}" (onClick)="showForm()"></p-button>
     </div>
     <p-table [value]="jobs" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true" [(first)]="first" responsiveLayout="scroll"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10,25,50]">
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10,25,50]" [scrollable]="true" scrollHeight="600px">
     <ng-template pTemplate="header">
         <tr>
             <th pSortableColumn="jobId">Job ID <p-sortIcon field="jobId"></p-sortIcon></th>
@@ -44,7 +44,7 @@
               <input *ngIf="action==1" type="text" pInputText [(ngModel)]="row.jobId" (ngModelChange)="row.jobId = $event.toUpperCase()" required autofocus> 
               <!-- <h5 *ngIf="submitted && !row.jobId">Required!!</h5>  -->
               <label for="float-input">{{row.jobId}}</label>
-              <h5 class="p invalid" style="color: red;" *ngIf="submitted && !row.jobId">Job ID is required.</h5>
+              <h5 class="p invalid" style="color: red;" *ngIf=" !row.jobId">Job ID is required.</h5>
           </span>
       </div>
       <div class="col-6">
@@ -52,7 +52,7 @@
           <span class="p-float-label">
               <input type="text" pInputText [(ngModel)]="row.jobTitle" required autofocus> 
               <!-- <h5 *ngIf="submitted && !row.jobTitle">Required!!</h5> -->
-              <h5 class="p invalid" style="color: red;" *ngIf="submitted && !row.jobTitle">Job Name is required.</h5>
+              <h5 class="p invalid" style="color: red;" *ngIf=" !row.jobTitle">Job Name is required.</h5>
           </span>
       </div>
       <div class="col-6">
@@ -60,7 +60,7 @@
           <span class="p-float-label">
               <input type="number" pInputText [(ngModel)]="row.minSalary" required autofocus> 
               <label for="float-input">Minimum Salary</label>
-              <h5 class="p invalid" style="color: red;" *ngIf="submitted && row.minSalary<0">Minimum Salary 0.</h5>
+              <h5 class="p invalid" style="color: red;" *ngIf="!row.minSalary">Minimum Salary is required.</h5>
           </span>
       </div>
       <div class="col-6">
@@ -68,13 +68,15 @@
           <span class="p-float-label">
               <input type="number" pInputText [(ngModel)]="row.maxSalary" required autofocus> 
               <label for="float-input">Maximum Salary</label>
+              <h5 class="p invalid" style="color: red;" *ngIf="row.maxSalary<row.minSalary">Maximum Salary is required and must be greater than the minimum salary.</h5>
+
           </span>
       </div>
   </div>
 
 
   <ng-template pTemplate="footer">
-    <button pButton pRipple type="button" (click)="handleSaveJob($event)" icon="pi pi-check" label="Save" class="mt-2 ml-1"></button>
+    <button pButton pRipple type="button" (click)="handleSaveJob($event)" icon="pi pi-check" label="Save" class="mt-2 ml-1" [disabled]="!handleValidation()"></button>
     <button pButton pRipple type="button" (click)="handleResetJob($event,'click')" icon="pi pi-spinner" label="Reset" class="mt-2 ml-1 p-button-danger"></button>
     <button pButton pRipple type="button" (click)="displayMaximizable=false" icon="pi pi-times" label="Cancel" class="mt-2 ml-1 p-button-danger"></button>
 </ng-template>
