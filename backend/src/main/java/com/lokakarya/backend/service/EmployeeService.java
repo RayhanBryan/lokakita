@@ -123,6 +123,12 @@ public class EmployeeService {
         return new PaginationList<EmployeeWrapper, Employee>(employeeWrapperList, employeePage);
     }
 
+    public List<EmployeeWrapper> findByAllCategories(String all) {
+        List<Employee> employeeList = employeeRepository.getAllEmployee(all);
+        List<EmployeeWrapper> employeeWrappers = toWrapperList(employeeList);
+        return employeeWrappers;
+    }
+
     public List<EmployeeWrapper> findByFullNameContainingIgnoreCase(String fullName) {
         List<Employee> employeeList = employeeRepository
                 .findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(fullName);
@@ -164,6 +170,9 @@ public class EmployeeService {
     public EmployeeWrapper save(EmployeeWrapper wrapper) {
         Employee employee = new Employee();
         if (wrapper.getEmployeeId() == null) {
+            if (wrapper.getLastName() == null) {
+                throw new BusinessException();
+            }
             employee = employeeRepository.save(toEntity(wrapper));
         } else {
             Optional<Employee> employeeExist = employeeRepository.findById(wrapper.getEmployeeId());
@@ -190,6 +199,10 @@ public class EmployeeService {
     public void delete(Long id) {
         if (id == null) {
             throw new BusinessException("Employee Id does not exist");
+        }
+        Optional<Employee> employee = employeeRepository.findById(id);
+        if (!employee.isPresent()) {
+            throw new BusinessException("Employee Id does not found");
         }
         employeeRepository.deleteById(id);
     }

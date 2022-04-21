@@ -15,6 +15,24 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
         Page<Employee> findByFirstNameContainingIgnoreCase(String firstName, Pageable paging);
 
+        // Search by all categories
+        @Query(value = "SELECT * FROM EMPLOYEES e LEFT JOIN DEPARTMENTS d ON d.DEPARTMENT_ID" +
+                        " = e.DEPARTMENT_ID LEFT" +
+                        " JOIN JOBS" +
+                        " j ON j.JOB_ID=" +
+                        " e.JOB_ID WHERE LOWER(e.FIRST_NAME)" +
+                        " LIKE LOWER(CONCAT(CONCAT('%',?1),'%')) OR (e.LAST_NAME)" +
+                        " LIKE LOWER(CONCAT(CONCAT('%',?2),'%')) OR (e.EMAIL)" +
+                        " LIKE LOWER(CONCAT(CONCAT('%',?3),'%'))  OR (j.JOB_TITLE)" +
+                        " LIKE LOWER(CONCAT(CONCAT('%',?4),'%')) OR (d.DEPARTMENT_NAME)" +
+                        " LIKE LOWER(CONCAT(CONCAT('%',?5),'%'))", nativeQuery = true)
+        List<Employee> getAllEmployees(String firstName, String lastName, String email, String jobTitle,
+                        String departmentName);
+
+        default List<Employee> getAllEmployee(String all) {
+                return getAllEmployees(all, all, all, all, all);
+        }
+        // Search by Full Name
         List<Employee> findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(String firstName,
                         String lastName);
 
@@ -22,11 +40,17 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
                 return findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(fullName, fullName);
         }
 
-        // @Query("SELECT e FROM Employee e WHERE LOWER(e.firstName)" +
-        // " LIKE LOWER(CONCAT('%',?1,'%'')) OR LOWER(e.lastName) LIKE
-        // LOWER(CONCAT('%',?1,'%'))")
-        // List<Employee> findByFirstNameOrLastNameContainingIgnoreCase(String
-        // fullName);
+        @Query(value = "SELECT * FROM EMPLOYEES e " +
+                        "LEFT JOIN " +
+                        "JOBS j " +
+                        "ON j.JOB_ID = " +
+                        "e.JOB_ID " +
+                        "LEFT JOIN DEPARTMENTS d " +
+                        "ON d.DEPARTMENT_ID = e.DEPARTMENT_ID " +
+                        "WHERE " +
+                        "LOWER(j.JOB_TITLE) " +
+                        "LIKE LOWER(CONCAT(CONCAT('%',:pJobTitle),'%'))", nativeQuery = true)
+        List<Employee> getByAllContainingIgnoreCase(@Param("pJobTitle") String jobTitle);
 
         @Query(value = "SELECT * FROM EMPLOYEES e " +
                         "LEFT JOIN " +
