@@ -36,13 +36,29 @@ public class HakAksesController {
       DataResponseList<HakAksesWrapper> findByUser(@RequestParam("user") Long user){
           return new DataResponseList<HakAksesWrapper>(hakAksesService.findByUserId(user));
       }
+      @GetMapping(path = "/findByGroup")
+      DataResponseList<HakAksesWrapper> findByGroup(@RequestParam("group") Long group){
+          return new DataResponseList<HakAksesWrapper>(hakAksesService.findByGroupId(group));
+      }
+      @GetMapping(path = "/findByUserIdAndGroupId")
+      DataResponse<HakAksesWrapper> findByUserIdAndGroupId(@RequestParam("userId") Long userId, @RequestParam("groupId") Long groupId){
+          return new DataResponse<HakAksesWrapper>(hakAksesService.findByUserIdAndGroupId(userId, groupId));
+      }
+
+      // post
       @PostMapping(path= "/post")
       DataResponse<HakAksesWrapper> post(@RequestBody HakAksesWrapper wrapper){
           return new DataResponse<HakAksesWrapper>(hakAksesService.save(wrapper));
       }
+
+      // put
       @PutMapping(path = "/put")
       DataResponse<HakAksesWrapper> update(@RequestBody HakAksesWrapper wrapper){
           return new DataResponse<HakAksesWrapper>(hakAksesService.save(wrapper));
+      }
+      @PutMapping(path = "/changeIsActiveByUserIdAndGroupId")
+      DataResponse<HakAksesWrapper> changeIsActive(@RequestParam("userId") Long userId, @RequestParam("groupId") Long groupId){
+          return new DataResponse<HakAksesWrapper>(hakAksesService.changeIsActiveByUserIdAndGroupId(userId, groupId));
       }
       
       @DeleteMapping(path = "/delete")
@@ -50,4 +66,8 @@ public class HakAksesController {
           hakAksesService.delete(id);
           return new DataResponse<HakAksesWrapper>(true, "Delete Sukses");
       }
+      DataResponse<HakAksesWrapper> deleteUserIdOrGroupId(@RequestParam("id") Long id){
+        hakAksesService.delete(id);
+        return new DataResponse<HakAksesWrapper>(true, "Delete Sukses");
+    }
 }

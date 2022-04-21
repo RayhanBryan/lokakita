@@ -28,6 +28,12 @@ export class UserService {
     });
   }
 
+  getUserByEmail(email: string): Observable<any> {
+    return this.http.get<any>(url + `users/getUserByEmail?email=${email}`, {
+      responseType: 'json',
+    });
+  }
+
   postUser(req: any): Observable<any> {
     return this.http.post<any>(url + `users/post`, req, {
       responseType: 'json',

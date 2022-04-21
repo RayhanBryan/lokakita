@@ -42,6 +42,12 @@ public class UserController {
     DataResponseList<UserWrapper> findByUsername(@RequestParam("username") String username){
         return new DataResponseList<UserWrapper>(userService.findByUsername(username));
     }
+    @GetMapping(path = "/getUserByEmail")
+    DataResponse<UserWrapper> getUserByEmail(@RequestParam("email") String email){
+        UserWrapper wrapper = userService.getByEmail(email);
+        if(wrapper == null) return new DataResponse<UserWrapper>(false, "Tidak ada user dengan email:"+email);
+        else return new DataResponse<UserWrapper>(wrapper);
+    }
     // Post & Put
     @PostMapping(path= "/post")
     DataResponse<UserWrapper> post(@RequestBody UserWrapper wrapper){

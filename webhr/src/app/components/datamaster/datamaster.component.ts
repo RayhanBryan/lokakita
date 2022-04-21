@@ -34,7 +34,7 @@ export class DatamasterComponent implements OnInit {
   confirmNewPass: string = '';
   valuepass4: string = '';
   today: any = new Date();
-
+  userIdxGroup:any;
   users: any;
   first = 0;
   rows = 10;
@@ -60,10 +60,17 @@ export class DatamasterComponent implements OnInit {
   };
 
   newAccess: any = {
+    hakAksesId:'',
     userId: '',
     groupId: '',
-    createdBy: ''
+    createdBy: '',
+    isActive:'Y',
   }
+
+
+  hakAksess:any;
+
+  name:string='';
 
   dataUser: any;
   wrongConfirmPassword: boolean = false;
@@ -77,7 +84,7 @@ export class DatamasterComponent implements OnInit {
       res.data.forEach((row: any) => {
         this.groupsService.getGroupByUserId(row.userId).subscribe((result) => {
           row.groupName = result.data;
-          console.log(this.row.groupName, 'fwafaw')
+          console.log(this.row.groupName)
         });
       });
       this.users = res.data;
@@ -89,6 +96,11 @@ export class DatamasterComponent implements OnInit {
         console.log(this.dataUser)
       }
     )
+
+    this.hakAkses.getAccess().subscribe((reslt)=>{
+      this.newAccess=reslt.data;
+      console.log(this.newAccess,'new access')
+    })
   }
 
   dateToString() {
@@ -108,11 +120,18 @@ export class DatamasterComponent implements OnInit {
     this.submitted = false;
   }
 
-  showBasicDialog2() {
+  showBasicDialog2(row:any) {
     this.displayBasic = false;
     this.displayBasic2 = true;
     this.submitted = false;
     this.actions = 'add';
+    this.row = { ...row.createdBy };
+    this.usersService.getByUserId(Number(localStorage.getItem('token'))).subscribe(
+     res => {
+      this.name = res.data.name;
+       this.row.createdBy= res.data.name;
+      }
+    )
   }
 
   showMaximizableDialog(act: any) {
@@ -177,6 +196,18 @@ export class DatamasterComponent implements OnInit {
     this.displayBasic2 = true;
     this.actions = 'edit';
     this.row = { ...row };
+    this.usersService.getByUserId(Number(localStorage.getItem('token'))).subscribe(
+      res => {
+        this.name = res.data.name;
+      }
+    )
+  }
+
+  getUserIdxGroupId(id:any, groupId:any){
+  this.hakAkses.getAccsesByUserIdxGroupId(id, groupId).subscribe((res)=>{
+    this.userIdxGroup= res.data;
+    console.log(this.userIdxGroup);
+  })
   }
 
   deleteUser(id: any) {
@@ -185,6 +216,13 @@ export class DatamasterComponent implements OnInit {
       this.users = res.data;
     });
     window.location.reload();
+  }
+
+  deleteHakAkses(id:any){
+    this.hakAkses.deleteAccess(id).subscribe((res) => {
+      console.log(res.data);
+      this.hakAksess = res.data;
+    });
   }
 
   input(): void {
@@ -240,6 +278,35 @@ export class DatamasterComponent implements OnInit {
           if (data.status) {
             this.reset;
             this.ngOnInit();
+            //test
+            this.newAccess.userId = data.data.userId;
+            this.newAccess.createdBy = data.data.createdBy;
+            if((this.selectedGroup[0]=='Admin') && (this.selectedGroup[1]=='User')){
+            for(let i=2; i<=3; i++){
+            this.newAccess.groupId = i;
+            this.hakAkses.putAccess(this.newAccess).subscribe(
+            res => {
+            console.log(res);
+            }
+            )  
+            }
+            }
+            else if((this.selectedGroup[0]=='Admin')&&(this.selectedGroup[1]!='')){
+            this.newAccess.groupId = 2;
+            this.hakAkses.putAccess(this.newAccess.hakAksesId).subscribe(
+            res => {
+            console.log(res);
+            }
+            )
+            }else{
+            this.newAccess.groupId = 3;
+            this.hakAkses.putAccess(this.newAccess).subscribe(
+            res => {
+            console.log(res);
+            }
+            )
+            }
+            //test
             this.displayBasic2 = false;
           }
         },
