@@ -145,13 +145,9 @@ export class JobComponent implements OnInit {
     handleValidation(){
       let result: boolean=false;
 
-      if(this.row.jobId!=='' && this.row.jobTitle!==''){
-        if( this.row.minSalary<0 || this.row.maxSalary<0){
-          result=false;
-        }else{
-          result=true;
-        }
-      }
+      if(this.row.jobId!=='' && this.row.jobTitle!=='' && this.row.minSalary>0 && this.row.maxSalary>this.row.minSalary ){
+        result=true
+      } 
       return result;
     }
     
@@ -203,7 +199,7 @@ export class JobComponent implements OnInit {
         reject: (type: any) => {
             switch(type) {
                 case ConfirmEventType.REJECT:
-                    this.messageService.add({severity:'warn', summary:'Cancelled', detail:'You have cancelled'});
+                    this.messageService.add({severity:'info', summary:'Cancelled', detail:'Your data is safe'});
                 break;
                 case ConfirmEventType.CANCEL:
                     this.messageService.add({severity:'info', summary:'Cancelled', detail:'Your data is safe'});

@@ -38,7 +38,12 @@ deleteCountry(id:string):Observable<any>{
 }
 
 getCountryByName(search:string): Observable<any>{
-  return this.http.get<any>(API_URL+'country/findByCountryName?countryName='+search+'&page=0&size=100',{responseType: 'json'}).pipe(map((data:any)=>(data.data||data)));
+  return this.http.get<any>(API_URL+'country/findCountryByName?countryName='+search,{responseType: 'json'}).pipe(map((data:any)=>(data.data||data)));
+
+}
+
+getCountryByRegion(search:string): Observable<any>{
+  return this.http.get<any>(API_URL+'country/findRegionByName?regionName='+search,{responseType: 'json'}).pipe(map((data:any)=>(data.data||data)));
 
 }
 

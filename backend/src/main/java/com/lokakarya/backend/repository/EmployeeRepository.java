@@ -15,23 +15,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
         Page<Employee> findByFirstNameContainingIgnoreCase(String firstName, Pageable paging);
 
-        // Search by all categories
-        @Query(value = "SELECT * FROM EMPLOYEES e LEFT JOIN DEPARTMENTS d ON d.DEPARTMENT_ID" +
-                        " = e.DEPARTMENT_ID LEFT" +
-                        " JOIN JOBS" +
-                        " j ON j.JOB_ID=" +
-                        " e.JOB_ID WHERE LOWER(e.FIRST_NAME)" +
-                        " LIKE LOWER(CONCAT(CONCAT('%',?1),'%')) OR (e.LAST_NAME)" +
-                        " LIKE LOWER(CONCAT(CONCAT('%',?2),'%')) OR (e.EMAIL)" +
-                        " LIKE LOWER(CONCAT(CONCAT('%',?3),'%'))  OR (j.JOB_TITLE)" +
-                        " LIKE LOWER(CONCAT(CONCAT('%',?4),'%')) OR (d.DEPARTMENT_NAME)" +
-                        " LIKE LOWER(CONCAT(CONCAT('%',?5),'%'))", nativeQuery = true)
-        List<Employee> getAllEmployees(String firstName, String lastName, String email, String jobTitle,
-                        String departmentName);
-
-        default List<Employee> getAllEmployee(String all) {
-                return getAllEmployees(all, all, all, all, all);
-        }
         // Search by Full Name
         List<Employee> findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(String firstName,
                         String lastName);
