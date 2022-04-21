@@ -34,6 +34,7 @@ export class DatamasterComponent implements OnInit {
   confirmNewPass: string = '';
   valuepass4: string = '';
   today:any = new Date();
+  checkBox:boolean=false;
 
   users: any;
   first = 0;
@@ -41,7 +42,6 @@ export class DatamasterComponent implements OnInit {
 
   showSearch: boolean = false;
   selectedGroup: any[]=[];
-  selectedGroup1: any[]=[];
   // selectedCategories: any[] = ['Admin', 'User'];
   // categories: any[] = [{ name: 'Admin', key: 'A' }, { name: 'User', key: 'M' }];
   checked: boolean = false;
@@ -60,16 +60,25 @@ export class DatamasterComponent implements OnInit {
   };
 
   newAccess: any = {
+    hakAksesId:'',
     userId: '',
     groupId: '',
-    createdBy: ''
+    createdBy: '',
+    isActive:'Y',
   }
+
+  hakAksess:any;
+
+  name:string='';
 
   dataUser: any;
   wrongConfirmPassword: boolean = false;
   wrongPassword: boolean = false;
 
-  constructor(private messageService: MessageService, private usersService: UserService, private groupsService: GroupService, private hakAkses:HakAksesService) { }
+  constructor(private messageService: MessageService, 
+    private usersService: UserService, 
+    private groupsService: GroupService, 
+    private hakAkses:HakAksesService) { }
 
   ngOnInit(): void {
     this.usersService.getUser().subscribe((res) => {
@@ -77,7 +86,7 @@ export class DatamasterComponent implements OnInit {
       res.data.forEach((row: any) => {
         this.groupsService.getGroupByUserId(row.userId).subscribe((result) => {
           row.groupName = result.data;
-          console.log(this.row.groupName, 'fwafaw')
+          console.log(this.row.groupName)
         });
       });
       this.users = res.data;
@@ -108,11 +117,18 @@ export class DatamasterComponent implements OnInit {
     this.submitted = false;
   }
 
-  showBasicDialog2() {
+  showBasicDialog2(row:any) {
     this.displayBasic = false;
     this.displayBasic2 = true;
     this.submitted = false;
     this.actions = 'add';
+    this.row = { ...row.createdBy };
+    this.usersService.getByUserId(Number(localStorage.getItem('token'))).subscribe(
+     res => {
+      this.name = res.data.name;
+       this.row.createdBy= res.data.name;
+      }
+    )
   }
 
   showMaximizableDialog(act: any) {
@@ -177,6 +193,11 @@ export class DatamasterComponent implements OnInit {
     this.displayBasic2 = true;
     this.actions = 'edit';
     this.row = { ...row };
+    this.usersService.getByUserId(Number(localStorage.getItem('token'))).subscribe(
+      res => {
+        this.name = res.data.name;
+      }
+    )
   }
 
   deleteUser(id: any) {
@@ -185,6 +206,13 @@ export class DatamasterComponent implements OnInit {
       this.users = res.data;
     });
     window.location.reload();
+  }
+
+  deleteHakAkses(id:any){
+    this.hakAkses.deleteAccess(id).subscribe((res) => {
+      console.log(res.data);
+      this.hakAksess = res.data;
+    });
   }
 
   input(): void {
@@ -216,7 +244,7 @@ export class DatamasterComponent implements OnInit {
             console.log(res);
             }
             )
-            }else if((this.selectedGroup[0]=='User')&&(this.selectedGroup[1]!='')){
+            }else{
             this.newAccess.groupId = 3;
             this.hakAkses.postAccess(this.newAccess).subscribe(
             res => {
@@ -240,6 +268,38 @@ export class DatamasterComponent implements OnInit {
           if (data.status) {
             this.reset;
             this.ngOnInit();
+            //test
+            this.newAccess.userId = data.data.userId;
+            this.newAccess.createdBy = data.data.createdBy;
+            if((this.selectedGroup[0]=='Admin') && (this.selectedGroup[1]=='User')){
+            for(let i=2; i<=3; i++){
+            this.newAccess.groupId = i;
+            this.newAccess.isActive='N';
+            this.hakAkses.putAccess(this.newAccess).subscribe(
+            res => {
+            console.log(res);
+            }
+            )  
+            }
+            }
+            else if((this.selectedGroup[0]=='Admin')&&(this.selectedGroup[1]!='')){
+            // this.newAccess.groupId = 2;
+            this.newAccess.isActive='N';
+            this.hakAkses.putAccess(this.newAccess.hakAksesId).subscribe(
+            res => {
+            console.log(res);
+            }
+            )
+            }else{
+            this.newAccess.isActive='N';
+            this.newAccess.groupId = 3;
+            this.hakAkses.putAccess(this.newAccess).subscribe(
+            res => {
+            console.log(res);
+            }
+            )
+            }
+            //test
             this.displayBasic2 = false;
           }
         },
