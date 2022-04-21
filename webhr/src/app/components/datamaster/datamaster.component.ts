@@ -34,7 +34,7 @@ export class DatamasterComponent implements OnInit {
   confirmNewPass: string = '';
   valuepass4: string = '';
   today: any = new Date();
-
+  userIdxGroup:any;
   users: any;
   first = 0;
   rows = 10;
@@ -67,6 +67,7 @@ export class DatamasterComponent implements OnInit {
     isActive:'Y',
   }
 
+
   hakAksess:any;
 
   name:string='';
@@ -95,6 +96,11 @@ export class DatamasterComponent implements OnInit {
         console.log(this.dataUser)
       }
     )
+
+    this.hakAkses.getAccess().subscribe((reslt)=>{
+      this.newAccess=reslt.data;
+      console.log(this.newAccess,'new access')
+    })
   }
 
   dateToString() {
@@ -197,6 +203,13 @@ export class DatamasterComponent implements OnInit {
     )
   }
 
+  getUserIdxGroupId(id:any, groupId:any){
+  this.hakAkses.getAccsesByUserIdxGroupId(id, groupId).subscribe((res)=>{
+    this.userIdxGroup= res.data;
+    console.log(this.userIdxGroup);
+  })
+  }
+
   deleteUser(id: any) {
     this.usersService.deleteUser(id).subscribe((res) => {
       console.log(res.data);
@@ -271,7 +284,6 @@ export class DatamasterComponent implements OnInit {
             if((this.selectedGroup[0]=='Admin') && (this.selectedGroup[1]=='User')){
             for(let i=2; i<=3; i++){
             this.newAccess.groupId = i;
-            this.newAccess.isActive='N';
             this.hakAkses.putAccess(this.newAccess).subscribe(
             res => {
             console.log(res);
@@ -280,15 +292,13 @@ export class DatamasterComponent implements OnInit {
             }
             }
             else if((this.selectedGroup[0]=='Admin')&&(this.selectedGroup[1]!='')){
-            // this.newAccess.groupId = 2;
-            this.newAccess.isActive='N';
+            this.newAccess.groupId = 2;
             this.hakAkses.putAccess(this.newAccess.hakAksesId).subscribe(
             res => {
             console.log(res);
             }
             )
             }else{
-            this.newAccess.isActive='N';
             this.newAccess.groupId = 3;
             this.hakAkses.putAccess(this.newAccess).subscribe(
             res => {
