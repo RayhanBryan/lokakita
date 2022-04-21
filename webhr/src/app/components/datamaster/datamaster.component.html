@@ -35,7 +35,7 @@
 
 
 <p-dialog [header]="actions == 'add' ? 'Input User' : 'Edit User'" [(visible)]="displayBasic2"
-  [style]="{width: '50vw'}">
+  [style]="{width: '50vw'}" (onHide)="submitEdit" (onHide)="submitAdd">
   <div class="grid p-fluid">
     <div class="col-12 md:col-6">
       <label for="username">Username</label>
@@ -100,7 +100,10 @@
     </div>
   </div>
   <ng-template pTemplate="footer">
-    <p-button icon="pi pi-check" (click)="input()"
+    <p-button icon="pi pi-check" *ngIf="submitAdd" (onClick)="input()"
+      label="Submit" styleClass="p-button-text">
+    </p-button>
+    <p-button icon="pi pi-check" *ngIf="submitEdit" (onClick)="edit()"
       label="Submit" styleClass="p-button-text">
     </p-button>
     <!-- (onClick)="handleSaveDepartment($event)" -->
@@ -123,7 +126,7 @@
       <i class="pi pi-search"></i>
       <input type="text" pInputText placeholder="Search" [(ngModel)]="nama" (input)="onChanged()" />
     </span>
-    <p-button (click)="showBasicDialog2(users)" (onClick)="handleReset($event)" icon="pi pi-user pi-plus-circle"
+    <p-button (onClick)="submitAdd=true" (click)="showBasicDialog2(users)" (onClick)="handleReset($event)" icon="pi pi-user pi-plus-circle"
       styleClass="p-button-success mt-2 ml-3" label="Add" [style]="{'float': 'right'}">
     </p-button>
     <p-button (click)="showBasicDialog()" icon="pi pi-sync" label="Change Password"
@@ -170,7 +173,7 @@
         <td>
           <div class="grid p-fluid">
             <div class="col-12 md:col-6">
-              <p-button icon="pi pi-pencil" (onClick)="openEdit(users)"></p-button>
+              <p-button icon="pi pi-pencil" (onClick)="submitEdit=true" (onClick)="openEdit(users)"></p-button>
             </div>
             <div class="col-12 md:col-6">
               <p-button icon="pi pi-trash" styleClass="p-button-danger" (onClick)="deleteUser(users.userId)"></p-button>
