@@ -42,3 +42,8 @@ select * from PERMISSIONS;
 SELECT * FROM EMPLOYEES e 
 LEFT JOIN JOBS j ON e.JOB_ID = j.JOB_ID
 WHERE LOWER(j.JOB_TITLE) LIKE LOWER(concat(concat('%','PR'),'%'))
+
+
+delete from GROUP_MENU where GROUP_ID not in(4,6)
+
+delete from groups where GROUP_ID < 4

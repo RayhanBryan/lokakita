@@ -31,4 +31,13 @@ public interface MenuRepository extends JpaRepository<Menu,Long>{
     " where u.USER_ID = :pUserId and ha.IS_ACTIVE='Y' and gm.IS_ACTIVE='Y'" +
     " ORDER BY m.MENU_ID ASC", nativeQuery = true)
     List<Menu> findMenuByUserIdAndActive (@Param("pUserId") Long userId);
+
+    @Query(value = "SELECT *"+
+    " FROM MENUS m" +
+    " LEFT JOIN GROUP_MENU gm ON m.MENU_ID = gm.MENU_ID"+
+    " LEFT JOIN GROUPS g ON g.GROUP_ID = gm.GROUP_ID"+
+    " WHERE g.GROUP_ID = GROUP_ID AND gm.IS_ACTIVE='Y'"+
+    " ORDER BY m.MENU_ID ASC"
+    , nativeQuery = true)
+    List<Menu> findMenuByGroupId(@Param("pGroupId")Long groupId);
 }
