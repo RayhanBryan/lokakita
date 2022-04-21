@@ -1,6 +1,5 @@
 package com.lokakarya.backend.wrapper;
 
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -22,6 +21,5 @@ public class EmployeeWrapper {
     private Long departmentId;
     private String jobTitle;
     private String departmentName;
-    private String managerFirstName;
-    private String managerLastName;
+    private String managerName;
 }
