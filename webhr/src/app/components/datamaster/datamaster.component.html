@@ -86,25 +86,21 @@
     </div> -->
     <div class="col-12 md:col-6">
       <label for="phonenum">Create By</label>
-      <input id="phonenum" type="text" pInputText [(ngModel)]="row.createdBy" required autofocus
+      <input id="createdBy" Type="text" pInputText [(ngModel)]="row.createdBy" required autofocus
         placeholder="Creator Name" [disabled]="true" />
       <small class="p-invalid" style="color: red" *ngIf="submitted&&!row.createdBy">Creator Required
       </small>
     </div>
     <div class="col-12 md:col-12">
       <label for="group">Group</label>
-      <div class="field-checkbox">
-        <p-checkbox name="group1" value="Admin" [(ngModel)]="selectedGroup" inputId="2"></p-checkbox>
-        <label for="admin">Admin</label>
-      </div>
-      <div class="field-checkbox">
-        <p-checkbox name="group1" value="User" [(ngModel)]="selectedGroup" inputId="3"></p-checkbox>
-        <label for="user">User</label>
+      <div class="field-checkbox" *ngFor="let check of groups">
+        <p-checkbox name="group1"  value="{{check.groupId}}" [(ngModel)]="selectedGroup"></p-checkbox>
+        <label for="{{check.groupName}}">{{check.groupName}}</label>
       </div>
     </div>
   </div>
   <ng-template pTemplate="footer">
-    <p-button icon="pi pi-check" (onClick)="dateToString()" (onClick)="input()" (onClick)="handleReset($event)"
+    <p-button icon="pi pi-check" (click)="input()"
       label="Submit" styleClass="p-button-text">
     </p-button>
     <!-- (onClick)="handleSaveDepartment($event)" -->

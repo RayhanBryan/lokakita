@@ -41,7 +41,7 @@ export class HakAksesService {
       responseType: 'json',
     })
   }
-
+  
   getAccsesByUserIdxGroupId(id:any, group:any): Observable<any>{
     return this.http.get<any>(url + `access/findByUserIdAndGroupId?userId=${id}&groupId=${group}`, {
         responseType: 'json',
@@ -52,5 +52,11 @@ export class HakAksesService {
     return this.http.get<any>(url + `access/delete?id=${id}`, {
       responseType: 'json',
     });
+  }
+
+  putAccessIsActive(id:any, group:any, isActive:string): Observable<any> {
+    return this.http.put<any>(url + `access/put/putByUserIdAndGroupId?userId=${id}&groupId=${group}&isActive=${isActive}`, {
+      responseType: 'json',
+    })
   }
 }
