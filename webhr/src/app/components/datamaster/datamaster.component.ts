@@ -41,10 +41,11 @@ export class DatamasterComponent implements OnInit {
 
   showSearch: boolean = false;
   selectedGroup: any[] = [];
-  selectedGroup1: any[] = [];
   // selectedCategories: any[] = ['Admin', 'User'];
   // categories: any[] = [{ name: 'Admin', key: 'A' }, { name: 'User', key: 'M' }];
   checked: boolean = false;
+
+  groups:any;
 
   row: any = {
     userId: 0,
@@ -64,8 +65,10 @@ export class DatamasterComponent implements OnInit {
     userId: '',
     groupId: '',
     createdBy: '',
-    isActive:'Y',
+    isActive:'',
   }
+
+  groupList: any;
 
 
   hakAksess:any;
@@ -84,19 +87,25 @@ export class DatamasterComponent implements OnInit {
       res.data.forEach((row: any) => {
         this.groupsService.getGroupByUserId(row.userId).subscribe((result) => {
           row.groupName = result.data;
-          console.log(this.row.groupName)
+          // console.log(this.row.groupName,'getgroupname')
         });
       });
       this.users = res.data;
       console.log(res.data, 'tes');
+      console.log(this.selectedGroup,'ini selected group')
     });
     this.usersService.getByUserId(Number(localStorage.getItem('token'))).subscribe(
       res => {
         this.dataUser = res.data;
-        console.log(this.dataUser)
+        console.log(this.dataUser,'getbyuserid')
       }
     )
 
+    this.groupsService.getGroup().subscribe((res)=>{
+      this.groups=res.data;
+      console.log(this.groups,'groups')
+    })
+      
     this.hakAkses.getAccess().subscribe((reslt)=>{
       this.newAccess=reslt.data;
       console.log(this.newAccess,'new access')
@@ -225,40 +234,41 @@ export class DatamasterComponent implements OnInit {
     });
   }
 
+  submit(): void{
+    if(this.row.userId == 0){
+      this.row.userId = null;
+      this.usersService.postUser(this.row).subscribe({
+        next:(data)=>{
+          if(data.status){
+          console.log(data,'aw');
+          }
+        },
+         error: (err) => {
+          console.log('error cuy');
+         }
+      });
+    }
+  }
+
+
+
   input(): void {
     if (this.row.userId == 0) {
       this.row.userId = null;
       this.usersService.postUser(this.row).subscribe({
         next: (data) => {
-          console.log(data);
           if (data.status) {
             this.reset;
             this.ngOnInit();
             //test
             this.newAccess.userId = data.data.userId;
             this.newAccess.createdBy = data.data.createdBy;
-            if ((this.selectedGroup[0] == 'Admin') && (this.selectedGroup[1] == 'User')) {
-              for (let i = 2; i <= 3; i++) {
-                this.newAccess.groupId = i;
-                this.hakAkses.postAccess(this.newAccess).subscribe(
-                  res => {
-                    console.log(res);
-                  }
-                )
-              }
-            }
-            else if ((this.selectedGroup[0] == 'Admin') && (this.selectedGroup[1] != '')) {
-              this.newAccess.groupId = 2;
+             for (let i in this.selectedGroup) {
+              this.newAccess.groupId = this.selectedGroup[i];
+              this.newAccess.isActive = 'Y';
               this.hakAkses.postAccess(this.newAccess).subscribe(
-                res => {
-                  console.log(res);
-                }
-              )
-            } else if ((this.selectedGroup[0] == 'User') && (this.selectedGroup[1] != '')) {
-              this.newAccess.groupId = 3;
-              this.hakAkses.postAccess(this.newAccess).subscribe(
-                res => {
-                  console.log(res);
+              res => {
+                console.log(res, ' ini hasil liopp');
                 }
               )
             }
@@ -279,33 +289,33 @@ export class DatamasterComponent implements OnInit {
             this.reset;
             this.ngOnInit();
             //test
-            this.newAccess.userId = data.data.userId;
-            this.newAccess.createdBy = data.data.createdBy;
-            if((this.selectedGroup[0]=='Admin') && (this.selectedGroup[1]=='User')){
-            for(let i=2; i<=3; i++){
-            this.newAccess.groupId = i;
-            this.hakAkses.putAccess(this.newAccess).subscribe(
-            res => {
-            console.log(res);
-            }
-            )  
-            }
-            }
-            else if((this.selectedGroup[0]=='Admin')&&(this.selectedGroup[1]!='')){
-            this.newAccess.groupId = 2;
-            this.hakAkses.putAccess(this.newAccess.hakAksesId).subscribe(
-            res => {
-            console.log(res);
-            }
-            )
-            }else{
-            this.newAccess.groupId = 3;
-            this.hakAkses.putAccess(this.newAccess).subscribe(
-            res => {
-            console.log(res);
-            }
-            )
-            }
+            // this.newAccess.userId = data.data.userId;
+            // this.newAccess.createdBy = data.data.createdBy;
+            // if((this.selectedGroup[0]=='Admin') && (this.selectedGroup[1]=='User')){
+            // for(let i=2; i<=3; i++){
+            // this.newAccess.groupId = i;
+            // this.hakAkses.putAccess(this.newAccess).subscribe(
+            // res => {
+            // console.log(res);
+            // }
+            // )  
+            // }
+            // }
+            // else if((this.selectedGroup[0]=='Admin')&&(this.selectedGroup[1]!='')){
+            // this.newAccess.groupId = 2;
+            // this.hakAkses.putAccess(this.newAccess.hakAksesId).subscribe(
+            // res => {
+            // console.log(res);
+            // }
+            // )
+            // }else{
+            // this.newAccess.groupId = 3;
+            // this.hakAkses.putAccess(this.newAccess).subscribe(
+            // res => {
+            // console.log(res);
+            // }
+            // )
+            // }
             //test
             this.displayBasic2 = false;
           }
