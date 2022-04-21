@@ -6,12 +6,15 @@
         <button pButton pRipple type="button" icon="pi pi-search" label="Search" class="mt-2 ml-3" [style]="{'float': 'right'}" (click)="showSearchCall()"></button>
         <span *ngIf="showSearch" class="p-input-icon-left mt-2 ml-3" [style]="{'float': 'right'}">
             <i class="pi pi-search"></i>
-            <input type="text" pInputText placeholder="Search" [(ngModel)]="keyword" (input)="searchCountryName(keyword)" />
+            <input type="text" pInputText placeholder="Search" [(ngModel)]="keyword" (input)="search()" />
+            <p-dropdown appendTo="body" [options]="searchOptions" [(ngModel)]="searchOption" optionLabel="label"
+            optionValue="value" placeholder="Search by"></p-dropdown>
+      
         </span>
         <p-button (onClick)="showMaximizableDialog(1)" icon="pi pi-plus-circle" label="Input" styleClass="p-button-success mt-2 ml-3" [style]="{'float': 'right'}" (onClick)="showForm()"></p-button>
     </div>
     <p-table [value]="countries" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true" [(first)]="first" responsiveLayout="scroll"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10,25,50]">
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10,25,50]" [scrollable]="true" scrollHeight="600px">
     <ng-template pTemplate="header">
         <tr>
             <th pSortableColumn="countryId">Country ID <p-sortIcon field="locationId"></p-sortIcon></th>
@@ -41,9 +44,9 @@
       <div class="col-6">
           <h5>Country ID</h5>
           <span class="p-float-label">
-              <input *ngIf="action==1" type="text" pInputText [(ngModel)]="row.countryId" (ngModelChange)="row.countryId= $event.toUpperCase()"> 
+              <input *ngIf="action==1" type="text" pInputText [(ngModel)]="row.countryId" (ngModelChange)="row.countryId= $event.toUpperCase()" (keypress)="keyPressAlphaNumeric($event)"> 
               <label for="float-input">{{row.countryId}}</label>
-              <h5 class="p invalid" style="color: red;" *ngIf="submitted && row.countryId.length!==2">Country ID is required and its max length is 2.</h5>
+              <h5 class="p invalid" style="color: red;" *ngIf="row.countryId.length!==2">Country ID is required and its max length is 2.</h5>
           </span>
       </div>
       <div class="col-6">
@@ -52,7 +55,7 @@
               <input type="text" pInputText [(ngModel)]="row.countryName" required autofocus> 
               <!-- <h5 *ngIf="submitted && !row.jobTitle">Required!!</h5> -->
               <!-- <label for="float-input">Country Name</label> -->
-              <h5 class="p invalid" style="color: red;" *ngIf="submitted && !row.countryName">Country Name is required.</h5>
+              <h5 class="p invalid" style="color: red;" *ngIf=" !row.countryName">Country Name is required.</h5>
           </span>
       </div>
       <div class="col-6">
@@ -66,12 +69,14 @@
               optionValue="regionId"
               name="Region">
           </p-dropdown>
+          <h5 class="p invalid" style="color: red;" *ngIf=" !row.regionId">Please select 1 region.</h5>
+
       </div>
   </div>
 
 
   <ng-template pTemplate="footer">
-    <button pButton pRipple type="button" (click)="handleSaveCountry($event)" icon="pi pi-check" label="Save" class="mt-2 ml-1"></button>
+    <button pButton pRipple type="button" (click)="handleSaveCountry($event)" icon="pi pi-check" label="Save" class="mt-2 ml-1" [disabled]="!handleValidation()"></button>
     <button pButton pRipple type="button" (click)="handleResetCountry($event,'click')" icon="pi pi-spinner" label="Reset" class="mt-2 ml-1 p-button-danger"></button>
     <button pButton pRipple type="button" (click)="displayMaximizable=false" icon="pi pi-times" label="Cancel" class="mt-2 ml-1 p-button-danger"></button>
 </ng-template>
