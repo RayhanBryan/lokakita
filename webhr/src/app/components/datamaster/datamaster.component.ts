@@ -33,24 +33,15 @@ export class DatamasterComponent implements OnInit {
   newPass: string = '';
   confirmNewPass: string = '';
   valuepass4: string = '';
-<<<<<<< HEAD
-  today:any = new Date();
-  checkBox:boolean=false;
-=======
   today: any = new Date();
->>>>>>> c8eea23d660eb928be47db3ee421a16a76b20468
 
   users: any;
   first = 0;
   rows = 10;
 
   showSearch: boolean = false;
-<<<<<<< HEAD
-  selectedGroup: any[]=[];
-=======
   selectedGroup: any[] = [];
   selectedGroup1: any[] = [];
->>>>>>> c8eea23d660eb928be47db3ee421a16a76b20468
   // selectedCategories: any[] = ['Admin', 'User'];
   // categories: any[] = [{ name: 'Admin', key: 'A' }, { name: 'User', key: 'M' }];
   checked: boolean = false;
@@ -84,14 +75,7 @@ export class DatamasterComponent implements OnInit {
   wrongConfirmPassword: boolean = false;
   wrongPassword: boolean = false;
 
-<<<<<<< HEAD
-  constructor(private messageService: MessageService, 
-    private usersService: UserService, 
-    private groupsService: GroupService, 
-    private hakAkses:HakAksesService) { }
-=======
   constructor(private messageService: MessageService, private usersService: UserService, private groupsService: GroupService, private hakAkses: HakAksesService) { }
->>>>>>> c8eea23d660eb928be47db3ee421a16a76b20468
 
   ngOnInit(): void {
     this.usersService.getUser().subscribe((res) => {
