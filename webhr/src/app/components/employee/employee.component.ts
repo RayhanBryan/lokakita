@@ -83,9 +83,9 @@ export class EmployeeComponent implements OnInit {
     });
   }
 
-  searchOption: string = 'firstName';
+  searchOption: string = 'fullName';
   searchOptions = [
-    { label: 'First Name', value: 'firstName' },
+    { label: 'Employee Name', value: 'fullName' },
     { label: 'Email', value: 'email' },
     { label: 'Job', value: 'jobTitle' },
     { label: 'Manager Name', value: 'manager' },
@@ -96,7 +96,7 @@ export class EmployeeComponent implements OnInit {
       case 'email':
         this.findByEmail();
         break;
-      case 'firstName':
+      case 'fullName':
         this.findByEmployeeName();
         break;
       case 'jobTitle':
@@ -245,8 +245,30 @@ export class EmployeeComponent implements OnInit {
     });
   }
 
-  handleSaveDepartment(event: any) {
+  handleValidation() {
+    let err = 0;
+    if (this.row.firstName.length == 0 ||
+        this.row.lastName.length == 0 ||
+        this.row.email.length == 0 ||
+        this.row.phoneNumber.length == 0 ||
+        this.row.employeeName.length == 0 ||
+        this.row.jobId.length == 0 ||
+        this.row.managerId.length == 0 ||
+        this.row.departmentId.length == 0 ||
+        this.row.salary.length == 0 ||
+        this.row.hireDate == null) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  handleSaveEmployee(event: any) {
     this.submitted = true;
+    if (this.handleValidation()){
+      return;
+    }
     this.confirmationService.confirm({
       header: 'Confirmation',
       message: 'Are you sure that you want to perform this action?',
@@ -305,18 +327,6 @@ export class EmployeeComponent implements OnInit {
         });
       },
     });
-  }
-
-  handleValidation() {
-    let err = 0;
-    if (this.row.employeeName.length < 1) {
-      err++;
-    }
-    if (err == 0) {
-      return true;
-    } else {
-      return false;
-    }
   }
 
   handleReset(event: any,  param: string): void {

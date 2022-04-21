@@ -162,9 +162,11 @@
 
         <ng-template pTemplate="footer">
             <button pButton type="button" label="Save" icon="pi pi-check"
-                (click)="handleSaveDepartment($event)"></button>
-            <button pButton type="button" label="Reset  " icon="pi pi-times" class="p-button-danger ml-2"
-                (click)="handleReset($event,'click')"></button>
+                (click)="handleSaveEmployee($event)" [disabled]="handleValidation()"></button>
+                <button pButton pRipple type="button" (click)="handleReset($event, 'click')" icon="pi pi-spinner" label="Reset"
+                class="mt-2 ml-1 p-button-danger"></button>
+              <button pButton pRipple type="button" (click)="display=false" icon="pi pi-times" label="Cancel"
+                class="mt-2 ml-1 p-button-danger"></button>
         </ng-template>
     </p-dialog>
 
@@ -219,5 +221,5 @@
         </ng-template>
     </p-dialog>
 </div>
-<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
 <p-toast></p-toast>

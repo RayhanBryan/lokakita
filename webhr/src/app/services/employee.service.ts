@@ -23,7 +23,7 @@ export class EmployeeService {
   }
 
   getEmployeeName(name: string): Observable<any> {
-    return this.http.get<any>(this._baseUrl+`/employees/findByFirstName?firstName=${name}`, { responseType: 'json' }).pipe(map((data: any) => (data.data || data)));
+    return this.http.get<any>(this._baseUrl+`/employees/findByFullName?fullName=${name}`, { responseType: 'json' }).pipe(map((data: any) => (data.data || data)));
   }
 
   getEmployeebyEmail(email:string): Observable<any> {
