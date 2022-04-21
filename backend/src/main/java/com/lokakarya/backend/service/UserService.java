@@ -72,6 +72,14 @@ public class UserService {
         List<User> user = userRepository.findByUsernameContainingIgnoreCase(username);
         return toWrapperList(user);
     }
+    public UserWrapper getByEmail(String email){
+        if (email == null)
+            return null;
+        Optional<User> entity = userRepository.findByEmail(email);
+        if(!entity.isPresent())
+            return null;
+        return toWrapper(entity.get());
+    }
     // post & put
     public UserWrapper save(UserWrapper wrapper){
         User entity = toEntity(wrapper);
