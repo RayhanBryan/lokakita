@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 
 import com.lokakarya.backend.entity.Group;
 import com.lokakarya.backend.entity.GroupMenu;
+import com.lokakarya.backend.entity.Menu;
 import com.lokakarya.backend.exception.BusinessException;
 import com.lokakarya.backend.repository.GroupMenuRepository;
 import com.lokakarya.backend.repository.GroupRepository;
@@ -88,6 +89,35 @@ private GroupMenuWrapper toWrapper(GroupMenu groupMenu) {
         if(!group.isPresent())
             throw new BusinessException("Hak Akses not found: "+ id + ".");
         return toWrapperList(groupMenuRepository.findByGroup(group.get()));
+    }
+
+    public GroupMenuWrapper findByGroupIdAndMenuId(Long groupId, Long menuId){
+        if (groupId == null|| menuId == null)
+            throw new BusinessException("Id(s) cannot be null.");
+        Optional<Group> group = groupRepository.findById(groupId);
+        Optional<Menu> menu = menuRepository.findById(menuId);
+        if(!group.isPresent() || !menu.isPresent())
+            throw new BusinessException("Group or Menu not found");
+        Optional<GroupMenu> groupMenu = groupMenuRepository.findByGroupAndMenu(group.get(), menu.get());
+        if(!groupMenu.isPresent())
+            throw new BusinessException("Group menu not found.");
+        return toWrapper(groupMenu.get());
+    }
+
+    public GroupMenuWrapper changeIsActiveByGroupIdAndMenuId(Long groupId, Long menuId){
+        if (groupId == null|| menuId == null)
+            throw new BusinessException("Id(s) cannot be null.");
+        Optional<Group> group = groupRepository.findById(groupId);
+        Optional<Menu> menu = menuRepository.findById(menuId);
+        if(!group.isPresent() || !menu.isPresent())
+            throw new BusinessException("Group or Menu not found");
+        Optional<GroupMenu> groupMenu = groupMenuRepository.findByGroupAndMenu(group.get(), menu.get());
+        if(!groupMenu.isPresent())
+            throw new BusinessException("Group menu not found.");
+        if(groupMenu.get().getIsActive() == 'Y')
+            groupMenu.get().setIsActive('N');
+        else groupMenu.get().setIsActive('Y');
+        return toWrapper(groupMenu.get());
     }
 
     // post & update
