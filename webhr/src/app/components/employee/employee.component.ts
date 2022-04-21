@@ -83,8 +83,9 @@ export class EmployeeComponent implements OnInit {
     });
   }
 
-  searchOption: string = 'fullName';
+  searchOption: string = 'searchByAll';
   searchOptions = [
+    { label: 'Search', value: 'searchByAll' },
     { label: 'Employee Name', value: 'fullName' },
     { label: 'Email', value: 'email' },
     { label: 'Job', value: 'jobTitle' },
@@ -93,6 +94,9 @@ export class EmployeeComponent implements OnInit {
   ];
   search() {
     switch (this.searchOption) {
+      case 'searchByAll':
+        this.findByAll();
+        break;
       case 'email':
         this.findByEmail();
         break;
@@ -109,6 +113,20 @@ export class EmployeeComponent implements OnInit {
         this.findByDeptName();
         break;
     }
+  }
+
+  findByAll() {
+    this.employeeService.getEmployeeByAll(this.keyword).subscribe((res) => {
+      console.log(res);
+      this.employees = res;
+      if (res.length==0){
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'No result',
+          detail: 'The search key was not found in any record!',
+        });
+      }
+    });
   }
 
   findByEmail() {
@@ -246,16 +264,14 @@ export class EmployeeComponent implements OnInit {
   }
 
   handleValidation() {
-    let err = 0;
     if (this.row.firstName.length == 0 ||
         this.row.lastName.length == 0 ||
         this.row.email.length == 0 ||
-        this.row.phoneNumber.length == 0 ||
-        this.row.employeeName.length == 0 ||
+        this.row.phoneNumber == null ||
         this.row.jobId.length == 0 ||
-        this.row.managerId.length == 0 ||
-        this.row.departmentId.length == 0 ||
-        this.row.salary.length == 0 ||
+        this.row.managerId == null ||
+        this.row.departmentId == null ||
+        this.row.salary <= 0 ||
         this.row.hireDate == null) {
       return true;
     }
@@ -269,6 +285,7 @@ export class EmployeeComponent implements OnInit {
     if (this.handleValidation()){
       return;
     }
+
     this.confirmationService.confirm({
       header: 'Confirmation',
       message: 'Are you sure that you want to perform this action?',
@@ -331,7 +348,7 @@ export class EmployeeComponent implements OnInit {
 
   handleReset(event: any,  param: string): void {
     this.row = {
-      employeeId: (this.action == 'edit' && param == 'click') ? this.row.departmentId : 0,
+      employeeId: (this.action == 'edit' && param == 'click') ? this.row.employeeId : 0,
       firstName: '',
       lastName: '',
       fullName: '',
