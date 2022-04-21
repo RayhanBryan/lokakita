@@ -42,4 +42,12 @@ export class LocationService {
   searchLocationByCity(keyword:string){
     return this.http.get<any>(this.locationUrl+`getByCity?city=${keyword}`,httpOptions);
   }
+
+  searchLocationByCountryName(keyword:string){
+    return this.http.get<any>(this.locationUrl+`getByCountryName?countryName=${keyword}`,httpOptions);
+  }
+
+  searchLocationByStateProvince(keyword:string){
+    return this.http.get<any>(this.locationUrl+`getByStateProvince?stateProvince=${keyword}`,httpOptions);
+  }
 }

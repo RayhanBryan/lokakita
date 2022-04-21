@@ -1,67 +1,90 @@
 <div class="grid mt-2">
-    <div class="col-12 md:col-6">
-        <p-fieldset legend="Username" [toggleable]="true">
-            <p>{{ username }}</p>
-        </p-fieldset>
-    </div>
-    <div class="col-12 md:col-6">
-        <p-fieldset legend="Password" [toggleable]="true">
-            <div>
-                <p style="width: 100%; display: inline-block;"> {{ password }} <a (click)="displayEdit=true; inputPassword=true; headerDialog='Password'" style="float: right; text-decoration: none; cursor: pointer;">Edit</a><i class="{{ iconPass }} mr-3 mt-1" style="display: inline-block; float: right;" (click)="showPassword()"></i> </p> 
-                
-            </div>
-        </p-fieldset>
-    </div>
-    <div class="col-12 md:col-6">
-        <p-fieldset legend="Name" [toggleable]="true">
-            <div>
-            <p>{{ name }}<a (click)="displayEdit=true; inputName=true; headerDialog='Name'" style="float: right; text-decoration: none; cursor: pointer;">Edit</a></p>
-        </div>
-        </p-fieldset>
-    </div>
-    <div class="col-12 md:col-6">
-        <p-fieldset legend="Email" [toggleable]="true">
-            <p>{{ email }}</p>
-        </p-fieldset>
-    </div>
-    <div class="col-12 md:col-6">
-        <p-fieldset legend="Phone" [toggleable]="true">
-            <div>
-            <p>{{ phone }}<a (click)="displayEdit=true; inputPhone=true; headerDialog='Phone'" style="float: right; text-decoration: none; cursor: pointer;">Edit</a></p>
-        </div>
-        </p-fieldset>
-    </div>
-    <div class="col-12 md:col-6">
-        <p-fieldset legend="Address" [toggleable]="true">
-            <div>
-            <p>{{ address }}<a (click)="displayEdit=true; inputAddress=true; headerDialog='Address'" style="float: right; text-decoration: none; cursor: pointer;">Edit</a></p>
-        </div>
-        </p-fieldset>
-    </div>
+  <div class="col-12 md:col-6">
+    <p-fieldset legend="Username" [toggleable]="true">
+      <p>{{ username }}</p>
+    </p-fieldset>
+  </div>
+  <div class="col-12 md:col-6">
+    <p-fieldset legend="Password" [toggleable]="true">
+      <div>
+        <p style="width: 100%; display: inline-block;"> {{ password }} <a
+            (click)="displayEdit=true; inputPassword=true; headerDialog='Password'"
+            style="float: right; text-decoration: none; cursor: pointer;">Edit</a><i class="{{ iconPass }} mr-3 mt-1"
+            style="display: inline-block; float: right;" (click)="showPassword()"></i> </p>
+
+      </div>
+    </p-fieldset>
+  </div>
+  <div class="col-12 md:col-6">
+    <p-fieldset legend="Name" [toggleable]="true">
+      <div>
+        <p>{{ name }}<a (click)="displayEdit=true; inputName=true; headerDialog='Name'"
+            style="float: right; text-decoration: none; cursor: pointer;">Edit</a></p>
+      </div>
+    </p-fieldset>
+  </div>
+  <div class="col-12 md:col-6">
+    <p-fieldset legend="Email" [toggleable]="true">
+      <p>{{ email }}</p>
+    </p-fieldset>
+  </div>
+  <div class="col-12 md:col-6">
+    <p-fieldset legend="Phone" [toggleable]="true">
+      <div>
+        <p>{{ phone }}<a (click)="displayEdit=true; inputPhone=true; headerDialog='Phone'"
+            style="float: right; text-decoration: none; cursor: pointer;">Edit</a></p>
+      </div>
+    </p-fieldset>
+  </div>
+  <div class="col-12 md:col-6">
+    <p-fieldset legend="Address" [toggleable]="true">
+      <div>
+        <p>{{ address }}<a (click)="displayEdit=true; inputAddress=true; headerDialog='Address'"
+            style="float: right; text-decoration: none; cursor: pointer;">Edit</a></p>
+      </div>
+    </p-fieldset>
+  </div>
+  <div class="col-12 md:col-6">
+    <p-fieldset legend="Group" [toggleable]="true">
+      <div>
+        <ul>
+          <li *ngFor="let item of groupUser" style="float: left; min-width: 100px;">
+            <p>{{ item.groupName }}</p>
+          </li>
+        </ul>
+      </div>
+    </p-fieldset>
+  </div>
 </div>
 
-<p-dialog (onHide)="falsingInput()" header="Change {{ headerDialog}}" [(visible)]="displayEdit" [breakpoints]="{'960px': '75vw'}" [style]="{width: '50vw'}"
-    [draggable]="false" [resizable]="false">
-    <span class="p-float-label" *ngIf="inputName">
-        <input id="float-input" type="text" pInputText [(ngModel)]="newName">
-        <label for="float-input">Name</label> 
-    </span>
-    <span class="p-float-label" *ngIf="inputPassword">
-        <input id="float-input" type="text" pInputText [(ngModel)]="newPassword"> 
-        <label for="float-input">Password</label>
-    </span>
-    <span class="p-float-label" *ngIf="inputPhone">
-        <input id="float-input" type="text" pInputText [(ngModel)]="newPhone"> 
-        <label for="float-input">Phone</label>
-    </span>
-    <span class="p-float-label" *ngIf="inputAddress">
-        <input id="float-input" type="text" pInputText [(ngModel)]="newAddress"> 
-        <label for="float-input">Address</label>
-    </span>
-        <ng-template pTemplate="footer">
-        <button pButton pRipple (click)="displayEdit=false" icon="pi pi-times" label="Cancel" class="p-button-danger"></button>
-        <button pButton pRipple (click)="postEdit()" icon="pi pi-check" label="Submit"></button>
-        </ng-template>
+<p-dialog (onHide)="falsingInput()" header="Change {{ headerDialog}}" [(visible)]="displayEdit"
+  [breakpoints]="{'960px': '75vw'}" [style]="{width: '50vw', height: '25vw'}" [draggable]="false" [resizable]="false">
+  <span class="p-float-label" *ngIf="inputName">
+    <input id="float-input" type="text" pInputText [(ngModel)]="newName">
+    <label for="float-input">Name</label>
+  </span>
+  <span class="p-float-label" *ngIf="inputPassword">
+    <p-password id="cnewpass" type="text" required autofocus placeholder="New Password"
+    [(ngModel)]="newPasswordInput" [toggleMask]="true" [style]="{width: '100%'}"></p-password>
+    <br>
+    <br>
+    <p-password id="cnewpass" type="text" required autofocus placeholder="Confirm New Password"
+    [(ngModel)]="confirmNewPass" [toggleMask]="true" [style]="{width: '100%'}"></p-password>
+    <small id="username-help" class="p-error block" *ngIf="wrongConfirmPassword">Please check again your new password</small>
+  </span>
+  <span class="p-float-label" *ngIf="inputPhone">
+    <input id="float-input" type="text" pInputText [(ngModel)]="newPhone">
+    <label for="float-input">Phone</label>
+  </span>
+  <span class="p-float-label" *ngIf="inputAddress">
+    <input id="float-input" type="text" pInputText [(ngModel)]="newAddress">
+    <label for="float-input">Address</label>
+  </span>
+  <ng-template pTemplate="footer">
+      <button pButton pRipple (click)="displayEdit=false" icon="pi pi-times" label="Cancel"
+      class="p-button-danger"></button>
+      <button pButton pRipple (click)="postEdit()" icon="pi pi-check" label="Submit"></button>
+  </ng-template>
 </p-dialog>
 
 <p-toast></p-toast>
