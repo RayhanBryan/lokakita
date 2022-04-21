@@ -1,57 +1,54 @@
 <div class="card px-5">
     <div class="mb-3">
-        <div class="mb-3">
-            <p-button type="button" icon="pi pi-chevron-left" (click)="prev()" [disabled]="isFirstPage()"
-                styleClass="p-button-text"></p-button>
-            <p-button type="button" icon="pi pi-refresh" (click)="reset()" styleClass="p-button-text"></p-button>
-            <p-button type="button" icon="pi pi-chevron-right" (click)="next()" [disabled]="isLastPage()"
-                styleClass="p-button-text"></p-button>
-            <button pButton pRipple type="button" icon="pi pi-search" label="Search" class="mt-2 ml-3"
-                [style]="{ float: 'right' }" (click)="showSearchCall()"></button>
-            <span *ngIf="showSearch" class="p-input-icon-left mt-2 ml-3" [style]="{ float: 'right' }">
-                <i class="pi pi-search"></i>
-                <input type="text" pInputText placeholder="Search" [(ngModel)]="keyword" (input)="search()">
-            <p-dropdown appendTo="body" [options]="searchOptions" [(ngModel)]="searchOption" optionLabel="label"
-                optionValue="value" placeholder="Search by"></p-dropdown>
-            </span>
-            <p-button (click)="showDialog('Add')" icon="pi pi-plus-circle" label="Add"
-                styleClass="p-button-success mt-2 ml-3" [style]="{ float: 'right' }"></p-button>
-        </div>
+        <p-button type="button" icon="pi pi-chevron-left" (click)="prev()" [disabled]="isFirstPage()"
+            styleClass="p-button-text"></p-button>
+        <p-button type="button" icon="pi pi-refresh" (click)="reset()" styleClass="p-button-text"></p-button>
+        <p-button type="button" icon="pi pi-chevron-right" (click)="next()" [disabled]="isLastPage()"
+            styleClass="p-button-text"></p-button>
+        <button pButton pRipple type="button" icon="pi pi-search" label="Search" class="mt-2 ml-3"
+            [style]="{ float: 'right' }" (click)="showSearchCall()"></button>
+        <span *ngIf="showSearch" class="p-input-icon-left mt-2 ml-3" [style]="{ float: 'right' }">
+            <i class="pi pi-search"></i>
+            <input type="text" pInputText placeholder="Search" [(ngModel)]="keyword" (input)="search()">
+        <p-dropdown appendTo="body" [options]="searchOptions" [(ngModel)]="searchOption" optionLabel="label"
+            optionValue="value" placeholder="Search by"></p-dropdown>
+        </span>
+        <p-button (click)="showDialog('Add')" icon="pi pi-plus-circle" label="Add"
+            styleClass="p-button-success mt-2 ml-3" [style]="{ float: 'right' }"></p-button>
     </div>
     <p-table [value]="employees" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true" [(first)]="first"
         responsiveLayout="scroll" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
         [rowsPerPageOptions]="[10, 25, 50]">
         <ng-template pTemplate="header">
             <tr>
-                <th pSortableColumn="employeeId" style="width: 10px">
+                <th pSortableColumn="employeeId" style="width: 7%;">
                     ID <p-sortIcon field="Id"></p-sortIcon>
                 </th>
-                <th pSortableColumn="employeeName" style="width: 40px">
+                <th pSortableColumn="employeeName" style="width: 11%;" id="employeeColumn">
                     Employee Name<p-sortIcon field="employeeName"></p-sortIcon>
                 </th>
-                <th pSortableColumn="email" style="width: 20px">
+                <th pSortableColumn="email" style="width: 10%" id="employeeColumn">
                     Email <p-sortIcon field="email"></p-sortIcon>
                 </th>
-                <th pSortableColumn="manager" style="width: 20px">
+                <th pSortableColumn="manager" style="width: 10%" id="employeeColumn">
                     Manager Name <p-sortIcon field="manager"></p-sortIcon>
                 </th>
-                <th pSortableColumn="phoneNumber" style="width: 30px">
+                <th pSortableColumn="phoneNumber" style="width: 11%" id="employeeColumn">
                     Phone Number <p-sortIcon field="phoneNumber"></p-sortIcon>
                 </th>
-                <th pSortableColumn="hireDate" style="width: 40px">
+                <th pSortableColumn="hireDate" style="width: 10%" id="employeeColumn">
                     Hire Date <p-sortIcon field="hireDate"></p-sortIcon>
                 </th>
-                <th pSortableColumn="jobId" style="width: 25px">
+                <th pSortableColumn="jobId" style="width: 10%" id="employeeColumn">
                     Job Title <p-sortIcon field="jobId"></p-sortIcon>
                 </th>
-                <th pSortableColumn="salary" style="width: 25px">
+                <th pSortableColumn="salary" style="width: 10%" id="employeeColumn">
                     Salary <p-sortIcon field="salary"></p-sortIcon>
                 </th>
-                <!-- <th pSortableColumn="managerId" style="width: 20px;">Manager Id <p-sortIcon field="managerId"></p-sortIcon></th> -->
-                <th pSortableColumn="departmentName" style="width: 25px">
+                <th pSortableColumn="departmentName" style="width: 10%" id="employeeColumn">
                     Department Name <p-sortIcon field="departmentId"></p-sortIcon>
                 </th>
-                <th style="width: 100px">Action</th>
+                <th style="width: 11%" id="employeeColumn">Action</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-employee>
@@ -59,21 +56,19 @@
                 <td>{{ employee.employeeId }}</td>
                 <td>{{ employee.firstName }} {{ employee.lastName }}</td>
                 <td>{{ employee.email }}</td>
-                <td>{{ employee.managerFirstName}} {{employee.managerLastName}} </td>
+                <td>{{ employee.managerName }} </td>
                 <td>{{ employee.phoneNumber }}</td>
                 <td>{{ employee.hireDate }}</td>
                 <td>
                     <p-button styleClass="p-button-link" title="Show Job History" (click)="showJobHistory(employee)">{{ employee.jobTitle }}</p-button>
                 </td>
-                <!-- <td>{{employee.managerId}}</td> -->
                 <td>
                     <p-button (click)="showBonus(employee)" icon="pi pi-external-link" label="Salary"></p-button>
                 </td>
-                <td>{{ employee.departmentName }}</td>
-                <td><div style="width: 100px;">
+                <td id="employeeColumn">{{ employee.departmentName }}</td>
+                <td><div id="employeeColumn">
                     <p-button icon="pi pi-pencil" (click)="openEdit(employee)"></p-button>
-                    <p-button icon="pi pi-trash" (click)="handleDelete(employee.employeeId)"
-                        styleClass="p-button-danger ml-2"></p-button></div>
+                    <p-button icon="pi pi-trash" (click)="handleDelete(employee.employeeId)" styleClass="p-button-danger ml-2"></p-button></div>
                 </td>
             </tr>
         </ng-template>
@@ -99,7 +94,7 @@
             </div>
             <div class="col-12 md:col-6">
                 <h5>Email</h5>
-                <input type="text" pInputText id="email" [(ngModel)]="row.email" required="autofocus" />
+                <input type="email" pInputText id="email" [(ngModel)]="row.email" required="autofocus" />
                 <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.email">
                     Email Required!
                 </h5>
@@ -115,7 +110,7 @@
             <div class="col-12 md:col-6">
                 <h5>Job Title</h5>
                 <p-dropdown appendTo="body" [options]="jobs" [(ngModel)]="row.jobId" optionLabel="jobTitle"
-                    placeholder="Job Title" optionValue="jobId">
+                    placeholder="Job Title" optionValue="jobId" [required]="true">
                 </p-dropdown>
                 <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.jobId">
                     Job Required!
@@ -123,8 +118,8 @@
             </div>
             <div class="col-12 md:col-6">
                 <h5>Manager Name</h5>
-                <p-dropdown appendTo="body" [options]="managers" [(ngModel)]="row.managerId"
-                    optionLabel="manager" placeholder="Manager Name" optionValue="managerId">
+                <p-dropdown appendTo="body" [options]="employees" [(ngModel)]="row.managerId"
+                    optionLabel="firstName"placeholder="Manager Name" optionValue="managerId" [required]="true">
                 </p-dropdown>
                 <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.managerId">
                     Manager Name Required!
@@ -133,7 +128,7 @@
             <div class="col-12 md:col-6">
                 <h5>Department Name</h5>
                 <p-dropdown appendTo="body" [options]="departments" [(ngModel)]="row.departmentId"
-                    optionLabel="departmentName" placeholder="Department Name" optionValue="departmentId">
+                    optionLabel="departmentName" placeholder="Department Name" optionValue="departmentId" [required]="true">
                 </p-dropdown>
                 <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.departmentId">
                     Department Required!
@@ -141,7 +136,7 @@
             </div>
             <div class="col-12 md:col-6">
                 <h5>Hire Date</h5>
-                <p-calendar [(ngModel)]="row.hireDate" [showIcon]="true" inputId="icon" class="p-calendar-sm" placeholder="Hire Date"></p-calendar>
+                <p-calendar [(ngModel)]="row.hireDate" [showIcon]="true" inputId="icon" class="p-calendar-sm" placeholder="Hire Date" [required]="true"></p-calendar>
                 <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.hireDate">
                     Hire Date Required!
                 </h5>
@@ -207,12 +202,13 @@
             <ng-template pTemplate="body" let-row1>
                 <tr>
                     <td>{{ row1.employeeId }}</td>
-                    <td>{{row1.startDate | date}}</td>
+                    <td>{{ row1.startDate | date}}</td>
                     <td>{{ row1.endDate | date}}</td>
                     <td>{{ row1.jobTitle }}</td>
                     <td>{{ row1.departmentName }}</td>
                 </tr>
             </ng-template>
+
             <ng-template pTemplate="emptymessage" let-row1>
                 <tr>
                     <td colspan="5">

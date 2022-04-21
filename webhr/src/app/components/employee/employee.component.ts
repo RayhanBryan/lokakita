@@ -45,9 +45,8 @@ export class EmployeeComponent implements OnInit {
     commissionPct: 0,
     managerId: 0,
     departmentId: 0,
-    managerFirstName: '',
-    managerLastName: '',
-    manager: '',
+    managerName:'',
+    // manager: '',
   };
 
   constructor(
@@ -78,14 +77,14 @@ export class EmployeeComponent implements OnInit {
         console.log(element);
         element.employeeName = element.firstName + ' ' +element.lastName;
       });
-      this.managers=this.removeDuplicates(this.employees);
-      console.log(this.employees);
+      // this.managers=this.removeDuplicates(this.employees);
+      // console.log(this.managers);
     });
   }
 
-  searchOption: string = 'searchByAll';
+  searchOption: string = 'fullName';
   searchOptions = [
-    { label: 'Search', value: 'searchByAll' },
+    // { label: 'Search', value: 'searchByAll' },
     { label: 'Employee Name', value: 'fullName' },
     { label: 'Email', value: 'email' },
     { label: 'Job', value: 'jobTitle' },
@@ -265,14 +264,14 @@ export class EmployeeComponent implements OnInit {
 
   handleValidation() {
     if (this.row.firstName.length == 0 ||
-        this.row.lastName.length == 0 ||
-        this.row.email.length == 0 ||
-        this.row.phoneNumber == null ||
-        this.row.jobId.length == 0 ||
-        this.row.managerId == null ||
-        this.row.departmentId == null ||
-        this.row.salary <= 0 ||
-        this.row.hireDate == null) {
+      this.row.lastName.length == 0 ||
+      this.row.email.length == 0 ||
+      this.row.phoneNumber == null ||
+      this.row.jobId.length == 0 ||
+      this.row.managerId == null ||
+      this.row.departmentId == 0 ||
+      this.row.salary <= 0 ||
+      this.row.hireDate == null) {
       return true;
     }
     else {
@@ -320,7 +319,7 @@ export class EmployeeComponent implements OnInit {
                 this.messageService.add({
                   severity: 'success',
                   summary: 'Input',
-                  detail: 'Data has been inserted',
+                  detail: 'Data has been updated',
                 });
                 this.getEmployee();
                 this.display = false;
