@@ -250,25 +250,6 @@ export class DatamasterComponent implements OnInit {
                 )
               }
             }
-<<<<<<< HEAD
-            )  
-            }
-            }
-            else if((this.selectedGroup[0]=='Admin')&&(this.selectedGroup[1]!='')){
-            this.newAccess.groupId = 2;
-            this.hakAkses.postAccess(this.newAccess).subscribe(
-            res => {
-            console.log(res);
-            }
-            )
-            }else{
-            this.newAccess.groupId = 3;
-            this.hakAkses.postAccess(this.newAccess).subscribe(
-            res => {
-            console.log(res);
-            }
-            )
-=======
             else if ((this.selectedGroup[0] == 'Admin') && (this.selectedGroup[1] != '')) {
               this.newAccess.groupId = 2;
               this.hakAkses.postAccess(this.newAccess).subscribe(
@@ -283,7 +264,6 @@ export class DatamasterComponent implements OnInit {
                   console.log(res);
                 }
               )
->>>>>>> c8eea23d660eb928be47db3ee421a16a76b20468
             }
             //test
             this.displayBasic2 = false;
