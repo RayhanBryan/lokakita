@@ -28,6 +28,8 @@ export class HakAksesService {
     });
   }
 
+
+
   postAccess(req: any): Observable<any> {
     return this.http.post<any>(url + `access/post`, req, {
       responseType: 'json',
@@ -38,6 +40,12 @@ export class HakAksesService {
     return this.http.put<any>(url + `access/put`, req, {
       responseType: 'json',
     })
+  }
+
+  getAccsesByUserIdxGroupId(id:any, group:any): Observable<any>{
+    return this.http.get<any>(url + `access/findByUserIdAndGroupId?userId=${id}&groupId=${group}`, {
+        responseType: 'json',
+      })
   }
 
   deleteAccess(id: number): Observable<any> {
