@@ -10,6 +10,7 @@ import com.lokakarya.backend.repository.EmployeeRepository;
 import com.lokakarya.backend.repository.JobHistoryRepository;
 import com.lokakarya.backend.repository.JobRepository;
 import com.lokakarya.backend.util.PaginationList;
+import com.lokakarya.backend.validator.EmailValidator;
 import com.lokakarya.backend.wrapper.EmployeeWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,7 +35,10 @@ public class EmployeeService {
     @Autowired
     JobHistoryRepository jobHistoryRepository;
 
+    private EmailValidator emailValidator;
+
     private Employee toEntity(EmployeeWrapper wrapper) {
+        emailValidator = new EmailValidator();
         Employee entity = new Employee();
         if (wrapper.getEmployeeId() != null) {
             entity = employeeRepository.getById(wrapper.getEmployeeId());
@@ -76,10 +80,10 @@ public class EmployeeService {
                 entityEmployees.getDepartment() != null ? entityEmployees.getDepartment().getDepartmentName() : null);
         wrapper.setManagerId(
                 entityEmployees.getManager() != null ? entityEmployees.getManager().getEmployeeId() : null);
-        wrapper.setManagerFirstName(
-                entityEmployees.getManager() != null ? entityEmployees.getManager().getFirstName() : null);
-        wrapper.setManagerLastName(
-                entityEmployees.getManager() != null ? entityEmployees.getManager().getLastName() : null);
+        wrapper.setManagerName(
+                entityEmployees.getManager() != null
+                        ? entityEmployees.getManager().getFirstName() + ' ' + entityEmployees.getManager().getLastName()
+                        : null);
         return wrapper;
     }
 
@@ -165,7 +169,10 @@ public class EmployeeService {
         Employee employee = new Employee();
         if (wrapper.getEmployeeId() == null) {
             if (wrapper.getLastName() == null) {
-                throw new BusinessException();
+                throw new BusinessException("Last Name can't be null");
+            }
+            if (wrapper.getSalary() < 0) {
+                throw new BusinessException("Salary can't be zero");
             }
             employee = employeeRepository.save(toEntity(wrapper));
         } else {
