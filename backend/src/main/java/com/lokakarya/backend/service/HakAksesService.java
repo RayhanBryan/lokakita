@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import com.lokakarya.backend.entity.Group;
 import com.lokakarya.backend.entity.HakAkses;
 import com.lokakarya.backend.entity.User;
 import com.lokakarya.backend.exception.BusinessException;
@@ -50,7 +51,9 @@ public class HakAksesService {
         HakAksesWrapper wrapper = new HakAksesWrapper();
         wrapper.setHakAksesId(hakAkses.getHakAksesId());
         wrapper.setUserId(hakAkses.getUser() != null ? hakAkses.getUser().getUserId() : null);
+        wrapper.setUser(hakAkses.getUser() != null ? hakAkses.getUser().getUsername() : null);
         wrapper.setGroupId(hakAkses.getGroup() != null ? hakAkses.getGroup().getGroupId() : null);
+        wrapper.setGroup(hakAkses.getGroup() != null ? hakAkses.getGroup().getGroupName() : null);
         wrapper.setProgramName(hakAkses.getProgramName());
         wrapper.setCreatedDate(hakAkses.getCreatedDate());
         wrapper.setCreatedBy(hakAkses.getCreatedBy());
@@ -88,6 +91,20 @@ public class HakAksesService {
             throw new BusinessException("Hak Akses not found: "+ id + ".");
         return toWrapperList(hakAksesRepository.findByUser(user.get()));
     }
+    public HakAksesWrapper findByUserIdAndGroupId(Long userId, Long groupId){
+        if( userId == null && groupId == null)
+            throw new BusinessException("Input cannot be null.");
+        Optional<User> user = userRepository.findById(userId);
+        if (!user.isPresent())
+            throw new BusinessException("User ID "+ userId +" not found.");
+        Optional<Group> group = groupRepository.findById(groupId);
+        if (!group.isPresent())
+            throw new BusinessException("Group ID "+ groupId +" not found.");  
+        Optional<HakAkses> hakAkses = hakAksesRepository.findByUserAndGroup(user.get(), group.get());
+        if(!hakAkses.isPresent())
+            throw new BusinessException("Hak Akses with User ID: "+ userId + " and Group ID "+ groupId + " not found.");
+        return toWrapper(hakAkses.get());
+    }
 
     // post & update
     public HakAksesWrapper save(HakAksesWrapper wrapper){
@@ -108,7 +125,7 @@ public class HakAksesService {
 	         throw new BusinessException("ID cannot be null.");
 		Optional<HakAkses> hakAkses = hakAksesRepository.findById(id);
 		if (!hakAkses.isPresent())
-			throw new BusinessException("User not found: " + id + '.');
+			throw new BusinessException("Hak Akses not found: " + id + '.');
 		hakAksesRepository.deleteById(id);
     }
 }

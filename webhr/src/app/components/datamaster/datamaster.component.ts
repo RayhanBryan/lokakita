@@ -33,15 +33,24 @@ export class DatamasterComponent implements OnInit {
   newPass: string = '';
   confirmNewPass: string = '';
   valuepass4: string = '';
+<<<<<<< HEAD
   today:any = new Date();
   checkBox:boolean=false;
+=======
+  today: any = new Date();
+>>>>>>> c8eea23d660eb928be47db3ee421a16a76b20468
 
   users: any;
   first = 0;
   rows = 10;
 
   showSearch: boolean = false;
+<<<<<<< HEAD
   selectedGroup: any[]=[];
+=======
+  selectedGroup: any[] = [];
+  selectedGroup1: any[] = [];
+>>>>>>> c8eea23d660eb928be47db3ee421a16a76b20468
   // selectedCategories: any[] = ['Admin', 'User'];
   // categories: any[] = [{ name: 'Admin', key: 'A' }, { name: 'User', key: 'M' }];
   checked: boolean = false;
@@ -75,10 +84,14 @@ export class DatamasterComponent implements OnInit {
   wrongConfirmPassword: boolean = false;
   wrongPassword: boolean = false;
 
+<<<<<<< HEAD
   constructor(private messageService: MessageService, 
     private usersService: UserService, 
     private groupsService: GroupService, 
     private hakAkses:HakAksesService) { }
+=======
+  constructor(private messageService: MessageService, private usersService: UserService, private groupsService: GroupService, private hakAkses: HakAksesService) { }
+>>>>>>> c8eea23d660eb928be47db3ee421a16a76b20468
 
   ngOnInit(): void {
     this.usersService.getUser().subscribe((res) => {
@@ -100,8 +113,8 @@ export class DatamasterComponent implements OnInit {
     )
   }
 
-  dateToString(){
-  this.today.dateToString
+  dateToString() {
+    this.today.dateToString
   }
 
   showSearchCall() {
@@ -227,13 +240,17 @@ export class DatamasterComponent implements OnInit {
             //test
             this.newAccess.userId = data.data.userId;
             this.newAccess.createdBy = data.data.createdBy;
-            if((this.selectedGroup[0]=='Admin') && (this.selectedGroup[1]=='User')){
-            for(let i=2; i<=3; i++){
-            this.newAccess.groupId = i;
-            this.hakAkses.postAccess(this.newAccess).subscribe(
-            res => {
-            console.log(res);
+            if ((this.selectedGroup[0] == 'Admin') && (this.selectedGroup[1] == 'User')) {
+              for (let i = 2; i <= 3; i++) {
+                this.newAccess.groupId = i;
+                this.hakAkses.postAccess(this.newAccess).subscribe(
+                  res => {
+                    console.log(res);
+                  }
+                )
+              }
             }
+<<<<<<< HEAD
             )  
             }
             }
@@ -251,6 +268,22 @@ export class DatamasterComponent implements OnInit {
             console.log(res);
             }
             )
+=======
+            else if ((this.selectedGroup[0] == 'Admin') && (this.selectedGroup[1] != '')) {
+              this.newAccess.groupId = 2;
+              this.hakAkses.postAccess(this.newAccess).subscribe(
+                res => {
+                  console.log(res);
+                }
+              )
+            } else if ((this.selectedGroup[0] == 'User') && (this.selectedGroup[1] != '')) {
+              this.newAccess.groupId = 3;
+              this.hakAkses.postAccess(this.newAccess).subscribe(
+                res => {
+                  console.log(res);
+                }
+              )
+>>>>>>> c8eea23d660eb928be47db3ee421a16a76b20468
             }
             //test
             this.displayBasic2 = false;
@@ -333,6 +366,6 @@ export class DatamasterComponent implements OnInit {
   };
 
   successUpdatePassword() {
-    this.messageService.add({ key: 'tc', severity: 'success', summary: 'Password Updated', detail: 'Password successfully updated' });
+    this.messageService.add({ severity: 'success', summary: 'Password Updated', detail: 'Password successfully updated' });
   }
 }

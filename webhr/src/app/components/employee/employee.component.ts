@@ -29,7 +29,7 @@ export class EmployeeComponent implements OnInit {
   action: string = '';
   id: number = 0;
   dataEmployee: any;
-  firstName: string = '';
+  keyword: string = '';
   displayForm: boolean = false;
 
   row: any = {
@@ -83,10 +83,101 @@ export class EmployeeComponent implements OnInit {
     });
   }
 
-  findByEmployeeName() {
-    this.employeeService.getEmployeeName(this.firstName).subscribe((res) => {
+  searchOption: string = 'fullName';
+  searchOptions = [
+    { label: 'Employee Name', value: 'fullName' },
+    { label: 'Email', value: 'email' },
+    { label: 'Job', value: 'jobTitle' },
+    { label: 'Manager Name', value: 'manager' },
+    { label: 'Department Name', value: 'departmentName' },
+  ];
+  search() {
+    switch (this.searchOption) {
+      case 'email':
+        this.findByEmail();
+        break;
+      case 'fullName':
+        this.findByEmployeeName();
+        break;
+      case 'jobTitle':
+        this.findByJob();
+        break;
+      case 'manager':
+        this.findByManagerName();
+        break;
+      case 'departmentName':
+        this.findByDeptName();
+        break;
+    }
+  }
+
+  findByEmail() {
+    this.employeeService.getEmployeebyEmail(this.keyword).subscribe((res) => {
       console.log(res);
       this.employees = res;
+      if (res.length==0){
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'No result',
+          detail: 'The search key was not found in any record!',
+        });
+      }
+    });
+  }
+
+  findByEmployeeName() {
+    this.employeeService.getEmployeeName(this.keyword).subscribe((res) => {
+      console.log(res);
+      this.employees = res;
+      if (res.length==0){
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'No result',
+          detail: 'The search key was not found in any record!',
+        });
+      }
+    });
+  }
+
+  findByJob() {
+    this.employeeService.getEmployeebyJobTitle(this.keyword).subscribe((res) => {
+      console.log(res);
+      this.employees = res;
+      if (res.length==0){
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'No result',
+          detail: 'The search key was not found in any record!',
+        });
+      }
+    });
+  }
+
+  findByManagerName() {
+    this.employeeService.getEmployeeByManagerName(this.keyword).subscribe((res) => {
+      console.log(res);
+      this.employees = res;
+      if (res.length==0){
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'No result',
+          detail: 'The search key was not found in any record!',
+        });
+      }
+    });
+  }
+
+  findByDeptName() {
+    this.employeeService.getEmployeeByDepartmentName(this.keyword).subscribe((res) => {
+      console.log(res);
+      this.employees = res;
+      if (res.length==0){
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'No result',
+          detail: 'The search key was not found in any record!',
+        });
+      }
     });
   }
 
@@ -154,8 +245,30 @@ export class EmployeeComponent implements OnInit {
     });
   }
 
-  handleSaveDepartment(event: any) {
+  handleValidation() {
+    let err = 0;
+    if (this.row.firstName.length == 0 ||
+        this.row.lastName.length == 0 ||
+        this.row.email.length == 0 ||
+        this.row.phoneNumber.length == 0 ||
+        this.row.employeeName.length == 0 ||
+        this.row.jobId.length == 0 ||
+        this.row.managerId.length == 0 ||
+        this.row.departmentId.length == 0 ||
+        this.row.salary.length == 0 ||
+        this.row.hireDate == null) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  handleSaveEmployee(event: any) {
     this.submitted = true;
+    if (this.handleValidation()){
+      return;
+    }
     this.confirmationService.confirm({
       header: 'Confirmation',
       message: 'Are you sure that you want to perform this action?',
@@ -214,18 +327,6 @@ export class EmployeeComponent implements OnInit {
         });
       },
     });
-  }
-
-  handleValidation() {
-    let err = 0;
-    if (this.row.employeeName.length < 1) {
-      err++;
-    }
-    if (err == 0) {
-      return true;
-    } else {
-      return false;
-    }
   }
 
   handleReset(event: any,  param: string): void {

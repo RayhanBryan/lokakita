@@ -89,20 +89,29 @@ export class LocationComponent implements OnInit {
   }
 
   /**
-   * This is a function to search location using streetAddress
+   * This is a function to search a record
    */
   searchOption: string = 'streetAddress';
   searchOptions = [
     { label: 'search by street Address', value: 'streetAddress' },
     { label: 'search by city', value: 'city' },
+    { label: 'search by country', value: 'countryName' },
+    { label: 'search by state province', value: 'stateProvince' },
   ];
   search() {
+    console.log(this.keyword);
     switch (this.searchOption) {
       case 'city':
         this.searchByCity();
         break;
       case 'streetAddress':
         this.searchByStreetAddress();
+        break;
+      case 'countryName':
+        this.searchByCountryName();
+        break;
+      case 'stateProvince':
+        this.searchByStateProvince();
         break;
     }
   }
@@ -114,20 +123,10 @@ export class LocationComponent implements OnInit {
     this.locationService.searchLocationByCity(this.keyword).subscribe({
       next: (data: any) => {
         if (data.data.length == 0) {
-          this.messageService.add({
-            severity: 'warn',
-            summary: 'No result',
-            detail: 'The search key was not found in any record!',
-          });
         }
         this.locations = data.data;
       },
       error: (err) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Could not load the location content',
-        });
       },
     });
   }
@@ -139,20 +138,40 @@ export class LocationComponent implements OnInit {
     this.locationService.searchLocation(this.keyword).subscribe({
       next: (data: any) => {
         if (data.data.length == 0) {
-          this.messageService.add({
-            severity: 'warn',
-            summary: 'No result',
-            detail: 'The search key was not found in any record!',
-          });
         }
         this.locations = data.data;
       },
       error: (err) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Could not load the location content',
-        });
+      },
+    });
+  }
+
+  /**
+   * This is a function to search location using countryName
+   */
+   searchByCountryName() {
+    this.locationService.searchLocationByCountryName(this.keyword).subscribe({
+      next: (data: any) => {
+        if (data.data.length == 0) {
+        }
+        this.locations = data.data;
+      },
+      error: (err) => {
+      },
+    });
+  }
+
+  /**
+   * This is a function to search location using state/province
+   */
+   searchByStateProvince() {
+    this.locationService.searchLocationByStateProvince(this.keyword).subscribe({
+      next: (data: any) => {
+        if (data.data.length == 0) {
+        }
+        this.locations = data.data;
+      },
+      error: (err) => {
       },
     });
   }

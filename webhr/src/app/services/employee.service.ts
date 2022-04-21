@@ -23,7 +23,23 @@ export class EmployeeService {
   }
 
   getEmployeeName(name: string): Observable<any> {
-    return this.http.get<any>(this._baseUrl+`/employees/findByFirstName?firstName=${name}`, { responseType: 'json' }).pipe(map((data: any) => (data.data || data)));
+    return this.http.get<any>(this._baseUrl+`/employees/findByFullName?fullName=${name}`, { responseType: 'json' }).pipe(map((data: any) => (data.data || data)));
+  }
+
+  getEmployeebyEmail(email:string): Observable<any> {
+    return this.http.get<any>(this._baseUrl+`/employees/findByEmail?email=${email}`, { responseType: 'json' }).pipe(map((data: any) => (data.data || data)));
+  }
+
+  getEmployeebyJobTitle(job:string): Observable<any> {
+    return this.http.get<any>(this._baseUrl+`/employees/findByJobTitle?jobTitle=${job}`, { responseType: 'json' }).pipe(map((data: any) => (data.data || data)));
+  }
+
+  getEmployeeByManagerName(name: string): Observable<any> {
+    return this.http.get<any>(this._baseUrl+`/employees/findByManagerName?managerFirstName=${name}`, { responseType: 'json' }).pipe(map((data: any) => (data.data || data)));
+  }
+
+  getEmployeeByDepartmentName(name: string): Observable<any> {
+    return this.http.get<any>(this._baseUrl+`/employees/findByDepartmentName?departmentName=${name}`, { responseType: 'json' }).pipe(map((data: any) => (data.data || data)));
   }
 
   getEmployeeById(id: number): Observable<any> {
