@@ -12,7 +12,7 @@
       <input type="text" pInputText placeholder="Search" [(ngModel)]="keyword" (input)="search()" />
     </span>
     <p-button (click)="showMaximizableDialog(1)" icon="pi pi-plus-circle" label="Add"
-      styleClass="p-button-success mt-2 ml-3" [style]="{'float': 'right'}" (onClick)="showForm()"></p-button>
+      styleClass="p-button-success mt-2 ml-3" [style]="{'float': 'right'}"></p-button>
   </div>
   <p-table [value]="regions" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true" [(first)]="first"
     responsiveLayout="scroll" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
