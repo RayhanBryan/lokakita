@@ -38,7 +38,7 @@ export class HomeComponent implements OnInit {
       image: 2,
     },
     {
-      name: 'Adleo Malik Himawan',
+      name: 'Adleo Malikul Karim',
       image: 3,
     },
     {
