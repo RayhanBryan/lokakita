@@ -37,7 +37,7 @@ export class LocationComponent implements OnInit {
     private countryService: CountryService
   ) {}
 
-  //HANDLING COUNTRY AND STATE/PROVINCE DROPDOWN
+  //HANDLING COUNTRY AND STATE/PROVINCE
   states: string[]=['Add option'];
   getStateProvince(){
     this.locationService.getStateProvince(this.row.countryId).subscribe({
@@ -308,7 +308,7 @@ export class LocationComponent implements OnInit {
    * This function shows an update form
    */
   openEdit(locationId: number) {
-    this.getLocationById(locationId);
+    this.getLocationById(locationId);    
     this.getCountry();
     this.displayMaximizable = true;
     this.action = 2;
@@ -406,6 +406,7 @@ export class LocationComponent implements OnInit {
     this.locationService.getLocationById(locationId).subscribe({
       next: (data: any) => {
         this.row = data.data;
+        this.getStateProvince();
       },
       error: (err) => {
         this.messageService.add({
