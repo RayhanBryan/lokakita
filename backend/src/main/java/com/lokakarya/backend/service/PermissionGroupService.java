@@ -63,6 +63,7 @@ public class PermissionGroupService {
         Optional<Group> optionalGroup = groupRepository.findById(wrapper.getGroupId());
         Group group = optionalGroup.orElse(null);
         entity.setGroup(group);
+        entity.setIsActive(wrapper.getIsActive());
         return entity;
     }
 
