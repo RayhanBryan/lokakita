@@ -4,9 +4,10 @@
 
 export const environment = {
   production: false,
-  url: 'http://localhost:9090/',
+  url: 'https://loka-service.herokuapp.com:443/',
+  localUrl: 'http://localhost:9090/',
 };
-
+// ||
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
