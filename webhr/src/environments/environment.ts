@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  url: 'http://192.168.1.6:8080/',
+  url: 'https://loka-service.herokuapp.com:443/',
 };
 // 'https://loka-service.herokuapp.com:443/' ||
 /*
