@@ -37,6 +37,12 @@ public class DepartmentController {
                 departmentService.findAllWithPagination(page, size));
     }
 
+    // Get Department All Categories
+    @GetMapping("/findByAllCategories")
+    public DataResponseList<DepartmentWrapper> findByAllCategories(@RequestParam("all") String all) {
+        return new DataResponseList<DepartmentWrapper>(departmentService.findByAllCategories(all));
+    }
+
     // Get Department Name List
     @GetMapping("/findByDepartmentName")
     public DataResponseList<DepartmentWrapper> findDepartmentName(

@@ -10,7 +10,6 @@ import com.lokakarya.backend.repository.EmployeeRepository;
 import com.lokakarya.backend.repository.JobHistoryRepository;
 import com.lokakarya.backend.repository.JobRepository;
 import com.lokakarya.backend.util.PaginationList;
-import com.lokakarya.backend.validator.EmailValidator;
 import com.lokakarya.backend.wrapper.EmployeeWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -35,10 +34,7 @@ public class EmployeeService {
     @Autowired
     JobHistoryRepository jobHistoryRepository;
 
-    private EmailValidator emailValidator;
-
     private Employee toEntity(EmployeeWrapper wrapper) {
-        emailValidator = new EmailValidator();
         Employee entity = new Employee();
         if (wrapper.getEmployeeId() != null) {
             entity = employeeRepository.getById(wrapper.getEmployeeId());
@@ -67,6 +63,7 @@ public class EmployeeService {
         wrapper.setEmployeeId(entityEmployees.getEmployeeId());
         wrapper.setFirstName(entityEmployees.getFirstName());
         wrapper.setLastName(entityEmployees.getLastName());
+        wrapper.setFullName(entityEmployees.getFirstName() + ' ' + entityEmployees.getLastName());
         wrapper.setEmail(entityEmployees.getEmail());
         wrapper.setPhoneNumber(entityEmployees.getPhoneNumber());
         wrapper.setHireDate(entityEmployees.getHireDate());
@@ -127,6 +124,11 @@ public class EmployeeService {
         return new PaginationList<EmployeeWrapper, Employee>(employeeWrapperList, employeePage);
     }
 
+    public List<EmployeeWrapper> getByAllCategories(String all) {
+        List<Employee> eList = employeeRepository.getByAllCategories(all);
+        return toWrapperList(eList);
+    }
+
     public List<EmployeeWrapper> findByFullNameContainingIgnoreCase(String fullName) {
         List<Employee> employeeList = employeeRepository
                 .findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(fullName);
@@ -147,7 +149,7 @@ public class EmployeeService {
     }
 
     public List<EmployeeWrapper> getByJobTitleContainingIgnoreCase(String jobTitle) {
-        List<Employee> employeeList = employeeRepository.getByJobTitleContainingIgnoreCase(jobTitle);
+        List<Employee> employeeList = employeeRepository.findByJobTitleContainingIgnoreCase(jobTitle);
         List<EmployeeWrapper> employeeWrappers = toWrapperList(employeeList);
         return employeeWrappers;
     }
@@ -180,9 +182,9 @@ public class EmployeeService {
             if (!employeeExist.isPresent()) {
                 throw new BusinessException("Tidak ada employee dengan ID tersebut");
             }
-            
+
             String jobLama = employeeExist.get().getJob().getJobId();
-            Long deptLama = employeeExist.get().getDepartment().getDepartmentId(); 
+            Long deptLama = employeeExist.get().getDepartment().getDepartmentId();
 
             if (!jobLama.equals(wrapper.getJobId()) || deptLama != wrapper.getDepartmentId()) {
                 JobHistory jobHistory = new JobHistory();

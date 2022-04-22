@@ -97,6 +97,12 @@ public class DepartmentService {
         return new PaginationList<DepartmentWrapper, Department>(departmentWrapperList, departmentPage);
     }
 
+    // Get Department All Categories
+    public List<DepartmentWrapper> findByAllCategories(String all) {
+        List<Department> departmentList = departmentRepository.getByAllCategories(all);
+        return toWrapperList(departmentList);
+    }
+
     // Get Department List Using Department Name
     public List<DepartmentWrapper> findByDepartmentNameContainingIgnoreCase(String departmentName) {
         List<Department> departmentList = departmentRepository.findByDepartmentNameContainingIgnoreCase(departmentName);
