@@ -30,4 +30,26 @@ public interface DepartmentRepository extends JpaRepository<Department, Long> {
                         "ON d.LOCATION_ID = " +
                         "l.LOCATION_ID WHERE LOWER(l.CITY) LIKE LOWER(CONCAT(CONCAT('%', :pCity), '%'))", nativeQuery = true)
         List<Department> findByCityContainingIgnoreCase(@Param("pCity") String city);
+
+        @Query(value = "SELECT * FROM DEPARTMENTS d " +
+                        "LEFT JOIN LOCATIONS l " +
+                        "ON (d.LOCATION_ID = l.LOCATION_ID) " +
+                        "LEFT JOIN EMPLOYEES e " +
+                        "ON (d.MANAGER_ID = e.EMPLOYEE_ID) " +
+                        "WHERE LOWER(d.DEPARTMENT_NAME) " +
+                        "LIKE LOWER(CONCAT(CONCAT('%',:pDepartmentName),'%')) OR LOWER(l.STREET_ADDRESS) " +
+                        "LIKE LOWER(CONCAT(CONCAT('%',:pStreetAddress), '%')) OR LOWER(l.CITY) " +
+                        "LIKE LOWER(CONCAT(CONCAT('%',:pCity), '%')) OR LOWER(e.FIRST_NAME) " +
+                        "LIKE LOWER(CONCAT(CONCAT('%',:pFirstName), '%')) OR LOWER(e.LAST_NAME) " +
+                        "LIKE LOWER(CONCAT(CONCAT('%',:pLastName), '%'))", nativeQuery = true)
+        List<Department> getByAllCategorie(@Param("pDepartmentName") String departmentName,
+                        @Param("pStreetAddress") String streetAddress,
+                        @Param("pCity") String city,
+                        @Param("pFirstName") String firstName,
+                        @Param("pLastName") String lastName);
+
+        default List<Department> getByAllCategories(String all) {
+                return getByAllCategorie(all, all, all, all, all);
+        }
+
 }

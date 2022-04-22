@@ -26,6 +26,10 @@ export class DepartmentService {
     return this.http.get<any>(this._url, httpOptions).pipe(map((data: any) => (data.data || data)));
   }
 
+  getAllCategories(all: string): Observable<any> {
+    return this.http.get<any>(this._baseUrl + `/departments/findByAllCategories?all=${all}`, { responseType: 'json' }).pipe(map((data: any) => (data.data || data)));
+  }
+
   getDepartmentName(name: string): Observable<any> {
     return this.http.get<any>(this._baseUrl+`/departments/findByDepartmentName?departmentName=${name}`, { responseType: 'json' }).pipe(map((data: any) => (data.data || data)));
   }

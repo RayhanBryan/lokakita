@@ -112,9 +112,8 @@ public class LocationService {
 		return toWrapperList(countryNameList);
 	}
 
-	// FIND STREET ADDRESS BY COUNTRY ID
+	// FIND STATE PROVINCE BY COUNTRY ID
 	public List<String> getStateProvinceByCountryId(String countryId) {
-		// Country country = countryRepository.getById(countryId);
 		List<String> streetCountryList = locationRepository.findStateProvinceByCountry(countryId);
 		return streetCountryList;
 	}

@@ -73,13 +73,17 @@ export class CustomerComponent implements OnInit {
     return this.customer ? this.first === 0 : true;
   }
 
-  searchOption: string = 'customerName';
+  searchOption: string = 'allCategories';
   searchOptions = [
+    { label: 'All Categories', value: 'allCategories' },
     { label: 'Customer Name', value: 'customerName' },
     { label: 'Email', value: 'email' },
   ];
   search() {
     switch (this.searchOption) {
+      case 'allCategories':
+        this.findByAllCategories();
+        break;
       case 'customerName':
         this.findByCustomerName();
         break;
@@ -87,6 +91,20 @@ export class CustomerComponent implements OnInit {
         this.findByEmail();
         break;
     }
+  }
+
+  findByAllCategories() {
+    this.customerService.getAllCategories(this.keyword).subscribe((res) => {
+      console.log(res);
+      this.customer = res;
+      if (res.length==0){
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'No result',
+          detail: 'The search key was not found in any record!',
+        });
+      }
+    });
   }
 
   findByCustomerName() {

@@ -45,6 +45,12 @@ public class CustomerController {
                 customerService.findByCustomerNameContainingIgnoreCasePagination(customerName, page, size));
     }
 
+    // Find Customer All Categories
+    @GetMapping("/findByAllCategories")
+    public DataResponseList<CustomerWrapper> findByAllCategories(@RequestParam("all") String all) {
+        return new DataResponseList<CustomerWrapper>(customerService.findByAllCategories(all));
+    }
+
     // Find Customer Name IgnoreCase And Containable
     @GetMapping("/findByCustomerName")
     public DataResponseList<CustomerWrapper> findCustomerName(@RequestParam("customerName") String customerName) {

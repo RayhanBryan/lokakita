@@ -23,6 +23,10 @@ export class CustomerService {
     return this.http.get<any>(this._url, httpOptions).pipe(map((data: any) => (data.data || data)));
   }
 
+  getAllCategories(all: string): Observable<any> {
+    return this.http.get<any>(this._baseUrl + `/customer/findByAllCategories?all=${all}`, { responseType: 'json' }).pipe(map((data: any) => (data.data || data)));
+  }
+
   getCustomerName(name: string): Observable<any> {
     return this.http.get<any>(this._baseUrl+`/customer/findByCustomerName?customerName=${name}`, { responseType: 'json' }).pipe(map((data: any) => (data.data || data)));
   }

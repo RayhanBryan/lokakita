@@ -84,14 +84,18 @@ export class DepartmentComponent implements OnInit {
     return this.departments ? this.first === 0 : true;
   }
 
-  searchOption: string = 'departmentName';
+  searchOption: string = 'allCategories';
   searchOptions = [
+    { label: 'All Categories', value: 'allCategories' },
     { label: 'Department Name', value: 'departmentName' },
     { label: 'Street Address', value: 'streetAddress' },
     { label: 'City', value: 'city' },
   ];
   search() {
     switch (this.searchOption) {
+      case 'allCategories':
+        this.findByAllCategories();
+        break;
       case 'departmentName':
         this.findByDepartmentName();
         break;
@@ -102,6 +106,20 @@ export class DepartmentComponent implements OnInit {
         this.findByStreetAddress();
         break;
     }
+  }
+
+  findByAllCategories() {
+    this.departmentService.getAllCategories(this.keyword).subscribe((res) => {
+      console.log(res);
+      this.departments = res;
+      if (res.length==0){
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'No result',
+          detail: 'The search key was not found in any record!',
+        });
+      }
+    });
   }
 
   findByDepartmentName() {

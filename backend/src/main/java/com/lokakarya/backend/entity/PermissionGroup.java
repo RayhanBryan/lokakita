@@ -10,40 +10,28 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
 @Entity
 @Table(name = "PERMISSION_GROUPS")
 public class PermissionGroup {
-    private Long permissionGroupId;
-    private Group group;
-    private Permission permission;
-
     @Id
     @GeneratedValue(generator = "PERMISSION_GROUP_GEN", strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "PERMISSION_GROUP_GEN", sequenceName = "PERMISSION_GROUP_SEQ",initialValue = 1, allocationSize = 1)
     @Column(name = "PERMISSION_GROUP_ID")
-    public Long getPermissionGroupId() {
-        return permissionGroupId;
-    }
-    public void setPermissionGroupId(Long permissionGroupId) {
-        this.permissionGroupId = permissionGroupId;
-    }
+    private Long permissionGroupId;
 
     @ManyToOne
     @JoinColumn(name = "GROUP_ID")
-    public Group getGroup() {
-        return group;
-    }
-    public void setGroup(Group group) {
-        this.group = group;
-    }
+    private Group group;
 
     @ManyToOne
     @JoinColumn(name = "PERMISSION_ID")
-    public Permission getPermission() {
-        return permission;
-    }
-    public void setPermission(Permission permission) {
-        this.permission = permission;
-    }
-     
+    private Permission permission;
+
+    @Column (name = "IS_ACTIVE")
+    private Character isActive;
 }
