@@ -92,7 +92,15 @@ export class LocationComponent implements OnInit {
   }
 
   isLastPage(): boolean {
-    return this.locations? this.first === this.locations.length - this.rows: true;
+    if (this.locations!=null){
+      if(this.locations.length<this.rows){
+        return true;
+      }
+      else{
+        return (this.locations.length-this.first<=this.rows);
+      }
+    }
+    return true;
   }
 
   isFirstPage(): boolean {
