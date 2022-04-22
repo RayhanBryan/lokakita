@@ -14,7 +14,7 @@ const httpOptions = {
 })
 export class CustomerService {
   private _url: string = 'http://localhost:9090/customer/findAll';
-  private _baseUrl: string = environment.url;
+  private _baseUrl: string = environment.url || environment.localUrl;
 
   constructor(private http: HttpClient) {}
 

@@ -15,7 +15,7 @@ const httpOptions = {
 })
 export class DepartmentService {
   private _urlPosts: string = 'https://jsonplaceholder.typicode.com/posts';
-  private _baseUrl: string = environment.url;
+  private _baseUrl: string = environment.url || environment.localUrl;
 
   constructor(private http: HttpClient) {}
 

@@ -3,18 +3,17 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-const url: string = environment.url;
+const url: string = environment.url || environment.localUrl;
 const httpOptions = {
   headers: new HttpHeaders({
-    'Accept': 'application/json'
-  })
-}
+    Accept: 'application/json',
+  }),
+};
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HakAksesService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getAccess(): Observable<any> {
     return this.http.get<any>(url + `access/findAll`, {
@@ -28,24 +27,25 @@ export class HakAksesService {
     });
   }
 
-
-
   postAccess(req: any): Observable<any> {
     return this.http.post<any>(url + `access/post`, req, {
       responseType: 'json',
-    })
+    });
   }
 
   putAccess(req: any): Observable<any> {
     return this.http.put<any>(url + `access/put`, req, {
       responseType: 'json',
-    })
+    });
   }
-  
-  getAccsesByUserIdxGroupId(id:any, group:any): Observable<any>{
-    return this.http.get<any>(url + `access/findByUserIdAndGroupId?userId=${id}&groupId=${group}`, {
+
+  getAccsesByUserIdxGroupId(id: any, group: any): Observable<any> {
+    return this.http.get<any>(
+      url + `access/findByUserIdAndGroupId?userId=${id}&groupId=${group}`,
+      {
         responseType: 'json',
-      })
+      }
+    );
   }
 
   deleteAccess(id: number): Observable<any> {
@@ -54,9 +54,13 @@ export class HakAksesService {
     });
   }
 
-  putAccessIsActive(id:any, group:any, isActive:string): Observable<any> {
-    return this.http.put<any>(url + `access/put/putByUserIdAndGroupId?userId=${id}&groupId=${group}&isActive=${isActive}`, {
-      responseType: 'json',
-    })
+  putAccessIsActive(id: any, group: any, isActive: string): Observable<any> {
+    return this.http.put<any>(
+      url +
+        `access/put/putByUserIdAndGroupId?userId=${id}&groupId=${group}&isActive=${isActive}`,
+      {
+        responseType: 'json',
+      }
+    );
   }
 }
