@@ -35,10 +35,7 @@ public class EmployeeService {
     @Autowired
     JobHistoryRepository jobHistoryRepository;
 
-    private EmailValidator emailValidator;
-
     private Employee toEntity(EmployeeWrapper wrapper) {
-        emailValidator = new EmailValidator();
         Employee entity = new Employee();
         if (wrapper.getEmployeeId() != null) {
             entity = employeeRepository.getById(wrapper.getEmployeeId());
@@ -175,17 +172,15 @@ public class EmployeeService {
             if (wrapper.getSalary() < 0) {
                 throw new BusinessException("Salary can't be zero");
             }
-            emailValidator.checkEmail(wrapper.getEmail());
-            checkIfEmailNotUsed(wrapper.getEmail());
             employee = employeeRepository.save(toEntity(wrapper));
         } else {
             Optional<Employee> employeeExist = employeeRepository.findById(wrapper.getEmployeeId());
             if (!employeeExist.isPresent()) {
                 throw new BusinessException("Tidak ada employee dengan ID tersebut");
             }
-            
+
             String jobLama = employeeExist.get().getJob().getJobId();
-            Long deptLama = employeeExist.get().getDepartment().getDepartmentId(); 
+            Long deptLama = employeeExist.get().getDepartment().getDepartmentId();
 
             if (!jobLama.equals(wrapper.getJobId()) || deptLama != wrapper.getDepartmentId()) {
                 JobHistory jobHistory = new JobHistory();
