@@ -79,6 +79,12 @@ public class CustomerService {
         return new PaginationList<CustomerWrapper, Customer>(customerWrapperList, customerPage);
     }
 
+    // Find All With List
+    public List<CustomerWrapper> findByAllCategories(String all) {
+        List<Customer> customerList = customerRepository.findByAllCategories(all);
+        return toWrapperList(customerList);
+    }
+
     // Find Customer Name With List
     public List<CustomerWrapper> findByCustomerNameContainingIgnoreCase(String departmentName) {
         if (departmentName == null)
