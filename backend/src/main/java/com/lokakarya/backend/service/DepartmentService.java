@@ -54,6 +54,7 @@ public class DepartmentService {
         wrapper.setManagerLastName(entity.getManager() != null ? entity.getManager().getLastName() : null);
         wrapper.setStreetAddress(entity.getLocation() != null ? entity.getLocation().getStreetAddress() : null);
         wrapper.setCity(entity.getLocation() != null ? entity.getLocation().getCity() : null);
+        wrapper.setManagerName(entity.getManager() != null ? entity.getManager().getFirstName() + ' ' + entity.getManager().getLastName(): null);
         return wrapper;
     }
 

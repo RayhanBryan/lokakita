@@ -14,4 +14,5 @@ public class DepartmentWrapper {
     private String managerLastName;
     private String streetAddress;
     private String city;
+    private String managerName;
 }
