@@ -86,7 +86,7 @@ handleSaveCountry(event:any){
     this.countryService.postCountry(this.row).subscribe(
       {
       next: (data) => {
-        //console.log(data);
+        //console.log(data,'tes');
         if(data.status){
           this.messageService.add({
             severity: 'success',
@@ -185,7 +185,7 @@ this.regionService.getRegion().subscribe(
 deleteData(){
   this.countryService.deleteCountry(this.deleteId).subscribe(
     res => {
-      //console.log(res)
+      
       this.loadData();
     })
   this.displayDelete = false;
@@ -195,7 +195,6 @@ searchCountryName(): void {
   this.countryService.getCountryByName(this.keyword).subscribe(
     res => {
       this.countries=res;
-      console.log(res,'bbbb');
       if(res.length==0){
         this.messageService.add({
           severity: 'warn',

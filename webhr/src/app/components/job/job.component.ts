@@ -181,6 +181,14 @@ export class JobComponent implements OnInit {
       this.jobService.getJobByTitle(keyword).subscribe(
         res => {
           this.jobs=res;
+          if(res.length==0){
+            this.messageService.add({
+              severity: 'warn',
+              summary: 'No result',
+              detail: 'The search key was not found in any record!',
+            });
+          }
+          
         }
       );
     

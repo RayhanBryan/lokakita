@@ -41,6 +41,8 @@ import { TieredMenuModule } from 'primeng/tieredmenu';
 import { ProfileComponent } from './components/profile/profile.component';
 import { SlideMenuModule } from 'primeng/slidemenu';
 import { FieldsetModule } from 'primeng/fieldset';
+import { GalleriaModule } from 'primeng/galleria';
+import { ChartModule } from 'primeng/chart';
 
 @NgModule({
   declarations: [
@@ -87,7 +89,9 @@ import { FieldsetModule } from 'primeng/fieldset';
     TieredMenuModule,
     SidebarModule,
     SlideMenuModule,
-    FieldsetModule
+    FieldsetModule,
+    GalleriaModule,
+    ChartModule
   ],
   providers: [ConfirmationService],
   bootstrap: [AppComponent],
