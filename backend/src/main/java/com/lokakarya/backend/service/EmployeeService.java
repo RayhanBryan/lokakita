@@ -10,7 +10,6 @@ import com.lokakarya.backend.repository.EmployeeRepository;
 import com.lokakarya.backend.repository.JobHistoryRepository;
 import com.lokakarya.backend.repository.JobRepository;
 import com.lokakarya.backend.util.PaginationList;
-import com.lokakarya.backend.validator.EmailValidator;
 import com.lokakarya.backend.wrapper.EmployeeWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -194,9 +193,6 @@ public class EmployeeService {
             employee = employeeRepository.save(toEntity(wrapper));
         }
         return toWrapper(employee);
-    }
-
-    private void checkIfEmailNotUsed(String email) {
     }
 
     /* Delete Data */
