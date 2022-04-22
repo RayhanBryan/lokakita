@@ -67,6 +67,7 @@ public class EmployeeService {
         wrapper.setEmployeeId(entityEmployees.getEmployeeId());
         wrapper.setFirstName(entityEmployees.getFirstName());
         wrapper.setLastName(entityEmployees.getLastName());
+        wrapper.setFullName(entityEmployees.getFirstName() + ' ' + entityEmployees.getLastName());
         wrapper.setEmail(entityEmployees.getEmail());
         wrapper.setPhoneNumber(entityEmployees.getPhoneNumber());
         wrapper.setHireDate(entityEmployees.getHireDate());
@@ -174,6 +175,8 @@ public class EmployeeService {
             if (wrapper.getSalary() < 0) {
                 throw new BusinessException("Salary can't be zero");
             }
+            emailValidator.checkEmail(wrapper.getEmail());
+            checkIfEmailNotUsed(wrapper.getEmail());
             employee = employeeRepository.save(toEntity(wrapper));
         } else {
             Optional<Employee> employeeExist = employeeRepository.findById(wrapper.getEmployeeId());
@@ -194,6 +197,9 @@ public class EmployeeService {
             employee = employeeRepository.save(toEntity(wrapper));
         }
         return toWrapper(employee);
+    }
+
+    private void checkIfEmailNotUsed(String email) {
     }
 
     /* Delete Data */
