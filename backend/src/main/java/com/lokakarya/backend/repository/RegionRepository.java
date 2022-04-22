@@ -17,5 +17,7 @@ public interface RegionRepository extends JpaRepository<Region, Long>{
 	
 	// @Query(value = "SELECT * FROM REGIONS r WHERE REGIONS r.region_name LIKE LOWER(CONCAT(CONCAT('%', :pRegionName), '%'))", nativeQuery = true)
     // String findByRegionNameIgnoreCase(@Param("pRegionName") String regionName);
+
+	List<Region> findByRegionNameIgnoreCase(String regionName);
 	
 }

@@ -99,6 +99,10 @@ public class RegionService {
 		return toWrapperList(locationList);
 	}
 
+	public List<RegionWrapper> findByRegionName(String regionName) {
+		List<Region> regionList = regionRepository.findByRegionNameIgnoreCase(regionName);
+		return toWrapperList(regionList);
+	}
 }
 
 

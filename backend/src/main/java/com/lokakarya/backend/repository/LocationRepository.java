@@ -30,6 +30,4 @@ public interface LocationRepository extends JpaRepository<Location, Long> {
     @Query(value = "SELECT DISTINCT STATE_PROVINCE FROM LOCATIONS l WHERE l.country_id = :pCountryId", nativeQuery = true)
     List<String> findStateProvinceByCountry(@Param("pCountryId") String countryId);
 
-    @Query(value = "SELECT * FROM REGIONS r WHERE REGIONS r.region_name = :pRegionName", nativeQuery = true)
-    List<String> findByRegionName(@Param("pRegionName") String reionName);
 }
