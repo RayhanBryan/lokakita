@@ -124,6 +124,11 @@ public class EmployeeService {
         return new PaginationList<EmployeeWrapper, Employee>(employeeWrapperList, employeePage);
     }
 
+    public List<EmployeeWrapper> getByAllCategories(String all) {
+        List<Employee> eList = employeeRepository.getByAllCategories(all);
+        return toWrapperList(eList);
+    }
+
     public List<EmployeeWrapper> findByFullNameContainingIgnoreCase(String fullName) {
         List<Employee> employeeList = employeeRepository
                 .findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(fullName);
@@ -144,7 +149,7 @@ public class EmployeeService {
     }
 
     public List<EmployeeWrapper> getByJobTitleContainingIgnoreCase(String jobTitle) {
-        List<Employee> employeeList = employeeRepository.getByJobTitleContainingIgnoreCase(jobTitle);
+        List<Employee> employeeList = employeeRepository.findByJobTitleContainingIgnoreCase(jobTitle);
         List<EmployeeWrapper> employeeWrappers = toWrapperList(employeeList);
         return employeeWrappers;
     }
