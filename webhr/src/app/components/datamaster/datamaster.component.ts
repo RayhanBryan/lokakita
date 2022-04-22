@@ -430,37 +430,6 @@ export class DatamasterComponent implements OnInit {
     });
   }
 
-
-  saveNewPassword() {
-    console.log(this.password, ' ini pass lama')
-    console.log(this.dataUser, ' ini userdata')
-    this.wrongConfirmPassword = false;
-    this.wrongPassword = false;
-    if (this.dataUser.password == this.password) {
-      if (this.newPass == this.confirmNewPass) {
-        this.dataUser.password = this.newPass
-        this.usersService.putUser(this.dataUser).subscribe(
-          res => {
-            this.successUpdatePassword();
-            this.displayBasic = false;
-          }
-        );
-      } else {
-        this.wrongConfirmPassword = true;
-      }
-    } else {
-      this.wrongPassword = true;
-    }
-  };
-
-  successUpdatePassword() {
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Password Updated',
-      detail: 'Password successfully updated'
-    });
-  }
-
   newUser() {
     this.usersService.getByUsername(this.username).subscribe((res) => {
       if (!res.status) {
