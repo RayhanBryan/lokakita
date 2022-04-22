@@ -276,9 +276,8 @@ export class RegionComponent implements OnInit {
    * otherwise it calls saveOrUpdate function
    */
   checkDuplicate(){
-    this.regionService.searchRegion(this.row.regionName).subscribe({
+    this.regionService.getRegionByRegionName(this.row.regionName).subscribe({
       next: (data) => {
-        console.log(data.data);
         if (data.data.length==0) {
           this.saveOrPost();
         }
@@ -286,7 +285,7 @@ export class RegionComponent implements OnInit {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: 'The identic record alrady exists',
+            detail: 'The record alrady exists',
           });
         }
       },

@@ -64,11 +64,11 @@ export class RegionService {
     return this.http.get<any>(this.regionUrl+`getById?id=${regionId}`,httpOptions);
   }
 
-  // /**
-  //  * This is a function to get a record using region name
-  //  * @param regionName this is the region name of a record we want to get
-  //  */
-  // getRegionByRegionName(regionName:string):Observable<any>{
-  //   return this.http.get<any>(this.regionUrl+`getById?id=${regionName}`,httpOptions);
-  // }
+  /**
+   * This is a function to get a record using region name
+   * @param regionName this is the region name of a record we want to get
+   */
+  getRegionByRegionName(regionName:string):Observable<any>{
+    return this.http.get<any>(this.regionUrl+`getRegionName?regionName=${regionName}`,httpOptions);
+  }
 }
