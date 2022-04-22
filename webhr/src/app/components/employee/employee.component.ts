@@ -24,6 +24,7 @@ export class EmployeeComponent implements OnInit {
   showSearch: boolean = false;
   displaySalary: boolean = false;
   displayJobHistory: boolean = false;
+  displayManager: boolean = true;
   
   submitted: boolean = false;
   action: string = '';
@@ -47,6 +48,7 @@ export class EmployeeComponent implements OnInit {
     managerId: 0,
     departmentId: 0,
     managerName:'',
+    manager:''
   };
 
   constructor(
@@ -62,6 +64,7 @@ export class EmployeeComponent implements OnInit {
     this.getEmployee();
     this.getDepartment();
     this.getJob();
+    this.getManagers();
   }
 
   removeDuplicates(arr: any[]) {
@@ -73,14 +76,20 @@ export class EmployeeComponent implements OnInit {
       this.employees = res.data;
   })}
 
+  getManagers() {
+    this.employeeService.getEmployee().subscribe((res) => {
+      this.managers = res.data;
+
+  })}
+
 
   searchOption: string = 'searchByAll';
   searchOptions = [
-    { label: 'Search', value: 'searchByAll' },
+    { label: 'All Categories', value: 'searchByAll' },
     { label: 'Employee Name', value: 'fullName' },
     { label: 'Email', value: 'email' },
     { label: 'Job', value: 'jobTitle' },
-    { label: 'Manager Name', value: 'manager' },
+    { label: 'Manager Name', value: 'managerName' },
     { label: 'Department Name', value: 'departmentName' },
   ];
   search() {
@@ -97,7 +106,7 @@ export class EmployeeComponent implements OnInit {
       case 'jobTitle':
         this.findByJob();
         break;
-      case 'manager':
+      case 'managerName':
         this.findByManagerName();
         break;
       case 'departmentName':
@@ -390,6 +399,22 @@ export class EmployeeComponent implements OnInit {
   showSearchCall() {
     this.showSearch = !this.showSearch;
   }
+
+//   manager =[this.row]
+//   managers(row:any){
+//     this.row = { ...row };
+//     this.displayManager=true;
+//     this.employeeService.getEmployeeById(row.employeeId).subscribe((res) => {
+//       console.log(res.data);
+//       this.manager[0] = res.data;
+//       for (let i=0;i<this.manager.length; i++){
+//         if (this.manager[i+1] != this.manager[i]){
+//           this.manager
+//         }
+//       }
+
+//   });
+// }
 
   salary = [this.row];
   showBonus(row: any) {

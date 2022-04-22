@@ -110,35 +110,42 @@
             <div class="col-12 md:col-6">
                 <h5>Job Title</h5>
                 <p-dropdown appendTo="body" [options]="jobs" [(ngModel)]="row.jobId" optionLabel="jobTitle"
-                    placeholder="Job Title" optionValue="jobId" [required]="true">
+                    placeholder="Job Title" optionValue="jobId" [required]="true" [dataKey]="row.jobTitle" [filter]="true">
                 </p-dropdown>
                 <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.jobId">
                     Job Required!
                 </h5>
             </div>
+
             <div class="col-12 md:col-6">
                 <h5>Manager Name</h5>
-                <p-dropdown appendTo="body" [options]="employees" [(ngModel)]="row.managerId"
-                    optionLabel="fullName" placeholder="Manager Name" optionValue="managerId" [required]="true">
+                <p-dropdown appendTo="body" [options]="managers" [(ngModel)]="row.managerId" *ngIf="action=='Add'"
+                    optionLabel="fullName" placeholder="Manager Name" optionValue="managerId" [required]="true"
+                    [dataKey]="row.managerName" [filter]="true">
                 </p-dropdown>
+                <p-dropdown appendTo="body" [options]="managers" [(ngModel)]="row.managerId" *ngIf="action!='Add'"
+                    optionLabel="managerName" placeholder="Manager Name" optionValue="managerId" [required]="true"
+                    [dataKey]="row.managerName" [filter]="true">
+            </p-dropdown>
                 <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.managerId">
                     Manager Name Required!
                 </h5>
             </div>
+
             <div class="col-12 md:col-6">
                 <h5>Department Name</h5>
                 <p-dropdown appendTo="body" [options]="departments" [(ngModel)]="row.departmentId"
-                    optionLabel="departmentName" placeholder="Department Name" optionValue="departmentId" [required]="true">
+                    optionLabel="departmentName" placeholder="Department Name" optionValue="departmentId" [required]="true"
+                    [dataKey]="row.departmentName"[filter]="true">
                 </p-dropdown>
                 <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.departmentId">
                     Department Required!
                 </h5>
             </div>
+
             <div class="col-12 md:col-6">
                 <h5>Hire Date</h5>
-
                     <input type="date" pInputText [(ngModel)]="row.hireDate" inputId="time">
-                <!-- <p-calendar [(ngModel)]="row.hireDate" [showIcon]="true" inputId="icon" class="p-calendar-sm" placeholder="Hire Date" [required]="true"></p-calendar> -->
                 <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.hireDate">
                     Hire Date Required!
                 </h5>
