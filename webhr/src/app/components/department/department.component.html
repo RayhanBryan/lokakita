@@ -73,7 +73,7 @@
     </div>
     <div class="col-12 md:col-6">
       <label for="managername">Manager Name</label>
-      <p-dropdown appendTo="body" [options]="employees" [(ngModel)]="row.managerId" optionLabel="firstName"
+      <p-dropdown appendTo="body" [options]="employees" [(ngModel)]="row.managerId" optionLabel="fullName"
         optionValue="employeeId" placeholder="Select a Manager Name">
       </p-dropdown>
       <h5 class="p-invalid" style="color: red" *ngIf="!row.managerId">
