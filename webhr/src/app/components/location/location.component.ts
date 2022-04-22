@@ -37,12 +37,12 @@ export class LocationComponent implements OnInit {
     private countryService: CountryService
   ) {}
 
-  //HANDLING COUNTRY AND STATE/PROVINCE DROPDOWN
-  states: string[]=['Add option'];
-  getStateProvince(){
+  //HANDLING COUNTRY AND STATE/PROVINCE
+  states: string[] = ['Add option'];
+  getStateProvince() {
     this.locationService.getStateProvince(this.row.countryId).subscribe({
       next: (data: any) => {
-        this.states=['Add option'];
+        this.states = ['Add option'];
         this.states.push(...data.data);
         this.tes2();
       },
@@ -56,28 +56,27 @@ export class LocationComponent implements OnInit {
     });
   }
 
-  showAddNewStateProvinceDialog:boolean=false;
-  tes2(){
-    if (this.row.stateProvince==='Add option'){
-      this.showAddNewStateProvinceDialog=true;
+  showAddNewStateProvinceDialog: boolean = false;
+  tes2() {
+    if (this.row.stateProvince === 'Add option') {
+      this.showAddNewStateProvinceDialog = true;
     }
   }
 
-  cancelAddingNewStateProvince(){
-    this.row.stateProvince='';
-    this.showAddNewStateProvinceDialog=false;
+  cancelAddingNewStateProvince() {
+    this.row.stateProvince = '';
+    this.showAddNewStateProvinceDialog = false;
   }
 
-
-  tempStateProvince:string='';
-  addNewStateProvince(){
-    this.states.push(this.tempStateProvince)
-    this.row.stateProvince=this.tempStateProvince;
-    this.showAddNewStateProvinceDialog=false;
+  tempStateProvince: string = '';
+  addNewStateProvince() {
+    this.states.push(this.tempStateProvince);
+    this.row.stateProvince = this.tempStateProvince;
+    this.showAddNewStateProvinceDialog = false;
   }
 
   ngOnInit(): void {
-    this.getLocation()
+    this.getLocation();
   }
 
   next() {
@@ -93,9 +92,15 @@ export class LocationComponent implements OnInit {
   }
 
   isLastPage(): boolean {
-    return this.locations
-      ? this.first === this.locations.length - this.rows
-      : true;
+    if (this.locations!=null){
+      if(this.locations.length<this.rows){
+        return true;
+      }
+      else{
+        return (this.locations.length-this.first<=this.rows);
+      }
+    }
+    return true;
   }
 
   isFirstPage(): boolean {
@@ -159,8 +164,7 @@ export class LocationComponent implements OnInit {
         }
         this.locations = data.data;
       },
-      error: (err) => {
-      },
+      error: (err) => {},
     });
   }
 
@@ -174,38 +178,35 @@ export class LocationComponent implements OnInit {
         }
         this.locations = data.data;
       },
-      error: (err) => {
-      },
+      error: (err) => {},
     });
   }
 
   /**
    * This is a function to search location using countryName
    */
-   searchByCountryName() {
+  searchByCountryName() {
     this.locationService.searchLocationByCountryName(this.keyword).subscribe({
       next: (data: any) => {
         if (data.data.length == 0) {
         }
         this.locations = data.data;
       },
-      error: (err) => {
-      },
+      error: (err) => {},
     });
   }
 
   /**
    * This is a function to search location using state/province
    */
-   searchByStateProvince() {
+  searchByStateProvince() {
     this.locationService.searchLocationByStateProvince(this.keyword).subscribe({
       next: (data: any) => {
         if (data.data.length == 0) {
         }
         this.locations = data.data;
       },
-      error: (err) => {
-      },
+      error: (err) => {},
     });
   }
 
@@ -406,6 +407,7 @@ export class LocationComponent implements OnInit {
     this.locationService.getLocationById(locationId).subscribe({
       next: (data: any) => {
         this.row = data.data;
+        this.getStateProvince();
       },
       error: (err) => {
         this.messageService.add({

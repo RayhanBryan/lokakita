@@ -44,7 +44,15 @@ export class RegionComponent implements OnInit {
   }
 
   isLastPage(): boolean {
-    return this.regions ? this.first === this.regions.length - this.rows : true;
+    if (this.regions!=null){
+      if(this.regions.length<this.rows){
+        return true;
+      }
+      else{
+        return (this.regions.length-this.first<=this.rows);
+      }
+    }
+    return true;
   }
 
   isFirstPage(): boolean {

@@ -42,6 +42,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { SlideMenuModule } from 'primeng/slidemenu';
 import { FieldsetModule } from 'primeng/fieldset';
 import { GalleriaModule } from 'primeng/galleria';
+import { ChartModule } from 'primeng/chart';
 
 @NgModule({
   declarations: [
@@ -89,7 +90,8 @@ import { GalleriaModule } from 'primeng/galleria';
     SidebarModule,
     SlideMenuModule,
     FieldsetModule,
-    GalleriaModule
+    GalleriaModule,
+    ChartModule
   ],
   providers: [ConfirmationService],
   bootstrap: [AppComponent],
