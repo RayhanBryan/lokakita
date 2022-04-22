@@ -2,10 +2,12 @@ package com.lokakarya.backend.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
 import com.lokakarya.backend.entity.Region;
+import com.lokakarya.backend.repository.EmployeeRepository;
 import com.lokakarya.backend.repository.RegionRepository;
 import com.lokakarya.backend.util.PaginationList;
 import com.lokakarya.backend.wrapper.RegionWrapper;
@@ -35,11 +37,20 @@ public class RegionService {
 		return toWrapperList(regionList);
 	};
 	
-	// CREATE AND UPDATE
+	// CREATE AND UPDATE9
 	public RegionWrapper save(RegionWrapper wrapper) {
 		Region region = regionRepository.save(toEntity(wrapper));
 		return toWrapper(region);
 	}
+
+	// public RegionWrapper save(RegionWrapper wrapper) {
+	// 	Region regionNameExist = regionRepository.findByRegionName(wrapper.getRegionName());
+	// 	if(regionNameExist){
+
+	// 	}
+	// 	Region region = regionRepository.save(toEntity(wrapper));
+	// 	return toWrapper(region);
+	// }
 	
 	// DELETE
 	public void delete(Long id) {
@@ -95,6 +106,11 @@ public class RegionService {
 		List<Region> locationList = regionRepository.findByRegionNameContainingIgnoreCase(regionName);
 		return toWrapperList(locationList);
 	}
+
+	// public String getByEqualRegionName(String regionName) {
+	// 	String region = regionRepository.findByRegionNameIgnoreCase(regionName);
+	// 	return region;
+	// }
 }
 
 
