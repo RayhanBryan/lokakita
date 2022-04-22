@@ -25,10 +25,10 @@ public class JobHistory {
 	@Column(name = "EMPLOYEE_ID")
 	private Long employeeId;
 	@Id
-	@Column
+	@Column(name = "START_DATE")
 	@Temporal(TemporalType.DATE)
 	private Date startDate;
-	@Column
+	@Column(name = "END_DATE")
 	@Temporal(TemporalType.DATE)
 	private Date endDate;
 	@ManyToOne
