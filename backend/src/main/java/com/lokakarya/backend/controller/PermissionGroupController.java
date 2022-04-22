@@ -44,6 +44,11 @@ public class PermissionGroupController {
     DataResponse<PermissionGroupWrapper> update(@RequestBody PermissionGroupWrapper wrapper){
         return new DataResponse<PermissionGroupWrapper>(permissionGroupService.save(wrapper));
     }
+
+    @PutMapping(path = "/putByUserIdAndGroupId")
+    DataResponse<PermissionGroupWrapper> putByPermissionIdAndGroupId(@RequestParam("permissionId") Long permissionId, @RequestParam("groupId") Long groupId, @RequestParam("isActive") Character isActive){
+        return new DataResponse<PermissionGroupWrapper>(permissionGroupService.putByPermissionIdAndGroupId(permissionId, groupId, isActive));
+    }
     
     @DeleteMapping(path = "/delete")
     DataResponse<PermissionGroupWrapper> delete(@RequestParam("pUserId") Long id){

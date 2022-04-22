@@ -119,9 +119,11 @@ public List<HakAksesWrapper> findByGroupId(Long id){
         if(entity.getHakAksesId() != null){
             entity.setUpdatedDate(new Date());
             entity.setUpdatedBy(wrapper.getUpdatedBy());
+            entity.setProgramName("User berperan sebagai "+ entity.getGroup().getGroupName());
         }else{
             entity.setCreatedDate(new Date());
             entity.setCreatedBy(wrapper.getCreatedBy());
+            entity.setProgramName("User berperan sebagai "+ entity.getGroup().getGroupName());
         }
         return toWrapper(hakAksesRepository.save(entity));
     }
