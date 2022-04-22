@@ -186,7 +186,7 @@ public class EmployeeService {
             String jobLama = employeeExist.get().getJob().getJobId();
             Long deptLama = employeeExist.get().getDepartment().getDepartmentId();
 
-            if (!jobLama.equals(wrapper.getJobId()) || deptLama != wrapper.getDepartmentId()) {
+            if (!jobLama.equals(wrapper.getJobId()) || !deptLama.equals(wrapper.getDepartmentId())) {
                 JobHistory jobHistory = new JobHistory();
                 jobHistory.setEmployeeId(employeeExist.get().getEmployeeId());
                 jobHistory.setStartDate(employeeExist.get().getHireDate());
