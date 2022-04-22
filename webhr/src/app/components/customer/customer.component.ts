@@ -73,7 +73,7 @@ export class CustomerComponent implements OnInit {
     return this.customer ? this.first === 0 : true;
   }
 
-  searchOption: string = 'customerName';
+  searchOption: string = 'allCategories';
   searchOptions = [
     { label: 'All Categories', value: 'allCategories' },
     { label: 'Customer Name', value: 'customerName' },

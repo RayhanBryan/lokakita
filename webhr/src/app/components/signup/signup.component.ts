@@ -124,9 +124,10 @@ export class SignupComponent implements OnInit {
                               )
                             }
                             this.toLogin();
+                            return
                           }
                         )
-                        return
+
                       }
                     },
                     error: (err) => {
@@ -135,8 +136,9 @@ export class SignupComponent implements OnInit {
                     }
                   }
                 );
+              } else {
+                this.invalidSignUp();
               }
-              // this.invalidSignUp();
             }
           )
         } else {
