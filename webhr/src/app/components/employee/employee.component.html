@@ -21,22 +21,22 @@
         [rowsPerPageOptions]="[10, 25, 50]">
         <ng-template pTemplate="header">
             <tr>
-                <th pSortableColumn="employeeId" style="width: 7%;">
+                <th pSortableColumn="employeeId" style="width: 5%;">
                     ID <p-sortIcon field="Id"></p-sortIcon>
                 </th>
-                <th pSortableColumn="employeeName" style="width: 11%;" id="employeeColumn">
-                    Employee Name<p-sortIcon field="employeeName"></p-sortIcon>
+                <th pSortableColumn="fullName" style="width: 11%;" id="employeeColumn">
+                    Employee Name<p-sortIcon field="fullName"></p-sortIcon>
                 </th>
                 <th pSortableColumn="email" style="width: 10%" id="employeeColumn">
                     Email <p-sortIcon field="email"></p-sortIcon>
                 </th>
-                <th pSortableColumn="manager" style="width: 10%" id="employeeColumn">
-                    Manager Name <p-sortIcon field="manager"></p-sortIcon>
+                <th pSortableColumn="managerName" style="width: 11%" id="employeeColumn">
+                    Manager Name <p-sortIcon field="managerName"></p-sortIcon>
                 </th>
                 <th pSortableColumn="phoneNumber" style="width: 11%" id="employeeColumn">
                     Phone Number <p-sortIcon field="phoneNumber"></p-sortIcon>
                 </th>
-                <th pSortableColumn="hireDate" style="width: 10%" id="employeeColumn">
+                <th pSortableColumn="hireDate" style="width: 11%" id="employeeColumn">
                     Hire Date <p-sortIcon field="hireDate"></p-sortIcon>
                 </th>
                 <th pSortableColumn="jobId" style="width: 10%" id="employeeColumn">
@@ -54,15 +54,15 @@
         <ng-template pTemplate="body" let-employee>
             <tr>
                 <td>{{ employee.employeeId }}</td>
-                <td>{{ employee.firstName }} {{ employee.lastName }}</td>
+                <td>{{ employee.fullName }}</td>
                 <td>{{ employee.email }}</td>
                 <td>{{ employee.managerName }} </td>
                 <td>{{ employee.phoneNumber }}</td>
                 <td>{{ employee.hireDate }}</td>
-                <td>
+                <td id="employeeColumn">
                     <p-button styleClass="p-button-link" title="Show Job History" (click)="showJobHistory(employee)">{{ employee.jobTitle }}</p-button>
                 </td>
-                <td>
+                <td id="employeeColumn">
                     <p-button (click)="showBonus(employee)" icon="pi pi-external-link" label="Salary"></p-button>
                 </td>
                 <td id="employeeColumn">{{ employee.departmentName }}</td>
@@ -119,7 +119,7 @@
             <div class="col-12 md:col-6">
                 <h5>Manager Name</h5>
                 <p-dropdown appendTo="body" [options]="employees" [(ngModel)]="row.managerId"
-                    optionLabel="firstName"placeholder="Manager Name" optionValue="managerId" [required]="true">
+                    optionLabel="fullName" placeholder="Manager Name" optionValue="managerId" [required]="true">
                 </p-dropdown>
                 <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.managerId">
                     Manager Name Required!
@@ -136,7 +136,9 @@
             </div>
             <div class="col-12 md:col-6">
                 <h5>Hire Date</h5>
-                <p-calendar [(ngModel)]="row.hireDate" [showIcon]="true" inputId="icon" class="p-calendar-sm" placeholder="Hire Date" [required]="true"></p-calendar>
+
+                    <input type="date" pInputText [(ngModel)]="row.hireDate" inputId="time">
+                <!-- <p-calendar [(ngModel)]="row.hireDate" [showIcon]="true" inputId="icon" class="p-calendar-sm" placeholder="Hire Date" [required]="true"></p-calendar> -->
                 <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.hireDate">
                     Hire Date Required!
                 </h5>
@@ -192,11 +194,11 @@
         <p-table [value]="jobHistory" responsiveLayout="scroll">
             <ng-template pTemplate="header">
                 <tr>
-                    <th>Employee ID</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th>Job Title</th>
-                    <th>Department Name</th>
+                    <th pSortableColumn="employeeId">Employee ID<p-sortIcon field="employeeId"></p-sortIcon></th>
+                    <th pSortableColumn="startDate">Start Date<p-sortIcon field="startDate"></p-sortIcon></th>
+                    <th pSortableColumn="endDate">End Date<p-sortIcon field="endDate"></p-sortIcon></th>
+                    <th pSortableColumn="jobTitle">Job Title<p-sortIcon field="jobTitle"></p-sortIcon></th>
+                    <th pSortableColumn="departmentName">Department Name<p-sortIcon field="departmentName"></p-sortIcon></th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-row1>

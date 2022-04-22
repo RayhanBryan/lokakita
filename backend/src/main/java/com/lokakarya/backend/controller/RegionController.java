@@ -60,4 +60,10 @@ public class RegionController {
 	DataResponseList<RegionWrapper> getByRegionName(@RequestParam("regionName") String regionName){
 		return new DataResponseList<RegionWrapper>(regionService.getByRegionName(regionName));
 	}
+
+	@GetMapping(path = "/getRegionName")
+	DataResponseList<RegionWrapper> getRegionName(@RequestParam("regionName") String regionName) {
+		return new DataResponseList<RegionWrapper>(regionService.findByRegionName(regionName));
+	}
+
 }
