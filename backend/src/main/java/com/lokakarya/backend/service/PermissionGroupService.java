@@ -46,7 +46,7 @@ public class PermissionGroupService {
         Optional<User> user = userRepository.findById(userId);
         if(!user.isPresent())
             throw new BusinessException("User not found: "+userId+".");
-        return toWrapperList(permissionGroupRepository.getPermissionGroupByUserId(userId));
+        return toWrapperList(permissionGroupRepository.getPermissionGroupByUser(userId));
     }
 
     private PermissionGroup toEntity(PermissionGroupWrapper wrapper){
@@ -73,6 +73,7 @@ public class PermissionGroupService {
         wrapper.setPermissionId(entity.getPermission().getPermissionId());
         wrapper.setGroupId(entity.getGroup().getGroupId());
         wrapper.setGroupName(entity.getGroup().getGroupName());
+        wrapper.setIsActive(entity.getIsActive());
         return wrapper;
     }
 
@@ -99,6 +100,21 @@ public class PermissionGroupService {
 		PermissionGroup permissionGroup = permissionGroupRepository.save(toEntity(wrapper));
 		return toWrapper(permissionGroup);
 	}
+    public PermissionGroupWrapper putByPermissionIdAndGroupId(Long permissionId, Long groupId, Character isActive){
+        if(  groupId == null)
+            throw new BusinessException("Input cannot be null.");
+        Optional<Permission> permission = permissionRepository.findById(permissionId);
+        if (!permission.isPresent())
+            throw new BusinessException("Permission ID "+ permissionId +" not found.");
+        Optional<Group> group = groupRepository.findById(groupId);
+        if (!group.isPresent())
+            throw new BusinessException("Group ID "+ groupId +" not found.");  
+        Optional<PermissionGroup> permissionGroup = permissionGroupRepository.getPermissionGroupByPermissionAndGroup(permission.get(), group.get());
+        if(!permissionGroup.isPresent())
+            throw new BusinessException("Permission Group is not found");
+        permissionGroup.get().setIsActive(isActive);
+        return toWrapper(permissionGroupRepository.save(permissionGroup.get()));
+    }
 
     // delete
     public void delete(Long id){

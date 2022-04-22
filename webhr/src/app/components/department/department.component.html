@@ -61,41 +61,41 @@
 </p-table>
 
 <p-dialog [header]="action == 'Add' ? 'Input Department' : 'Edit Department'" [(visible)]="display" [modal]="true"
-  [style]="{ width: '50vw', height: '40vw' }" [maximizable]="true" [baseZIndex]="10000" [draggable]="false"
+  [style]="{ width: '50vw'}" [maximizable]="true" [baseZIndex]="10000" [draggable]="false"
   [resizable]="false" (onHide)="handleReset($event, 'hide')">
   <div class="grid p-fluid">
     <div class="col-12 md:col-6">
       <label for="departmentname">Department Name</label>
       <input type="text" pInputText id="departmentname" [(ngModel)]="row.departmentName" required="autofocus" />
-      <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.departmentName">
-        Department Name Required!
+      <h5 class="p-invalid" style="color: red" *ngIf="!row.departmentName">
+        Department Name is Required!
       </h5>
     </div>
     <div class="col-12 md:col-6">
       <label for="managername">Manager Name</label>
       <p-dropdown appendTo="body" [options]="employees" [(ngModel)]="row.managerId" optionLabel="firstName"
-        optionValue="employeeId" placeholder="Manager Name">
+        optionValue="employeeId" placeholder="Select a Manager Name">
       </p-dropdown>
-      <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.managerId">
-        Manager Name Required!
+      <h5 class="p-invalid" style="color: red" *ngIf="!row.managerId">
+        Please select 1 Manager Name!
       </h5>
     </div>
     <div class="col-12 md:col-6">
       <label for="streetAddress">Street Address</label>
       <p-dropdown appendTo="body" [options]="locations" [(ngModel)]="row.locationId" optionLabel="streetAddress"
-        placeholder="Street Address" optionValue="locationId">
+        placeholder="Select a Street Address" optionValue="locationId">
       </p-dropdown>
-      <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.locationId">
-        Street Address Required!
+      <h5 class="p-invalid" style="color: red" *ngIf="!row.locationId">
+        Please select 1 Street Address!
       </h5>
     </div>
     <div class="col-12 md:col-6">
       <label for="city">City</label>
       <p-dropdown appendTo="body" [options]="locations" [(ngModel)]="row.locationId" optionLabel="city"
-        placeholder="City" optionValue="locationId">
+        placeholder="Select a City" optionValue="locationId">
       </p-dropdown>
-      <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.departmentName">
-        City Required!
+      <h5 class="p-invalid" style="color: red" *ngIf="!row.departmentName">
+        Please select 1 City!
       </h5>
     </div>
   </div>
