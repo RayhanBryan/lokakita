@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import com.lokakarya.backend.entity.Region;
+import com.lokakarya.backend.exception.BusinessException;
 import com.lokakarya.backend.repository.EmployeeRepository;
 import com.lokakarya.backend.repository.RegionRepository;
 import com.lokakarya.backend.util.PaginationList;
@@ -37,20 +38,11 @@ public class RegionService {
 		return toWrapperList(regionList);
 	};
 	
-	// CREATE AND UPDATE9
+	// CREATE AND UPDATED
 	public RegionWrapper save(RegionWrapper wrapper) {
 		Region region = regionRepository.save(toEntity(wrapper));
 		return toWrapper(region);
 	}
-
-	// public RegionWrapper save(RegionWrapper wrapper) {
-	// 	Region regionNameExist = regionRepository.findByRegionName(wrapper.getRegionName());
-	// 	if(regionNameExist){
-
-	// 	}
-	// 	Region region = regionRepository.save(toEntity(wrapper));
-	// 	return toWrapper(region);
-	// }
 	
 	// DELETE
 	public void delete(Long id) {
@@ -107,10 +99,6 @@ public class RegionService {
 		return toWrapperList(locationList);
 	}
 
-	// public String getByEqualRegionName(String regionName) {
-	// 	String region = regionRepository.findByRegionNameIgnoreCase(regionName);
-	// 	return region;
-	// }
 }
 
 
