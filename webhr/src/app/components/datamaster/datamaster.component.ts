@@ -2,12 +2,17 @@ import {
   Component,
   OnInit
 } from '@angular/core';
-import { Router } from '@angular/router';
+import {
+  Data,
+  Router
+} from '@angular/router';
 import {
   ConfirmationService,
   MessageService
 } from 'primeng/api';
-import { retry } from 'rxjs';
+import {
+  retry
+} from 'rxjs';
 import {
   GroupService
 } from 'src/app/services/group.service';
@@ -38,14 +43,14 @@ export class DatamasterComponent implements OnInit {
 
   password: string = '';
   username: string = '';
-  address:string='';
-  phoneNumber:string='';
+  address: string = '';
+  phoneNumber: string = '';
   checkUser: boolean = false;
-  checkEmail:boolean=false;
-  mailformat=/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  checkEmail: boolean = false;
+  mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   userData: any;
 
-  email:string='';
+  email: string = '';
   action = 0;
   nama: string = '';
   actions: string = '';
@@ -63,10 +68,10 @@ export class DatamasterComponent implements OnInit {
   selectedGroup: any[] = [];
   checked: boolean = false;
 
-  submitEdit:boolean=false;
-  submitAdd:boolean=false;
+  submitEdit: boolean = false;
+  submitAdd: boolean = false;
 
-  newUserValid: boolean=false;
+  newUserValid: boolean = false;
 
   groups: any;
 
@@ -80,8 +85,8 @@ export class DatamasterComponent implements OnInit {
     phone: '',
     groupName: [],
     createdBy: '',
-    permissions:[],
-    menus:[],
+    permissions: [],
+    menus: [],
   };
 
   newAccess: any = {
@@ -92,8 +97,8 @@ export class DatamasterComponent implements OnInit {
     isActive: '',
   }
 
-  bro:any;
-  editGroups:any;
+  bro: any;
+  editGroups: any;
 
   groupList: any;
 
@@ -101,8 +106,8 @@ export class DatamasterComponent implements OnInit {
 
   hakAksess: any;
 
-  arrayGroup:any[]=[];
-  arrayGroupIsActive:any[]=[];
+  arrayGroup: any[] = [];
+  arrayGroupIsActive: any[] = [];
   name: string = '';
 
   dataUser: any;
@@ -115,7 +120,7 @@ export class DatamasterComponent implements OnInit {
     private hakAkses: HakAksesService,
     private confirmationService: ConfirmationService,
     private router: Router
-    ) {}
+  ) {}
 
   ngOnInit(): void {
     this.usersService.getUser().subscribe((res) => {
@@ -268,14 +273,14 @@ export class DatamasterComponent implements OnInit {
   submit(): void {
     this.usersService.postUser(this.row).subscribe({
       next: (data) => {
-        console.log(data,'inidata')
+        console.log(data, 'inidata')
         if (data.status) {
           this.newAccess.userId = data.data.userId;
-          console.log(data.data.userId,'iniapa');
+          console.log(data.data.userId, 'iniapa');
           this.newAccess.createdBy = data.data.createdBy;
           for (let i = 0; i < this.selectedGroup.length; i++) {
             this.newAccess.groupId = this.selectedGroup[i];
-            this.newAccess.isActive='Y';
+            this.newAccess.isActive = 'Y';
             this.hakAkses.postAccess(this.newAccess).subscribe(
               res => {
                 console.log(res);
@@ -293,58 +298,58 @@ export class DatamasterComponent implements OnInit {
   }
 
   input(): void {
-      this.usersService.postUser(this.row).subscribe({
-        next: (data) => {
-          console.log(data,'inidata')
-          if (data.status) {
-            this.newAccess.userId = data.data.userId;
-            console.log(data.data.userId,'iniapa');
-            this.newAccess.createdBy = data.data.createdBy;
-            for (let i = 0; i < this.selectedGroup.length; i++) {
-              this.newAccess.groupId = this.selectedGroup[i];
-              this.hakAkses.postAccess(this.newAccess).subscribe(
-                res => {
-                  console.log(res);
-                }
-              )
-            }
-            this.displayBasic2 = false;
-            window.location.reload();
+    this.usersService.postUser(this.row).subscribe({
+      next: (data) => {
+        console.log(data, 'inidata')
+        if (data.status) {
+          this.newAccess.userId = data.data.userId;
+          console.log(data.data.userId, 'iniapa');
+          this.newAccess.createdBy = data.data.createdBy;
+          for (let i = 0; i < this.selectedGroup.length; i++) {
+            this.newAccess.groupId = this.selectedGroup[i];
+            this.hakAkses.postAccess(this.newAccess).subscribe(
+              res => {
+                console.log(res);
+              }
+            )
           }
-        },
-        error: (err) => {
-          console.log('error cuy');
-        },
-      });
+          this.displayBasic2 = false;
+          window.location.reload();
+        }
+      },
+      error: (err) => {
+        console.log('error cuy');
+      },
+    });
   }
-  
-  edit(){
+
+  edit() {
     this.usersService.putUser(this.row).subscribe({
       next: (data) => {
         if (data.status) {
-          this.newAccess.userId=this.row.userId;
+          this.newAccess.userId = this.row.userId;
           this.groupsService.getGroup().subscribe((res) => {
             this.groups = res.data;
-            for(let i=0; i<this.groups.length;i++){
-              this.arrayGroup[i]=this.groups[i].groupId;
+            for (let i = 0; i < this.groups.length; i++) {
+              this.arrayGroup[i] = this.groups[i].groupId;
             }
             console.log(this.arrayGroup, 'ini array group id')
-            for(let i=0; i<this.selectedGroup.length;i++){
-              for(let j=0; j<this.arrayGroup.length;j++){
-                if(this.selectedGroup[i]==this.arrayGroup[j]){
+            for (let i = 0; i < this.selectedGroup.length; i++) {
+              for (let j = 0; j < this.arrayGroup.length; j++) {
+                if (this.selectedGroup[i] == this.arrayGroup[j]) {
                   this.newAccess.groupId = this.selectedGroup[i];
-                  this.newAccess.isActive='Y';
+                  this.newAccess.isActive = 'Y';
                   console.log('Y');
-                }else{
+                } else {
                   this.newAccess.groupId = this.arrayGroup[j];
-                  this.newAccess.isActive='N';
+                  this.newAccess.isActive = 'N';
                   console.log('N');
                 }
-                if(this.selectedGroup[i]==this.arrayGroup[j]){
-                this.hakAkses.putAccessIsActive(this.newAccess.userId, this.newAccess.groupId, this.newAccess.isActive).subscribe({
-                  next:data=>{
-                    if(data.status){
-                      console.log('Mantapbos')
+                if (this.selectedGroup[i] == this.arrayGroup[j]) {
+                  this.hakAkses.putAccessIsActive(this.newAccess.userId, this.newAccess.groupId, this.newAccess.isActive).subscribe({
+                    next: data => {
+                      if (data.status) {
+                        console.log('Mantapbos')
                       }
                     }
                   })
@@ -352,7 +357,7 @@ export class DatamasterComponent implements OnInit {
               }
             }
           })
-          console.log(this.selectedGroup,'ini');
+          console.log(this.selectedGroup, 'ini');
           // this.displayBasic2 = false;
           // window.location.reload();
         }
@@ -363,58 +368,58 @@ export class DatamasterComponent implements OnInit {
     });
   }
 
-  editTest(){
+  editTest() {
     this.usersService.putUser(this.row).subscribe({
       next: (data) => {
         if (data.status) {
-          this.newAccess.userId=this.row.userId;
-          this.groupsService.getGroupByUserId(this.row.userId).subscribe((result)=>{
-          this.newAccess.groupId=result.data;
-          this.hakAkses.getAccessById(this.row.userId).subscribe((resu)=>{
-           this.bro=resu.data;
-           for(let i=0; i<this.bro.length; i++){
-            this.arrayGroupIsActive[i]=this.bro[i].isActive;
-            this.arrayGroup[i]=this.bro[i].groupId;
-           }
-           console.log(this.arrayGroup,'yooo')
-           console.log(this.arrayGroupIsActive,'kwkw')
-           for(let i=0; i<this.selectedGroup.length;i++){
-            for(let j=0; j<this.arrayGroup.length;j++){
-              if(this.selectedGroup[i]==this.arrayGroup[j]){
-                this.newAccess.groupId = this.selectedGroup[i];
-                this.newAccess.isActive='Y';
-                console.log('Ini : Y');
-                if(this.selectedGroup[i]==this.arrayGroup[j]){
-                  this.hakAkses.putAccessIsActive(this.newAccess.userId, this.newAccess.groupId, this.newAccess.isActive).subscribe({
-                    next:data=>{
-                      if(data.status){
-                        console.log('Mantapbos')
-                        }
-                      }
-                    })
-                  }
-              }else{
-                this.newAccess.groupId = this.arrayGroup[j];
-                this.newAccess.isActive='N';
-                console.log('Ini : N');
-                if(this.selectedGroup[i]==this.arrayGroup[j]){
-                  this.hakAkses.putAccessIsActive(this.newAccess.userId, this.newAccess.groupId, this.newAccess.isActive).subscribe({
-                    next:data=>{
-                      if(data.status){
-                        console.log('Mantapbos')
-                        }
-                      }
-                    })
-                  }
+          this.newAccess.userId = this.row.userId;
+          this.groupsService.getGroupByUserId(this.row.userId).subscribe((result) => {
+            this.newAccess.groupId = result.data;
+            this.hakAkses.getAccessById(this.row.userId).subscribe((resu) => {
+              this.bro = resu.data;
+              for (let i = 0; i < this.bro.length; i++) {
+                this.arrayGroupIsActive[i] = this.bro[i].isActive;
+                this.arrayGroup[i] = this.bro[i].groupId;
               }
-              
-            }
-          }
-           
+              console.log(this.arrayGroup, 'yooo')
+              console.log(this.arrayGroupIsActive, 'kwkw')
+              for (let i = 0; i < this.selectedGroup.length; i++) {
+                for (let j = 0; j < this.arrayGroup.length; j++) {
+                  if (this.selectedGroup[i] == this.arrayGroup[j]) {
+                    this.newAccess.groupId = this.selectedGroup[i];
+                    this.newAccess.isActive = 'Y';
+                    console.log('Ini : Y');
+                    if (this.selectedGroup[i] == this.arrayGroup[j]) {
+                      this.hakAkses.putAccessIsActive(this.newAccess.userId, this.newAccess.groupId, this.newAccess.isActive).subscribe({
+                        next: data => {
+                          if (data.status) {
+                            console.log('Mantapbos')
+                          }
+                        }
+                      })
+                    }
+                  } else {
+                    this.newAccess.groupId = this.arrayGroup[j];
+                    this.newAccess.isActive = 'N';
+                    console.log('Ini : N');
+                    if (this.selectedGroup[i] == this.arrayGroup[j]) {
+                      this.hakAkses.putAccessIsActive(this.newAccess.userId, this.newAccess.groupId, this.newAccess.isActive).subscribe({
+                        next: data => {
+                          if (data.status) {
+                            console.log('Mantapbos')
+                          }
+                        }
+                      })
+                    }
+                  }
+
+                }
+              }
+
+            })
+
           })
-          
-          })
-          console.log(this.selectedGroup,'ini');
+          console.log(this.selectedGroup, 'ini');
           // this.displayBasic2 = false;
           // window.location.reload();
         }
@@ -456,21 +461,20 @@ export class DatamasterComponent implements OnInit {
     });
   }
 
-  newUser(){
-    this.usersService.getByUsername(this.username).subscribe((res)=>{
-      if(!res.status){
-        if(this.checkUser==true){
+  newUser() {
+    this.usersService.getByUsername(this.username).subscribe((res) => {
+      if (!res.status) {
+        if (this.checkUser == true) {
           this.invalidUsername();
           return
-        }
-        else if(this.checkEmail==true){
+        } else if (this.checkEmail == true) {
           this.invalidEmail();
           return
         }
         this.usersService.getUserByEmail(this.email).subscribe(
-          res=>{
+          res => {
             console.log(res)
-            if(res.status){
+            if (res.status) {
               this.dupEmail();
               return;
             }
@@ -481,12 +485,12 @@ export class DatamasterComponent implements OnInit {
             this.row.address = this.address;
             this.row.name = this.name;
             this.row.createdBy = this.username;
-            if(this.row.username !=''&&this.row.password != '' &&
-            this.row.email != '' &&
-            this.row.phone != '' &&
-            this.row.address != '' &&
-            this.row.name != ''){
-              this.newUserValid=true;
+            if (this.row.username != '' && this.row.password != '' &&
+              this.row.email != '' &&
+              this.row.phone != '' &&
+              this.row.address != '' &&
+              this.row.name != '') {
+              this.newUserValid = true;
               this.usersService.postUser(this.row).subscribe({
                 next: (data) => {
                   console.log(data)
@@ -494,48 +498,45 @@ export class DatamasterComponent implements OnInit {
                     this.successSignUp();
                     this.groupsService.getGroup().subscribe(
                       res => {
-                        for (let i=0; i<this.selectedGroup.length; i++) {
-                          this.newAccess.userId = data.data.userId;
-                          this.newAccess.createdBy = data.data.createdBy;
-                          // this.newAccess.groupId = res.data[i].groupId;
-                          //test
-                          console.log(this.newAccess.groupId);
-                          for(let j=0; j<res.data.length; j++){
-                            if(this.selectedGroup[i]==res.data[j].groupId){
+                        if (this.selectedGroup.length == res.data.length) {
+                          for (let i = 0; i < res.data.length; i++) {
+                            this.newAccess.userId = data.data.userId;
+                            this.newAccess.createdBy = data.data.createdBy;
+                            this.newAccess.groupId = res.data[i].groupId;
+                            this.newAccess.isActive = 'Y'
+                            console.log(this.newAccess)
+                            this.hakAkses.postAccess(this.newAccess).subscribe(
+                              res => {
+                                console.log(res);
+                              }
+                            )
+                            console.log(res.data);
+
+                          }
+                        } else {
+                          for (let i = 0; i < res.data.length; i++) {
+                            if (this.selectedGroup[i] == undefined) {
+                              this.newAccess.groupId = res.data[i].groupId;
+                              this.newAccess.userId = data.data.userId;
+                              this.newAccess.createdBy = data.data.createdBy;
+                              this.newAccess.isActive = 'N';
+                              this.hakAkses.postAccess(this.newAccess).subscribe(
+                                res => {
+                                  console.log(res);
+                                }
+                              )
+                            } else {
+                              this.newAccess.userId = data.data.userId;
+                              this.newAccess.createdBy = data.data.createdBy;
                               this.newAccess.groupId = this.selectedGroup[i];
-                              this.newAccess.isActive='Y'
-                              console.log('Y')    
-                              console.log(this.newAccess)
-                              if(this.selectedGroup[i]==res.data[j].groupId){
-                          this.hakAkses.postAccess(this.newAccess).subscribe(
-                            res => {
-                              console.log(res);
+                              this.newAccess.isActive = 'Y';
+                              this.hakAkses.postAccess(this.newAccess).subscribe(
+                                res => {
+                                  console.log(res);
+                                }
+                              )
                             }
-                          )
                           }
-                            }else{
-                              this.newAccess.groupId = res.data[j].groupId;
-                              this.newAccess.isActive='N'
-                              console.log('N')
-                              console.log(this.newAccess)
-                              if(this.selectedGroup[i]!==res.data[j].groupId){
-                          this.hakAkses.postAccess(this.newAccess).subscribe(
-                            res => {
-                              console.log(res);
-                            }
-                          )
-                          }
-                          }
-                          }
-                          
-                          //test
-                          // this.newAccess.isActive = 'N'
-                          // console.log(this.newAccess)
-                          // this.hakAkses.postAccess(this.newAccess).subscribe(
-                          //   res => {
-                          //     console.log(res);
-                          //   }
-                          // )
                         }
                         this.toLogin();
                         return
@@ -589,23 +590,48 @@ export class DatamasterComponent implements OnInit {
   }
 
   invalidUsername() {
-    this.messageService.add({ key: 'tc', severity: 'error', summary: 'Sorry', detail: 'Please type a valid username' });
+    this.messageService.add({
+      key: 'tc',
+      severity: 'error',
+      summary: 'Sorry',
+      detail: 'Please type a valid username'
+    });
   }
 
   invalidEmail() {
-    this.messageService.add({ key: 'tc', severity: 'error', summary: 'Sorry', detail: 'Please type a valid email' });
+    this.messageService.add({
+      key: 'tc',
+      severity: 'error',
+      summary: 'Sorry',
+      detail: 'Please type a valid email'
+    });
   }
 
   dupEmail() {
-    this.messageService.add({ key: 'tc', severity: 'error', summary: 'Sorry', detail: 'Email already exist' });
+    this.messageService.add({
+      key: 'tc',
+      severity: 'error',
+      summary: 'Sorry',
+      detail: 'Email already exist'
+    });
   }
 
   successSignUp() {
-    this.messageService.add({ key: 'tc', severity: 'success', summary: 'Congratulations', detail: 'You can login now' });
+    this.messageService.add({
+      key: 'tc',
+      severity: 'success',
+      summary: 'Congratulations',
+      detail: 'You can login now'
+    });
   }
 
   invalidSignUp() {
-    this.messageService.add({ key: 'tc', severity: 'error', summary: 'Sorry', detail: 'There are some invalid data' });
+    this.messageService.add({
+      key: 'tc',
+      severity: 'error',
+      summary: 'Sorry',
+      detail: 'There are some invalid data'
+    });
   }
 
 }
