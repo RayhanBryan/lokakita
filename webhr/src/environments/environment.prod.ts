@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  url: 'http://localhost:9090/',
+  url: 'https://loka-service.herokuapp.com:443/',
 };
