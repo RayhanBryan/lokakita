@@ -58,9 +58,17 @@ export class RegionService {
 
   /**
    * This is a function to get a all column of a record using its ID
-   * @param regionId this is a ID of a record we want to get the details of
+   * @param regionId this is the ID of a record we want to get the details of
    */
   getRegionById(regionId:number):Observable<any>{
     return this.http.get<any>(this.regionUrl+`getById?id=${regionId}`,httpOptions);
+  }
+
+  /**
+   * This is a function to get a record using region name
+   * @param regionName this is the region name of a record we want to get
+   */
+  getRegionByRegionName(regionName:string):Observable<any>{
+    return this.http.get<any>(this.regionUrl+`getRegionName?regionName=${regionName}`,httpOptions);
   }
 }

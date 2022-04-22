@@ -41,7 +41,7 @@
       <div class="col-6">
           <h5>Job ID</h5>
           <span class="p-float-label">
-              <input *ngIf="action==1" type="text" pInputText [(ngModel)]="row.jobId" (ngModelChange)="row.jobId = $event.toUpperCase()" required autofocus> 
+              <input *ngIf="action==1" type="text" pInputText [(ngModel)]="row.jobId" (ngModelChange)="row.jobId = $event.toUpperCase()" required autofocus placeholder="ex: AD_PRES"> 
               <!-- <h5 *ngIf="submitted && !row.jobId">Required!!</h5>  -->
               <label for="float-input">{{row.jobId}}</label>
               <h5 class="p invalid" style="color: red;" *ngIf=" !row.jobId">Job ID is required.</h5>
@@ -50,7 +50,7 @@
       <div class="col-6">
           <h5>Job Title</h5>
           <span class="p-float-label">
-              <input type="text" pInputText [(ngModel)]="row.jobTitle" required autofocus> 
+              <input type="text" pInputText [(ngModel)]="row.jobTitle" required autofocus placeholder="ex: President"> 
               <!-- <h5 *ngIf="submitted && !row.jobTitle">Required!!</h5> -->
               <h5 class="p invalid" style="color: red;" *ngIf=" !row.jobTitle">Job Name is required.</h5>
           </span>
@@ -58,16 +58,16 @@
       <div class="col-6">
           <h5>Minimum Salary</h5>
           <span class="p-float-label">
-              <input type="number" pInputText [(ngModel)]="row.minSalary" required autofocus> 
-              <label for="float-input">Minimum Salary</label>
+              <input type="number" pInputText [(ngModel)]="row.minSalary" required autofocus placeholder="1000"> 
+              <!-- <label for="float-input">Minimum Salary</label> -->
               <h5 class="p invalid" style="color: red;" *ngIf="!row.minSalary">Minimum Salary is required.</h5>
           </span>
       </div>
       <div class="col-6">
           <h5>Maximum Salary</h5>
           <span class="p-float-label">
-              <input type="number" pInputText [(ngModel)]="row.maxSalary" required autofocus> 
-              <label for="float-input">Maximum Salary</label>
+              <input type="number" pInputText [(ngModel)]="row.maxSalary" required autofocus placeholder="10000"> 
+              <!-- <label for="float-input">Maximum Salary</label> -->
               <h5 class="p invalid" style="color: red;" *ngIf="row.maxSalary<row.minSalary">Maximum Salary is required and must be greater than the minimum salary.</h5>
 
           </span>

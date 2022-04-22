@@ -33,28 +33,30 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
         List<Employee> findByJobTitleContainingIgnoreCase(@Param("pJobTitle") String jobTitle);
 
         @Query(value = "SELECT * FROM EMPLOYEES e " +
-                        "LEFT JOIN " +
-                        "JOBS j " +
-                        "ON j.JOB_ID = " +
-                        "e.JOB_ID " +
+                        "JOIN EMPLOYEES m ON (e.MANAGER_ID = m.EMPLOYEE_ID) " +
+                        "LEFT JOIN JOBS j ON j.JOB_ID = e.JOB_ID " +
                         "LEFT JOIN DEPARTMENTS d " +
                         "ON d.DEPARTMENT_ID = e.DEPARTMENT_ID " +
                         "WHERE LOWER(j.JOB_TITLE) " +
                         "LIKE LOWER(CONCAT(CONCAT('%',:pJobTitle),'%')) OR LOWER(d.DEPARTMENT_NAME)" +
                         "LIKE LOWER(CONCAT(CONCAT('%',:pDepartmentName), '%')) OR LOWER(e.FIRST_NAME)" +
                         "LIKE LOWER(CONCAT(CONCAT('%',:pFirstName), '%')) OR LOWER(e.LAST_NAME)" +
-                        "LIKE LOWER(CONCAT(CONCAT('%',:pLastName), '%')) OR LOWER(j.JOB_TITLE)" +
-                        "LIKE LOWER(CONCAT(CONCAT('%',:pJobTitle), '%')) OR LOWER(e.EMAIL)" +
+                        "LIKE LOWER(CONCAT(CONCAT('%',:pLastName), '%')) OR LOWER(m.FIRST_NAME)" +
+                        "LIKE LOWER(CONCAT(CONCAT('%',:pManagerFirstName), '%')) OR LOWER(m.LAST_NAME)" +
+                        "LIKE LOWER(CONCAT(CONCAT('%',:pManagerLastName), '%')) OR LOWER(e.EMAIL)" +
                         "LIKE LOWER(CONCAT(CONCAT('%',:pEmail), '%')) OR LOWER(e.PHONE_NUMBER)" +
                         "LIKE LOWER(CONCAT(CONCAT('%',:pPhoneNumber), '%'))", nativeQuery = true)
         List<Employee> getByAllCategorie(@Param("pDepartmentName") String departmentName,
                         @Param("pFirstName") String firstName,
                         @Param("pLastName") String lastName,
-                        @Param("pJobTitle") String jobTitle, @Param("pEmail") String email,
+                        @Param("pManagerFirstName") String managerFirstName,
+                        @Param("pManagerLastName") String managerLastName,
+                        @Param("pJobTitle") String jobTitle,
+                        @Param("pEmail") String email,
                         @Param("pPhoneNumber") String phoneNumber);
 
         default List<Employee> getByAllCategories(String all) {
-                return getByAllCategorie(all, all, all, all, all, all);
+                return getByAllCategorie(all, all, all, all, all, all, all, all);
         }
 
         List<Employee> findByEmailContainingIgnoreCase(String email);
