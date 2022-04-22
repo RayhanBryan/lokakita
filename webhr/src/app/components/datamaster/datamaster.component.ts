@@ -1,9 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { MessageService } from 'primeng/api';
-import { Timestamp } from 'rxjs';
-import { GroupService } from 'src/app/services/group.service';
-import { HakAksesService } from 'src/app/services/hakakses.service';
-import { UserService } from 'src/app/services/user.service';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
+import {
+  MessageService
+} from 'primeng/api';
+import {
+  GroupService
+} from 'src/app/services/group.service';
+import {
+  HakAksesService
+} from 'src/app/services/hakakses.service';
+import {
+  UserService
+} from 'src/app/services/user.service';
 
 
 
@@ -34,21 +44,22 @@ export class DatamasterComponent implements OnInit {
   confirmNewPass: string = '';
   valuepass4: string = '';
   today: any = new Date();
-  userIdxGroup:any;
+  userIdxGroup: any;
   users: any;
   first = 0;
   rows = 10;
 
   showSearch: boolean = false;
   selectedGroup: any[] = [];
-  // selectedCategories: any[] = ['Admin', 'User'];
-  // categories: any[] = [{ name: 'Admin', key: 'A' }, { name: 'User', key: 'M' }];
   checked: boolean = false;
 
-  groups:any;
+  submitEdit:boolean=false;
+  submitAdd:boolean=false;
+
+  groups: any;
 
   row: any = {
-    userId: 0,
+    // userId: 0,
     username: '',
     password: '',
     name: '',
@@ -56,30 +67,35 @@ export class DatamasterComponent implements OnInit {
     email: '',
     phone: '',
     groupName: [],
-    createdDate: '',
     createdBy: '',
+    permissions:[],
+    menus:[],
   };
 
   newAccess: any = {
-    hakAksesId:'',
     userId: '',
     groupId: '',
     createdBy: '',
-    isActive:'',
+    isActive: 'Y',
+    createdDate: '',
   }
 
   groupList: any;
 
+  putIsActive: any;
 
-  hakAksess:any;
+  hakAksess: any;
 
-  name:string='';
+  name: string = '';
 
   dataUser: any;
   wrongConfirmPassword: boolean = false;
   wrongPassword: boolean = false;
 
-  constructor(private messageService: MessageService, private usersService: UserService, private groupsService: GroupService, private hakAkses: HakAksesService) { }
+  constructor(private messageService: MessageService,
+    private usersService: UserService,
+    private groupsService: GroupService,
+    private hakAkses: HakAksesService) {}
 
   ngOnInit(): void {
     this.usersService.getUser().subscribe((res) => {
@@ -92,29 +108,27 @@ export class DatamasterComponent implements OnInit {
       });
       this.users = res.data;
       console.log(res.data, 'tes');
-      console.log(this.selectedGroup,'ini selected group')
+      console.log(this.selectedGroup, 'ini selected group')
     });
+
     this.usersService.getByUserId(Number(localStorage.getItem('token'))).subscribe(
       res => {
         this.dataUser = res.data;
-        console.log(this.dataUser,'getbyuserid')
+        console.log(this.dataUser, 'getbyuserid')
       }
     )
 
-    this.groupsService.getGroup().subscribe((res)=>{
-      this.groups=res.data;
-      console.log(this.groups,'groups')
+    this.groupsService.getGroup().subscribe((res) => {
+      this.groups = res.data;
+      console.log(this.groups, 'groups')
     })
-      
-    this.hakAkses.getAccess().subscribe((reslt)=>{
-      this.newAccess=reslt.data;
-      console.log(this.newAccess,'new access')
-    })
+
+    // this.hakAkses.getAccess().subscribe((reslt) => {
+    //   this.newAccess = reslt.data;
+    //   console.log(this.newAccess, 'new access')
+    // })
   }
 
-  dateToString() {
-    this.today.dateToString
-  }
 
   showSearchCall() {
     this.showSearch = !this.showSearch;
@@ -129,16 +143,18 @@ export class DatamasterComponent implements OnInit {
     this.submitted = false;
   }
 
-  showBasicDialog2(row:any) {
+  showBasicDialog2(row: any) {
     this.displayBasic = false;
     this.displayBasic2 = true;
     this.submitted = false;
     this.actions = 'add';
-    this.row = { ...row.createdBy };
+    this.row = {
+      ...row.createdBy
+    };
     this.usersService.getByUserId(Number(localStorage.getItem('token'))).subscribe(
-     res => {
-      this.name = res.data.name;
-       this.row.createdBy= res.data.name;
+      res => {
+        this.name = res.data.name;
+        this.row.createdBy = res.data.name;
       }
     )
   }
@@ -168,7 +184,7 @@ export class DatamasterComponent implements OnInit {
       phone: '',
       groupName: '',
       createdDate: '',
-      createdBy: '',
+      createdBy: ''
     };
   }
 
@@ -204,7 +220,9 @@ export class DatamasterComponent implements OnInit {
   openEdit(row: any) {
     this.displayBasic2 = true;
     this.actions = 'edit';
-    this.row = { ...row };
+    this.row = {
+      ...row
+    };
     this.usersService.getByUserId(Number(localStorage.getItem('token'))).subscribe(
       res => {
         this.name = res.data.name;
@@ -212,11 +230,18 @@ export class DatamasterComponent implements OnInit {
     )
   }
 
-  getUserIdxGroupId(id:any, groupId:any){
-  this.hakAkses.getAccsesByUserIdxGroupId(id, groupId).subscribe((res)=>{
-    this.userIdxGroup= res.data;
-    console.log(this.userIdxGroup);
-  })
+  getUserIdxGroupId(id: any, groupId: any) {
+    this.hakAkses.getAccsesByUserIdxGroupId(id, groupId).subscribe((res) => {
+      this.userIdxGroup = res.data;
+      console.log(this.userIdxGroup);
+    })
+  }
+
+  putHakAkses(id: any, gId: any, isActive: string) {
+    this.hakAkses.putAccessIsActive(id, gId, isActive).subscribe((res) => {
+      this.putIsActive = res.data;
+      console.log(this.putIsActive);
+    })
   }
 
   deleteUser(id: any) {
@@ -227,32 +252,14 @@ export class DatamasterComponent implements OnInit {
     window.location.reload();
   }
 
-  deleteHakAkses(id:any){
+  deleteHakAkses(id: any) {
     this.hakAkses.deleteAccess(id).subscribe((res) => {
       console.log(res.data);
       this.hakAksess = res.data;
     });
   }
 
-  submit(): void{
-    if(this.row.userId == 0){
-      this.row.userId = null;
-      this.usersService.postUser(this.row).subscribe({
-        next:(data)=>{
-          if(data.status){
-          console.log(data,'aw');
-          }
-        },
-         error: (err) => {
-          console.log('error cuy');
-         }
-      });
-    }
-  }
-
-
-
-  input(): void {
+  submit(): void {
     if (this.row.userId == 0) {
       this.row.userId = null;
       this.usersService.postUser(this.row).subscribe({
@@ -260,21 +267,19 @@ export class DatamasterComponent implements OnInit {
           if (data.status) {
             this.reset;
             this.ngOnInit();
-            //test
             this.newAccess.userId = data.data.userId;
+            console.log(data.data.userId);
             this.newAccess.createdBy = data.data.createdBy;
-             for (let i in this.selectedGroup) {
+            for (let i = 0; i < this.selectedGroup.length; i++) {
               this.newAccess.groupId = this.selectedGroup[i];
-              this.newAccess.isActive = 'Y';
               this.hakAkses.postAccess(this.newAccess).subscribe(
-              res => {
-                console.log(res, ' ini hasil liopp');
+                res => {
+                  console.log(res);
                 }
               )
             }
-            //test
-            this.displayBasic2 = false;
             window.location.reload();
+            this.displayBasic2 = false;
           }
         },
         error: (err) => {
@@ -286,37 +291,6 @@ export class DatamasterComponent implements OnInit {
       this.usersService.putUser(this.row).subscribe({
         next: (data) => {
           if (data.status) {
-            this.reset;
-            this.ngOnInit();
-            //test
-            // this.newAccess.userId = data.data.userId;
-            // this.newAccess.createdBy = data.data.createdBy;
-            // if((this.selectedGroup[0]=='Admin') && (this.selectedGroup[1]=='User')){
-            // for(let i=2; i<=3; i++){
-            // this.newAccess.groupId = i;
-            // this.hakAkses.putAccess(this.newAccess).subscribe(
-            // res => {
-            // console.log(res);
-            // }
-            // )  
-            // }
-            // }
-            // else if((this.selectedGroup[0]=='Admin')&&(this.selectedGroup[1]!='')){
-            // this.newAccess.groupId = 2;
-            // this.hakAkses.putAccess(this.newAccess.hakAksesId).subscribe(
-            // res => {
-            // console.log(res);
-            // }
-            // )
-            // }else{
-            // this.newAccess.groupId = 3;
-            // this.hakAkses.putAccess(this.newAccess).subscribe(
-            // res => {
-            // console.log(res);
-            // }
-            // )
-            // }
-            //test
             this.displayBasic2 = false;
           }
         },
@@ -327,6 +301,60 @@ export class DatamasterComponent implements OnInit {
       });
     }
   }
+
+  input(): void {
+      this.usersService.postUser(this.row).subscribe({
+        next: (data) => {
+          console.log(data,'inidata')
+          if (data.status) {
+            this.newAccess.userId = data.data.userId;
+            console.log(data.data.userId,'iniapa');
+            this.newAccess.createdBy = data.data.createdBy;
+            for (let i = 0; i < this.selectedGroup.length; i++) {
+              this.newAccess.groupId = this.selectedGroup[i];
+              this.hakAkses.postAccess(this.newAccess).subscribe(
+                res => {
+                  console.log(res);
+                }
+              )
+            }
+            this.displayBasic2 = false;
+            window.location.reload();
+          }
+        },
+        error: (err) => {
+          console.log('error cuy');
+        },
+      });
+  }
+  
+  edit(){
+    this.usersService.putUser(this.row).subscribe({
+      next: (data) => {
+        if (data.status) {
+          this.newAccess.userId=this.row.userId;
+          for(let i=0; i<this.selectedGroup.length;i++){
+          this.newAccess.groupId=this.selectedGroup[i];
+          this.newAccess.isActive='Y';
+          this.hakAkses.putAccessIsActive(this.newAccess.userId, this.newAccess.groupId, this.newAccess.isActive).subscribe({
+          next:dataAkses=>{
+            if(dataAkses.status){
+              console.log('Mantapbos')
+              }
+            }
+          })
+        }
+          
+          this.displayBasic2 = false;
+          window.location.reload();
+        }
+      },
+      error: (err) => {
+        console.log('error cuy');
+      },
+    });
+  }
+
   saveNewPassword() {
     console.log(this.password, ' ini pass lama')
     console.log(this.dataUser, ' ini userdata')
@@ -350,6 +378,10 @@ export class DatamasterComponent implements OnInit {
   };
 
   successUpdatePassword() {
-    this.messageService.add({ severity: 'success', summary: 'Password Updated', detail: 'Password successfully updated' });
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Password Updated',
+      detail: 'Password successfully updated'
+    });
   }
 }
