@@ -235,7 +235,15 @@ export class JobComponent implements OnInit {
   }
 
   isLastPage(): boolean{
-    return this.jobs?this.first === (this.jobs.length-this.rows) : true;
+    if (this.jobs!=null){
+      if(this.jobs.length<this.rows){
+        return true;
+      }
+      else{
+        return (this.jobs.length-this.first<=this.rows);
+      }
+    }
+    return true;
   }
 
   isFirstPage():boolean{

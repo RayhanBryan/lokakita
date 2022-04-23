@@ -64,16 +64,22 @@ export class CustomerComponent implements OnInit {
   }
 
   isLastPage(): boolean {
-    return this.customer
-      ? this.first === this.customer.length - this.rows
-      : true;
+    if (this.customer!=null){
+      if(this.customer.length<this.rows){
+        return true;
+      }
+      else{
+        return (this.customer.length-this.first<=this.rows);
+      }
+    }
+    return true;
   }
 
   isFirstPage(): boolean {
     return this.customer ? this.first === 0 : true;
   }
 
-  searchOption: string = 'customerName';
+  searchOption: string = 'allCategories';
   searchOptions = [
     { label: 'All Categories', value: 'allCategories' },
     { label: 'Customer Name', value: 'customerName' },

@@ -3,19 +3,17 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-const url: string = environment.url;
+const url: string = environment.url || environment.localUrl;
 const httpOptions = {
   headers: new HttpHeaders({
-    'Accept': 'application/json'
-  })
-}
+    Accept: 'application/json',
+  }),
+};
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class GroupMenuService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getGroupMenu(): Observable<any> {
     return this.http.get<any>(url + `groupmenu/findAll`, {
@@ -32,13 +30,13 @@ export class GroupMenuService {
   postGroupMenu(req: any): Observable<any> {
     return this.http.post<any>(url + `groupmenu/post`, req, {
       responseType: 'json',
-    })
+    });
   }
 
   putGroupMenu(req: any): Observable<any> {
     return this.http.put<any>(url + `groupmenu/put`, req, {
       responseType: 'json',
-    })
+    });
   }
 
   deleteGroupMenu(id: number): Observable<any> {

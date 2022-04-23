@@ -1,89 +1,77 @@
-<p-dialog header="Change Password" [(visible)]="displayBasic" [style]="{width: '50vw'}">
-  <div class="grid p-fluid">
-    <div class="col-12 md:col-12">
-      <label for="lastpass">Last Password</label>
-      <p-password id="lastpass" type="text" required autofocus placeholder="Last Password" [(ngModel)]="password"
-        [feedback]="false" [toggleMask]="true"></p-password>
-      <small class="p-invalid" style="color: red" *ngIf="submitted">Last Password Required
-      </small>
-      <small id="username-help" class="p-error block" *ngIf="wrongPassword">Wrong password</small>
-    </div>
-    <div class="col-12 md:col-12">
-      <label for="newpass">New Password</label>
-      <p-password id="newpass" type="text" required autofocus placeholder="New Password" [(ngModel)]="newPass"
-        [toggleMask]="true"></p-password>
-      <small class="p-invalid" style="color: red" *ngIf="submitted">New Password Required
-      </small>
-    </div>
-    <div class="col-12 md:col-12">
-      <label for="cnewpass">Confirm New Password</label>
-      <p-password id="cnewpass" type="text" required autofocus placeholder="Confirm New Password"
-        [(ngModel)]="confirmNewPass" [toggleMask]="true"></p-password>
-      <small class="p-invalid" style="color: red" *ngIf="submitted">Confirm New Password Required
-      </small>
-      <small id="username-help" class="p-error block" *ngIf="wrongConfirmPassword">Please check again your new
-        password</small>
-    </div>
-  </div>
-  <ng-template pTemplate="footer">
-    <p-button icon="pi pi-check" (onClick)="saveNewPassword()" label="Submit" styleClass="p-button-text">
-    </p-button>
-    <p-button icon="pi pi-times" (click)="displayBasic=false" label="Cancel" styleClass="p-button-text p-button-danger">
-    </p-button>
-  </ng-template>
-</p-dialog>
-
-
 <p-dialog [header]="actions == 'add' ? 'Input User' : 'Edit User'" [(visible)]="displayBasic2"
   [style]="{width: '50vw'}" (onHide)="submitEdit" (onHide)="submitAdd">
   <div class="grid p-fluid">
-    <div class="col-12 md:col-6">
+    <div class="col-12 md:col-6" *ngIf="actions=='add'">
+      <label for="username">Username</label>
+      <input id="username" type="text" pInputText [(ngModel)]="username" (input)="checkUsername()" required autofocus
+        placeholder="Username" />
+      <small class="p-invalid" style="color: red" *ngIf="checkUser">Username Required 5 Characters
+      </small>
+    </div>
+    <div class="col-12 md:col-6" *ngIf="actions=='edit'">
       <label for="username">Username</label>
       <input id="username" type="text" pInputText [(ngModel)]="row.username" required autofocus
         placeholder="Username" />
-      <small class="p-invalid" style="color: red" *ngIf="submitted&&!row.username">Username Required
+      <small class="p-invalid" style="color: red" *ngIf="checkUser">Username Required 5 Characters
       </small>
     </div>
     <div class="col-12 md:col-6" *ngIf="actions=='add'">
       <label for="password">Password</label>
-      <p-password id="password" type="text" required [(ngModel)]="row.password" autofocus placeholder="Password"
+      <p-password id="password" type="text" required [(ngModel)]="password" autofocus placeholder="Password"
         [(ngModel)]="valuepass4" [toggleMask]="true"></p-password>
       <small class="p-invalid" style="color: red" *ngIf="submitted">Password Required
       </small>
     </div>
-    <div class="col-12 md:col-6">
+    <div class="col-12 md:col-6" *ngIf="actions=='add'">
+      <label for="name">Name</label>
+      <input id="name" type="text" pInputText [(ngModel)]="name" required autofocus placeholder="Name" />
+      <small class="p-invalid" style="color: red" *ngIf="submitted&&!row.name">Name Required
+      </small>
+    </div>
+    <div class="col-12 md:col-6" *ngIf="actions=='edit'">
       <label for="name">Name</label>
       <input id="name" type="text" pInputText [(ngModel)]="row.name" required autofocus placeholder="Name" />
       <small class="p-invalid" style="color: red" *ngIf="submitted&&!row.name">Name Required
       </small>
     </div>
-    <div class="col-12 md:col-6">
+    <div class="col-12 md:col-6" *ngIf="actions=='add'">
       <label for="email">Email</label>
-      <input id="email" type="email" pInputText [(ngModel)]="row.email" required autofocus placeholder="Email" />
-      <small class="p-invalid" style="color: red" *ngIf="submitted&&!row.email">Email Required
+      <input id="email" type="email" pInputText [(ngModel)]="email" (input)="checkEmailFunc()" required autofocus placeholder="Email" />
+      <small class="p-invalid" style="color: red" *ngIf="checkEmail">Email Required
       </small>
     </div>
-    <div class="col-12 md:col-6">
+    <div class="col-12 md:col-6" *ngIf="actions=='edit'">
+      <label for="email">Email</label>
+      <input id="email" type="email" pInputText [(ngModel)]="row.email"  required autofocus placeholder="Email" />
+      <small class="p-invalid" style="color: red" *ngIf="checkEmail">Email Required
+      </small>
+    </div>
+    <div class="col-12 md:col-6" *ngIf="actions=='add'">
+      <label for="address">Address</label>
+      <input id="address" type="text" pInputText [(ngModel)]="address" required autofocus placeholder="Address" />
+      <small class="p-invalid" style="color: red" *ngIf="submitted&&!row.address">Alamat Required
+      </small>
+    </div>
+    <div class="col-12 md:col-6" *ngIf="actions=='edit'">
       <label for="address">Address</label>
       <input id="address" type="text" pInputText [(ngModel)]="row.address" required autofocus placeholder="Address" />
       <small class="p-invalid" style="color: red" *ngIf="submitted&&!row.address">Alamat Required
       </small>
     </div>
-    <div class="col-12 md:col-6">
+    <div class="col-12 md:col-6" *ngIf="actions=='add'">
+      <label for="phonenum">Phone Number</label>
+      <input id="phonenum" type="text" pInputText [(ngModel)]="phoneNumber" required autofocus
+        placeholder="Phone Number" />
+      <small class="p-invalid" style="color: red" *ngIf="submitted&&!row.phone">Phone Number Required
+      </small>
+    </div>
+    <div class="col-12 md:col-6" *ngIf="actions=='edit'">
       <label for="phonenum">Phone Number</label>
       <input id="phonenum" type="text" pInputText [(ngModel)]="row.phone" required autofocus
         placeholder="Phone Number" />
       <small class="p-invalid" style="color: red" *ngIf="submitted&&!row.phone">Phone Number Required
       </small>
     </div>
-    <!-- <div class="col-12 md:col-6">
-      <label for="createdate">Create Date</label>
-      <input id="phonenum" type="text" pInputText [(ngModel)]="row.createdDate" required autofocus
-        placeholder="Created Date" />
-      <p-calendar inputId="createdate" [(ngModel)]="row.createdDate" autofocus ></p-calendar>
-      <small class="p-invalid" style="color: red" *ngIf="submitted">Create Date Required
-      </small>
-    </div> -->
     <div class="col-12 md:col-6">
       <label for="phonenum">Create By</label>
       <input id="createdBy" Type="text" pInputText [(ngModel)]="row.createdBy" required autofocus
@@ -100,13 +88,12 @@
     </div>
   </div>
   <ng-template pTemplate="footer">
-    <p-button icon="pi pi-check" *ngIf="submitAdd" (onClick)="input()"
+    <p-button icon="pi pi-check" *ngIf="submitAdd"  (onClick)="newUser(); toLogin()"
       label="Submit" styleClass="p-button-text">
     </p-button>
-    <p-button icon="pi pi-check" *ngIf="submitEdit" (onClick)="edit()"
+    <p-button icon="pi pi-check" *ngIf="submitEdit" (onClick)="editUser()"
       label="Submit" styleClass="p-button-text">
     </p-button>
-    <!-- (onClick)="handleSaveDepartment($event)" -->
     <p-button icon="pi pi-times" (click)="displayBasic2=false" label="Cancel"
       styleClass="p-button-text p-button-danger">
     </p-button>
@@ -115,22 +102,22 @@
 <p-toast></p-toast>
 <div class="card">
   <div class="mb-3">
-    <p-button type="button" icon="pi pi-chevron-left" (click)="prev()" [disabled]="isFirstPage()"
+    <p-button type="button" icon="pi pi-chevron-left" (onClick)="prev()" [disabled]="isFirstPage()"
       styleClass="p-button-text mt-2"></p-button>
-    <p-button type="button" icon="pi pi-refresh" (click)="reset()" styleClass="p-button-text mt-2"></p-button>
-    <p-button type="button" icon="pi pi-chevron-right" (click)="next()" [disabled]="isLastPage()"
+    <p-button type="button" icon="pi pi-refresh" (onClick)="reset()" styleClass="p-button-text mt-2"></p-button>
+    <p-button type="button" icon="pi pi-chevron-right" (onClick)="next()" [disabled]="isLastPage()"
       styleClass="p-button-text mt-2"></p-button>
     <button pButton pRipple type="button" icon="pi pi-search" label="Search" class="mt-2 ml-3"
       [style]="{'float': 'right'}" (click)="showSearchCall()"></button>
     <span *ngIf="showSearch" class="p-input-icon-left mt-2 ml-3" [style]="{'float': 'right'}">
       <i class="pi pi-search"></i>
-      <input type="text" pInputText placeholder="Search" [(ngModel)]="nama" (input)="onChanged()" />
+      <input type="text" pInputText placeholder="Search" [(ngModel)]="keyword" (input)="onChanged(); search()" />
+      <p-dropdown appendTo="body" [options]="searchOptions" [(ngModel)]="searchOption" optionLabel="label"
+      optionValue="value" placeholder="Search by"></p-dropdown>
     </span>
-    <p-button (onClick)="submitAdd=true" (click)="showBasicDialog2(users)" (onClick)="handleReset($event)" icon="pi pi-user pi-plus-circle"
+    <p-button (onClick)="submitAdd=true" (onClick)="submitEdit=false" [disabled]="!isManage" (click)="isManage==true ? showBasicDialog2(users) : ''" (onClick)="handleReset($event)" icon="pi pi-user pi-plus-circle"
       styleClass="p-button-success mt-2 ml-3" label="Add" [style]="{'float': 'right'}">
     </p-button>
-    <p-button (click)="showBasicDialog()" icon="pi pi-sync" label="Change Password"
-      styleClass="mt-2 ml-3 p-button-secondary" [style]="{'float': 'right'}"></p-button>
   </div>
   <p-table [value]="users" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true" [(first)]="first"
     responsiveLayout="scroll" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
@@ -173,10 +160,10 @@
         <td>
           <div class="grid p-fluid">
             <div class="col-12 md:col-6">
-              <p-button icon="pi pi-pencil" (onClick)="submitEdit=true" (onClick)="openEdit(users)"></p-button>
+              <p-button icon="pi pi-pencil" (onClick)="submitEdit=true" (onClick)="submitAdd=false" [disabled]="!isManage" (click)="isManage==true ? openEdit(users) : ''"></p-button>
             </div>
             <div class="col-12 md:col-6">
-              <p-button icon="pi pi-trash" styleClass="p-button-danger" (onClick)="deleteUser(users.userId)"></p-button>
+              <p-button icon="pi pi-trash" styleClass="p-button-danger" [disabled]="!isManage" (click)="isManage==true ? handleDelete(users.userId) : ''"></p-button>
             </div>
           </div>
         </td>
@@ -184,5 +171,8 @@
     </ng-template>
   </p-table>
 </div>
+
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-toast></p-toast>
 
 

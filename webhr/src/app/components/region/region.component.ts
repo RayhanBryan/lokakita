@@ -221,6 +221,87 @@ export class RegionComponent implements OnInit {
    * if the current location ID is zero, it sends a post request.
    * Otherwise, it sends a put request
    */
+   saveOrPost(){
+    if (this.row.regionId == 0) {
+      this.row.regionId = null;
+      this.regionService.postRegion(this.row).subscribe({
+        next: (data) => {
+          if (data.status) {
+            this.resetForm();
+            this.getRegion();
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Confirmed',
+              detail: 'Data added',
+            });
+          }
+          this.displayMaximizable = false;
+        },
+        error: (err) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Could not add a new record',
+          });
+        },
+      });
+    } else {
+      this.regionService.putRegion(this.row).subscribe({
+        next: (data) => {
+          if (data.status) {
+            this.resetForm();
+            this.getRegion();
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Confirmed',
+              detail: 'Data edited',
+            });
+          }
+          this.displayMaximizable = false;
+        },
+        error: (err) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Could not update the record',
+          });
+        },
+      });
+    }
+  }
+
+  /**
+   * This function checks if a record we want to add or update exists in database
+   * if the record is already exists, it shows an error message
+   * otherwise it calls saveOrUpdate function
+   */
+  checkDuplicate(){
+    this.regionService.getRegionByRegionName(this.row.regionName).subscribe({
+      next: (data) => {
+        if (data.data.length==0) {
+          this.saveOrPost();
+        }
+        else{
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'The record alrady exists',
+          });
+        }
+      },
+      error: (err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Could not perform a duplicate checking',
+        });
+      },
+    })
+  }
+
+  /**
+   * This function handle the submit button, it shows a confirmation dialog
+   */
   submit(): void {
     this.submitted = true;
     if (this.handleValidation()) {
@@ -231,52 +312,7 @@ export class RegionComponent implements OnInit {
       header: 'Action Confirmation',
       icon: 'pi pi-info-circle',
       accept: () => {
-        if (this.row.regionId == 0) {
-          this.row.regionId = null;
-          this.regionService.postRegion(this.row).subscribe({
-            next: (data) => {
-              if (data.status) {
-                this.resetForm();
-                this.getRegion();
-                this.messageService.add({
-                  severity: 'success',
-                  summary: 'Confirmed',
-                  detail: 'Data added',
-                });
-              }
-              this.displayMaximizable = false;
-            },
-            error: (err) => {
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Error',
-                detail: 'Could not add a new record',
-              });
-            },
-          });
-        } else {
-          this.regionService.putRegion(this.row).subscribe({
-            next: (data) => {
-              if (data.status) {
-                this.resetForm();
-                this.getRegion();
-                this.messageService.add({
-                  severity: 'success',
-                  summary: 'Confirmed',
-                  detail: 'Data edited',
-                });
-              }
-              this.displayMaximizable = false;
-            },
-            error: (err) => {
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Error',
-                detail: 'Could not update the record',
-              });
-            },
-          });
-        }
+        this.checkDuplicate();
       },
       reject: () => {},
     });

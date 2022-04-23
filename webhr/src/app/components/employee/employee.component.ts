@@ -24,6 +24,7 @@ export class EmployeeComponent implements OnInit {
   showSearch: boolean = false;
   displaySalary: boolean = false;
   displayJobHistory: boolean = false;
+  displayManager: boolean = true;
   
   submitted: boolean = false;
   action: string = '';
@@ -31,22 +32,23 @@ export class EmployeeComponent implements OnInit {
   dataEmployee: any;
   keyword: string = '';
   displayForm: boolean = false;
+  IsDisabled: boolean = false;
 
   row: any = {
     employeeId: 0,
     firstName: '',
     lastName: '',
-    employeeName: '',
+    fullName: '',
     email: '',
     phoneNumber: '',
-    hireDate: '',
+    hireDate: null,
     jobId: '',
     salary: 0,
     commissionPct: 0,
     managerId: 0,
     departmentId: 0,
     managerName:'',
-    // manager: '',
+    manager:''
   };
 
   constructor(
@@ -62,6 +64,7 @@ export class EmployeeComponent implements OnInit {
     this.getEmployee();
     this.getDepartment();
     this.getJob();
+    this.getManagers();
   }
 
   removeDuplicates(arr: any[]) {
@@ -71,24 +74,22 @@ export class EmployeeComponent implements OnInit {
   getEmployee() {
     this.employeeService.getEmployee().subscribe((res) => {
       this.employees = res.data;
-      this.employees.forEach((element: any) => {
-        element.manager =
-          element.managerFirstName + ' ' + element.managerLastName;
-        console.log(element);
-        element.employeeName = element.firstName + ' ' +element.lastName;
-      });
-      // this.managers=this.removeDuplicates(this.employees);
-      // console.log(this.managers);
-    });
-  }
+  })}
 
-  searchOption: string = 'fullName';
+  getManagers() {
+    this.employeeService.getEmployee().subscribe((res) => {
+      this.managers = res.data;
+
+  })}
+
+
+  searchOption: string = 'searchByAll';
   searchOptions = [
-    // { label: 'Search', value: 'searchByAll' },
+    { label: 'All Categories', value: 'searchByAll' },
     { label: 'Employee Name', value: 'fullName' },
     { label: 'Email', value: 'email' },
     { label: 'Job', value: 'jobTitle' },
-    { label: 'Manager Name', value: 'manager' },
+    { label: 'Manager Name', value: 'managerName' },
     { label: 'Department Name', value: 'departmentName' },
   ];
   search() {
@@ -105,7 +106,7 @@ export class EmployeeComponent implements OnInit {
       case 'jobTitle':
         this.findByJob();
         break;
-      case 'manager':
+      case 'managerName':
         this.findByManagerName();
         break;
       case 'departmentName':
@@ -216,9 +217,15 @@ export class EmployeeComponent implements OnInit {
   }
 
   isLastPage(): boolean {
-    return this.employees
-      ? this.first === this.employees.length - this.rows
-      : true;
+    if (this.employees!=null){
+      if(this.employees.length<this.rows){
+        return true;
+      }
+      else{
+        return (this.employees.length-this.first<=this.rows);
+      }
+    }
+    return true;
   }
 
   isFirstPage(): boolean {
@@ -266,7 +273,7 @@ export class EmployeeComponent implements OnInit {
     if (this.row.firstName.length == 0 ||
       this.row.lastName.length == 0 ||
       this.row.email.length == 0 ||
-      this.row.phoneNumber == null ||
+      this.row.phoneNumber.length == 0 ||
       this.row.jobId.length == 0 ||
       this.row.managerId == null ||
       this.row.departmentId == 0 ||
@@ -329,7 +336,7 @@ export class EmployeeComponent implements OnInit {
               this.messageService.add({
                 severity: 'error',
                 summary: 'Error',
-                detail: 'Could not update a new record',
+                detail: 'The email has been used or the hire date is the same as before.',
               });
             },
           });
@@ -399,6 +406,22 @@ export class EmployeeComponent implements OnInit {
     this.showSearch = !this.showSearch;
   }
 
+//   manager =[this.row]
+//   managers(row:any){
+//     this.row = { ...row };
+//     this.displayManager=true;
+//     this.employeeService.getEmployeeById(row.employeeId).subscribe((res) => {
+//       console.log(res.data);
+//       this.manager[0] = res.data;
+//       for (let i=0;i<this.manager.length; i++){
+//         if (this.manager[i+1] != this.manager[i]){
+//           this.manager
+//         }
+//       }
+
+//   });
+// }
+
   salary = [this.row];
   showBonus(row: any) {
     this.row = { ...row };
@@ -432,3 +455,4 @@ export class EmployeeComponent implements OnInit {
     )
   }
 }
+

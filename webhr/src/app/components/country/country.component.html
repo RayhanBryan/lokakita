@@ -1,8 +1,8 @@
 <div class="card">
     <div class="mb-3">
-        <p-button type="button" icon="pi pi-chevron-left" (click)="prev()" [disabled]="isFirstPage()" styleClass="p-button-text"></p-button>
-        <p-button type="button" icon="pi pi-refresh" (click)="reset()" styleClass="p-button-text"></p-button>
-        <p-button type="button" icon="pi pi-chevron-right" (click)="next()" [disabled]="isLastPage()" styleClass="p-button-text"></p-button>
+        <p-button type="button" icon="pi pi-chevron-left" (onClick)="prev()" [disabled]="isFirstPage()" styleClass="p-button-text"></p-button>
+        <p-button type="button" icon="pi pi-refresh" (onClick)="reset()" styleClass="p-button-text"></p-button>
+        <p-button type="button" icon="pi pi-chevron-right" (onClick)="next()" [disabled]="isLastPage()" styleClass="p-button-text"></p-button>
         <button pButton pRipple type="button" icon="pi pi-search" label="Search" class="mt-2 ml-3" [style]="{'float': 'right'}" (click)="showSearchCall()"></button>
         <span *ngIf="showSearch" class="p-input-icon-left mt-2 ml-3" [style]="{'float': 'right'}">
             <i class="pi pi-search"></i>
@@ -44,7 +44,7 @@
       <div class="col-6">
           <h5>Country ID</h5>
           <span class="p-float-label">
-              <input *ngIf="action==1" type="text" pInputText [(ngModel)]="row.countryId" (ngModelChange)="row.countryId= $event.toUpperCase()" (keypress)="keyPressAlphaNumeric($event)"> 
+              <input *ngIf="action==1" type="text" pInputText [(ngModel)]="row.countryId" (ngModelChange)="row.countryId= $event.toUpperCase()" (keypress)="keyPressAlphaNumeric($event)" placeholder="ex: ID"> 
               <label for="float-input">{{row.countryId}}</label>
               <h5 class="p invalid" style="color: red;" *ngIf="row.countryId.length!==2">Country ID is required and its max length is 2.</h5>
           </span>
@@ -52,7 +52,7 @@
       <div class="col-6">
           <h5>Country Name</h5>
           <span class="p-float-label">
-              <input type="text" pInputText [(ngModel)]="row.countryName" required autofocus> 
+              <input type="text" pInputText [(ngModel)]="row.countryName" required autofocus placeholder="ex: Indonesia"> 
               <!-- <h5 *ngIf="submitted && !row.jobTitle">Required!!</h5> -->
               <!-- <label for="float-input">Country Name</label> -->
               <h5 class="p invalid" style="color: red;" *ngIf=" !row.countryName">Country Name is required.</h5>

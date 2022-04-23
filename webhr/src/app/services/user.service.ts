@@ -3,10 +3,10 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-const url: string = environment.url;
+const url: string = environment.url || environment.localUrl;
 const httpOptions = {
   headers: new HttpHeaders({
-    "Content-Type": 'application/json',
+    'Content-Type': 'application/json',
   }),
 };
 
@@ -14,7 +14,7 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class UserService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getUser(): Observable<any> {
     return this.http.get<any>(url + `users/findAll`, {
@@ -44,7 +44,7 @@ export class UserService {
     return this.http.put<any>(url + `users/put`, res, httpOptions);
   }
 
-  deleteUser(id: number): Observable<any> {
+  deleteUser(id: any): Observable<any> {
     return this.http.delete<any>(url + `users/delete?id=${id}`, {
       responseType: 'json',
     });
@@ -53,11 +53,14 @@ export class UserService {
   getUsername(namereq: any): Observable<any> {
     return this.http.get<any>(
       url + `users/findByUsername?username=${namereq}`,
-      { responseType: 'json', }
+      { responseType: 'json' }
     );
   }
 
   getByUsername(username: string): Observable<any> {
-    return this.http.get<any>(url + `users/getByUsername?username=${username}`, httpOptions)
+    return this.http.get<any>(
+      url + `users/getByUsername?username=${username}`,
+      httpOptions
+    );
   }
 }

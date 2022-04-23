@@ -54,6 +54,7 @@ public class DepartmentService {
         wrapper.setManagerLastName(entity.getManager() != null ? entity.getManager().getLastName() : null);
         wrapper.setStreetAddress(entity.getLocation() != null ? entity.getLocation().getStreetAddress() : null);
         wrapper.setCity(entity.getLocation() != null ? entity.getLocation().getCity() : null);
+        wrapper.setManagerName(entity.getManager() != null ? entity.getManager().getFirstName() + ' ' + entity.getManager().getLastName(): null);
         return wrapper;
     }
 
@@ -95,6 +96,12 @@ public class DepartmentService {
         List<Department> departmentList = departmentPage.getContent();
         List<DepartmentWrapper> departmentWrapperList = toWrapperList(departmentList);
         return new PaginationList<DepartmentWrapper, Department>(departmentWrapperList, departmentPage);
+    }
+
+    // Get Department All Categories
+    public List<DepartmentWrapper> findByAllCategories(String all) {
+        List<Department> departmentList = departmentRepository.getByAllCategories(all);
+        return toWrapperList(departmentList);
     }
 
     // Get Department List Using Department Name

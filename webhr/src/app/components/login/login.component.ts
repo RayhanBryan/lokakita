@@ -28,7 +28,6 @@ import {
 export class LoginComponent implements OnInit {
   password: string = '';
   username: string = '';
-  checkUser: boolean = false;
   userData: any;
   userId: any;
 
@@ -49,14 +48,28 @@ export class LoginComponent implements OnInit {
     this.userService.getByUsername(this.username).subscribe(
       res => {
         this.userData = res.data;
+        console.log(this.userData, 'ini user data')
         if (res.status) {
-          console.log('wfafwa')
           if (this.userData.username == this.username && this.userData.password == this.password) {
-            this.successLogin()
-            localStorage.setItem('token', this.userData.userId)
-            localStorage.setItem('name', 'Administrator')
-            window.location.reload()
-            return
+            console.log(this.userData.permissions)
+            for (let i in this.userData.permissions) {
+              if (this.userData.permissions[i] == 'LOGIN') {
+                this.successLogin()
+                localStorage.setItem('token', this.userData.userId)
+                localStorage.setItem('name', 'Administrator')
+                for (let i in this.userData.permissions) {
+                  if (this.userData.permissions[i] == 'VIEW') {
+                    localStorage.setItem('isView', 'true');
+                  }
+                  if (res.data.permissions[i] == 'MANAGE') {
+                    localStorage.setItem('isManage', 'true');
+                  }
+                }
+                window.location.reload()
+                return
+              }
+            }
+            this.loginDenied();
           } else {
             this.wrongUser();
           }
@@ -67,13 +80,6 @@ export class LoginComponent implements OnInit {
     );
   }
 
-  checkUsername() {
-    if (this.username.length < 5) {
-      this.checkUser = true;
-    } else {
-      this.checkUser = false;
-    }
-  }
 
   wrongUser() {
     this.messageService.add({ key: 'tc', severity: 'warn', summary: 'Sorry', detail: 'Wrong username or password' });
@@ -83,4 +89,7 @@ export class LoginComponent implements OnInit {
     this.messageService.add({ key: 'tc', severity: 'success', summary: 'Welcome', detail: 'Login success' });
   }
 
+  loginDenied() {
+    this.messageService.add({ key: 'tc', severity: 'warn', summary: 'Sorry', detail: 'You are not allowed to login' });
+  }
 }
