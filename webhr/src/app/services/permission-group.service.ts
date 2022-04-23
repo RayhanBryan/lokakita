@@ -14,7 +14,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class PermissionService {
+export class PermissionGroupService {
 
   constructor(private http : HttpClient) { }
 
