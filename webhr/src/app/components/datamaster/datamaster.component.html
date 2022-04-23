@@ -1,9 +1,16 @@
 <p-dialog [header]="actions == 'add' ? 'Input User' : 'Edit User'" [(visible)]="displayBasic2"
   [style]="{width: '50vw'}" (onHide)="submitEdit" (onHide)="submitAdd">
   <div class="grid p-fluid">
-    <div class="col-12 md:col-6">
+    <div class="col-12 md:col-6" *ngIf="actions=='add'">
       <label for="username">Username</label>
       <input id="username" type="text" pInputText [(ngModel)]="username" (input)="checkUsername()" required autofocus
+        placeholder="Username" />
+      <small class="p-invalid" style="color: red" *ngIf="checkUser">Username Required 5 Characters
+      </small>
+    </div>
+    <div class="col-12 md:col-6" *ngIf="actions=='edit'">
+      <label for="username">Username</label>
+      <input id="username" type="text" pInputText [(ngModel)]="row.username" required autofocus
         placeholder="Username" />
       <small class="p-invalid" style="color: red" *ngIf="checkUser">Username Required 5 Characters
       </small>
@@ -15,27 +22,52 @@
       <small class="p-invalid" style="color: red" *ngIf="submitted">Password Required
       </small>
     </div>
-    <div class="col-12 md:col-6">
+    <div class="col-12 md:col-6" *ngIf="actions=='add'">
       <label for="name">Name</label>
       <input id="name" type="text" pInputText [(ngModel)]="name" required autofocus placeholder="Name" />
       <small class="p-invalid" style="color: red" *ngIf="submitted&&!row.name">Name Required
       </small>
     </div>
-    <div class="col-12 md:col-6">
+    <div class="col-12 md:col-6" *ngIf="actions=='edit'">
+      <label for="name">Name</label>
+      <input id="name" type="text" pInputText [(ngModel)]="row.name" required autofocus placeholder="Name" />
+      <small class="p-invalid" style="color: red" *ngIf="submitted&&!row.name">Name Required
+      </small>
+    </div>
+    <div class="col-12 md:col-6" *ngIf="actions=='add'">
       <label for="email">Email</label>
       <input id="email" type="email" pInputText [(ngModel)]="email" (input)="checkEmailFunc()" required autofocus placeholder="Email" />
       <small class="p-invalid" style="color: red" *ngIf="checkEmail">Email Required
       </small>
     </div>
-    <div class="col-12 md:col-6">
+    <div class="col-12 md:col-6" *ngIf="actions=='edit'">
+      <label for="email">Email</label>
+      <input id="email" type="email" pInputText [(ngModel)]="row.email"  required autofocus placeholder="Email" />
+      <small class="p-invalid" style="color: red" *ngIf="checkEmail">Email Required
+      </small>
+    </div>
+    <div class="col-12 md:col-6" *ngIf="actions=='add'">
       <label for="address">Address</label>
       <input id="address" type="text" pInputText [(ngModel)]="address" required autofocus placeholder="Address" />
       <small class="p-invalid" style="color: red" *ngIf="submitted&&!row.address">Alamat Required
       </small>
     </div>
-    <div class="col-12 md:col-6">
+    <div class="col-12 md:col-6" *ngIf="actions=='edit'">
+      <label for="address">Address</label>
+      <input id="address" type="text" pInputText [(ngModel)]="row.address" required autofocus placeholder="Address" />
+      <small class="p-invalid" style="color: red" *ngIf="submitted&&!row.address">Alamat Required
+      </small>
+    </div>
+    <div class="col-12 md:col-6" *ngIf="actions=='add'">
       <label for="phonenum">Phone Number</label>
       <input id="phonenum" type="text" pInputText [(ngModel)]="phoneNumber" required autofocus
+        placeholder="Phone Number" />
+      <small class="p-invalid" style="color: red" *ngIf="submitted&&!row.phone">Phone Number Required
+      </small>
+    </div>
+    <div class="col-12 md:col-6" *ngIf="actions=='edit'">
+      <label for="phonenum">Phone Number</label>
+      <input id="phonenum" type="text" pInputText [(ngModel)]="row.phone" required autofocus
         placeholder="Phone Number" />
       <small class="p-invalid" style="color: red" *ngIf="submitted&&!row.phone">Phone Number Required
       </small>
@@ -59,10 +91,9 @@
     <p-button icon="pi pi-check" *ngIf="submitAdd" (onClick)="newUser(); toLogin()"
       label="Submit" styleClass="p-button-text">
     </p-button>
-    <p-button icon="pi pi-check" *ngIf="submitEdit" (onClick)="editTest()"
+    <p-button icon="pi pi-check" *ngIf="submitEdit" (onClick)="editUser()"
       label="Submit" styleClass="p-button-text">
     </p-button>
-    <!-- (onClick)="handleSaveDepartment($event)" -->
     <p-button icon="pi pi-times" (click)="displayBasic2=false" label="Cancel"
       styleClass="p-button-text p-button-danger">
     </p-button>

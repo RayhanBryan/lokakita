@@ -131,19 +131,19 @@ export class DatamasterComponent implements OnInit {
         });
       });
       this.users = res.data;
-      console.log(this.users, 'tes');
+      // console.log(this.users, 'tes');
     });
 
     this.usersService.getByUserId(Number(localStorage.getItem('token'))).subscribe(
       res => {
         this.dataUser = res.data;
-        console.log(this.dataUser, 'getbyuserid')
+        // console.log(this.dataUser, 'getbyuserid')
       }
     )
 
     this.groupsService.getGroup().subscribe((res) => {
       this.groups = res.data;
-      console.log(this.groups, 'groups')
+      // console.log(this.groups, 'groups')
     })
   }
 
@@ -273,10 +273,10 @@ export class DatamasterComponent implements OnInit {
   submit(): void {
     this.usersService.postUser(this.row).subscribe({
       next: (data) => {
-        console.log(data, 'inidata')
+        // console.log(data, 'inidata')
         if (data.status) {
           this.newAccess.userId = data.data.userId;
-          console.log(data.data.userId, 'iniapa');
+          // console.log(data.data.userId, 'iniapa');
           this.newAccess.createdBy = data.data.createdBy;
           for (let i = 0; i < this.selectedGroup.length; i++) {
             this.newAccess.groupId = this.selectedGroup[i];
@@ -300,10 +300,10 @@ export class DatamasterComponent implements OnInit {
   input(): void {
     this.usersService.postUser(this.row).subscribe({
       next: (data) => {
-        console.log(data, 'inidata')
+        // console.log(data, 'inidata')
         if (data.status) {
           this.newAccess.userId = data.data.userId;
-          console.log(data.data.userId, 'iniapa');
+          // console.log(data.data.userId, 'iniapa');
           this.newAccess.createdBy = data.data.createdBy;
           for (let i = 0; i < this.selectedGroup.length; i++) {
             this.newAccess.groupId = this.selectedGroup[i];
@@ -333,17 +333,15 @@ export class DatamasterComponent implements OnInit {
             for (let i = 0; i < this.groups.length; i++) {
               this.arrayGroup[i] = this.groups[i].groupId;
             }
-            console.log(this.arrayGroup, 'ini array group id')
+            // console.log(this.arrayGroup, 'ini array group id')
             for (let i = 0; i < this.selectedGroup.length; i++) {
               for (let j = 0; j < this.arrayGroup.length; j++) {
                 if (this.selectedGroup[i] == this.arrayGroup[j]) {
                   this.newAccess.groupId = this.selectedGroup[i];
-                  this.newAccess.isActive = 'Y';
-                  console.log('Y');
+                  this.newAccess.isActive = 'Y';                  
                 } else {
                   this.newAccess.groupId = this.arrayGroup[j];
                   this.newAccess.isActive = 'N';
-                  console.log('N');
                 }
                 if (this.selectedGroup[i] == this.arrayGroup[j]) {
                   this.hakAkses.putAccessIsActive(this.newAccess.userId, this.newAccess.groupId, this.newAccess.isActive).subscribe({
@@ -464,30 +462,14 @@ export class DatamasterComponent implements OnInit {
                 next: (data) => {
                   console.log(data)
                   if (data.status) {
-                    this.successSignUp();
                     this.groupsService.getGroup().subscribe(
                       res => {
-                        if (this.selectedGroup.length == res.data.length) {
-                          for (let i = 0; i < res.data.length; i++) {
-                            this.newAccess.userId = data.data.userId;
-                            this.newAccess.createdBy = data.data.createdBy;
-                            this.newAccess.groupId = res.data[i].groupId;
-                            this.newAccess.isActive = 'Y'
-                            console.log(this.newAccess)
-                            this.hakAkses.postAccess(this.newAccess).subscribe(
-                              res => {
-                                console.log(res);
-                              }
-                            )
-                            console.log(res.data);
-
-                          }
-                        } else {
+                        if (this.selectedGroup.length != res.data.length) {
                           for (let i = 0; i < res.data.length; i++) {
                             if (this.selectedGroup[i] == undefined) {
-                              this.newAccess.groupId = res.data[i].groupId;
                               this.newAccess.userId = data.data.userId;
                               this.newAccess.createdBy = data.data.createdBy;
+                              this.newAccess.groupId = res.data[i].groupId;
                               this.newAccess.isActive = 'N';
                               this.hakAkses.postAccess(this.newAccess).subscribe(
                                 res => {
@@ -506,8 +488,22 @@ export class DatamasterComponent implements OnInit {
                               )
                             }
                           }
+                        } else {                                                                           
+                          for (let i = 0; i < res.data.length; i++) {
+                            this.newAccess.userId = data.data.userId;
+                            this.newAccess.createdBy = data.data.createdBy;
+                            this.newAccess.groupId = res.data[i].groupId;
+                            this.newAccess.isActive = 'Y'
+                            console.log(this.newAccess)
+                            this.hakAkses.postAccess(this.newAccess).subscribe(
+                              res => {
+                                console.log(res);
+                              }
+                            )
+                            console.log(res.data);
+                          }                        
                         }
-                        this.toLogin();
+                        window.location.reload();
                         return
                       }
                     )
@@ -515,8 +511,6 @@ export class DatamasterComponent implements OnInit {
                   }
                 },
                 error: (err) => {
-                  this.invalidSignUp();
-                  return
                 }
               })
             }
@@ -525,6 +519,67 @@ export class DatamasterComponent implements OnInit {
       }
     })
   }
+
+  editUser(){
+    this.usersService.putUser(this.row).subscribe({
+      next: (data) => {
+        console.log(data)
+        if (data.status) {
+          this.successSignUp();
+          this.groupsService.getGroup().subscribe(
+            res => {
+              if (this.selectedGroup.length != res.data.length) {                
+                for (let i = 0; i < res.data.length; i++) {
+                  if (this.selectedGroup[i] == undefined) {
+                    this.newAccess.userId = data.data.userId;
+                    this.newAccess.createdBy = data.data.createdBy;
+                    this.newAccess.groupId = res.data[i].groupId;
+                    this.newAccess.isActive = 'N';
+                    this.hakAkses.putAccessIsActive(this.newAccess.userId, this.newAccess.groupId, this.newAccess.isActive).subscribe(
+                      res => {
+                        console.log(res);
+                      }
+                    )
+                  } else {
+                    this.newAccess.groupId = this.selectedGroup[i];
+                    this.newAccess.userId = data.data.userId;
+                    this.newAccess.createdBy = data.data.createdBy;
+                    this.newAccess.isActive = 'Y';
+                    this.hakAkses.putAccessIsActive(this.newAccess.userId, this.newAccess.groupId, this.newAccess.isActive).subscribe(
+                      res => {
+                        console.log(res);
+                      }
+                    )
+                  }
+                }                        
+              } else {
+                for (let i = 0; i < res.data.length; i++) {
+                  this.newAccess.userId = data.data.userId;
+                  this.newAccess.createdBy = data.data.createdBy;
+                  this.newAccess.groupId = res.data[i].groupId;
+                  this.newAccess.isActive = 'Y'
+                  console.log(this.newAccess)
+                  this.hakAkses.putAccessIsActive(this.newAccess.userId, this.newAccess.groupId, this.newAccess.isActive).subscribe(
+                    res => {
+                      console.log(res);
+                    }
+                  )
+                  console.log(res.data);
+
+                }
+              }
+              // window.location.reload();
+              return
+            }
+          )
+
+        }
+      },
+      error: (err) => {
+      }
+    })
+  }
+
   toLogin() {
     console.log(this.newUserValid)
     if (this.newUserValid) {

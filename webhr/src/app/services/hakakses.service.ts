@@ -54,13 +54,9 @@ export class HakAksesService {
     });
   }
 
-  putAccessIsActive(id: any, group: any, isActive: string): Observable<any> {
-    return this.http.put<any>(
-      url +
-        `access/put/putByUserIdAndGroupId?userId=${id}&groupId=${group}&isActive=${isActive}`,
-      {
-        responseType: 'json',
-      }
-    );
+  putAccessIsActive(id: any, groupId:any, isActive:any ): Observable<any> {
+    return this.http.put<any>(url + `access/put/putByUserIdAndGroupId?userId=${id}&groupId=${groupId}&isActive=${isActive}`, {
+      responseType: 'json',
+    });
   }
 }
