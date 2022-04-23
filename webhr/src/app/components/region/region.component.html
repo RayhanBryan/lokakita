@@ -6,7 +6,7 @@
     <p-button type="button" icon="pi pi-chevron-right" (onClick)="next()" [disabled]="isLastPage()"
       styleClass="p-button-text"></p-button>
     <button pButton pRipple type="button" icon="pi pi-search" label="Search" class="mt-2 ml-3"
-      [style]="{'float': 'right'}" (onClick)="showSearchCall()"></button>
+      [style]="{'float': 'right'}" (click)="showSearchCall()"></button>
     <span *ngIf="showSearch" class="p-input-icon-left mt-2 ml-3" [style]="{'float': 'right'}">
       <i class="pi pi-search"></i>
       <input type="text" pInputText placeholder="Search" [(ngModel)]="keyword" (input)="search()" />
