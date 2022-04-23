@@ -111,7 +111,9 @@
       [style]="{'float': 'right'}" (click)="showSearchCall()"></button>
     <span *ngIf="showSearch" class="p-input-icon-left mt-2 ml-3" [style]="{'float': 'right'}">
       <i class="pi pi-search"></i>
-      <input type="text" pInputText placeholder="Search" [(ngModel)]="nama" (input)="onChanged()" />
+      <input type="text" pInputText placeholder="Search" [(ngModel)]="keyword" (input)="onChanged(); search()" />
+      <p-dropdown appendTo="body" [options]="searchOptions" [(ngModel)]="searchOption" optionLabel="label"
+      optionValue="value" placeholder="Search by"></p-dropdown>
     </span>
     <p-button (onClick)="submitAdd=true" (onClick)="submitEdit=false" (click)="showBasicDialog2(users)" (onClick)="handleReset($event)" icon="pi pi-user pi-plus-circle"
       styleClass="p-button-success mt-2 ml-3" label="Add" [style]="{'float': 'right'}">

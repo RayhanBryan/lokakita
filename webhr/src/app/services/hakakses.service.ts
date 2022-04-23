@@ -57,6 +57,15 @@ export class HakAksesService {
     );
   }
 
+  getByGroupName(keyword:any): Observable<any> {
+    return this.http.get<any>(
+      url + `access/groups/getByGroupName?groupName=${keyword}`,
+      {
+        responseType: 'json',
+      }
+    );
+  }
+
   deleteAccess(id: number): Observable<any> {
     return this.http.get<any>(url + `access/delete?id=${id}`, {
       responseType: 'json',

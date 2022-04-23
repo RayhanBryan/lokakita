@@ -87,6 +87,8 @@ export class DatamasterComponent implements OnInit {
   putIsActive: any;
 
   hakAksess: any;
+  
+  keyword:string='';
 
   arrayGroup: any[] = [];
   arrayGroupIsActive: any[] = [];
@@ -498,4 +500,55 @@ export class DatamasterComponent implements OnInit {
     });
   }
 
+  searchOption: string = 'username';
+  searchOptions = [
+    { label: 'search by username', value: 'username' },
+    { label: 'search by email', value: 'email' },
+    { label: 'search by group', value: 'group' },
+  ];
+  search() {
+    switch (this.searchOption) {
+      case 'username':
+        this.searchByUsername();
+        break;
+      case 'email':
+        this.searchByEmail();
+        break;
+      case 'group':
+        this.searchByGroup();
+        break;
+    }
+  }
+
+  searchByEmail() {
+    this.usersService.getUserByEmail(this.keyword).subscribe({
+      next: (data: any) => {
+        if (data.data.length == 0) {
+        }
+        this.users = data.data;
+      },
+      error: (err) => {},
+    });
+  }
+
+  searchByUsername() {
+    this.usersService.getByUsername(this.keyword).subscribe({
+      next: (data: any) => {
+        // if (data.data.length == 0) {
+        // }
+        this.users = data.data;
+      },
+      error: (err) => {},
+    });
+  }
+  searchByGroup() {
+    this.hakAkses.getByGroupName(this.keyword).subscribe({
+      next: (data: any) => {
+        if (data.data.length == 0) {
+        }
+        this.groups = data.data;
+      },
+      error: (err) => {},
+    });
+  }
 }
