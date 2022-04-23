@@ -52,7 +52,7 @@
       <td>{{ department.city }}</td>
 
       <td>
-        <p-button icon="pi pi-pencil" *ngIf="!isManage" (click)="openEdit(department)"></p-button>
+        <p-button icon="pi pi-pencil" [disabled]="!isManage" (click)="isManage == true ? openEdit(department) : ''" ></p-button>
         <p-button icon="pi pi-trash" (click)="handleDelete(department.departmentId)" styleClass="p-button-danger ml-2">
         </p-button>
       </td>

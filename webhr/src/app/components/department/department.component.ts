@@ -51,6 +51,7 @@ export class DepartmentComponent implements OnInit {
     this.getDepartment();
     this.isView = Boolean(localStorage.getItem('isView'));
     this.isManage = Boolean(localStorage.getItem('isManage'));
+    console.log(this.isManage, ' is manage')
   }
 
   getDepartment() {

@@ -57,6 +57,7 @@ export class MenuComponent implements OnInit {
     this.userService.getByUserId(Number(localStorage.getItem('token'))).subscribe(
       res => {
         this.name = res.data.name;
+        console.log(res.data, ' ini user')
       }
     )
   }
