@@ -39,6 +39,15 @@ export class HakAksesService {
     });
   }
 
+  putUserxGroupId(id:any, group:any): Observable<any>{
+    return this.http.put<any>(
+      url + `access/changeIsActiveByUserIdAndGroupId?userId=${id}&groupId=${group}`,
+      {
+        responseType: 'json',
+      }
+    );
+  }
+
   getAccsesByUserIdxGroupId(id: any, group: any): Observable<any> {
     return this.http.get<any>(
       url + `access/findByUserIdAndGroupId?userId=${id}&groupId=${group}`,
@@ -54,9 +63,13 @@ export class HakAksesService {
     });
   }
 
-  putAccessIsActive(id: any, groupId:any, isActive:any ): Observable<any> {
-    return this.http.put<any>(url + `access/put/putByUserIdAndGroupId?userId=${id}&groupId=${groupId}&isActive=${isActive}`, {
-      responseType: 'json',
-    });
+  putAccessIsActive(id: any, group: any, isActive: any): Observable<any> {
+    return this.http.put<any>(
+      url +
+        `access/put/putByUserIdAndGroupId?userId=${id}&groupId=${group}&isActive=${isActive}`,
+      {
+        responseType: 'json',
+      }
+    );
   }
 }
