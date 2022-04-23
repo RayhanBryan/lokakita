@@ -6,16 +6,46 @@
     <p-button type="button" icon="pi pi-chevron-right" (onClick)="next()" [disabled]="isLastPage()"
       styleClass="p-button-text"></p-button>
     <button pButton pRipple type="button" icon="pi pi-search" label="Search" class="mt-2 ml-3"
-      [style]="{'float': 'right'}" (click)="showSearchCall()"></button>
+      [style]="{'float': 'right'}" (onClick)="showSearchCall()"></button>
     <span *ngIf="showSearch" class="p-input-icon-left mt-2 ml-3" [style]="{'float': 'right'}">
       <i class="pi pi-search"></i>
       <input type="text" pInputText placeholder="Search" [(ngModel)]="keyword" (input)="search()">
       <p-dropdown appendTo="body" [options]="searchOptions" [(ngModel)]="searchOption" optionLabel="label"
-      optionValue="value" placeholder="Search by"></p-dropdown>
+        optionValue="value" placeholder="Search by"></p-dropdown>
     </span>
     <p-button icon="pi pi-plus-circle" label="Add" styleClass="p-button-success mt-2 ml-3" [style]="{'float': 'right'}"
-      (click)="showMaximizableDialog(1)"></p-button>
+      (onClick)="showMaximizableDialog(1)"></p-button>
   </div>
+
+  <!-- <div class="row">
+    <div class="col-md-4">
+      <p-button type="button" icon="pi pi-chevron-left" (onClick)="prev()" [disabled]="isFirstPage()"
+        styleClass="p-button-text"></p-button>
+      <p-button type="button" icon="pi pi-refresh" (onClick)="reset()" styleClass="p-button-text"></p-button>
+      <p-button type="button" icon="pi pi-chevron-right" (onClick)="next()" [disabled]="isLastPage()"
+        styleClass="p-button-text"></p-button>
+      <p-button icon="pi pi-plus-circle" label="Add" styleClass="p-button-success mt-2 ml-3"
+        (click)="showMaximizableDialog(1)"
+        [style]="{'margin-left': 'auto','display':'inline-block','margin-right':'5px'}"></p-button>
+      <button pButton pRipple type="button" icon="pi pi-search" label="Search" class="mt-2 ml-3"
+        [style]="{'margin-left': 'auto','display':'inline-block','margin-right':'5px'}"
+        (click)="showSearchCall()"></button>
+    </div>
+    <div class="col-md-7">
+      <span *ngIf="showSearch" class="p-input-icon-left mt-2 ml-3"
+        [style]="{'margin-left': 'auto','display':'inline-block','margin-right':'5px'}">
+        <i class="pi pi-search"></i>
+        <input type="text" pInputText placeholder="Search" [(ngModel)]="keyword" (input)="search()">
+        <p-dropdown appendTo="body" [options]="searchOptions" [(ngModel)]="searchOption" optionLabel="label"
+          optionValue="value" placeholder="Search by"></p-dropdown>
+      </span>
+    </div>
+  </div> -->
+
+  <!-- <div class="col-lg-4 col-sm-12 col-xs-12 col-md-4">
+
+  </div> -->
+
   <p-table [value]="locations" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true" [(first)]="first"
     responsiveLayout="scroll" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
     [rowsPerPageOptions]="[10,25,50]" sortMode="multiple">
@@ -63,14 +93,14 @@
     </ng-template>
   </p-table>
 
-  <p-dialog [header]="action == 1 ? 'Add Location' : 'Edit Location'" [(visible)]="displayMaximizable"
-    [modal]="true" [style]="{width: '50vw'}" [maximizable]="true" [draggable]="false" [resizable]="false"
-    (onHide)="resetForm()">
+  <p-dialog [header]="action == 1 ? 'Add Location' : 'Edit Location'" [(visible)]="displayMaximizable" [modal]="true"
+    [style]="{width: '50vw'}" [maximizable]="true" [draggable]="false" [resizable]="false" (onHide)="resetForm()">
     <div class="grid p-fluid">
       <div class="col-12 md:col-6">
         <label for="countryId">Country</label>
         <p-dropdown appendTo="body" [options]="countries" [(ngModel)]="row.countryId" optionLabel="countryName"
-          optionValue="countryId" placeholder="Country" [required]="true" [filter]="true" [filterBy]="'countryName'" (onChange)="getStateProvince()">
+          optionValue="countryId" placeholder="Country" [required]="true" [filter]="true" [filterBy]="'countryName'"
+          (onChange)="getStateProvince()">
         </p-dropdown>
         <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.countryId">
           Country Required!
@@ -87,14 +117,14 @@
       </div> -->
       <div class="col-12 md:col-6">
         <label for="countryId">State/province</label>
-        <p-dropdown appendTo="body" [options]="states" 
-         placeholder="State/province" [required]="true" [(ngModel)]="row.stateProvince" (onChange)="tes2()"  [maxlength]="25">
+        <p-dropdown appendTo="body" [options]="states" placeholder="State/province" [required]="true"
+          [(ngModel)]="row.stateProvince" (onChange)="tes2()" [maxlength]="25">
         </p-dropdown>
         <h5 class="p-invalid" style="color: red;" *ngIf="submitted && !row.stateProvince">
           State/province required!
         </h5>
       </div>
-      
+
       <!-- <div class="col-12 md:col-6">
         <label for="streetAddress">State Province</label>
         <input type="text" pInputText [(ngModel)]="row.stateProvince" maxlength="25" required>
@@ -132,8 +162,8 @@
 
 
     <ng-template pTemplate="footer">
-      <button pButton pRipple type="button" (click)="submit()" icon="pi pi-check" label="Save"
-        class="mt-2 ml-1" [disabled]="handleValidation()"></button>
+      <button pButton pRipple type="button" (click)="submit()" icon="pi pi-check" label="Save" class="mt-2 ml-1"
+        [disabled]="handleValidation()"></button>
       <button pButton pRipple type="button" (click)="resetForm()" icon="pi pi-spinner" label="Reset"
         class="mt-2 ml-1 p-button-danger"></button>
       <button pButton pRipple type="button" (click)="displayMaximizable=false" icon="pi pi-times" label="Cancel"
@@ -146,17 +176,19 @@
   <p-toast></p-toast>
 </div>
 
-<p-dialog [(visible)]="showAddNewStateProvinceDialog" [modal]="true"
-  [style]="{width: '50vw'}" [maximizable]="true" [draggable]="false" [resizable]="false" [closable]="false">
+<p-dialog [(visible)]="showAddNewStateProvinceDialog" [modal]="true" [style]="{width: '50vw'}" [maximizable]="true"
+  [draggable]="false" [resizable]="false" [closable]="false">
   <div class="grid p-fluid">
     <div class="col-12 md:col-12">
       <label for="regionName">Add state/province</label>
       <input type="text" pInputText [(ngModel)]="tempStateProvince" required autofocus maxlength="25">
-      <h5 class="p-invalid" style="color:red" *ngIf="submitted && !row.stateProvince">State/province name is required!</h5>
+      <h5 class="p-invalid" style="color:red" *ngIf="submitted && !row.stateProvince">State/province name is required!
+      </h5>
     </div>
   </div>
   <ng-template pTemplate="footer">
-    <button pButton pRipple type="button" (click)="addNewStateProvince()" icon="pi pi-check" label="Save" class="mt-2 ml-1"></button>
+    <button pButton pRipple type="button" (click)="addNewStateProvince()" icon="pi pi-check" label="Save"
+      class="mt-2 ml-1"></button>
     <button pButton pRipple type="button" (click)="cancelAddingNewStateProvince()" icon="pi pi-times" label="Cancel"
       class="mt-2 ml-1 p-button-danger"></button>
   </ng-template>

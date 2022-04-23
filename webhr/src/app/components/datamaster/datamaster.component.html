@@ -102,13 +102,13 @@
 <p-toast></p-toast>
 <div class="card">
   <div class="mb-3">
-    <p-button type="button" icon="pi pi-chevron-left" (click)="prev()" [disabled]="isFirstPage()"
+    <p-button type="button" icon="pi pi-chevron-left" (onClick)="prev()" [disabled]="isFirstPage()"
       styleClass="p-button-text mt-2"></p-button>
-    <p-button type="button" icon="pi pi-refresh" (click)="reset()" styleClass="p-button-text mt-2"></p-button>
-    <p-button type="button" icon="pi pi-chevron-right" (click)="next()" [disabled]="isLastPage()"
+    <p-button type="button" icon="pi pi-refresh" (onClick)="reset()" styleClass="p-button-text mt-2"></p-button>
+    <p-button type="button" icon="pi pi-chevron-right" (onClick)="next()" [disabled]="isLastPage()"
       styleClass="p-button-text mt-2"></p-button>
     <button pButton pRipple type="button" icon="pi pi-search" label="Search" class="mt-2 ml-3"
-      [style]="{'float': 'right'}" (click)="showSearchCall()"></button>
+      [style]="{'float': 'right'}" (onClick)="showSearchCall()"></button>
     <span *ngIf="showSearch" class="p-input-icon-left mt-2 ml-3" [style]="{'float': 'right'}">
       <i class="pi pi-search"></i>
       <input type="text" pInputText placeholder="Search" [(ngModel)]="keyword" (input)="onChanged(); search()" />

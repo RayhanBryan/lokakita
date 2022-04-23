@@ -217,9 +217,15 @@ export class EmployeeComponent implements OnInit {
   }
 
   isLastPage(): boolean {
-    return this.employees
-      ? this.first === this.employees.length - this.rows
-      : true;
+    if (this.employees!=null){
+      if(this.employees.length<this.rows){
+        return true;
+      }
+      else{
+        return (this.employees.length-this.first<=this.rows);
+      }
+    }
+    return true;
   }
 
   isFirstPage(): boolean {
