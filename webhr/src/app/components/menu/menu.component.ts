@@ -28,6 +28,9 @@ export class MenuComponent implements OnInit {
   dataUser: any;
   name: string = '';
 
+  isManage: boolean = false;
+  isView: boolean = false;
+
   constructor(private userService: UserService, private router: Router, private loginComp: LoginComponent, private app: AppComponent, private messageService: MessageService, private hakAksesService: HakAksesService, private groupService: GroupService, private groupMenu: GroupMenuService, private menuService: MenuService) { }
   items: MenuItem[] = [];
   profiles: MenuItem[] = [];

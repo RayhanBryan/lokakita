@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  url: 'https://loka-service.herokuapp.com:443/',
+  url: 'http://localhost:9090/',
   localUrl: 'http://localhost:9090/',
 };
 // ||

@@ -3,6 +3,7 @@ import { DepartmentService } from 'src/app/services/department.service';
 import { LocationService } from 'src/app/services/location.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { ConfirmationService, ConfirmEventType, MessageService } from 'primeng/api';
+import { MenuComponent } from '../menu/menu.component';
 
 @Component({
   selector: 'app-department',
@@ -24,6 +25,10 @@ export class DepartmentComponent implements OnInit {
   showSearch: boolean = false;
   keyword: string = '';
 
+  isView: boolean = false;
+  isManage: boolean = false;
+
+
   dataDepartment: any;
   row: any = {
     departmentId: 0,
@@ -37,13 +42,15 @@ export class DepartmentComponent implements OnInit {
     private employeeService: EmployeeService,
     private locationService: LocationService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
   ) { }
 
   ngOnInit(): void {
     this.getCity();
     this.getManager();
     this.getDepartment();
+    this.isView = Boolean(localStorage.getItem('isView'));
+    this.isManage = Boolean(localStorage.getItem('isManage'));
   }
 
   getDepartment() {
@@ -53,7 +60,7 @@ export class DepartmentComponent implements OnInit {
         this.departments = data;
         this.departments.forEach((element: any) => {
           element.managerName =
-          element.managerFirstName + '' + element.managerLastName;
+            element.managerFirstName + '' + element.managerLastName;
         })
       },
       error: (err) => {
@@ -75,12 +82,12 @@ export class DepartmentComponent implements OnInit {
   }
 
   isLastPage(): boolean {
-    if (this.departments!=null){
-      if(this.departments.length<this.rows){
+    if (this.departments != null) {
+      if (this.departments.length < this.rows) {
         return true;
       }
-      else{
-        return (this.departments.length-this.first<=this.rows);
+      else {
+        return (this.departments.length - this.first <= this.rows);
       }
     }
     return true;
@@ -118,7 +125,7 @@ export class DepartmentComponent implements OnInit {
     this.departmentService.getAllCategories(this.keyword).subscribe((res) => {
       console.log(res);
       this.departments = res;
-      if (res.length==0){
+      if (res.length == 0) {
         this.messageService.add({
           severity: 'warn',
           summary: 'No result',
@@ -132,7 +139,7 @@ export class DepartmentComponent implements OnInit {
     this.departmentService.getDepartmentName(this.keyword).subscribe((res) => {
       console.log(res);
       this.departments = res;
-      if (res.length==0){
+      if (res.length == 0) {
         this.messageService.add({
           severity: 'warn',
           summary: 'No result',
@@ -146,30 +153,30 @@ export class DepartmentComponent implements OnInit {
     this.departmentService.getDepartmentByCity(this.keyword).subscribe((res) => {
       console.log(res);
       this.departments = res;
-        if (res.length == 0) {
-          this.messageService.add({
-            severity: 'warn',
-            summary: 'No result',
-            detail: 'The search key was not found in any record!',
-          });
-        }
-      });
-    }
+      if (res.length == 0) {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'No result',
+          detail: 'The search key was not found in any record!',
+        });
+      }
+    });
+  }
 
   findByStreetAddress() {
     this.departmentService.getDepartmentByStreetAddress(this.keyword).subscribe((res) => {
       console.log(res);
       this.departments = res;
-        if (res.length == 0) {
-          this.messageService.add({
-            severity: 'warn',
-            summary: 'No result',
-            detail: 'The search key was not found in any record!',
-          });
-        }
-     });
-    }
-      
+      if (res.length == 0) {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'No result',
+          detail: 'The search key was not found in any record!',
+        });
+      }
+    });
+  }
+
   showDialog(action: string) {
     this.display = true;
     this.action = action;
@@ -214,7 +221,7 @@ export class DepartmentComponent implements OnInit {
 
   handleSaveDepartment(event: any) {
     this.submitted = true;
-    if (this.handleValidation()){
+    if (this.handleValidation()) {
       return;
     }
     this.confirmationService.confirm({
@@ -224,7 +231,8 @@ export class DepartmentComponent implements OnInit {
         if (this.row.departmentId === 0) {
           this.row.departmentId = null;
           this.departmentService.postDepartment(this.row).subscribe({
-            next: (data) => { console.log(data);
+            next: (data) => {
+              console.log(data);
               if (data.status) {
                 this.messageService.add({
                   severity: 'success',
@@ -280,8 +288,8 @@ export class DepartmentComponent implements OnInit {
   handleValidation() {
     let err = 0;
     if (this.row.departmentName.length == 0 ||
-        this.row.managerId == null ||
-        this.row.locationId.length == 0 ) {
+      this.row.managerId == null ||
+      this.row.locationId.length == 0) {
       return true;
     }
     else {
