@@ -97,6 +97,8 @@ export class DatamasterComponent implements OnInit {
   dataUser: any;
   wrongConfirmPassword: boolean = false;
   wrongPassword: boolean = false;
+  isManage: boolean = false;
+  isView: boolean = false;
 
   constructor(
     private messageService: MessageService,
@@ -127,6 +129,9 @@ export class DatamasterComponent implements OnInit {
     this.groupsService.getGroup().subscribe((res) => {
       this.groups = res.data;
     })
+    console.log(this.isManage, ' is manage')
+    this.isView = Boolean(localStorage.getItem('isView'));
+    this.isManage = Boolean(localStorage.getItem('isManage'));
   }
 
   getUsers(){

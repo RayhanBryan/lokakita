@@ -88,7 +88,7 @@
     </div>
   </div>
   <ng-template pTemplate="footer">
-    <p-button icon="pi pi-check" *ngIf="submitAdd" (onClick)="newUser(); toLogin()"
+    <p-button icon="pi pi-check" *ngIf="submitAdd"  (onClick)="newUser(); toLogin()"
       label="Submit" styleClass="p-button-text">
     </p-button>
     <p-button icon="pi pi-check" *ngIf="submitEdit" (onClick)="editUser()"
@@ -115,7 +115,7 @@
       <p-dropdown appendTo="body" [options]="searchOptions" [(ngModel)]="searchOption" optionLabel="label"
       optionValue="value" placeholder="Search by"></p-dropdown>
     </span>
-    <p-button (onClick)="submitAdd=true" (onClick)="submitEdit=false" (click)="showBasicDialog2(users)" (onClick)="handleReset($event)" icon="pi pi-user pi-plus-circle"
+    <p-button (onClick)="submitAdd=true" (onClick)="submitEdit=false" [disabled]="!isManage" (click)="isManage==true ? showBasicDialog2(users) : ''" (onClick)="handleReset($event)" icon="pi pi-user pi-plus-circle"
       styleClass="p-button-success mt-2 ml-3" label="Add" [style]="{'float': 'right'}">
     </p-button>
   </div>
@@ -160,10 +160,10 @@
         <td>
           <div class="grid p-fluid">
             <div class="col-12 md:col-6">
-              <p-button icon="pi pi-pencil" (onClick)="submitEdit=true" (onClick)="submitAdd=false" (onClick)="openEdit(users)"></p-button>
+              <p-button icon="pi pi-pencil" (onClick)="submitEdit=true" (onClick)="submitAdd=false" [disabled]="!isManage" (click)="isManage==true ? openEdit(users) : ''"></p-button>
             </div>
             <div class="col-12 md:col-6">
-              <p-button icon="pi pi-trash" styleClass="p-button-danger" (onClick)="handleDelete(users.userId)"></p-button>
+              <p-button icon="pi pi-trash" styleClass="p-button-danger" [disabled]="!isManage" (click)="isManage==true ? handleDelete(users.userId) : ''"></p-button>
             </div>
           </div>
         </td>
