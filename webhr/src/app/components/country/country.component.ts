@@ -284,7 +284,15 @@ showMaximizableDialog(act: number) {
   }
 
   isLastPage(): boolean{
-    return this.countries?this.first === (this.countries.length-this.rows) : true;
+    if (this.countries!=null){
+      if(this.countries.length<this.rows){
+        return true;
+      }
+      else{
+        return (this.countries.length-this.first<=this.rows);
+      }
+    }
+    return true;
   }
 
   isFirstPage():boolean{
