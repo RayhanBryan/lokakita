@@ -12,7 +12,7 @@
       <input type="text" pInputText placeholder="Search" [(ngModel)]="keyword" (input)="search()" />
     </span>
     <p-button (onClick)="showMaximizableDialog(1)" icon="pi pi-plus-circle" label="Add"
-      styleClass="p-button-success mt-2 ml-3" [style]="{'float': 'right'}"></p-button>
+      styleClass="p-button-success mt-2 ml-3" [style]="{'float': 'right'}" [disabled]="!isManage"></p-button>
   </div>
   <p-table [value]="regions" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true" [(first)]="first"
     responsiveLayout="scroll" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
@@ -32,8 +32,8 @@
         <td>{{region.regionName}}</td>
         <td>
           <div style="width: 100px;">
-            <p-button icon="pi pi-pencil" (click)="openEdit(region.regionId)"></p-button>
-            <p-button icon="pi pi-trash" (click)="showDeleteDialog(region.regionId)" styleClass="p-button-danger ml-2">
+            <p-button icon="pi pi-pencil" (click)="openEdit(region.regionId)" [disabled]="!isManage"></p-button>
+            <p-button icon="pi pi-trash" (click)="showDeleteDialog(region.regionId)" styleClass="p-button-danger ml-2" [disabled]="!isManage">
             </p-button>
           </div>
         </td>

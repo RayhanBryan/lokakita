@@ -14,7 +14,7 @@
         optionValue="value" placeholder="Search by"></p-dropdown>
     </span>
     <p-button icon="pi pi-plus-circle" label="Add" styleClass="p-button-success mt-2 ml-3" [style]="{'float': 'right'}"
-      (onClick)="showMaximizableDialog(1)"></p-button>
+      (onClick)="showMaximizableDialog(1)" [disabled]="!isManage"></p-button>
   </div>
 
   <!-- <div class="row">
@@ -82,9 +82,9 @@
         <td>{{location.createdDate}}</td>
         <td>
           <div style="width: 100px;">
-            <p-button icon="pi pi-pencil" (click)="openEdit(location.locationId)"></p-button>
+            <p-button icon="pi pi-pencil" (click)="openEdit(location.locationId)" [disabled]="!isManage"></p-button>
             <p-button icon="pi pi-trash" styleClass="p-button-danger ml-2"
-              (click)="showDeleteDialog(location.locationId)">
+              (click)="showDeleteDialog(location.locationId)" [disabled]="!isManage">
             </p-button>
           </div>
 

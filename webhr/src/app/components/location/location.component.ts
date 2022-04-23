@@ -29,6 +29,8 @@ export class LocationComponent implements OnInit {
   rows = 10;
   keyword: string = '';
   showSearch: boolean = false;
+  isManage: boolean = false;
+  isView: boolean = false;
 
   constructor(
     private locationService: LocationService,
@@ -77,6 +79,8 @@ export class LocationComponent implements OnInit {
 
   ngOnInit(): void {
     this.getLocation();
+    this.isView = Boolean(localStorage.getItem('isView'));
+    this.isManage = Boolean(localStorage.getItem('isManage'));
   }
 
   next() {
