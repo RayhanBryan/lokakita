@@ -69,8 +69,4 @@ public class HakAksesController {
           hakAksesService.delete(id);
           return new DataResponse<HakAksesWrapper>(true, "Delete Sukses");
       }
-      DataResponse<HakAksesWrapper> deleteUserIdOrGroupId(@RequestParam("id") Long id){
-        hakAksesService.delete(id);
-        return new DataResponse<HakAksesWrapper>(true, "Delete Sukses");
-    }
 }

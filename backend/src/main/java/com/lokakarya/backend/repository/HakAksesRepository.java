@@ -16,6 +16,4 @@ public interface HakAksesRepository extends JpaRepository<HakAkses, Long>{
     List<HakAkses> findByGroup(Group group);
 
     Optional<HakAkses> findByUserAndGroup (User user, Group group);
-
-
 }
