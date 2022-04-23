@@ -44,7 +44,7 @@ export class UserService {
     return this.http.put<any>(url + `users/put`, res, httpOptions);
   }
 
-  deleteUser(id: number): Observable<any> {
+  deleteUser(id: any): Observable<any> {
     return this.http.delete<any>(url + `users/delete?id=${id}`, {
       responseType: 'json',
     });

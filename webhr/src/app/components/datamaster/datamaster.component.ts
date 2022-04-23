@@ -1,27 +1,9 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
-import {
-  Data,
-  Router
-} from '@angular/router';
-import {
-  ConfirmationService,
-  MessageService
-} from 'primeng/api';
-import {
-  retry
-} from 'rxjs';
-import {
-  GroupService
-} from 'src/app/services/group.service';
-import {
-  HakAksesService
-} from 'src/app/services/hakakses.service';
-import {
-  UserService
-} from 'src/app/services/user.service';
+import {Component,OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import { ConfirmationService, ConfirmEventType, MessageService } from 'primeng/api';
+import {GroupService} from 'src/app/services/group.service';
+import {HakAksesService} from 'src/app/services/hakakses.service';
+import {UserService} from 'src/app/services/user.service';
 
 
 
@@ -29,7 +11,7 @@ import {
   selector: 'app-datamaster',
   templateUrl: './datamaster.component.html',
   styleUrls: ['./datamaster.component.css'],
-  providers: [MessageService]
+  providers: [ConfirmationService, MessageService]
 })
 
 export class DatamasterComponent implements OnInit {
@@ -114,7 +96,8 @@ export class DatamasterComponent implements OnInit {
   wrongConfirmPassword: boolean = false;
   wrongPassword: boolean = false;
 
-  constructor(private messageService: MessageService,
+  constructor(
+    private messageService: MessageService,
     private usersService: UserService,
     private groupsService: GroupService,
     private hakAkses: HakAksesService,
@@ -144,6 +127,11 @@ export class DatamasterComponent implements OnInit {
     })
   }
 
+  getUsers(){
+    this.usersService.getUser().subscribe((res)=>{
+      this.users=res.data;
+    })
+  }
 
   showSearchCall() {
     this.showSearch = !this.showSearch;
@@ -244,12 +232,41 @@ export class DatamasterComponent implements OnInit {
     )
   }
 
-  deleteUser(id: any) {
-    this.usersService.deleteUser(id).subscribe((res) => {
-      console.log(res.data);
-      this.users = res.data;
+  handleDelete(value: Event) {
+    this.confirmationService.confirm({
+      target: value.target ? value.target : undefined,
+      message: 'Are you sure that you want to proceed?',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.usersService.deleteUser(value).subscribe((res) => {
+          console.log(res);
+          this.getUsers();
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Delete',
+            detail: 'Data has been deleted',
+          });
+        });
+      },
+      reject: (type: any) => {
+        switch (type) {
+          case ConfirmEventType.REJECT:
+            this.messageService.add({
+              severity: 'info',
+              summary: 'Cancelled',
+              detail: 'Your data is safe',
+            });
+            break;
+          case ConfirmEventType.CANCEL:
+            this.messageService.add({
+              severity: 'info',
+              summary: 'Cancelled',
+              detail: 'Your data is safe',
+            });
+            break;
+        }
+      },
     });
-    window.location.reload();
   }
 
   newUser() {
