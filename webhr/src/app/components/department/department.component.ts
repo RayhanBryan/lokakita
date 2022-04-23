@@ -75,9 +75,15 @@ export class DepartmentComponent implements OnInit {
   }
 
   isLastPage(): boolean {
-    return this.departments
-      ? this.first === this.departments.length - this.rows
-      : true;
+    if (this.departments!=null){
+      if(this.departments.length<this.rows){
+        return true;
+      }
+      else{
+        return (this.departments.length-this.first<=this.rows);
+      }
+    }
+    return true;
   }
 
   isFirstPage(): boolean {

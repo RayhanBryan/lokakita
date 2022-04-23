@@ -205,7 +205,15 @@ export class DatamasterComponent implements OnInit {
   }
 
   isLastPage(): boolean {
-    return this.users ? this.first === (this.users.length - this.rows) : true;
+    if (this.users!=null){
+      if(this.users.length<this.rows){
+        return true;
+      }
+      else{
+        return (this.users.length-this.first<=this.rows);
+      }
+    }
+    return true;
   }
 
   isFirstPage(): boolean {

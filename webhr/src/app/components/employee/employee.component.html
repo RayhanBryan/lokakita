@@ -1,9 +1,9 @@
 <div class="card px-5">
     <div class="mb-3">
-        <p-button type="button" icon="pi pi-chevron-left" (click)="prev()" [disabled]="isFirstPage()"
+        <p-button type="button" icon="pi pi-chevron-left" (onClick)="prev()" [disabled]="isFirstPage()"
             styleClass="p-button-text"></p-button>
-        <p-button type="button" icon="pi pi-refresh" (click)="reset()" styleClass="p-button-text"></p-button>
-        <p-button type="button" icon="pi pi-chevron-right" (click)="next()" [disabled]="isLastPage()"
+        <p-button type="button" icon="pi pi-refresh" (onClick)="reset()" styleClass="p-button-text"></p-button>
+        <p-button type="button" icon="pi pi-chevron-right" (onClick)="next()" [disabled]="isLastPage()"
             styleClass="p-button-text"></p-button>
         <button pButton pRipple type="button" icon="pi pi-search" label="Search" class="mt-2 ml-3"
             [style]="{ float: 'right' }" (click)="showSearchCall()"></button>
@@ -13,7 +13,7 @@
         <p-dropdown appendTo="body" [options]="searchOptions" [(ngModel)]="searchOption" optionLabel="label"
             optionValue="value" placeholder="Search by"></p-dropdown>
         </span>
-        <p-button (click)="showDialog('Add')" icon="pi pi-plus-circle" label="Add"
+        <p-button (onClick)="showDialog('Add')" icon="pi pi-plus-circle" label="Add"
             styleClass="p-button-success mt-2 ml-3" [style]="{ float: 'right' }"></p-button>
     </div>
     <p-table [value]="employees" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true" [(first)]="first"
