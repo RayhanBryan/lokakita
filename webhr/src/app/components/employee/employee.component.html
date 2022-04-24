@@ -1,5 +1,6 @@
+<div  *ngIf="isView">
 <div class="card px-5">
-    <div class="mb-3">
+    <div class="mb-3" style="overflow: hidden;">
         <p-button type="button" icon="pi pi-chevron-left" (onClick)="prev()" [disabled]="isFirstPage()"
             styleClass="p-button-text"></p-button>
         <p-button type="button" icon="pi pi-refresh" (onClick)="reset()" styleClass="p-button-text"></p-button>
@@ -9,11 +10,11 @@
             [style]="{ float: 'right' }" (click)="showSearchCall()"></button>
         <span *ngIf="showSearch" class="p-input-icon-left mt-2 ml-3" [style]="{ float: 'right' }">
             <i class="pi pi-search"></i>
-            <input type="text" pInputText placeholder="Search" [(ngModel)]="keyword" (input)="search()">
+            <input type="text" pInputText placeholder="Search" [(ngModel)]="keyword" (input)="search()" >
         <p-dropdown appendTo="body" [options]="searchOptions" [(ngModel)]="searchOption" optionLabel="label"
             optionValue="value" placeholder="Search by"></p-dropdown>
         </span>
-        <p-button (onClick)="showDialog('Add')" icon="pi pi-plus-circle" label="Add"
+    <p-button [disabled]="!isManage" (click)="isManage==true ? showDialog('Add') : ''" icon="pi pi-plus-circle" label="Add"
             styleClass="p-button-success mt-2 ml-3" [style]="{ float: 'right' }"></p-button>
     </div>
     <p-table [value]="employees" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true" [(first)]="first"
@@ -27,7 +28,7 @@
                 <th pSortableColumn="fullName" style="width: 11%;" id="employeeColumn">
                     Employee Name<p-sortIcon field="fullName"></p-sortIcon>
                 </th>
-                <th pSortableColumn="email" style="width: 10%" id="employeeColumn">
+                <th pSortableColumn="email" style="width: 11%" id="employeeColumn">
                     Email <p-sortIcon field="email"></p-sortIcon>
                 </th>
                 <th pSortableColumn="managerName" style="width: 11%" id="employeeColumn">
@@ -39,16 +40,16 @@
                 <th pSortableColumn="hireDate" style="width: 11%" id="employeeColumn">
                     Hire Date <p-sortIcon field="hireDate"></p-sortIcon>
                 </th>
-                <th pSortableColumn="jobId" style="width: 10%" id="employeeColumn">
+                <th pSortableColumn="jobId" style="width: 11%" id="employeeColumn">
                     Job Title <p-sortIcon field="jobId"></p-sortIcon>
                 </th>
-                <th pSortableColumn="salary" style="width: 10%" id="employeeColumn">
+                <th pSortableColumn="salary" style="width: 9%" id="employeeColumn">
                     Salary <p-sortIcon field="salary"></p-sortIcon>
                 </th>
                 <th pSortableColumn="departmentName" style="width: 10%" id="employeeColumn">
                     Department Name <p-sortIcon field="departmentId"></p-sortIcon>
                 </th>
-                <th style="width: 11%" id="employeeColumn">Action</th>
+                <th style="width: 10%" id="employeeColumn">Action</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-employee>
@@ -66,9 +67,11 @@
                     <p-button (click)="showBonus(employee)" icon="pi pi-external-link" label="Salary"></p-button>
                 </td>
                 <td id="employeeColumn">{{ employee.departmentName }}</td>
-                <td><div id="employeeColumn">
-                    <p-button icon="pi pi-pencil" (click)="openEdit(employee)"></p-button>
-                    <p-button icon="pi pi-trash" (click)="handleDelete(employee.employeeId)" styleClass="p-button-danger ml-2"></p-button></div>
+                <td id="employeeColumn" >
+                    <div class="p-d-flex p-p-2 card" style="width: 100px">
+                        <p-button icon="pi pi-pencil" [disabled]="!isManage" (click)="isManage==true ? openEdit(employee) : ''" class="p-mr-2"></p-button>
+                        <p-button icon="pi pi-trash" [disabled]="!isManage" (click)="isManage==true ? handleDelete(employee.employeeId) : ''" styleClass="p-button-danger ml-2"></p-button>
+                    </div>
                 </td>
             </tr>
         </ng-template>
@@ -109,8 +112,8 @@
             
             <div class="col-12 md:col-6">
                 <h5>Job Title</h5>
-                <p-dropdown appendTo="body" [options]="jobs" [(ngModel)]="row.jobId" optionLabel="jobTitle"
-                    placeholder="Job Title" optionValue="jobId" [required]="true" [dataKey]="row.jobTitle" [filter]="true">
+                <p-dropdown appendTo="body" [options]="jobs" [(ngModel)]="this.row.jobId" optionLabel="jobTitle"
+                    placeholder="Job Title" optionValue="jobId" [required]="true" [dataKey]="jobTitle" [filter]="true">
                 </p-dropdown>
                 <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.jobId">
                     Job Required!
@@ -121,11 +124,11 @@
                 <h5>Manager Name</h5>
                 <p-dropdown appendTo="body" [options]="managers" [(ngModel)]="row.managerId" *ngIf="action=='Add'"
                     optionLabel="fullName" placeholder="Manager Name" optionValue="managerId" [required]="true"
-                    [dataKey]="row.managerName" [filter]="true">
+                    [dataKey]="managerName" [filter]="true">
                 </p-dropdown>
                 <p-dropdown appendTo="body" [options]="managers" [(ngModel)]="row.managerId" *ngIf="action!='Add'"
                     optionLabel="managerName" placeholder="Manager Name" optionValue="managerId" [required]="true"
-                    [dataKey]="row.managerName" [filter]="true">
+                    [dataKey]="managerName" [filter]="true">
             </p-dropdown>
                 <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.managerId">
                     Manager Name Required!
@@ -136,7 +139,7 @@
                 <h5>Department Name</h5>
                 <p-dropdown appendTo="body" [options]="departments" [(ngModel)]="row.departmentId"
                     optionLabel="departmentName" placeholder="Department Name" optionValue="departmentId" [required]="true"
-                    [dataKey]="row.departmentName"[filter]="true">
+                    [dataKey]="departmentName"[filter]="true">
                 </p-dropdown>
                 <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.departmentId">
                     Department Required!
@@ -232,5 +235,7 @@
         </ng-template>
     </p-dialog>
 </div>
+</div>
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
 <p-toast></p-toast>
+<p-toast position="top-center" key="tc"></p-toast>

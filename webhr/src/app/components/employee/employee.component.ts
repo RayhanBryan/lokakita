@@ -10,7 +10,7 @@ import { JobService } from 'src/app/services/job.service';
   selector: 'app-employee',
   templateUrl: './employee.component.html',
   styleUrls: ['./employee.component.css'],
-  providers: [ConfirmationService, MessageService],
+  providers: [MessageService],
 })
 export class EmployeeComponent implements OnInit {
   departments: any;
@@ -25,6 +25,9 @@ export class EmployeeComponent implements OnInit {
   displaySalary: boolean = false;
   displayJobHistory: boolean = false;
   displayManager: boolean = true;
+  jobTitle='';
+  managerName='';
+  departmentName='';
   
   submitted: boolean = false;
   action: string = '';
@@ -33,6 +36,9 @@ export class EmployeeComponent implements OnInit {
   keyword: string = '';
   displayForm: boolean = false;
   IsDisabled: boolean = false;
+  isView: boolean = false;
+  isManage: boolean = false;
+
 
   row: any = {
     employeeId: 0,
@@ -65,10 +71,14 @@ export class EmployeeComponent implements OnInit {
     this.getDepartment();
     this.getJob();
     this.getManagers();
+    this.isView = Boolean(localStorage.getItem('isView'));
+    this.isManage = Boolean(localStorage.getItem('isManage'));
   }
 
-  removeDuplicates(arr: any[]) {
-    return arr.filter((item: any, index: any) => arr.indexOf(item) === index);
+  ngAfterViewInit(): void {
+    if (this.isView == false) {
+      this.messageService.add({ key: 'tc', severity: 'error', summary: 'Warn', detail: 'Sorry you dont have permission to view data', sticky: true });
+    }
   }
 
   getEmployee() {
@@ -117,7 +127,6 @@ export class EmployeeComponent implements OnInit {
 
   findByAll() {
     this.employeeService.getEmployeeByAll(this.keyword).subscribe((res) => {
-      console.log(res);
       this.employees = res;
       if (res.length==0){
         this.messageService.add({
@@ -131,7 +140,6 @@ export class EmployeeComponent implements OnInit {
 
   findByEmail() {
     this.employeeService.getEmployeebyEmail(this.keyword).subscribe((res) => {
-      console.log(res);
       this.employees = res;
       if (res.length==0){
         this.messageService.add({
@@ -145,7 +153,6 @@ export class EmployeeComponent implements OnInit {
 
   findByEmployeeName() {
     this.employeeService.getEmployeeName(this.keyword).subscribe((res) => {
-      console.log(res);
       this.employees = res;
       if (res.length==0){
         this.messageService.add({
@@ -159,7 +166,6 @@ export class EmployeeComponent implements OnInit {
 
   findByJob() {
     this.employeeService.getEmployeebyJobTitle(this.keyword).subscribe((res) => {
-      console.log(res);
       this.employees = res;
       if (res.length==0){
         this.messageService.add({
@@ -173,7 +179,6 @@ export class EmployeeComponent implements OnInit {
 
   findByManagerName() {
     this.employeeService.getEmployeeByManagerName(this.keyword).subscribe((res) => {
-      console.log(res);
       this.employees = res;
       if (res.length==0){
         this.messageService.add({
@@ -187,7 +192,6 @@ export class EmployeeComponent implements OnInit {
 
   findByDeptName() {
     this.employeeService.getEmployeeByDepartmentName(this.keyword).subscribe((res) => {
-      console.log(res);
       this.employees = res;
       if (res.length==0){
         this.messageService.add({
@@ -406,22 +410,6 @@ export class EmployeeComponent implements OnInit {
     this.showSearch = !this.showSearch;
   }
 
-//   manager =[this.row]
-//   managers(row:any){
-//     this.row = { ...row };
-//     this.displayManager=true;
-//     this.employeeService.getEmployeeById(row.employeeId).subscribe((res) => {
-//       console.log(res.data);
-//       this.manager[0] = res.data;
-//       for (let i=0;i<this.manager.length; i++){
-//         if (this.manager[i+1] != this.manager[i]){
-//           this.manager
-//         }
-//       }
-
-//   });
-// }
-
   salary = [this.row];
   showBonus(row: any) {
     this.row = { ...row };
@@ -429,8 +417,6 @@ export class EmployeeComponent implements OnInit {
     this.employeeService.getEmployeeById(row.employeeId).subscribe((res) => {
       console.log(res.data);
       this.salary[0] = res.data;
-      // this.ssss = res.data;
-      // this.s=[res.data];
     });
   }
 
