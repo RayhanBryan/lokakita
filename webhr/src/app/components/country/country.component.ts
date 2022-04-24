@@ -41,6 +41,9 @@ export class CountryComponent implements OnInit {
   res:any;
   displayMaximizable: boolean = false;
 
+  isView: boolean=false;
+  isManage: boolean=false;
+
   row: Country={
     countryId:'',
     countryName:'',
@@ -50,13 +53,15 @@ export class CountryComponent implements OnInit {
   constructor(
     private countryService: CountryService,
     private confirmationService: ConfirmationService,
-    private router: Router,
     private regionService: RegionService,
     private messageService: MessageService
     ) { }
 
   ngOnInit(): void {
     this.loadData();
+    this.isView = Boolean(localStorage.getItem('isView'));
+    this.isManage = Boolean(localStorage.getItem('isManage'));
+    console.log(this.isManage, 'is manage')
   }
 
   loadData(){
