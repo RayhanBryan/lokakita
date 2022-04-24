@@ -12,7 +12,7 @@
             optionValue="value" placeholder="Search by"></p-dropdown>
       
         </span>
-        <p-button (onClick)="showMaximizableDialog(1)" icon="pi pi-plus-circle" label="Add" styleClass="p-button-success mt-2 ml-3" [style]="{'float': 'right'}" [disabled]="!isManage"></p-button>
+        <p-button (onClick)="isManage == true? showMaximizableDialog(1) : ''" icon="pi pi-plus-circle" label="Add" styleClass="p-button-success mt-2 ml-3" [style]="{'float': 'right'}" [disabled]="!isManage"></p-button>
     </div>
     <p-table [value]="countries" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true" [(first)]="first" responsiveLayout="scroll"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10,25,50]" [scrollable]="true" scrollHeight="600px">
@@ -32,8 +32,8 @@
             <td>{{country.regionId}}</td>
             <td>{{country.regionName}}</td>
             <td>
-              <p-button icon="pi pi-pencil" [disabled]="!isManage" (onClick)="openEdit(country)"></p-button>
-              <p-button icon="pi pi-trash" (onClick)="showDeleteDialog(country.countryId)" styleClass="p-button-danger ml-2" [disabled]="!isManage"></p-button>
+              <p-button icon="pi pi-pencil" [disabled]="!isManage" (onClick)="isManage == true? openEdit(country) : ''"></p-button>
+              <p-button icon="pi pi-trash" (onClick)="isManage == true? showDeleteDialog(country.countryId) : ''" styleClass="p-button-danger ml-2" [disabled]="!isManage"></p-button>
             </td>
         </tr>
     </ng-template>

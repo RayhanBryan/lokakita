@@ -9,7 +9,7 @@
             <i class="pi pi-search"></i>
             <input type="text" pInputText placeholder="Search by job title" [(ngModel)]="keyword" (input)="searchJobTitle(keyword)"/>
         </span>
-        <p-button (onClick)="showMaximizableDialog(1)" icon="pi pi-plus-circle" label="Add" styleClass="p-button-success mt-2 ml-3" [style]="{'float': 'right'}" [disabled]="!isManage"></p-button>
+        <p-button (onClick)="isManage == true? showMaximizableDialog(1) : ''" icon="pi pi-plus-circle" label="Add" styleClass="p-button-success mt-2 ml-3" [style]="{'float': 'right'}" [disabled]="!isManage"></p-button>
     </div>
     </div>
     <p-table [value]="jobs" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true" [(first)]="first" responsiveLayout="scroll"
@@ -30,8 +30,8 @@
             <td>{{job.minSalary}}</td>
             <td>{{job.maxSalary}}</td>
             <td>
-              <p-button icon="pi pi-pencil"  (onClick)="openEdit(job)" [disabled]="!isManage"></p-button>
-              <p-button icon="pi pi-trash" (onClick)="showDeleteDialog(job.jobId)" [disabled]="!isManage" styleClass="p-button-danger ml-2"></p-button>
+              <p-button icon="pi pi-pencil"  (onClick)="isManage == true? openEdit(job) : ''" [disabled]="!isManage"></p-button>
+              <p-button icon="pi pi-trash" (onClick)="isManage == true? showDeleteDialog(job.jobId) : ''" [disabled]="!isManage" styleClass="p-button-danger ml-2"></p-button>
             </td>
         </tr>
     </ng-template>
