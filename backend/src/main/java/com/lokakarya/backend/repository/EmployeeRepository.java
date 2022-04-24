@@ -27,7 +27,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
                         "LEFT JOIN " +
                         "JOBS j " +
                         "ON e.JOB_ID= " +
-                        "d.JOB_ID WHERE " +
+                        "j.JOB_ID WHERE " +
                         "LOWER(j.JOB_TITLE) " +
                         "LIKE LOWER(CONCAT(CONCAT('%',:pJobTitle), '%'))", nativeQuery = true)
         List<Employee> findByJobTitleContainingIgnoreCase(@Param("pJobTitle") String jobTitle);
