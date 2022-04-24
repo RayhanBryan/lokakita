@@ -104,6 +104,11 @@ export class JobComponent implements OnInit {
                 }
               },
               error: (err) => {
+                this.messageService.add({
+                  severity: 'error',
+                  summary: 'Error',
+                  detail: 'Could not add a new record',
+                })
                 console.log('error cuy');
               },
             }
@@ -136,6 +141,11 @@ export class JobComponent implements OnInit {
                 }
               },
               error: (err) => {
+                this.messageService.add({
+                  severity: 'error',
+                  summary: 'Error',
+                  detail: 'Could not add a new record',
+                })
                 console.log('error cuy');
               },
             });

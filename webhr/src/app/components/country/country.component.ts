@@ -113,6 +113,11 @@ handleSaveCountry(event:any){
         }
       },
       error: (err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Could not add a new record',
+        })
         console.log('error cuy');
       },
     });
@@ -148,6 +153,11 @@ handleSaveCountry(event:any){
         }
       } ,
       error: (err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Could not add a new record',
+        })
         console.log('error cuy');
       },
     });
