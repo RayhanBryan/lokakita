@@ -214,7 +214,7 @@ export class RegionComponent implements OnInit {
    * @returns TRUE if the input form is invalid, FALSE otherwise
    */
   handleValidation() {
-    if (this.row.regionName.length == 0) {
+    if (this.row.regionName.length == 0 || this.row.regionName>25) {
       return true;
     }
     return false;

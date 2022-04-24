@@ -1,5 +1,5 @@
 <div class="card">
-  <div class="mb-3">
+  <div class="mb-3" style="overflow:hidden">
     <p-button type="button" icon="pi pi-chevron-left" (onClick)="prev()" [disabled]="isFirstPage()"
       styleClass="p-button-text"></p-button>
     <p-button type="button" icon="pi pi-refresh" (onClick)="reset()" styleClass="p-button-text"></p-button>
@@ -17,38 +17,9 @@
       (onClick)="showMaximizableDialog(1)" [disabled]="!isManage"></p-button>
   </div>
 
-  <!-- <div class="row">
-    <div class="col-md-4">
-      <p-button type="button" icon="pi pi-chevron-left" (onClick)="prev()" [disabled]="isFirstPage()"
-        styleClass="p-button-text"></p-button>
-      <p-button type="button" icon="pi pi-refresh" (onClick)="reset()" styleClass="p-button-text"></p-button>
-      <p-button type="button" icon="pi pi-chevron-right" (onClick)="next()" [disabled]="isLastPage()"
-        styleClass="p-button-text"></p-button>
-      <p-button icon="pi pi-plus-circle" label="Add" styleClass="p-button-success mt-2 ml-3"
-        (click)="showMaximizableDialog(1)"
-        [style]="{'margin-left': 'auto','display':'inline-block','margin-right':'5px'}"></p-button>
-      <button pButton pRipple type="button" icon="pi pi-search" label="Search" class="mt-2 ml-3"
-        [style]="{'margin-left': 'auto','display':'inline-block','margin-right':'5px'}"
-        (click)="showSearchCall()"></button>
-    </div>
-    <div class="col-md-7">
-      <span *ngIf="showSearch" class="p-input-icon-left mt-2 ml-3"
-        [style]="{'margin-left': 'auto','display':'inline-block','margin-right':'5px'}">
-        <i class="pi pi-search"></i>
-        <input type="text" pInputText placeholder="Search" [(ngModel)]="keyword" (input)="search()">
-        <p-dropdown appendTo="body" [options]="searchOptions" [(ngModel)]="searchOption" optionLabel="label"
-          optionValue="value" placeholder="Search by"></p-dropdown>
-      </span>
-    </div>
-  </div> -->
-
-  <!-- <div class="col-lg-4 col-sm-12 col-xs-12 col-md-4">
-
-  </div> -->
-
   <p-table [value]="locations" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true" [(first)]="first"
     responsiveLayout="scroll" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    [rowsPerPageOptions]="[10,25,50]" sortMode="multiple">
+    [rowsPerPageOptions]="[10,25,50]" sortMode="multiple" >
     <ng-template pTemplate="header">
       <tr>
         <th pSortableColumn="locationId">Location ID <p-sortIcon field="locationId"></p-sortIcon>
@@ -61,8 +32,6 @@
         </th>
         <th pSortableColumn="stateProvince">State/Province <p-sortIcon field="stateProvince"></p-sortIcon>
         </th>
-        <!-- <th pSortableColumn="countryId">Country ID <p-sortIcon field="countryId"></p-sortIcon>
-        </th> -->
         <th pSortableColumn="countryName">Country Name <p-sortIcon field="countryName"></p-sortIcon>
         </th>
         <th pSortableColumn="createdDate">Created Date <p-sortIcon field="createdDate"></p-sortIcon>
@@ -77,7 +46,6 @@
         <td>{{location.postalCode}}</td>
         <td>{{location.city}}</td>
         <td>{{location.stateProvince}}</td>
-        <!-- <td>{{location.countryId}}</td> -->
         <td>{{location.countryName}}</td>
         <td>{{location.createdDate}}</td>
         <td>
@@ -106,15 +74,7 @@
           Country Required!
         </h5>
       </div>
-      <!-- <div class="col-12 md:col-6">
-        <label for="countryId">Country</label>
-        <p-dropdown appendTo="body" [options]="countries" [(ngModel)]="row.countryId" optionLabel="countryName"
-          optionValue="countryId" placeholder="Country" [required]="true" [filter]="true" [filterBy]="'countryName'" (onChange)="getStateProvince()">
-        </p-dropdown>
-        <h5 class="p-invalid" style="color: red" *ngIf="submitted && !row.countryId">
-          Country Required!
-        </h5>
-      </div> -->
+
       <div class="col-12 md:col-6">
         <label for="countryId">State/province</label>
         <p-dropdown appendTo="body" [options]="states" placeholder="State/province" [required]="true"
@@ -124,14 +84,6 @@
           State/province required!
         </h5>
       </div>
-
-      <!-- <div class="col-12 md:col-6">
-        <label for="streetAddress">State Province</label>
-        <input type="text" pInputText [(ngModel)]="row.stateProvince" maxlength="25" required>
-        <h5 class="p-invalid" style="color: red;" *ngIf="submitted && !row.stateProvince">
-          State province required!
-        </h5>
-      </div> -->
       <div class="col-12 md:col-6">
         <label for="streetAddress">City</label>
         <input type="text" pInputText [(ngModel)]="row.city" maxlength="30" required>

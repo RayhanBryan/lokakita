@@ -325,11 +325,11 @@ export class LocationComponent implements OnInit {
    */
   handleValidation() {
     if (
-      this.row.streetAddress.length == 0 ||
-      this.row.postalCode.length == 0 ||
+      (this.row.streetAddress.length == 0 || this.row.streetAddress.length >40) ||
+      (this.row.postalCode.length == 0 || this.row.postalCode.length >12)||
       this.row.countryId.length == 0 ||
-      this.row.city.length == 0 ||
-      this.row.stateProvince.length == 0 ||
+      (this.row.city.length == 0 || this.row.city.length >40 )||
+      (this.row.stateProvince.length == 0 || this.row.stateProvince.length >25 )||
       this.row.createdDate == null
     ) {
       return true;
