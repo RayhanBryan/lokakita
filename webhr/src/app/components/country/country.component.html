@@ -1,5 +1,5 @@
 <div class="card">
-    <div class="mb-3">
+    <div class="mb-3" style="overflow:hidden">
         <p-button type="button" icon="pi pi-chevron-left" (onClick)="prev()" [disabled]="isFirstPage()" styleClass="p-button-text"></p-button>
         <p-button type="button" icon="pi pi-refresh" (onClick)="reset()" styleClass="p-button-text"></p-button>
         <p-button type="button" icon="pi pi-chevron-right" (onClick)="next()" [disabled]="isLastPage()" styleClass="p-button-text"></p-button>
@@ -31,8 +31,8 @@
             <td>{{country.regionId}}</td>
             <td>{{country.regionName}}</td>
             <td>
-              <p-button icon="pi pi-pencil" [disabled]="!isManage" (click)="openEdit(country)"></p-button>
-              <p-button icon="pi pi-trash" (click)="showDeleteDialog(country.countryId)" styleClass="p-button-danger ml-2" [disabled]="!isManage"></p-button>
+              <p-button icon="pi pi-pencil" [disabled]="!isManage" (onClick)="openEdit(country)"></p-button>
+              <p-button icon="pi pi-trash" (onClick)="showDeleteDialog(country.countryId)" styleClass="p-button-danger ml-2" [disabled]="!isManage"></p-button>
             </td>
         </tr>
     </ng-template>

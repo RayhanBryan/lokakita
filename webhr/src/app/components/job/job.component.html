@@ -1,5 +1,5 @@
 <div class="card">
-    <div class="mb-3">
+    <div class="mb-3" style="overflow:hidden">
         <p-button type="button" icon="pi pi-chevron-left" (onClick)="prev()" [disabled]="isFirstPage()" styleClass="p-button-text"></p-button>
         <p-button type="button" icon="pi pi-refresh" (onClick)="reset()" styleClass="p-button-text"></p-button>
         <p-button type="button" icon="pi pi-chevron-right" (onClick)="next()" [disabled]="isLastPage()" styleClass="p-button-text"></p-button>
@@ -28,8 +28,8 @@
             <td>{{job.minSalary}}</td>
             <td>{{job.maxSalary}}</td>
             <td>
-              <p-button icon="pi pi-pencil" (click)="openEdit(job)" [disabled]="!isManage"></p-button>
-              <p-button icon="pi pi-trash" (click)="showDeleteDialog(job.jobId)" [disabled]="!isManage" styleClass="p-button-danger ml-2"></p-button>
+              <p-button icon="pi pi-pencil"  (onClick)="openEdit(job)" [disabled]="!isManage"></p-button>
+              <p-button icon="pi pi-trash" (onClick)="showDeleteDialog(job.jobId)" [disabled]="!isManage" styleClass="p-button-danger ml-2"></p-button>
             </td>
         </tr>
     </ng-template>
