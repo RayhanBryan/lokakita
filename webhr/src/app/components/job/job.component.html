@@ -1,4 +1,5 @@
-<div class="card">
+<div *ngIf="isView">
+    <div class="card">
     <div class="mb-3" style="overflow:hidden">
         <p-button type="button" icon="pi pi-chevron-left" (onClick)="prev()" [disabled]="isFirstPage()" styleClass="p-button-text"></p-button>
         <p-button type="button" icon="pi pi-refresh" (onClick)="reset()" styleClass="p-button-text"></p-button>
@@ -9,6 +10,7 @@
             <input type="text" pInputText placeholder="Search by job title" [(ngModel)]="keyword" (input)="searchJobTitle(keyword)"/>
         </span>
         <p-button (onClick)="showMaximizableDialog(1)" icon="pi pi-plus-circle" label="Add" styleClass="p-button-success mt-2 ml-3" [style]="{'float': 'right'}" [disabled]="!isManage"></p-button>
+    </div>
     </div>
     <p-table [value]="jobs" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true" [(first)]="first" responsiveLayout="scroll"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10,25,50]" [scrollable]="true" scrollHeight="600px">
@@ -33,7 +35,7 @@
             </td>
         </tr>
     </ng-template>
-</p-table>
+    </p-table>
 
 <p-dialog [header]="action == 1 ? 'Input Job' : 'Edit Job' " [(visible)]="displayMaximizable" [modal]="true" [style]="{width: '50vw'}" [maximizable]="true"
     [draggable]="false" [resizable]="false" (onHide)="handleResetJob($event,'hide')">
@@ -50,7 +52,7 @@
       <div class="col-6">
           <h5>Job Title</h5>
           <span class="p-float-label">
-              <input type="text" pInputText [(ngModel)]="row.jobTitle" required autofocus placeholder="ex: President"> 
+              <input type="text" pInputText [(ngModel)]="row.jobTitle"  required autofocus placeholder="ex: President"> 
               <!-- <h5 *ngIf="submitted && !row.jobTitle">Required!!</h5> -->
               <h5 class="p invalid" style="color: red;" *ngIf=" !row.jobTitle">Job Name is required.</h5>
           </span>
@@ -74,64 +76,16 @@
       </div>
   </div>
 
-
   <ng-template pTemplate="footer">
     <button pButton pRipple type="button" (click)="handleSaveJob($event)" icon="pi pi-check" label="Save" class="mt-2 ml-1" [disabled]="!handleValidation()"></button>
     <button pButton pRipple type="button" (click)="handleResetJob($event,'click')" icon="pi pi-spinner" label="Reset" class="mt-2 ml-1 p-button-warning"></button>
     <button pButton pRipple type="button" (click)="displayMaximizable=false" icon="pi pi-times" label="Cancel" class="mt-2 ml-1 p-button-danger"></button>
 </ng-template>
 </p-dialog>
-
-
-<p-dialog header="Delete Data" [(visible)]="displayDelete" [style]="{width: '50vw'}">
-  <p>Are You Sure?</p>
-  <ng-template pTemplate="footer">
-      <button pButton pRipple type="button" (click)="deleteData()" icon="pi pi-trash" label="Delete" class="mt-2 ml-1 p-button-danger"></button>
-      <button pButton pRipple type="button" icon="pi pi-times" label="Batal" class="mt-2 ml-1 p-button-success"></button>
-  </ng-template>
-</p-dialog>
+</div>
 
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
 <p-toast></p-toast>
+<p-toast position="top-center" key="tc"></p-toast>
 
-
-
-<!-- <p-dialog [(visible)]="displayForm" [modal]="true"
-[style]="{width: '50vw', height: '50vw'}" [draggable]="false" [resizable]="true">
-<div class="grid p-fluid">
-  <div class="col-12 md:col-6">
-    <h5><label for="jobId" class="block">Job ID</label></h5>
-    <input type="text" pInputText [(ngModel)]="row.jobId" (ngModelChange)="row.jobId = $event.toUpperCase()" required autofocus> 
-    <span class="p-float-label">{{jobId}}</span>
-    <h5 class="p invalid" style="color: red;" *ngIf="submitted && !row.jobId">Job ID is required.</h5>
-  </div>
-  <div class="col-12 md:col-6">
-    <h5><label for="jobName" class="block">Job Title</label></h5>
-    <input type="text" pInputText [(ngModel)]="row.jobTitle" required autofocus> 
-    <span class="p-float-label">{{jobName}}</span>
-    <h5 class="p invalid" style="color: red;" *ngIf="submitted && !row.jobTitle">Job Name is required.</h5>
-
-  </div>
-  <div class="col-12 md:col-6">
-    <h5><label for="minSalary" class="block">Minimum Salary</label></h5>
-      <input type="number" pInputText [(ngModel)]="row.minSalary" required autofocus> 
-      <span class="ml-2">{{minSalary}}</span>
-      <h5 class="p invalid" style="color: red;" *ngIf="submitted && row.minSalary<0">Minimum Salary 0.</h5>
-
-  </div>
-  <div class="col-12 md:col-6">
-    <h5><label for="maxSalary" class="block">Maximum Salary</label></h5>
-      <input type="number" pInputText [(ngModel)]="row.maxSalary" required autofocus> 
-      <span class="ml-2">{{maxSalary}}</span>
-
-  </div>
-</div> -->
-
-<!-- <ng-template pTemplate="footer">
-    <p-button icon="pi pi-save"  label="save" styleClass="p-button-text" (click)="handleSaveJob($event)"></p-button>
-    <p-button icon="pi pi-times"  label="reset" styleClass="p-button-text" (click)="handleResetJob($event)"></p-button>
-  </ng-template>
-</p-dialog> -->
-
-</div>
 

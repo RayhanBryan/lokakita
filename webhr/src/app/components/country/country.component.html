@@ -1,3 +1,4 @@
+<div *ngIf="isView">
 <div class="card">
     <div class="mb-3" style="overflow:hidden">
         <p-button type="button" icon="pi pi-chevron-left" (onClick)="prev()" [disabled]="isFirstPage()" styleClass="p-button-text"></p-button>
@@ -37,6 +38,8 @@
         </tr>
     </ng-template>
 </p-table>
+</div>
+</div>
 
 <p-dialog [header]="action == 1 ? 'Input Country' : 'Edit Country' " [(visible)]="displayMaximizable" [modal]="true" [style]="{width: '50vw'}" [maximizable]="true"
     [draggable]="false" [resizable]="false" (onHide)="handleResetCountry($event,'hide')">
@@ -73,6 +76,7 @@
 
       </div>
   </div>
+  
 
 
   <ng-template pTemplate="footer">
@@ -91,6 +95,8 @@
   </ng-template>
 </p-dialog>
 
+
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
 <p-toast></p-toast>
+<p-toast position="top-center" key="tc"></p-toast>
 
