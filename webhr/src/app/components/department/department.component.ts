@@ -51,7 +51,14 @@ export class DepartmentComponent implements OnInit {
     this.getDepartment();
     this.isView = Boolean(localStorage.getItem('isView'));
     this.isManage = Boolean(localStorage.getItem('isManage'));
-    console.log(this.isManage, ' is manage')
+    console.log(this.isManage, ' is manage');
+    console.log(this.isView, ' is view')
+  }
+
+  ngAfterViewInit(): void {
+    if (this.isView == false) {
+      this.messageService.add({ key: 'tc', severity: 'error', summary: 'Warn', detail: 'Sorry you dont have permission to view data', sticky: true });
+    }
   }
 
   getDepartment() {

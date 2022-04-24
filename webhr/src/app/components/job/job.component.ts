@@ -37,6 +37,8 @@ export class JobComponent implements OnInit {
   displayMaximizable: boolean = false;
   action=0;
   keyword:any;
+  isView: boolean=false;
+  isManage: boolean=false;
 
   row: any={
     jobTitle: '',
@@ -53,7 +55,9 @@ export class JobComponent implements OnInit {
 
   ngOnInit(): void {  
     this.loadData();
-
+    this.isView = Boolean(localStorage.getItem('isView'));
+    this.isManage = Boolean(localStorage.getItem('isManage'));
+    console.log(this.isManage, 'is manage')
     }
 
   loadData(){

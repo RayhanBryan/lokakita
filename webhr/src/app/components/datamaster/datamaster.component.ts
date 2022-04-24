@@ -97,6 +97,7 @@ export class DatamasterComponent implements OnInit {
   dataUser: any;
   wrongConfirmPassword: boolean = false;
   wrongPassword: boolean = false;
+
   isManage: boolean = false;
   isView: boolean = false;
 
@@ -130,14 +131,22 @@ export class DatamasterComponent implements OnInit {
       this.groups = res.data;
     })
     console.log(this.isManage, ' is manage')
+
+
     this.isView = Boolean(localStorage.getItem('isView'));
     this.isManage = Boolean(localStorage.getItem('isManage'));
   }
 
   getUsers(){
-    this.usersService.getUser().subscribe((res)=>{
-      this.users=res.data;
-    })
+    this.usersService.getUser().subscribe((res) => {
+      console.log(res.data, 'ini apaa11');
+      res.data.forEach((row: any) => {
+        this.groupsService.getGroupByUserId(row.userId).subscribe((result) => {
+          row.groupName = result.data;
+        });
+      });
+      this.users = res.data;
+    });
   }
 
   showSearchCall() {
@@ -284,59 +293,78 @@ export class DatamasterComponent implements OnInit {
     });
   }
 
-  newUser() {
-    this.usersService.getByUsername(this.username).subscribe((res) => {
-      if (!res.status) {
-        if (this.checkUser == true) {
-          this.invalidUsername();
-          return
-        } else if (this.checkEmail == true) {
-          this.invalidEmail();
-          return
-        }
-        this.usersService.getUserByEmail(this.email).subscribe(
-          res => {
-            console.log(res)
-            if (res.status) {
-              this.dupEmail();
-              return;
-            }
-            this.row.username = this.username;
-            this.row.password = this.password;
-            this.row.email = this.email;
-            this.row.phone = this.phoneNumber;
-            this.row.address = this.address;
-            this.row.name = this.name;
-            this.row.createdBy = this.username;
-            if (this.row.username != '' && this.row.password != '' &&
-              this.row.email != '' &&
-              this.row.phone != '' &&
-              this.row.address != '' &&
-              this.row.name != '') {
-              this.newUserValid = true;
-              this.usersService.postUser(this.row).subscribe({
-                next: (data) => {
-                  console.log(data)
-                  if (data.status) {
-                    this.groupsService.getGroup().subscribe(
-                      res => {
-                        if (this.selectedGroup.length != res.data.length) {
-                          for (let i = 0; i < res.data.length; i++) {
-                            if (this.selectedGroup[i] == undefined) {
+  newUser(value: Event) {
+    this.confirmationService.confirm({
+      target: value.target ? value.target : undefined,
+      message: 'Are you sure that you want to proceed?',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {    
+        this.usersService.getByUsername(this.username).subscribe((res) => {
+        if (!res.status) {
+          if (this.checkUser == true) {
+            this.invalidUsername();
+            return
+          } else if (this.checkEmail == true) {
+            this.invalidEmail();
+            return
+          }
+          this.usersService.getUserByEmail(this.email).subscribe(
+            res => {
+              console.log(res)
+              if (res.status) {
+                this.dupEmail();
+                return;
+              }
+              this.row.username = this.username;
+              this.row.password = this.password;
+              this.row.email = this.email;
+              this.row.phone = this.phoneNumber;
+              this.row.address = this.address;
+              this.row.name = this.name;
+              this.row.createdBy = this.username;
+              if (this.row.username != '' && this.row.password != '' &&
+                this.row.email != '' &&
+                this.row.phone != '' &&
+                this.row.address != '' &&
+                this.row.name != '') {
+                this.newUserValid = true;
+                this.usersService.postUser(this.row).subscribe({
+                  next: (data) => {
+                    console.log(data)
+                    if (data.status) {
+                      this.groupsService.getGroup().subscribe(
+                        res => {
+                          if (this.selectedGroup.length != res.data.length) {
+                            for (let i = 0; i < res.data.length; i++) {
+                              if (this.selectedGroup[i] == undefined) {
+                                this.newAccess.userId = data.data.userId;
+                                this.newAccess.createdBy = data.data.createdBy;
+                                this.newAccess.groupId = res.data[i].groupId;
+                                this.newAccess.isActive = 'N';
+                                this.hakAkses.postAccess(this.newAccess).subscribe(
+                                  res => {
+                                    console.log(res);
+                                  }
+                                )
+                              } else {
+                                this.newAccess.userId = data.data.userId;
+                                this.newAccess.createdBy = data.data.createdBy;
+                                this.newAccess.groupId = this.selectedGroup[i];
+                                this.newAccess.isActive = 'Y';
+                                this.hakAkses.postAccess(this.newAccess).subscribe(
+                                  res => {
+                                    console.log(res);
+                                  }
+                                )
+                              }
+                            }
+                          } else {
+                            for (let i = 0; i < res.data.length; i++) {
                               this.newAccess.userId = data.data.userId;
                               this.newAccess.createdBy = data.data.createdBy;
                               this.newAccess.groupId = res.data[i].groupId;
-                              this.newAccess.isActive = 'N';
-                              this.hakAkses.postAccess(this.newAccess).subscribe(
-                                res => {
-                                  console.log(res);
-                                }
-                              )
-                            } else {
-                              this.newAccess.userId = data.data.userId;
-                              this.newAccess.createdBy = data.data.createdBy;
-                              this.newAccess.groupId = this.selectedGroup[i];
-                              this.newAccess.isActive = 'Y';
+                              this.newAccess.isActive = 'Y'
+                              console.log(this.newAccess)
                               this.hakAkses.postAccess(this.newAccess).subscribe(
                                 res => {
                                   console.log(res);
@@ -344,95 +372,126 @@ export class DatamasterComponent implements OnInit {
                               )
                             }
                           }
-                        } else {
-                          for (let i = 0; i < res.data.length; i++) {
-                            this.newAccess.userId = data.data.userId;
-                            this.newAccess.createdBy = data.data.createdBy;
-                            this.newAccess.groupId = res.data[i].groupId;
-                            this.newAccess.isActive = 'Y'
-                            console.log(this.newAccess)
-                            this.hakAkses.postAccess(this.newAccess).subscribe(
-                              res => {
-                                console.log(res);
-                              }
-                            )
-                          }
-                        }
-                        setInterval(function () {
-                          window.location.reload();
-                        }, 5000);
-                        return
-                      }
-                    )
-                  }
-                },
-                error: (err) => {}
-              })
-            }
-          }
-        )
-      }
-    })
-  }
-
-  editUser() {
-    this.usersService.putUser(this.row).subscribe({
-      next: (data) => {
-        console.log(data)
-        if (data.status) {
-          this.successSignUp();
-          this.groupsService.getGroup().subscribe(
-            res => {
-              this.groupsService.getGroupByUserId(this.row.userId).subscribe(result => {
-                console.log(result.data, 'weew')
-                if (result.data.length != 0) {
-                  for (let i = 0; i < result.data.length; i++) {
-                    if (this.selectedGroup[i] != undefined) {
-                      console.log(result.data[i].groupId, 'isi arraynya')
-                      this.newAccess.userId = data.data.userId;
-                      this.newAccess.groupId = result.data[i].groupId;
-                      // this.newAccess.issActive = 'Y';
-                      this.hakAkses.putUserxGroupId(this.newAccess.userId, this.newAccess.groupId).subscribe(
-                        res => {
-                          console.log(res);
+                          this.displayBasic2=false;
+                          setInterval(function () {
+                            window.location.reload();
+                          }, 3000);
+                          return
                         }
                       )
                     }
-                  }
-                  for (let j = 0; j < this.selectedGroup.length; j++) {
-                    if (this.selectedGroup[j] != undefined) {
-                      this.newAccess.userId = data.data.userId;
-                      this.newAccess.groupId = this.selectedGroup[j];
-                      // this.newAccess.isActive = 'N';
-                      this.hakAkses.putUserxGroupId(this.newAccess.userId, this.newAccess.groupId).subscribe(
-                        res => {
-                          console.log(res);
-                        }
-                      )
-                    }
-                  }
-                } else {
-                  for (let j = 0; j < this.selectedGroup.length; j++) {
-                    if (this.selectedGroup[j] != undefined) {
-                      this.newAccess.userId = data.data.userId;
-                      this.newAccess.groupId = this.selectedGroup[j];
-                      // this.newAccess.isActive = 'N';
-                      this.hakAkses.putUserxGroupId(this.newAccess.userId, this.newAccess.groupId).subscribe(
-                        res => {
-                          console.log(res);
-                        }
-                      )
-                    }
-                  }
-                }
-              })
-              return
+                  },
+                  error: (err) => {}
+                })
+              }
             }
           )
         }
+      })},
+      reject: (type: any) => {
+        switch (type) {
+          case ConfirmEventType.REJECT:
+            this.messageService.add({
+              severity: 'info',
+              summary: 'Cancelled',
+              detail: 'Your data is safe',
+            });
+            break;
+          case ConfirmEventType.CANCEL:
+            this.messageService.add({
+              severity: 'info',
+              summary: 'Cancelled',
+              detail: 'Your data is safe',
+            });
+            break;
+        }
       },
-      error: (err) => {}
     })
+
+  }
+
+  editUser(value: Event) {
+    this.confirmationService.confirm({
+      target: value.target ? value.target : undefined,
+      message: 'Are you sure that you want to proceed?',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.usersService.putUser(this.row).subscribe({
+        next: (data) => {
+          console.log(data)
+          if (data.status) {
+            this.successSignUp();
+            this.groupsService.getGroup().subscribe(
+              res => {
+                this.groupsService.getGroupByUserId(this.row.userId).subscribe(result => {
+                  console.log(result.data, 'weew')
+                  if (result.data.length != 0) {
+                    for (let i = 0; i < result.data.length; i++) {
+                      if (this.selectedGroup[i] != undefined) {
+                        console.log(result.data[i].groupId, 'isi arraynya')
+                        this.newAccess.userId = data.data.userId;
+                        this.newAccess.groupId = result.data[i].groupId;
+                        // this.newAccess.issActive = 'Y';
+                        this.hakAkses.putUserxGroupId(this.newAccess.userId, this.newAccess.groupId).subscribe(
+                          res => {
+                            console.log(res);
+                          }
+                        )
+                      }
+                    }
+                    for (let j = 0; j < this.selectedGroup.length; j++) {
+                      if (this.selectedGroup[j] != undefined) {
+                        this.newAccess.userId = data.data.userId;
+                        this.newAccess.groupId = this.selectedGroup[j];
+                        // this.newAccess.isActive = 'N';
+                        this.hakAkses.putUserxGroupId(this.newAccess.userId, this.newAccess.groupId).subscribe(
+                          res => {
+                            console.log(res);
+                          }
+                        )
+                      }
+                    }
+                  } else {
+                    for (let j = 0; j < this.selectedGroup.length; j++) {
+                      if (this.selectedGroup[j] != undefined) {
+                        this.newAccess.userId = data.data.userId;
+                        this.newAccess.groupId = this.selectedGroup[j];
+                        // this.newAccess.isActive = 'N';
+                        this.hakAkses.putUserxGroupId(this.newAccess.userId, this.newAccess.groupId).subscribe(
+                          res => {
+                            console.log(res);
+                          }
+                        )
+                      }
+                    }
+                  }
+                })
+                return
+              }
+            )
+          }
+        },
+        error: (err) => {}
+      })},
+      reject: (type: any) => {
+        switch (type) {
+          case ConfirmEventType.REJECT:
+            this.messageService.add({
+              severity: 'info',
+              summary: 'Cancelled',
+              detail: 'Your data is safe',
+            });
+            break;
+          case ConfirmEventType.CANCEL:
+            this.messageService.add({
+              severity: 'info',
+              summary: 'Cancelled',
+              detail: 'Your data is safe',
+            });
+            break;
+        }
+      },
+    })  
   }
 
   toLogin() {
