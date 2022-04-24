@@ -237,6 +237,11 @@ export class DatamasterComponent implements OnInit {
   onChanged() {
     this.usersService.getUsername(this.nama).subscribe(
       res => {
+        res.data.forEach((row: any) => {
+          this.groupsService.getGroupByUserId(row.userId).subscribe((result) => {
+            row.groupName = result.data;
+          });
+        });
         this.users = res.data;
         console.log(this.users)
       }
@@ -575,19 +580,12 @@ export class DatamasterComponent implements OnInit {
   searchOption: string = 'username';
   searchOptions = [
     { label: 'search by username', value: 'username' },
-    { label: 'search by email', value: 'email' },
-    { label: 'search by group', value: 'group' },
   ];
+
   search() {
     switch (this.searchOption) {
       case 'username':
         this.searchByUsername();
-        break;
-      case 'email':
-        this.searchByEmail();
-        break;
-      case 'group':
-        this.searchByGroup();
         break;
     }
   }
@@ -595,8 +593,7 @@ export class DatamasterComponent implements OnInit {
   searchByEmail() {
     this.usersService.getUserByEmail(this.keyword).subscribe({
       next: (data: any) => {
-        if (data.data.length == 0) {
-        }
+        
         this.users = data.data;
       },
       error: (err) => {},
@@ -604,8 +601,13 @@ export class DatamasterComponent implements OnInit {
   }
 
   searchByUsername() {
-    this.usersService.getByUsername(this.keyword).subscribe({
+    this.usersService.getUsername(this.keyword).subscribe({
       next: (data: any) => {
+        data.data.forEach((row: any) => {
+          this.groupsService.getGroupByUserId(row.userId).subscribe((result) => {
+            row.groupName = result.data;
+          });
+        });
         // if (data.data.length == 0) {
         // }
         this.users = data.data;
@@ -616,8 +618,8 @@ export class DatamasterComponent implements OnInit {
   searchByGroup() {
     this.hakAkses.getByGroupName(this.keyword).subscribe({
       next: (data: any) => {
-        if (data.data.length == 0) {
-        }
+        // if (data.data.length == 0) {
+        // }
         this.groups = data.data;
       },
       error: (err) => {},
