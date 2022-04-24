@@ -1,75 +1,78 @@
-<div class="card">
-  <div class="mb-3" style="overflow:hidden">
-    <p-button type="button" icon="pi pi-chevron-left" (onClick)="prev()" [disabled]="isFirstPage()"
-      styleClass="p-button-text"></p-button>
-    <p-button type="button" icon="pi pi-refresh" (onClick)="reset()" styleClass="p-button-text"></p-button>
-    <p-button type="button" icon="pi pi-chevron-right" (onClick)="next()" [disabled]="isLastPage()"
-      styleClass="p-button-text"></p-button>
-    <button pButton pRipple type="button" icon="pi pi-search" label="Search" class="mt-2 ml-3"
-      [style]="{'float': 'right'}" (click)="showSearchCall()"></button>
-    <span *ngIf="showSearch" class="p-input-icon-left mt-2 ml-3" [style]="{'float': 'right'}">
-      <i class="pi pi-search"></i>
-      <input type="text" pInputText placeholder="Search" [(ngModel)]="keyword" (input)="search()" />
-    </span>
-    <p-button (onClick)="showMaximizableDialog(1)" icon="pi pi-plus-circle" label="Add"
-      styleClass="p-button-success mt-2 ml-3" [style]="{'float': 'right'}" [disabled]="!isManage"></p-button>
-  </div>
-  <p-table [value]="regions" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true" [(first)]="first"
-    responsiveLayout="scroll" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    [rowsPerPageOptions]="[10,25,50]" sortMode="multiple">
-    <ng-template pTemplate="header">
-      <tr>
-        <th pSortableColumn="regionId">Region ID <p-sortIcon field="regionId"></p-sortIcon>
-        </th>
-        <th pSortableColumn="regionName">Region Name <p-sortIcon field="regionName"></p-sortIcon>
-        </th>
-        <th>Action</th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-region>
-      <tr>
-        <td>{{region.regionId}}</td>
-        <td>{{region.regionName}}</td>
-        <td>
-          <div style="width: 100px;">
-            <p-button icon="pi pi-pencil" (onClick)="openEdit(region.regionId)" [disabled]="!isManage"></p-button>
-            <p-button icon="pi pi-trash" (onClick)="showDeleteDialog(region.regionId)" styleClass="p-button-danger ml-2" [disabled]="!isManage">
-            </p-button>
-          </div>
-        </td>
-      </tr>
-    </ng-template>
-  </p-table>
-</div>
-
-<p-dialog [header]="action == 1 ? 'Add Region' : 'Edit Region' " [(visible)]="displayMaximizable" [modal]="true"
-  [style]="{width: '50vw'}" [maximizable]="true" [draggable]="false" [resizable]="false" (onHide)="resetForm()">
-  <div class="grid p-fluid">
-    <div class="col-12 md:col-12">
-      <label for="regionName">Region Name</label>
-      <input type="text" pInputText [(ngModel)]="row.regionName" required autofocus maxlength="25">
-      <h5 class="p-invalid" style="color:red" *ngIf="submitted && !row.regionName">Region name is required!</h5>
+<div *ngIf="isView">
+  <div class="card">
+    <div class="mb-3" style="overflow:hidden">
+      <p-button type="button" icon="pi pi-chevron-left" (onClick)="prev()" [disabled]="isFirstPage()"
+        styleClass="p-button-text"></p-button>
+      <p-button type="button" icon="pi pi-refresh" (onClick)="reset()" styleClass="p-button-text"></p-button>
+      <p-button type="button" icon="pi pi-chevron-right" (onClick)="next()" [disabled]="isLastPage()"
+        styleClass="p-button-text"></p-button>
+      <button pButton pRipple type="button" icon="pi pi-search" label="Search" class="mt-2 ml-3"
+        [style]="{'float': 'right'}" (click)="showSearchCall()"></button>
+      <span *ngIf="showSearch" class="p-input-icon-left mt-2 ml-3" [style]="{'float': 'right'}">
+        <i class="pi pi-search"></i>
+        <input type="text" pInputText placeholder="Search" [(ngModel)]="keyword" (input)="search()" />
+      </span>
+      <p-button (onClick)="showMaximizableDialog(1)" icon="pi pi-plus-circle" label="Add"
+        styleClass="p-button-success mt-2 ml-3" [style]="{'float': 'right'}" [disabled]="!isManage"></p-button>
     </div>
+    <p-table [value]="regions" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true" [(first)]="first"
+      responsiveLayout="scroll" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [rowsPerPageOptions]="[10,25,50]" sortMode="multiple">
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="regionId">Region ID <p-sortIcon field="regionId"></p-sortIcon>
+          </th>
+          <th pSortableColumn="regionName">Region Name <p-sortIcon field="regionName"></p-sortIcon>
+          </th>
+          <th>Action</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-region>
+        <tr>
+          <td>{{region.regionId}}</td>
+          <td>{{region.regionName}}</td>
+          <td>
+            <div style="width: 100px;">
+              <p-button icon="pi pi-pencil" (onClick)="openEdit(region.regionId)" [disabled]="!isManage"></p-button>
+              <p-button icon="pi pi-trash" (onClick)="showDeleteDialog(region.regionId)" styleClass="p-button-danger ml-2" [disabled]="!isManage">
+              </p-button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
   </div>
-  <ng-template pTemplate="footer">
-    <button pButton pRipple type="button" (click)="submit()" icon="pi pi-check" label="Save" class="mt-2 ml-1"
-      [disabled]="handleValidation()"></button>
-    <button pButton pRipple type="button" (click)="resetForm()" icon="pi pi-spinner" label="Reset"
-      class="mt-2 ml-1 p-button-danger"></button>
-    <button pButton pRipple type="button" (click)="displayMaximizable=false" icon="pi pi-times" label="Cancel"
-      class="mt-2 ml-1 p-button-danger"></button>
-  </ng-template>
-</p-dialog>
-
-<p-dialog header="Delete Data" [(visible)]="displayDelete" [style]="{width: '50vw'}">
-  <p>Are You Sure?</p>
-  <ng-template pTemplate="footer">
-    <button pButton pRipple type="button" (click)="deleteData()" icon="pi pi-trash" label="Delete"
-      class="mt-2 ml-1 p-button-danger"></button>
-    <button pButton pRipple type="button" icon="pi pi-times" label="Batal" class="mt-2 ml-1 p-button-success"></button>
-  </ng-template>
-</p-dialog>
+  
+  <p-dialog [header]="action == 1 ? 'Add Region' : 'Edit Region' " [(visible)]="displayMaximizable" [modal]="true"
+    [style]="{width: '50vw'}" [maximizable]="true" [draggable]="false" [resizable]="false" (onHide)="resetForm()">
+    <div class="grid p-fluid">
+      <div class="col-12 md:col-12">
+        <label for="regionName">Region Name</label>
+        <input type="text" pInputText [(ngModel)]="row.regionName" required autofocus maxlength="25">
+        <h5 class="p-invalid" style="color:red" *ngIf="submitted && !row.regionName">Region name is required!</h5>
+      </div>
+    </div>
+    <ng-template pTemplate="footer">
+      <button pButton pRipple type="button" (click)="submit()" icon="pi pi-check" label="Save" class="mt-2 ml-1"
+        [disabled]="handleValidation()"></button>
+      <button pButton pRipple type="button" (click)="resetForm()" icon="pi pi-spinner" label="Reset"
+        class="mt-2 ml-1 p-button-danger"></button>
+      <button pButton pRipple type="button" (click)="displayMaximizable=false" icon="pi pi-times" label="Cancel"
+        class="mt-2 ml-1 p-button-danger"></button>
+    </ng-template>
+  </p-dialog>
+  
+  <p-dialog header="Delete Data" [(visible)]="displayDelete" [style]="{width: '50vw'}">
+    <p>Are You Sure?</p>
+    <ng-template pTemplate="footer">
+      <button pButton pRipple type="button" (click)="deleteData()" icon="pi pi-trash" label="Delete"
+        class="mt-2 ml-1 p-button-danger"></button>
+      <button pButton pRipple type="button" icon="pi pi-times" label="Batal" class="mt-2 ml-1 p-button-success"></button>
+    </ng-template>
+  </p-dialog>
+</div>
 
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text">
 </p-confirmDialog>
 <p-toast></p-toast>
+<p-toast position="top-center" key="tc"></p-toast>

@@ -35,6 +35,12 @@ export class RegionComponent implements OnInit {
     this.isManage = Boolean(localStorage.getItem('isManage'));
   }
 
+  ngAfterViewInit(): void {
+    if (this.isView == false) {
+      this.messageService.add({ key: 'tc', severity: 'error', summary: 'Warn', detail: 'Sorry you dont have permission to view data', sticky: true });
+    }
+  }
+  
   next() {
     this.first = this.first + this.rows;
   }
