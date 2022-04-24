@@ -12,11 +12,11 @@
       <i class="pi pi-search"></i>
       <input type="text" pInputText placeholder="Search" [(ngModel)]="keyword" (input)="search()" />
       <p-dropdown appendTo="body" [options]="searchOptions" [(ngModel)]="searchOption" optionLabel="label"
-      optionValue="value" placeholder="Search by"></p-dropdown></span>
-    <p-button icon (click)="showDialog('Add')" icon="pi pi-plus-circle" label="Add"
+      optionValue="value" placeholder="Search by"></p-dropdown>
+    </span>
+    <p-button [disabled]="!isManage" (onClick)="isManage==true ? showDialog('Add') : ''" icon="pi pi-plus-circle" label="Add"
       styleClass="p-button-success mt-2 ml-3" [style]="{ float: 'right' }"></p-button>
   </div>
-</div>
 <p-table class="col" [value]="customer" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true"
   [(first)]="first" responsiveLayout="scroll"
   currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
@@ -45,9 +45,8 @@
       <td>{{ customer.email }}</td>
       <td>{{ customer.phoneNumber }}</td>
       <td>
-        <p-button icon="pi pi-pencil" [disabled]="!isManage" (click)="isManage==true ? openEdit(customer) : ''"></p-button>
-        <p-button icon="pi pi-trash" (click)="handleDelete(customer.customerId)" styleClass="p-button-danger ml-2">
-        </p-button>
+        <p-button icon="pi pi-pencil" [disabled]="!isManage" (onClick)="isManage==true ? openEdit(customer) : ''" class="p-mr-2"></p-button>
+        <p-button icon="pi pi-trash" [disabled]="!isManage" (onClick)="isManage==true ? handleDelete(customer.customerId) : ''" styleClass="p-button-danger ml-2"></p-button>
       </td>
     </tr>
   </ng-template>
@@ -88,6 +87,7 @@
         class="mt-2 ml-1 p-button-danger"></button>
 </ng-template>
 </p-dialog>
+</div>
 </div>
 <!-- <p-confirmPopup header="Confirmation"></p-confirmPopup> -->
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
