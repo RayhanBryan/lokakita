@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmationService, ConfirmEventType, MessageService, Message } from 'primeng/api';
 import { JobService } from 'src/app/services/job.service';
@@ -58,6 +58,13 @@ export class JobComponent implements OnInit {
     this.isView = Boolean(localStorage.getItem('isView'));
     this.isManage = Boolean(localStorage.getItem('isManage'));
     console.log(this.isManage, 'is manage')
+    console.log(this.isView, 'is view')
+    }
+  
+  ngAfterViewInit(): void {
+    if (this.isView == false) {
+      this.messageService.add({ key: 'tc', severity: 'error', summary: 'Warn', detail: 'Sorry you dont have permission to view data', sticky: true });
+    }
     }
 
   loadData(){

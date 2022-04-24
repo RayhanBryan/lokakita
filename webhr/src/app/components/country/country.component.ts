@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ChangeDetectorRef, AfterContentChecked, AfterContentInit } from '@angular/core';
 import { Router} from '@angular/router';
 import { ConfirmationService, MessageService, ConfirmEventType } from 'primeng/api';
 import { CountryService } from 'src/app/services/country.service';
 import { RegionService } from 'src/app/services/region.service';
+
 
 export interface Country{
   countryId: string;
@@ -22,7 +23,7 @@ export interface Region{
   providers: [ConfirmationService,MessageService]
 
 })
-export class CountryComponent implements OnInit {
+export class CountryComponent implements OnInit, AfterViewInit  {
   countries:any;
   first=0;
   rows=10;
@@ -49,6 +50,7 @@ export class CountryComponent implements OnInit {
     countryName:'',
     regionId:''
   }
+  
 
   constructor(
     private countryService: CountryService,
@@ -62,6 +64,13 @@ export class CountryComponent implements OnInit {
     this.isView = Boolean(localStorage.getItem('isView'));
     this.isManage = Boolean(localStorage.getItem('isManage'));
     console.log(this.isManage, 'is manage')
+    console.log(this.isView, 'is view')
+  }
+
+  ngAfterViewInit(): void {
+    if (this.isView == false) {
+      this.messageService.add({ key: 'tc', severity: 'error', summary: 'Warn', detail: 'Sorry you dont have permission to view data', sticky: true });
+    }
   }
 
   loadData(){
