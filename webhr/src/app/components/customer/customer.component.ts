@@ -21,6 +21,9 @@ export class CustomerComponent implements OnInit {
   keyword: string = '';
   email: string = '';
 
+  isView: boolean = false;
+  isManage: boolean = false;
+
   dataCustomer: any;
   row: any = {
     customerId: 0,

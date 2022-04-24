@@ -1,114 +1,113 @@
-<div  *ngIf="isView">
-<div class="card px-5">
-  <div class="mb-3">
-    <p-button type="button" icon="pi pi-chevron-left" (onClick)="prev()" [disabled]="isFirstPage()"
-      styleClass="p-button-text"></p-button>
-    <p-button type="button" icon="pi pi-refresh" (onClick)="reset()" styleClass="p-button-text"></p-button>
-    <p-button type="button" icon="pi pi-chevron-right" (onClick)="next()" [disabled]="isLastPage()"
-      styleClass="p-button-text"></p-button>
-    <button pButton pRipple type="button" icon="pi pi-search" label="Search" class="mt-2 ml-3"
-      [style]="{ float: 'right' }" (click)="showSearchCall()"></button>
-    <span *ngIf="showSearch" class="p-input-icon-left mt-2 ml-3" [style]="{ float: 'right' }">
-      <i class="pi pi-search"></i>
-      <input type="text" pInputText placeholder="Search" [(ngModel)]="keyword" (input)="search()" />
-      <p-dropdown appendTo="body" [options]="searchOptions" [(ngModel)]="searchOption" optionLabel="label"
-        optionValue="value" placeholder="Search by"></p-dropdown>
-    </span>
-    <p-button icon (onClick)="showDialog('Add')" icon="pi pi-plus-circle" label="Add"
-      styleClass="p-button-success mt-2 ml-3" [style]="{ float: 'right' }"></p-button>
-  </div>
-</div>
-<p-table class="col" [value]="departments" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true"
-  [(first)]="first" responsiveLayout="scroll"
-  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-  [rowsPerPageOptions]="[10, 25, 50]" [scrollable]="true" scrollHeight="600px">
-  <ng-template pTemplate="header" class="">
-    <tr>
-      <th pSortableColumn="departmentId">
-        Department ID <p-sortIcon field="departmentId"></p-sortIcon>
-      </th>
-      <th pSortableColumn="departmentName">
-        Department Name <p-sortIcon field="departmentName"></p-sortIcon>
-      </th>
-      <th pSortableColumn="managerName">
-        Manager Name <p-sortIcon field="managerName"></p-sortIcon>
-      </th>
-      <th pSortableColumn="streetAddress">
-        Street Address <p-sortIcon field="streetAddress"></p-sortIcon>
-      </th>
-      <th pSortableColumn="city">
-        City <p-sortIcon field="city"></p-sortIcon>
-      </th>
-      <th>Action</th>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-department>
-    <tr>
-      <td>{{ department.departmentId }}</td>
-      <td>{{ department.departmentName }}</td>
-      <td>
-        {{ department.managerFirstName }} {{ department.managerLastName }}
-      </td>
-      <td>{{ department.streetAddress }}</td>
-      <td>{{ department.city }}</td>
+<div *ngIf="isView">
+  <div class="card px-5">
+    <div class="mb-3" style="overflow: hidden;">
+      <p-button type="button" icon="pi pi-chevron-left" (onClick)="prev()" [disabled]="isFirstPage()"
+        styleClass="p-button-text"></p-button>
+      <p-button type="button" icon="pi pi-refresh" (onClick)="reset()" styleClass="p-button-text"></p-button>
+      <p-button type="button" icon="pi pi-chevron-right" (onClick)="next()" [disabled]="isLastPage()"
+        styleClass="p-button-text"></p-button>
+      <button pButton pRipple type="button" icon="pi pi-search" label="Search" class="mt-2 ml-3"
+        [style]="{ float: 'right' }" (click)="showSearchCall()"></button>
+      <span *ngIf="showSearch" class="p-input-icon-left mt-2 ml-3" [style]="{ float: 'right' }">
+        <i class="pi pi-search"></i>
+        <input type="text" pInputText placeholder="Search" [(ngModel)]="keyword" (input)="search()" />
+        <p-dropdown appendTo="body" [options]="searchOptions" [(ngModel)]="searchOption" optionLabel="label"
+          optionValue="value" placeholder="Search by"></p-dropdown>
+      </span>
+      <p-button [disabled]="!isManage" (onClick)="isManage==true ? showDialog('Add') : ''" icon="pi pi-plus-circle"
+        label="Add" styleClass="p-button-success mt-2 ml-3" [style]="{ float: 'right' }"></p-button>
+    </div>
+    <p-table class="col" [value]="departments" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true"
+      [(first)]="first" responsiveLayout="scroll"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [rowsPerPageOptions]="[10, 25, 50]" [scrollable]="true" scrollHeight="600px">
+      <ng-template pTemplate="header" class="">
+        <tr>
+          <th pSortableColumn="departmentId">
+            Department ID <p-sortIcon field="departmentId"></p-sortIcon>
+          </th>
+          <th pSortableColumn="departmentName">
+            Department Name <p-sortIcon field="departmentName"></p-sortIcon>
+          </th>
+          <th pSortableColumn="managerName">
+            Manager Name <p-sortIcon field="managerName"></p-sortIcon>
+          </th>
+          <th pSortableColumn="streetAddress">
+            Street Address <p-sortIcon field="streetAddress"></p-sortIcon>
+          </th>
+          <th pSortableColumn="city">
+            City <p-sortIcon field="city"></p-sortIcon>
+          </th>
+          <th>Action</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-department>
+        <tr>
+          <td>{{ department.departmentId }}</td>
+          <td>{{ department.departmentName }}</td>
+          <td>
+            {{ department.managerFirstName }} {{ department.managerLastName }}
+          </td>
+          <td>{{ department.streetAddress }}</td>
+          <td>{{ department.city }}</td>
 
-      <td>
-        <p-button icon="pi pi-pencil" [disabled]="!isManage" (click)="isManage==true ? openEdit(department) : ''"></p-button>
-        <p-button icon="pi pi-trash" (click)="handleDelete(department.departmentId)" styleClass="p-button-danger ml-2">
-        </p-button>
-      </td>
-    </tr>
-  </ng-template>
-</p-table>
+          <td>
+            <p-button icon="pi pi-pencil" [disabled]="!isManage" (onClick)="isManage==true ? openEdit(department) : ''" class="p-mr-2"></p-button>
+            <p-button icon="pi pi-trash" [disabled]="!isManage" (onClick)="isManage==true ? handleDelete(department.departmentId) : ''" styleClass="p-button-danger ml-2"></p-button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
 
-<p-dialog [header]="action == 'Add' ? 'Input Department' : 'Edit Department'" [(visible)]="display" [modal]="true"
-  [style]="{ width: '50vw'}" [maximizable]="true" [baseZIndex]="10000" [draggable]="false"
-  [resizable]="false" (onHide)="handleReset($event, 'hide')">
-  <div class="grid p-fluid">
-    <div class="col-12 md:col-6">
-      <label for="departmentname">Department Name</label>
-      <input type="text" pInputText id="departmentname" [(ngModel)]="row.departmentName" required="autofocus" />
-      <h5 class="p-invalid" style="color: red" *ngIf="!row.departmentName">
-        Department Name is Required!
-      </h5>
-    </div>
-    <div class="col-12 md:col-6">
-      <label for="managername">Manager Name</label>
-      <p-dropdown appendTo="body" [options]="employees" [(ngModel)]="row.managerId" optionLabel="fullName"
-        optionValue="employeeId" placeholder="Select a Manager Name">
-      </p-dropdown>
-      <h5 class="p-invalid" style="color: red" *ngIf="!row.managerId">
-        Please select 1 Manager Name!
-      </h5>
-    </div>
-    <div class="col-12 md:col-6">
-      <label for="streetAddress">Street Address</label>
-      <p-dropdown appendTo="body" [options]="locations" [(ngModel)]="row.locationId" optionLabel="streetAddress"
-        placeholder="Select a Street Address" optionValue="locationId">
-      </p-dropdown>
-      <h5 class="p-invalid" style="color: red" *ngIf="!row.locationId">
-        Please select 1 Street Address!
-      </h5>
-    </div>
-    <div class="col-12 md:col-6">
-      <label for="city">City</label>
-      <p-dropdown appendTo="body" [options]="locations" [(ngModel)]="row.locationId" optionLabel="city"
-        placeholder="Select a City" optionValue="locationId">
-      </p-dropdown>
-      <h5 class="p-invalid" style="color: red" *ngIf="!row.departmentName">
-        Please select 1 City!
-      </h5>
-    </div>
-  </div>
-  <ng-template pTemplate="footer">
-    <button pButton type="button" label="Save" icon="pi pi-check"
-        (click)="handleSaveDepartment($event)" [disabled]="handleValidation()"></button>
+    <p-dialog [header]="action == 'Add' ? 'Input Department' : 'Edit Department'" [(visible)]="display" [modal]="true"
+      [style]="{ width: '50vw'}" [maximizable]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="false"
+      (onHide)="handleReset($event, 'hide')">
+      <div class="grid p-fluid">
+        <div class="col-12 md:col-6">
+          <label for="departmentname">Department Name</label>
+          <input type="text" pInputText id="departmentname" [(ngModel)]="row.departmentName" required="autofocus" />
+          <h5 class="p-invalid" style="color: red" *ngIf="!row.departmentName">
+            Department Name is Required!
+          </h5>
+        </div>
+        <div class="col-12 md:col-6">
+          <label for="managername">Manager Name</label>
+          <p-dropdown appendTo="body" [options]="employees" [(ngModel)]="row.managerId" optionLabel="fullName"
+            optionValue="employeeId" placeholder="Select a Manager Name">
+          </p-dropdown>
+          <h5 class="p-invalid" style="color: red" *ngIf="!row.managerId">
+            Please select 1 Manager Name!
+          </h5>
+        </div>
+        <div class="col-12 md:col-6">
+          <label for="streetAddress">Street Address</label>
+          <p-dropdown appendTo="body" [options]="locations" [(ngModel)]="row.locationId" optionLabel="streetAddress"
+            placeholder="Select a Street Address" optionValue="locationId">
+          </p-dropdown>
+          <h5 class="p-invalid" style="color: red" *ngIf="!row.locationId">
+            Please select 1 Street Address!
+          </h5>
+        </div>
+        <div class="col-12 md:col-6">
+          <label for="city">City</label>
+          <p-dropdown appendTo="body" [options]="locations" [(ngModel)]="row.locationId" optionLabel="city"
+            placeholder="Select a City" optionValue="locationId">
+          </p-dropdown>
+          <h5 class="p-invalid" style="color: red" *ngIf="!row.departmentName">
+            Please select 1 City!
+          </h5>
+        </div>
+      </div>
+      <ng-template pTemplate="footer">
+        <button pButton type="button" label="Save" icon="pi pi-check" (click)="handleSaveDepartment($event)"
+          [disabled]="handleValidation()"></button>
         <button pButton pRipple type="button" (click)="handleReset($event, 'click')" icon="pi pi-spinner" label="Reset"
-        class="mt-2 ml-1 p-button-danger"></button>
-      <button pButton pRipple type="button" (click)="display=false" icon="pi pi-times" label="Cancel"
-        class="mt-2 ml-1 p-button-danger"></button>
-</ng-template>
-</p-dialog>
+          class="mt-2 ml-1 p-button-danger"></button>
+        <button pButton pRipple type="button" (click)="display=false" icon="pi pi-times" label="Cancel"
+          class="mt-2 ml-1 p-button-danger"></button>
+      </ng-template>
+    </p-dialog>
+  </div>
 </div>
 <!-- <p-confirmPopup header="Confirmation"></p-confirmPopup> -->
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
