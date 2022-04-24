@@ -15,7 +15,7 @@
           optionValue="value" placeholder="Search by"></p-dropdown>
       </span>
       <p-button icon="pi pi-plus-circle" label="Add" styleClass="p-button-success mt-2 ml-3" [style]="{'float': 'right'}"
-        (onClick)="showMaximizableDialog(1)" [disabled]="!isManage"></p-button>
+        (onClick)="isManage==true ? showMaximizableDialog(1): ''" [disabled]="!isManage"></p-button>
     </div>
   
     <p-table [value]="locations" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true" [(first)]="first"
@@ -51,9 +51,9 @@
           <td>{{location.createdDate}}</td>
           <td>
             <div style="width: 100px;">
-              <p-button icon="pi pi-pencil" (onClick)="openEdit(location.locationId)" [disabled]="!isManage"></p-button>
+              <p-button icon="pi pi-pencil" (onClick)="isManage==true ? openEdit(location.locationId):''" [disabled]="!isManage"></p-button>
               <p-button icon="pi pi-trash" styleClass="p-button-danger ml-2"
-                (onClick)="showDeleteDialog(location.locationId)" [disabled]="!isManage">
+                (onClick)="isManage==true ? showDeleteDialog(location.locationId):''" [disabled]="!isManage">
               </p-button>
             </div>
   
