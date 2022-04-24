@@ -50,9 +50,9 @@
         <td>{{location.createdDate}}</td>
         <td>
           <div style="width: 100px;">
-            <p-button icon="pi pi-pencil" (click)="openEdit(location.locationId)" [disabled]="!isManage"></p-button>
+            <p-button icon="pi pi-pencil" (onClick)="openEdit(location.locationId)" [disabled]="!isManage"></p-button>
             <p-button icon="pi pi-trash" styleClass="p-button-danger ml-2"
-              (click)="showDeleteDialog(location.locationId)" [disabled]="!isManage">
+              (onClick)="showDeleteDialog(location.locationId)" [disabled]="!isManage">
             </p-button>
           </div>
 

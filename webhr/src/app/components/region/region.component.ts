@@ -31,8 +31,8 @@ export class RegionComponent implements OnInit {
 
   ngOnInit(): void {
     this.getRegion();
-    this.isView = Boolean(localStorage.getItem('isView'));
-    this.isManage = Boolean(localStorage.getItem('isManage'));
+    this.isView = !Boolean(localStorage.getItem('isView'));
+    this.isManage = !Boolean(localStorage.getItem('isManage'));
   }
 
   next() {

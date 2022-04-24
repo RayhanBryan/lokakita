@@ -32,8 +32,8 @@
         <td>{{region.regionName}}</td>
         <td>
           <div style="width: 100px;">
-            <p-button icon="pi pi-pencil" (click)="openEdit(region.regionId)" [disabled]="!isManage"></p-button>
-            <p-button icon="pi pi-trash" (click)="showDeleteDialog(region.regionId)" styleClass="p-button-danger ml-2" [disabled]="!isManage">
+            <p-button icon="pi pi-pencil" (onClick)="openEdit(region.regionId)" [disabled]="!isManage"></p-button>
+            <p-button icon="pi pi-trash" (onClick)="showDeleteDialog(region.regionId)" styleClass="p-button-danger ml-2" [disabled]="!isManage">
             </p-button>
           </div>
         </td>
