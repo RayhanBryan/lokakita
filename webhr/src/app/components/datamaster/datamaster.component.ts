@@ -97,6 +97,7 @@ export class DatamasterComponent implements OnInit {
   dataUser: any;
   wrongConfirmPassword: boolean = false;
   wrongPassword: boolean = false;
+  
   isManage: boolean = false;
   isView: boolean = false;
 
@@ -130,14 +131,22 @@ export class DatamasterComponent implements OnInit {
       this.groups = res.data;
     })
     console.log(this.isManage, ' is manage')
+
+
     this.isView = Boolean(localStorage.getItem('isView'));
     this.isManage = Boolean(localStorage.getItem('isManage'));
   }
 
   getUsers(){
-    this.usersService.getUser().subscribe((res)=>{
-      this.users=res.data;
-    })
+    this.usersService.getUser().subscribe((res) => {
+      console.log(res.data, 'ini apaa11');
+      res.data.forEach((row: any) => {
+        this.groupsService.getGroupByUserId(row.userId).subscribe((result) => {
+          row.groupName = result.data;
+        });
+      });
+      this.users = res.data;
+    });
   }
 
   showSearchCall() {

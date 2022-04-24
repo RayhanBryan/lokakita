@@ -115,9 +115,12 @@
       <p-dropdown appendTo="body" [options]="searchOptions" [(ngModel)]="searchOption" optionLabel="label"
       optionValue="value" placeholder="Search by"></p-dropdown>
     </span>
+
+    <!-- yang ini button input yang udah ada persmissionnya -->
     <p-button (onClick)="submitAdd=true" (onClick)="submitEdit=false" [disabled]="!isManage" (click)="isManage==true ? showBasicDialog2(users) : ''" (onClick)="handleReset($event)" icon="pi pi-user pi-plus-circle"
       styleClass="p-button-success mt-2 ml-3" label="Add" [style]="{'float': 'right'}">
     </p-button>
+    <!-- yang ini button input yang udah ada persmissionnya -->
   </div>
   <p-table [value]="users" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true" [(first)]="first"
     responsiveLayout="scroll" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
@@ -160,10 +163,14 @@
         <td>
           <div class="grid p-fluid">
             <div class="col-12 md:col-6">
+              <!-- yang ini button edit yang udah ada persmissionnya -->
               <p-button icon="pi pi-pencil" (onClick)="submitEdit=true" (onClick)="submitAdd=false" [disabled]="!isManage" (click)="isManage==true ? openEdit(users) : ''"></p-button>
+            <!-- yang ini button edit yang udah ada persmissionnya -->
             </div>
             <div class="col-12 md:col-6">
+              <!-- yang ini button delete yang udah ada persmissionnya -->
               <p-button icon="pi pi-trash" styleClass="p-button-danger" [disabled]="!isManage" (click)="isManage==true ? handleDelete(users.userId) : ''"></p-button>
+              <!-- yang ini button delete yang udah ada persmissionnya -->
             </div>
           </div>
         </td>
