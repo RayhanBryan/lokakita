@@ -16,7 +16,6 @@ export class EmployeeComponent implements OnInit {
   departments: any;
   jobs: any;
   employees: any;
-  managers: any;
   bonus: any;
   first = 0;
   rows = 10;
@@ -70,7 +69,6 @@ export class EmployeeComponent implements OnInit {
     this.getEmployee();
     this.getDepartment();
     this.getJob();
-    this.getManagers();
     this.isView = Boolean(localStorage.getItem('isView'));
     this.isManage = Boolean(localStorage.getItem('isManage'));
   }
@@ -84,12 +82,6 @@ export class EmployeeComponent implements OnInit {
   getEmployee() {
     this.employeeService.getEmployee().subscribe((res) => {
       this.employees = res.data;
-  })}
-
-  getManagers() {
-    this.employeeService.getEmployee().subscribe((res) => {
-      this.managers = res.data;
-
   })}
 
 
@@ -300,10 +292,11 @@ export class EmployeeComponent implements OnInit {
       header: 'Confirmation',
       message: 'Are you sure that you want to perform this action?',
       accept: () => {
-        if (this.row.employeeId === 0) {
+        if (this.row.employeeId === 0 || this.row.employeeId === null) {
           this.row.employeeId = null;
           this.employeeService.postEmployee(this.row).subscribe({
-            next: (data) => { console.log(data);
+            next: (data) => { 
+              console.log(data);
               if (data.status) {
                 this.messageService.add({
                   severity: 'success',
