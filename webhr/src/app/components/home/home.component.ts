@@ -57,7 +57,7 @@ export class HomeComponent implements OnInit {
 
   backend = [
     {
-      name: 'Prawiro High Teknologi',
+      name: 'Prawiro Hadi Triyono',
       image: 7,
     },
     {
