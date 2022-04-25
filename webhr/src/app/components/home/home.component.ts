@@ -34,23 +34,23 @@ export class HomeComponent implements OnInit {
       image: 1,
     },
     {
-      name: 'Khadliratul Yusrok',
+      name: 'Khadliratul Yusro Q.A.',
       image: 2,
     },
     {
-      name: 'Adleo Malikul Karim',
+      name: 'Adleo Malik Yamani',
       image: 3,
     },
     {
-      name: 'Cindy Hilma Darmawan',
+      name: 'Cindy Hilma',
       image: 4,
     },
     {
-      name: 'Intan Sari Kurniawati',
+      name: 'Intan Fauziah Ramadhanti',
       image: 5,
     },
     {
-      name: 'Toto Budi Jatmika',
+      name: 'Toto Budi Trapsilo',
       image: 6,
     }
   ]
@@ -61,19 +61,19 @@ export class HomeComponent implements OnInit {
       image: 7,
     },
     {
-      name: 'Ahmad Akbar Angkara',
+      name: 'Ahmad Akbar Ramadhan',
       image: 8,
     },
     {
-      name: 'Naviatus Solekhatun',
+      name: 'Naviatus Sholekah',
       image: 9,
     },
     {
-      name: 'Luki Panca Indra',
+      name: 'Luky Panca Prasetya',
       image: 10,
     },
     {
-      name: 'Galih Sahar Harmono',
+      name: 'Galih Sahar Oktavianto',
       image: 11,
     }
   ]
