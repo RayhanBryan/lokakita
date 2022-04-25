@@ -40,6 +40,14 @@ export class CustomerComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCustomer();
+    this.isView = Boolean(localStorage.getItem('isView'));
+    this.isManage = Boolean(localStorage.getItem('isManage'));
+  }
+
+  ngAfterViewInit(): void {
+    if (this.isView == false) {
+      this.messageService.add({ key: 'tc', severity: 'error', summary: 'Warn', detail: 'Sorry you dont have permission to view data', sticky: true });
+    }
   }
 
   getCustomer() {
