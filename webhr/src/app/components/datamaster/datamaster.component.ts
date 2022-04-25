@@ -425,14 +425,13 @@ export class DatamasterComponent implements OnInit {
         next: (data) => {
           console.log(data)
           if (data.status) {
-            this.successSignUp();
             this.groupsService.getGroup().subscribe(
               res => {
                 this.groupsService.getGroupByUserId(this.row.userId).subscribe(result => {
                   console.log(result.data, 'weew')
                   if (result.data.length != 0) {
                     for (let i = 0; i < result.data.length; i++) {
-                      if (this.selectedGroup[i] != undefined) {
+                      if (result.data[i] != undefined) {
                         console.log(result.data[i].groupId, 'isi arraynya')
                         this.newAccess.userId = data.data.userId;
                         this.newAccess.groupId = result.data[i].groupId;
