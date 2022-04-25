@@ -65,7 +65,7 @@ export class HomeComponent implements OnInit {
       image: 8,
     },
     {
-      name: 'Naviatus Niandertal',
+      name: 'Naviatus Solekhatun',
       image: 9,
     },
     {
