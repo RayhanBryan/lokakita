@@ -474,7 +474,7 @@ export class DatamasterComponent implements OnInit {
                 this.displayBasic2=false;
                 setInterval(function () {
                 window.location.reload();                      
-                }, 3000);
+                }, 5000);
                 return
               }
             )
