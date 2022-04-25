@@ -24,6 +24,9 @@ export class DepartmentComponent implements OnInit {
   id: number = 0;
   showSearch: boolean = false;
   keyword: string = '';
+  managerName = '';
+  city = '';
+  streetAddress = '';
 
   isView: boolean = false;
   isManage: boolean = false;
