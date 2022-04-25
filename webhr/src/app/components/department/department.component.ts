@@ -24,6 +24,9 @@ export class DepartmentComponent implements OnInit {
   id: number = 0;
   showSearch: boolean = false;
   keyword: string = '';
+  managerName = '';
+  city = '';
+  streetAddress = '';
 
   isView: boolean = false;
   isManage: boolean = false;
@@ -46,13 +49,11 @@ export class DepartmentComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getCity();
+    this.getLocation();
     this.getManager();
     this.getDepartment();
     this.isView = Boolean(localStorage.getItem('isView'));
     this.isManage = Boolean(localStorage.getItem('isManage'));
-    console.log(this.isManage, ' is manage');
-    console.log(this.isView, ' is view')
   }
 
   ngAfterViewInit(): void {
@@ -320,7 +321,7 @@ export class DepartmentComponent implements OnInit {
     this.action = 'edit';
   }
 
-  getCity(): void {
+  getLocation(): void {
     this.locationService.getLocation().subscribe((res) => {
       this.locations = res.data;
     });
