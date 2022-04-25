@@ -73,7 +73,7 @@
         <div class="col-12 md:col-6">
           <label for="managername">Manager Name</label>
           <p-dropdown appendTo="body" [options]="employees" [(ngModel)]="row.managerId" optionLabel="fullName"
-            optionValue="employeeId" placeholder="Select a Manager Name">
+            optionValue="employeeId" placeholder="Select a Manager Name" [required]="true" [dataKey]="managerName" [filter]="true">
           </p-dropdown>
           <h5 class="p-invalid" style="color: red" *ngIf="!row.managerId">
             Please select 1 Manager Name!
@@ -82,7 +82,7 @@
         <div class="col-12 md:col-6">
           <label for="streetAddress">Street Address</label>
           <p-dropdown appendTo="body" [options]="locations" [(ngModel)]="row.locationId" optionLabel="streetAddress"
-            placeholder="Select a Street Address" optionValue="locationId">
+            placeholder="Select a Street Address" optionValue="locationId" [required]="true" [dataKey]="streetAddress" [filter]="true">
           </p-dropdown>
           <h5 class="p-invalid" style="color: red" *ngIf="!row.locationId">
             Please select 1 Street Address!
@@ -91,7 +91,7 @@
         <div class="col-12 md:col-6">
           <label for="city">City</label>
           <p-dropdown appendTo="body" [options]="locations" [(ngModel)]="row.locationId" optionLabel="city"
-            placeholder="Select a City" optionValue="locationId">
+            placeholder="Select a City" optionValue="locationId" [required]="true" [dataKey]="city" [filter]="true">
           </p-dropdown>
           <h5 class="p-invalid" style="color: red" *ngIf="!row.departmentName">
             Please select 1 City!
