@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
         this.userData = res.data;
         console.log(this.userData, 'ini user data')
         if (res.status) {
-          if (this.userData.username == this.username && this.userData.password == this.password) {
+          if (this.userData.password == this.password) {
             console.log(this.userData.permissions)
             for (let i in this.userData.permissions) {
               if (this.userData.permissions[i] == 'LOGIN') {
